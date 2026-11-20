@@ -122,7 +122,10 @@
 .hero .btn:hover{background:#edf3e9;border-color:#edf3e9}
 
 
-/* Flag icons in the language switch */
-.language-switch{display:inline-flex;align-items:center;justify-content:center;gap:7px}
-.language-flag{display:block;width:14px;height:10px;object-fit:cover;border:1px solid #00000018;border-radius:2px;flex:none}
-@media(max-width:650px){.language-flag{width:13px;height:9px}}
+/* Flag icons in the language switch: keep them clearly visible at every screen size */
+.language-switch{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:30px;min-width:78px;padding:5px 8px;font-size:9px}
+.language-flag{display:inline-block;width:20px;height:14px;min-width:20px;object-fit:cover;border:1px solid #9aa59b;border-radius:2px;flex:0 0 20px;visibility:visible;opacity:1}
+@media(max-width:650px){
+  .language-switch{min-height:28px;min-width:72px;padding:4px 6px;font-size:8px;gap:5px}
+  .language-flag{width:18px;height:12px;min-width:18px;flex-basis:18px}
+}
