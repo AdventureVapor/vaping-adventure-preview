@@ -213,6 +213,9 @@
     ". Änderungen werden mit der Cloud synchronisiert. Dein lokaler Spielstand auf diesem Gerät bleibt getrennt und unverändert.":". Changes are synchronized with the cloud. Your local save on this device remains separate and unchanged.",
     "Du arbeitest gerade mit dem lokalen Spielstand dieses Geräts. Diese Daten werden nicht automatisch mit deinem Cloud-Konto synchronisiert.":"You are currently using this device’s local save. This data is not automatically synchronized with your cloud account.",
     "Tagebucheinträge":"diary entries",
+    "📱 LOKALER SPIELSTAND AKTIV":"📱 LOCAL SAVE ACTIVE",
+    "☁️ CLOUD-SPIELSTAND AKTIV":"☁️ CLOUD SAVE ACTIVE",
+    "Tagebucheinträge · ":"diary entries · "
     "Öffnen →":"Open →",
 
     "Hilfe":"Help",
