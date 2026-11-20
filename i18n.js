@@ -189,6 +189,19 @@
     "Aus Sammlung wählen oder neu eingeben":"Choose from collection or enter a new one",
     "Optional":"Optional","Session":"Session","Puffs":"Puffs","Züge":"draws","min":"min"
   };
+    "In deinem Cloud-Konto ist bereits ein Spielstand gespeichert. Entscheide, welche Daten künftig auf allen Geräten verwendet werden sollen.":"A save already exists in your cloud account. Choose which data should be used on all your devices from now on.",
+    "Ersetzt den aktuell angezeigten lokalen Spielstand auf diesem Gerät.":"Replaces the local save currently displayed on this device.",
+    "Dein JSON-Backup bleibt davon unberührt. Wähle bewusst aus, welcher Spielstand maßgeblich sein soll.":"Your JSON backup will not be affected. Carefully choose which save should be the primary one.",
+    "Deine Geräte verwalten und Fotos ergänzen":"Manage your devices and add photos",
+    "Dein nächster Schritt":"Your next step",
+    "E-Mail-Adresse hinterlegen / ändern":"Add or change email address",
+    "Bestätigungslink anfordern":"Request confirmation link",
+    "Bei älteren Konten bitte zuerst mit dem bisherigen Benutzernamen anmelden. Die E-Mail-Änderung behält dieselbe Konto-ID und damit deinen Cloud-Spielstand.":"For older accounts, please sign in with your existing username first. Changing the email address keeps the same account ID and your cloud save.",
+    "E-Mail-Adresse (bei alten Konten zunächst bisheriger Benutzername)":"Email address (existing username first for older accounts)",
+    "Bisheriges Cloud-Verschlüsselungskennwort (nur falls abweichend)":"Previous cloud encryption password (only if different)",
+    "Dein Benutzername bleibt als Profilname erhalten. Nach der Umstellung meldest du dich mit deiner E-Mail-Adresse an. Bestehende Cloud-Spielstände bleiben beim E-Mail-Wechsel am selben Konto.":"Your username will remain as your profile name. After the change, you will sign in with your email address. Existing cloud saves remain linked to the same account when you change your email.",
+    "Exportiere deine Tagebucheinträge oder importiere eine CSV mit Vorschau und Duplikaterkennung.":"Export your diary entries or import a CSV with a preview and duplicate detection.",
+    "Öffnen →":"Open →",
   const reverse = Object.fromEntries(Object.entries(pairs).map(([de,en])=>[en,de]));
   let language = localStorage.getItem("mva_language") || "de";
   const dictionary = () => language === "en" ? pairs : reverse;
