@@ -1,0 +1,93 @@
+# Vaping Adventure – Roadmap
+
+**Arbeitsstand:** Alpha 1.3  
+**Aktive Entwicklungsumgebung:** Preview  
+**Produktivversion:** bleibt bis zur abgeschlossenen Qualitätssicherung unverändert.
+
+Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowie noch offene Prüfungen. Ein Häkchen bedeutet, dass die Funktion umgesetzt und – soweit sinnvoll – erfolgreich geprüft wurde.
+
+## Alpha 1.3 – umgesetzt und geprüft
+
+### Konten und Anmeldung
+- [x] Registrierung mit echter E-Mail-Adresse
+- [x] E-Mail-Bestätigung und SMTP-Versand eingerichtet
+- [x] Anmeldung und Abmeldung
+- [x] Passwort-Zurücksetzen per E-Mail
+- [x] Unterstützung des bisherigen Benutzernamens `PlatinVapor`
+- [x] Zwei-Konten-Test: Konten sehen ausschließlich ihre eigenen Daten
+
+### Verschlüsselte Cloud und Datenspeicherung
+- [x] Supabase Auth und `mva_saves` eingerichtet
+- [x] Row Level Security (RLS) mit benutzergebundenen Richtlinien
+- [x] Verschlüsselte Cloud-Speicherung (AES-GCM)
+- [x] Lokalen und Cloud-Spielstand auswählen
+- [x] Cloud-Spielstand laden und nach erneutem Login wiederherstellen
+- [x] Lokalen Spielstand verwenden
+- [x] Cloud-Speicherung von Tagebucheinträgen und Geräten
+- [x] Galerie-Fotos werden im Cloud-Spielstand gespeichert
+- [x] Fehler bei großen Base64-Daten behoben; Foto-Upload und erneutes Laden geprüft
+
+### Datenimport und Backups
+- [x] CSV-Import
+- [x] CSV-Export
+- [x] JSON-Backup und Wiederherstellung
+- [x] Import älterer CSV-Daten getestet
+
+### Galerie und Geräte
+- [x] Galerie-Kacheln zeigen Bilder vollständig und ohne Beschnitt
+- [x] Großbildansicht (Lightbox)
+- [x] Vor- und Zurück-Navigation in der Lightbox
+- [x] Gerätebilder passen sich dem Bildrahmen an
+- [x] Gerätebilder behalten ihr Seitenverhältnis und werden nicht beschnitten
+- [x] Gerätebild-Darstellung an die Galerie angepasst (4:3-Fläche, `object-fit: contain`)
+- [x] Gerätebild-Anpassung vom Nutzer in Preview bestätigt
+
+### Oberfläche und Bedienung
+- [x] Aktive-Speicher-Anzeige für lokalen und Cloud-Spielstand
+- [x] Profilmenü für angemeldete Nutzer
+- [x] Gastansicht mit Anmelde- und Registrierungsoptionen
+- [x] Wiederherstellungscode-Dialog mit Kopierfunktion implementiert
+- [x] Deutsch-/Englisch-Umschalter
+- [x] Hilfebibliothek mit Themenübersicht
+
+## Noch offen – Alpha 1.3
+
+### Qualitätssicherung
+- [ ] Hilfebibliothek vollständig im Gast- und angemeldeten Modus prüfen
+- [ ] Kopierfunktion des Wiederherstellungscode-Dialogs mit einem separaten Testkonto prüfen
+- [ ] Sprachumschaltung systematisch in allen Bereichen prüfen; verbliebene gemischte oder nicht übersetzte Texte korrigieren
+- [ ] Vollständigen Synchronisierungstest zwischen mehreren Geräten abschließen
+- [ ] Gesamten zentralen Ablauf (Registrierung, Bestätigung, Login, Datenänderung, Logout, erneuter Login) abschließend durchtesten
+- [ ] Fehler aus der abschließenden Testrunde beheben
+
+### Sicherheit und Wiederherstellung
+- [ ] Zusammenspiel von Passwortänderung, Passwort-Zurücksetzen und Wiederherstellungscode abschließend prüfen
+- [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren
+- [ ] Sicherheits- und Konfigurationscheckliste abschließend kontrollieren
+
+### Veröffentlichung
+- [ ] Hilfetexte und Einrichtungsanleitung finalisieren
+- [ ] Versionsnummer und Änderungsübersicht final prüfen
+- [ ] Alpha-1.3-Qualitätssicherung abschließen
+- [ ] Produktionsübernahme vorbereiten
+- [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
+
+## Spätere Ausbaustufe
+
+### Version 1.4 – Ideen / Planung
+- [ ] Französische Sprache ergänzen
+- [ ] Französische Flagge und Übersetzungen integrieren
+- [ ] Gewählte Sprache dauerhaft speichern und Sprachwechsel prüfen
+
+## Technischer Stand
+
+- **Preview-Repository:** `AdventureVapor/vaping-adventure-preview`
+- **Preview-Branch:** `main`
+- **Produktions-Repository:** `AdventureVapor/vaping-adventure`
+- **Produktionsbranch:** `main` – bleibt bis zur ausdrücklichen Freigabe unangetastet.
+- **Release-Kandidat:** `release-1.3-candidate`
+- **Pull Request:** #7 – nicht mergen, bevor die Qualitätssicherung abgeschlossen und die Freigabe erteilt wurde.
+
+---
+
+*Die Roadmap wird während der Entwicklung fortgeschrieben. Bereits bestätigte Funktionen werden nicht erneut als offen geführt; noch nicht abschließend geprüfte Funktionen bleiben als QA-Punkte markiert.*
