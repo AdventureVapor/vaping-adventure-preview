@@ -119,3 +119,8 @@
 @media(max-width:360px){.gallery-grid{grid-template-columns:1fr}}
 
 
+
+
+/* Improve contrast of the overview hero button */
+.hero .btn{color:var(--green);background:#fff;border-color:#fff;font-weight:800}
+.hero .btn:hover{background:#edf3e9;border-color:#edf3e9}
