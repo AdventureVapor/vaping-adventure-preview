@@ -48,12 +48,12 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Gastansicht mit Anmelde- und Registrierungsoptionen
 - [x] Wiederherstellungscode-Dialog mit Kopierfunktion implementiert
 - [x] Deutsch-/Englisch-Umschalter
-- [x] Hilfebibliothek mit Themenübersicht
+- [x] Hilfebibliothek öffnet sich und funktioniert im ersten Praxistest
 
 ## Noch offen – Alpha 1.3
 
 ### Qualitätssicherung
-- [ ] Hilfebibliothek vollständig im Gast- und angemeldeten Modus prüfen
+- [ ] Hilfebibliothek vollständig im Gast- und angemeldeten Modus durchprüfen (erster Funktionstest erfolgreich)
 - [ ] Kopierfunktion des Wiederherstellungscode-Dialogs mit einem separaten Testkonto prüfen
 - [ ] Sprachumschaltung systematisch in allen Bereichen prüfen; verbliebene gemischte oder nicht übersetzte Texte korrigieren
 - [ ] Vollständigen Synchronisierungstest zwischen mehreren Geräten abschließen
