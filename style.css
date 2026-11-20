@@ -110,3 +110,9 @@
  .gallery-lightbox-close{width:38px;height:38px}
 }
 @media(max-width:360px){.gallery-grid{grid-template-columns:1fr}}
+
+
+/* Language selector */
+.language-switch{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:700;white-space:nowrap;color:var(--green)}
+.language-switch:hover{background:#edf2e9}
+@media(max-width:650px){.language-switch{padding:7px 8px;font-size:10px}.topright{gap:7px}}
