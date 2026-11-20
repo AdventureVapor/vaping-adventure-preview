@@ -204,68 +204,140 @@
   };
   const reverse = Object.fromEntries(Object.entries(pairs).map(([de,en])=>[en,de]));
   let language = localStorage.getItem("mva_language") || "de";
-  const dictionary = () => language === "en" ? pairs : reverse;
-  const sortedKeys = () => Object.keys(dictionary()).sort((a,b)=>b.length-a.length);
-  function translateText(value) {
-    let out = value;
-    for (const source of sortedKeys()) {
-      if (out.includes(source)) out = out.split(source).join(dictionary()[source]);
+  const textOriginal = new WeakMap();
+  const textRendered = new WeakMap();
+  const attrOriginal = new WeakMap();
+  const attrRendered = new WeakMap();
+  const excluded = "[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline";
+  const keys = Object.keys(pairs).sort((a,b)=>b.length-a.length);
+  const reverseKeys = Object.keys(reverse).sort((a,b)=>b.length-a.length);
+
+  function translateText(value, targetLanguage) {
+    const dictionary = targetLanguage === "en" ? pairs : reverse;
+    const ordered = targetLanguage === "en" ? keys : reverseKeys;
+    let output = value;
+    for (const source of ordered) {
+      if (output.includes(source)) output = output.split(source).join(dictionary[source]);
     }
-    return out;
+    return output;
   }
+
+  function translateTextNode(node) {
+    if (!node.parentElement || node.parentElement.closest(excluded)) return;
+    const current = node.nodeValue;
+    let original = textOriginal.get(node);
+    const rendered = textRendered.get(node);
+
+    // If the app itself changed this node since our last pass, treat the
+    // new value as the canonical source (normally German).
+    if (original === undefined || (rendered !== undefined && current !== rendered)) {
+      original = current;
+      textOriginal.set(node, original);
+    }
+    const next = translateText(original, language);
+    if (current !== next) node.nodeValue = next;
+    textRendered.set(node, next);
+  }
+
+  function translateAttribute(element, name) {
+    const current = element.getAttribute(name);
+    if (current === null) return;
+    let originals = attrOriginal.get(element);
+    let rendereds = attrRendered.get(element);
+    if (!originals) { originals = new Map(); attrOriginal.set(element, originals); }
+    if (!rendereds) { rendereds = new Map(); attrRendered.set(element, rendereds); }
+    let original = originals.get(name);
+    const rendered = rendereds.get(name);
+    if (original === undefined || (rendered !== undefined && current !== rendered)) {
+      original = current;
+      originals.set(name, original);
+    }
+    const next = translateText(original, language);
+    if (current !== next) element.setAttribute(name, next);
+    rendereds.set(name, next);
+  }
+
   function translateNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
-      if (node.parentElement?.closest("[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo")) return;
-      const next = translateText(node.nodeValue);
-      if (next !== node.nodeValue) node.nodeValue = next;
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      if (node.matches("[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline")) return;
-      for (const attr of ["placeholder","title","aria-label"]) {
-        const value = node.getAttribute(attr);
-        if (value) {
-          const next = translateText(value);
-          if (next !== value) node.setAttribute(attr,next);
-        }
-      }
-      node.childNodes.forEach(translateNode);
+      translateTextNode(node);
+      return;
     }
+    if (node.nodeType !== Node.ELEMENT_NODE || node.matches(excluded)) return;
+    for (const attr of ["placeholder","title","aria-label"]) translateAttribute(node, attr);
+    node.childNodes.forEach(translateNode);
   }
+
+  function updateSwitch() {
+    const button = document.querySelector("[data-i18n-switch]");
+    if (!button) return;
+    button.innerHTML = language === "de"
+      ? '<img class="language-flag" src="Bilder/flag-gb.svg" alt=""><span>English</span>'
+      : '<img class="language-flag" src="Bilder/flag-de.svg" alt=""><span>Deutsch</span>';
+    button.setAttribute("aria-label", language === "de" ? "Switch to English" : "Zu Deutsch wechseln");
+  }
+
   function apply() {
     document.documentElement.lang = language;
-    const button = document.querySelector("[data-i18n-switch]");
-    if (button) {
-      button.innerHTML = language === "de" ? '<img class="language-flag" src="Bilder/flag-gb.svg" alt=""><span>English</span>' : '<img class="language-flag" src="Bilder/flag-de.svg" alt=""><span>Deutsch</span>';
-      button.setAttribute("aria-label", language === "de" ? "Switch to English" : "Zu Deutsch wechseln");
-    }
+    updateSwitch();
     document.body.childNodes.forEach(translateNode);
     document.querySelectorAll(".sidebar-note,.sidebar .nav-label,.sidebar .nav").forEach(translateNode);
   }
+
   function addSwitch() {
     const right = document.querySelector(".topright");
-    if (!right || document.querySelector("[data-i18n-switch]")) return;
-    const button = document.createElement("button");
-    button.className = "language-switch";
-    button.type = "button";
-    button.setAttribute("data-i18n-switch","");
-    button.addEventListener("click", () => {
-      language = language === "de" ? "en" : "de";
-      localStorage.setItem("mva_language",language);
-      apply();
-    });
-    right.insertBefore(button,right.firstChild);
-    apply();
+    if (!right) return;
+    let button = document.querySelector("[data-i18n-switch]");
+    if (!button) {
+      button = document.createElement("button");
+      button.className = "language-switch";
+      button.type = "button";
+      button.setAttribute("data-i18n-switch","");
+      button.addEventListener("click", () => {
+        language = language === "de" ? "en" : "de";
+        localStorage.setItem("mva_language", language);
+        apply();
+      });
+      right.insertBefore(button, right.firstChild);
+    }
+    updateSwitch();
   }
+
   const observer = new MutationObserver(records => {
-    if (language !== "en") return;
-    records.forEach(record => {
-      if (record.target?.closest?.("[data-i18n-switch]")) return;
-      record.addedNodes?.forEach(translateNode);
-    });
+    for (const record of records) {
+      if (record.type === "characterData") {
+        translateTextNode(record.target);
+      } else if (record.type === "attributes") {
+        if (!record.target.closest?.(excluded)) translateAttribute(record.target, record.attributeName);
+      } else {
+        record.addedNodes?.forEach(translateNode);
+      }
+    }
   });
-  document.addEventListener("DOMContentLoaded",() => {
+
+  function init() {
     addSwitch();
     apply();
-    observer.observe(document.body,{childList:true,subtree:true,characterData:true});
-  });
-  window.MVA_I18N = {getLanguage:()=>language,setLanguage(value){language=value==="en"?"en":"de";localStorage.setItem("mva_language",language);apply();}};
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["placeholder","title","aria-label"]
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, {once:true});
+  } else {
+    init();
+  }
+
+  window.MVA_I18N = {
+    getLanguage: () => language,
+    setLanguage(value) {
+      language = value === "en" ? "en" : "de";
+      localStorage.setItem("mva_language", language);
+      apply();
+    }
+  };
 })();
