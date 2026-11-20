@@ -23,6 +23,7 @@
     "Suche in Einträgen …":"Search entries …","Alle Geräte":"All devices","Alle Kategorien":"All categories",
     "Neueste zuerst":"Newest first","Älteste zuerst":"Oldest first","Bearbeiten":"Edit","Löschen":"Delete",
     "Keine Einträge gefunden":"No entries found","Passe deine Suche an oder dokumentiere eine neue Session.":"Adjust your search or record a new session.",
+    "Fertig":"Done",
     "Schließen":"Close","Abbrechen":"Cancel","Speichern":"Save","Gerät auswählen (optional)":"Select device (optional)",
     "Eintrag bearbeiten":"Edit entry","Neue Session":"New session","Datum":"Date","Uhrzeit":"Time",
     "Geräteklasse":"Device type","Gerät":"Device","Sorte / Material":"Strain / material",
@@ -295,8 +296,9 @@
       translateTextNode(node);
       return;
     }
-    if (node.nodeType !== Node.ELEMENT_NODE || node.matches(excluded)) return;
+    if (node.nodeType !== Node.ELEMENT_NODE) return;
     for (const attr of ["placeholder","title","aria-label"]) translateAttribute(node, attr);
+    if (node.matches(excluded)) return;
     node.childNodes.forEach(translateNode);
   }
 
