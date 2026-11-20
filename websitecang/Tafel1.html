@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal – aber kein normales Fachgeschäft</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Helvetica, Arial, sans-serif;
+            background: #f4f0e7;
+            color: #26382d;
+            line-height: 1.6;
+        }
+        /* Kopfbereich */
+        header {
+            background: #20392b;
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+        }
+        header .ausstellung {
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+        /* Hauptbereich */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 45px 20px 60px;
+        }
+        .tafel {
+            background: white;
+            border-radius: 18px;
+            padding: 45px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        /* Nummer */
+        .nummer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #2e563d;
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+        /* Überschrift */
+        h1 {
+            margin: 0 0 15px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            color: #20392b;
+        }
+        /* Goldene Linie */
+        .linie {
+            width: 90px;
+            height: 5px;
+            background: #a8843d;
+            border-radius: 10px;
+            margin: 25px 0 30px;
+        }
+        /* Gesetz */
+        .gesetz {
+            color: #8a6a2d;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+        }
+        /* Text */
+        p {
+            font-size: 1.08rem;
+            margin: 0 0 18px;
+        }
+        /* Hervorgehobener Bereich */
+        .hinweis {
+            background: #eef3ed;
+            border-left: 5px solid #2e563d;
+            padding: 22px 24px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        .hinweis strong {
+            display: block;
+            color: #20392b;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+        /* Gegensatz */
+        .gegensatz {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 35px 0;
+        }
+        .box {
+            padding: 24px;
+            border-radius: 12px;
+            background: #f7f4ed;
+            border: 1px solid #ded8ca;
+        }
+        .box h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: #20392b;
+        }
+        .box p {
+            margin-bottom: 0;
+        }
+        /* Diskussionsfrage */
+        .frage {
+            margin-top: 40px;
+            padding: 28px;
+            background: #f5edd8;
+            border-radius: 14px;
+            border: 1px solid #dfcf9e;
+        }
+        .frage-label {
+            color: #8a6a2d;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .frage p {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 750;
+            line-height: 1.4;
+            color: #3e382b;
+        }
+        /* Fußzeile */
+        footer {
+            text-align: center;
+            color: #68746c;
+            font-size: 0.78rem;
+            padding: 25px 20px 35px;
+        }
+        /* Smartphone */
+        @media (max-width: 700px) {
+            main {
+                padding: 25px 12px 40px;
+            }
+            .tafel {
+                padding: 28px 22px;
+                border-radius: 14px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .gegensatz {
+                grid-template-columns: 1fr;
+            }
+            .frage {
+                padding: 22px;
+            }
+            .frage p {
+                font-size: 1.1rem;
+            }
+        }
+   
+   .tafel-navigation {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #d8d1c2;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tafel-navigation a {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #20392b;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.tafel-navigation a:hover,
+.tafel-navigation a:focus {
+  background: #a8843d;
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .tafel-navigation {
+    flex-direction: column;
+  }
+
+  .tafel-navigation a,
+  .tafel-navigation span {
+    width: 100%;
+    text-align: center;
+  }
+}
+   
+    </style>
+</head>
+<body>
+<header>
+    <div class="ausstellung">
+        Das Kleingedruckte der Cannabis-Teillegalisierung
+    </div>
+</header>
+<main>
+    <article class="tafel">
+        <!-- Tafelnummer -->
+        <div class="nummer">
+            01
+        </div>
+        <!-- Überschrift -->
+        <h1>
+            LEGAL – ABER KEIN NORMALES FACHGESCHÄFT
+        </h1>
+        <div class="linie"></div>
+        <!-- Gesetzliche Grundlage -->
+        <div class="gesetz">
+            § 2 KCanG
+        </div>
+        <!-- Haupttext -->
+        <p>
+            Das Konsumcannabisgesetz erlaubt Erwachsenen unter bestimmten
+            Voraussetzungen unter anderem den Besitz, den privaten Eigenanbau
+            und den Zugang zu Anbauvereinigungen.
+        </p>
+        <p>
+            Gleichzeitig bleiben viele Formen des Handels, der Abgabe und der
+            Weitergabe außerhalb der gesetzlich vorgesehenen Wege verboten.
+        </p>
+        <!-- Hinweis -->
+        <div class="hinweis">
+            <strong>
+                „Legal“ bedeutet nicht automatisch „frei verfügbar“.
+            </strong>
+            Cannabis kann für Erwachsene unter bestimmten Voraussetzungen
+            legal sein, ohne dass es deshalb wie Alkohol oder Tabak in einem
+            normalen Geschäft gekauft werden kann.
+        </div>
+        <!-- Gegenüberstellung -->
+        <div class="gegensatz">
+            <div class="box">
+                <h2>
+                    Was ist grundsätzlich möglich?
+                </h2>
+                <p>
+                    Besitz innerhalb der gesetzlichen Grenzen,
+                    privater Eigenanbau unter bestimmten Voraussetzungen
+                    und Zugang zu Anbauvereinigungen.
+                </p>
+            </div>
+            <div class="box">
+                <h2>
+                    Was ist nicht das Modell?
+                </h2>
+                <p>
+                    Ein gewöhnlicher Cannabis-Fachhandel mit
+                    Laufkundschaft, Produktwahl, Bezahlung und
+                    Mitnahme wie bei klassischen Verkaufsprodukten.
+                </p>
+            </div>
+        </div>
+        <!-- Diskussionsfrage -->
+        <div class="frage">
+            <div class="frage-label">
+                Diskussionsfrage
+            </div>
+            <p>
+                Wenn Cannabis für Erwachsene erlaubt ist:
+                Warum gibt es kein normales Cannabis-Fachgeschäft?
+            </p>
+        </div>
+    </article>
+</main>
+
+<nav class="tafel-navigation" aria-label="Tafelnavigation">
+  <span></span>
+  <a href="index.html">🏠 Startseite</a>
+  <a href="Tafel2.html">Nächste Tafel →</a>
+</nav>
+
+<footer>
+    © 2026 Patrick Dornfeld / Hanfverband Freiburg<br>
+    Texte und Gestaltung: Patrick Dornfeld<br>
+    Quellen: Gesetze im Internet (BMJ/BfJ)
+</footer>
+</body>
+</html>

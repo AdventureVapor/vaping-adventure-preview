@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Tafel 18 – Prohibition</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f0e7;
+      color: #26382d;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #20392b;
+      color: white;
+      padding: 18px 24px;
+    }
+
+    header .ausstellung {
+      max-width: 1000px;
+      margin: auto;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    .tafel {
+      background: white;
+      border-radius: 18px;
+      padding: 42px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .kopf {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .nummer {
+      flex: 0 0 54px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #315842;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    h1 {
+      margin: 0;
+      color: #20392b;
+      font-size: clamp(2rem, 5vw, 3.3rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .linie {
+      width: 90px;
+      height: 4px;
+      background: #a8843d;
+      margin: 24px 0 28px;
+      border-radius: 3px;
+    }
+
+    .untertitel {
+      color: #8a6a2d;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    p {
+      font-size: 1.08rem;
+      margin: 0 0 18px;
+    }
+
+    .hinweis {
+      background: #eef3ed;
+      border-left: 5px solid #315842;
+      padding: 20px 22px;
+      border-radius: 10px;
+      margin: 26px 0;
+    }
+
+    .hinweis strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #20392b;
+    }
+
+    .zahlen {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin: 30px 0;
+    }
+
+    .zahl {
+      background: #f7f4ed;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .zahl .wert {
+      color: #315842;
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .zahl strong {
+      display: block;
+      color: #20392b;
+      margin-bottom: 6px;
+    }
+
+    .problem {
+      background: #f7f4ed;
+      padding: 26px;
+      border-radius: 14px;
+      margin: 28px 0;
+    }
+
+    .problem h2 {
+      margin-top: 0;
+      color: #20392b;
+      font-size: 1.4rem;
+    }
+
+    .punkte {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .punkt {
+      background: white;
+      border: 1px solid #ddd7ca;
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .punkt strong {
+      display: block;
+      color: #315842;
+      margin-bottom: 6px;
+    }
+
+    .cannabis {
+      background: #eef3ed;
+      border-left: 5px solid #315842;
+      padding: 24px;
+      border-radius: 12px;
+      margin: 28px 0;
+    }
+
+    .cannabis h2 {
+      margin-top: 0;
+      color: #20392b;
+      font-size: 1.35rem;
+    }
+
+    .modelle {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .modell {
+      background: white;
+      border: 1px solid #ddd7ca;
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .modell strong {
+      display: block;
+      color: #315842;
+      margin-bottom: 6px;
+    }
+
+    .gegenfrage {
+      background: #f5edd8;
+      border: 1px solid #d7bd7d;
+      border-radius: 14px;
+      padding: 26px;
+      margin-top: 30px;
+    }
+
+    .gegenfrage strong {
+      display: block;
+      color: #765a20;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid #ddd7ca;
+      color: #777;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 700px) {
+      main {
+        padding: 20px 12px 40px;
+      }
+
+      .tafel {
+        padding: 26px 20px;
+        border-radius: 14px;
+      }
+
+      .kopf {
+        gap: 14px;
+      }
+
+      .nummer {
+        flex-basis: 46px;
+        width: 46px;
+        height: 46px;
+        font-size: 1rem;
+      }
+
+      .zahlen,
+      .punkte,
+      .modelle {
+        grid-template-columns: 1fr;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+    
+    .tafel-navigation {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #d8d1c2;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tafel-navigation a {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #20392b;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.tafel-navigation a:hover,
+.tafel-navigation a:focus {
+  background: #a8843d;
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .tafel-navigation {
+    flex-direction: column;
+  }
+
+  .tafel-navigation a,
+  .tafel-navigation span {
+    width: 100%;
+    text-align: center;
+  }
+}
+    
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="ausstellung">
+    • Das Kleingedruckte der Cannabis-Teillegalisierung ·
+  </div>
+</header>
+
+<main>
+  <section class="tafel">
+
+    <div class="kopf">
+      <div class="nummer">18</div>
+
+      <div>
+        <h1>PROHIBITION – HAT VERBOTSPOLITIK IHR ZIEL ERREICHT?</h1>
+      </div>
+    </div>
+
+    <div class="linie"></div>
+
+    <div class="untertitel">
+      Von der Idee einer „drogenfreien Gesellschaft“ zu einer anderen
+      Drogenpolitik?
+    </div>
+
+    <p>
+      Über Jahrzehnte setzte die internationale Drogenpolitik stark auf
+      Verbote, Strafverfolgung und die Bekämpfung illegaler Märkte.
+      Ein zentrales Ziel war, den Konsum und Handel mit kontrollierten
+      Drogen einzudämmen.
+    </p>
+
+    <div class="hinweis">
+      <strong>Doch Verbote haben den Drogenkonsum nicht verschwinden lassen.</strong>
+
+      Nach aktuellen Schätzungen des UNODC haben 2024 weltweit rund
+      331 Millionen Menschen im Alter von 15 bis 64 Jahren in den
+      vergangenen zwölf Monaten Drogen konsumiert. Die Zahl umfasst
+      verschiedene Substanzen und ist keine Aussage darüber, ob
+      Verbote grundsätzlich „funktionieren“ oder „nicht funktionieren“.
+    </div>
+
+    <div class="zahlen">
+
+      <div class="zahl">
+        <div class="wert">331 Mio.</div>
+        <strong>Menschen</strong>
+        geschätzter Drogenkonsum weltweit im Jahr 2024
+      </div>
+
+      <div class="zahl">
+        <div class="wert">256 Mio.</div>
+        <strong>Cannabis-Konsumierende</strong>
+        geschätzte Zahl weltweit im Jahr 2024
+      </div>
+
+    </div>
+
+    <div class="problem">
+
+      <h2>Was entsteht durch illegale Märkte?</h2>
+
+      <p>
+        Wenn Nachfrage nach Drogen besteht, verschwinden die Märkte nicht
+        automatisch dadurch, dass die Ware verboten ist. Der illegale
+        Handel kann eigene Risiken und Probleme erzeugen.
+      </p>
+
+      <div class="punkte">
+
+        <div class="punkt">
+          <strong>❓ Unbekannte Qualität</strong>
+          Bei illegal angebotenen Produkten fehlen häufig verlässliche
+          Informationen über Inhalt, Reinheit oder Wirkstoffgehalt.
+        </div>
+
+        <div class="punkt">
+          <strong>⚠️ Gesundheitsrisiken</strong>
+          Konsumierende können Risiken durch unbekannte Inhaltsstoffe,
+          Wirkstoffkonzentrationen oder Mischungen ausgesetzt sein.
+        </div>
+
+        <div class="punkt">
+          <strong>💰 Illegale Gewinne</strong>
+          Illegale Märkte können erhebliche Einnahmen für
+          organisierte Kriminalität erzeugen.
+        </div>
+
+        <div class="punkt">
+          <strong>🚫 Keine regulierte Abgabe</strong>
+          Beratung, Qualitätskontrolle, Alterskontrolle und staatliche
+          Produktkontrolle sind in illegalen Märkten nicht wie in einem
+          regulierten System gewährleistet.
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="cannabis">
+
+      <h2>Was hat sich bei Cannabis verändert?</h2>
+
+      <p>
+        Die deutsche Cannabis-Reform hat das frühere reine Verbotsmodell
+        teilweise verändert. Sie kombiniert unter anderem privaten
+        Eigenanbau, Anbauvereinigungen, Besitzgrenzen und
+        Jugendschutzregelungen.
+      </p>
+
+      <p>
+        Das bedeutet aber nicht: Cannabis ist vollständig frei erhältlich.
+        Die Reform schafft vielmehr einen eigenen, stark regulierten
+        rechtlichen Rahmen.
+      </p>
+
+    </div>
+
+    <div class="problem">
+
+      <h2>Welche Ideen gibt es für andere Drogen?</h2>
+
+      <p>
+        Die Diskussion über Drogenpolitik besteht nicht nur aus
+        „verboten“ oder „frei verkauft“. Verschiedene Modelle setzen
+        unterschiedliche Schwerpunkte.
+      </p>
+
+      <div class="modelle">
+
+        <div class="modell">
+          <strong>⚖️ Entkriminalisierung</strong>
+          Bestimmte Handlungen werden nicht oder weniger strafrechtlich
+          verfolgt, ohne automatisch einen freien Verkauf einzuführen.
+        </div>
+
+        <div class="modell">
+          <strong>🏥 Medizinische Versorgung</strong>
+          Bestimmte Substanzen können unter medizinischen Bedingungen
+          bereitgestellt werden.
+        </div>
+
+        <div class="modell">
+          <strong>🛟 Schadensminderung</strong>
+          Maßnahmen wie Beratung, Konsumräume oder Drug-Checking sollen
+          gesundheitliche Schäden reduzieren.
+        </div>
+
+        <div class="modell">
+          <strong>🏪 Regulierte Abgabe</strong>
+          Denkbar sind streng kontrollierte Modelle mit festgelegten
+          Zugangsvoraussetzungen und staatlicher Regulierung.
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="gegenfrage">
+
+      <strong>DISKUSSIONSFRAGEN</strong>
+
+      Wenn sich bei Cannabis gezeigt hat, dass ein vollständiges
+      Verbotsmodell nicht die einzige Möglichkeit der Regulierung ist:
+
+      <br><br>
+
+      <strong>Welche Erkenntnisse lassen sich daraus für die gesamte
+      Drogenpolitik ableiten – und wo liegen die Grenzen einer solchen
+      Übertragung?</strong>
+
+      <br><br>
+
+      Mehr Gesundheit statt nur Strafe?
+      Mehr Hilfe statt Ausgrenzung?
+      Mehr Regulierung statt unkontrollierter illegaler Märkte?
+
+      <br><br>
+
+      <strong>Und vor allem: Wo sollten die Grenzen liegen?</strong>
+
+    </div>
+
+
+<nav class="tafel-navigation" aria-label="Tafelnavigation">
+  <a href="Tafel17.html">← Vorherige Tafel</a>
+  <a href="Start.html">🏠 Startseite</a>
+  <a href="Fazit.html">Unser Fazit →</a>
+</nav>
+
+    <footer>
+        © 2026 Patrick Dornfeld / Hanfverband Freiburg<br>
+      Informations- und Diskussionsausstellung · Rechtsstand: 03.10.2026
+      <br>
+      Statistik: UNODC World Drug Report 2026
+    </footer>
+
+  </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drei Pflanzen – aber kein freier gemeinsamer Vorrat</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Helvetica, Arial, sans-serif;
+            background: #f4f0e7;
+            color: #26382d;
+            line-height: 1.6;
+        }
+        header {
+            background: #20392b;
+            color: white;
+            padding: 14px 20px;
+            text-align: center;
+        }
+        header .ausstellung {
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 45px 20px 60px;
+        }
+        .tafel {
+            background: white;
+            border-radius: 18px;
+            padding: 45px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        .nummer {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #2e563d;
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+        h1 {
+            margin: 0 0 15px;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            color: #20392b;
+        }
+        .linie {
+            width: 90px;
+            height: 5px;
+            background: #a8843d;
+            border-radius: 10px;
+            margin: 25px 0 30px;
+        }
+        .gesetz {
+            color: #8a6a2d;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+        }
+        p {
+            font-size: 1.08rem;
+            margin: 0 0 18px;
+        }
+        .hinweis {
+            background: #eef3ed;
+            border-left: 5px solid #2e563d;
+            padding: 22px 24px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        .hinweis strong {
+            display: block;
+            color: #20392b;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+        .beispiel {
+            background: #f7f4ed;
+            border: 1px solid #ded8ca;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 30px 0;
+        }
+        .beispiel-titel {
+            color: #8a6a2d;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .beispiel p {
+            margin-bottom: 0;
+        }
+        .gegenfrage {
+            margin-top: 40px;
+            padding: 28px;
+            background: #f5edd8;
+            border-radius: 14px;
+            border: 1px solid #dfcf9e;
+        }
+        .frage-label {
+            color: #8a6a2d;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .gegenfrage p {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 750;
+            line-height: 1.4;
+            color: #3e382b;
+        }
+        footer {
+            text-align: center;
+            color: #68746c;
+            font-size: 0.78rem;
+            padding: 25px 20px 35px;
+        }
+        @media (max-width: 700px) {
+            main {
+                padding: 25px 12px 40px;
+            }
+            .tafel {
+                padding: 28px 22px;
+                border-radius: 14px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .gegenfrage {
+                padding: 22px;
+            }
+            .gegenfrage p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .tafel-navigation {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #d8d1c2;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tafel-navigation a {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #20392b;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.tafel-navigation a:hover,
+.tafel-navigation a:focus {
+  background: #a8843d;
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .tafel-navigation {
+    flex-direction: column;
+  }
+
+  .tafel-navigation a,
+  .tafel-navigation span {
+    width: 100%;
+    text-align: center;
+  }
+}
+        
+    </style>
+</head>
+<body>
+<header>
+    <div class="ausstellung">
+        Das Kleingedruckte der Cannabis-Teillegalisierung
+    </div>
+</header>
+<main>
+    <article class="tafel">
+        <!-- Tafelnummer -->
+        <div class="nummer">
+            02
+        </div>
+        <!-- Überschrift -->
+        <h1>
+            DREI PFLANZEN – ABER KEIN FREIER GEMEINSAMER VORRAT
+        </h1>
+        <div class="linie"></div>
+        <!-- Gesetzliche Grundlage -->
+        <div class="gesetz">
+            § 9 KCanG
+        </div>
+        <!-- Haupttext -->
+        <p>
+            Volljährige dürfen an ihrem Wohnsitz oder gewöhnlichen Aufenthalt
+            insgesamt höchstens drei Cannabispflanzen gleichzeitig zum Zweck
+            des Eigenkonsums anbauen.
+        </p>
+        <p>
+            Cannabis aus dem privaten Eigenanbau darf jedoch nicht an andere
+            Personen weitergegeben werden.
+        </p>
+        <!-- Hinweis -->
+        <div class="hinweis">
+            <strong>
+                Drei Pflanzen pro Person bedeuten nicht automatisch
+                einen frei teilbaren gemeinsamen Vorrat.
+            </strong>
+            Auch wenn zwei Erwachsene zusammenleben, darf das Cannabis aus
+            dem jeweiligen privaten Eigenanbau nicht einfach zwischen ihnen
+            weitergegeben werden.
+        </div>
+        <!-- Beispiel -->
+        <div class="beispiel">
+            <div class="beispiel-titel">
+                Beispiel
+            </div>
+            <p>
+                <strong>Paul und Emma leben zusammen.</strong><br><br>
+                Paul baut drei Pflanzen an.<br>
+                Emma baut ebenfalls drei Pflanzen an.
+            </p>
+            <p style="margin-top: 18px;">
+                Trotzdem darf Paul Cannabis aus seinem Eigenanbau
+                nicht einfach an Emma weitergeben.
+            </p>
+        </div>
+        <!-- Zusatz -->
+        <p>
+            Entscheidend ist also nicht nur die Frage:
+            <strong>„Wer darf Cannabis anbauen?“</strong>
+        </p>
+        <p>
+            Es kommt auch darauf an,
+            <strong>woher das Cannabis stammt und ob es weitergegeben werden darf.</strong>
+        </p>
+        <!-- Diskussionsfrage -->
+        <div class="gegenfrage">
+            <div class="frage-label">
+                Diskussionsfrage
+            </div>
+            <p>
+                Warum bedeutet „pro Person erlaubt“
+                nicht automatisch „frei miteinander teilbar“?
+            </p>
+        </div>
+    </article>
+</main>
+
+<nav class="tafel-navigation" aria-label="Tafelnavigation">
+  <a href="Tafel1.html">← Vorherige Tafel</a>
+  <a href="Start.html">🏠 Startseite</a>
+  <a href="Tafel3.html">Nächste Tafel →</a>
+</nav>
+
+<footer>
+    © 2026 Patrick Dornfeld / Hanfverband Freiburg<br>
+    Texte und Gestaltung: Patrick Dornfeld<br>
+    Quellen: Gesetze im Internet (BMJ/BfJ)
+</footer>
+</body>
+</html>

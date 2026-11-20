@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tafel 10 – Cannabis-Ausstellung</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #f4f0e7;
+      color: #26382d;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #20392b;
+      color: white;
+      padding: 18px 24px;
+      text-align: center;
+    }
+
+    header .ausstellung {
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px 50px;
+    }
+
+    .tafel {
+      background: white;
+      border-radius: 18px;
+      padding: 42px;
+      box-shadow: 0 8px 30px rgba(38, 56, 45, 0.10);
+    }
+
+    .kopf {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .nummer {
+      width: 54px;
+      height: 54px;
+      min-width: 54px;
+      border-radius: 50%;
+      background: #2e5b43;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    h1 {
+      margin: 0;
+      color: #20392b;
+      font-size: clamp(2rem, 5vw, 3.3rem);
+      line-height: 1.08;
+    }
+
+    .linie {
+      width: 90px;
+      height: 4px;
+      background: #a8843d;
+      margin: 25px 0 30px;
+      border-radius: 2px;
+    }
+
+    .gesetz {
+      color: #8a6a2d;
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 18px;
+    }
+
+    p {
+      font-size: 1.08rem;
+      margin: 0 0 18px;
+    }
+
+    .hinweis {
+      background: #eef3ed;
+      border-left: 5px solid #477154;
+      padding: 20px 22px;
+      border-radius: 10px;
+      margin: 28px 0;
+    }
+
+    .hinweis strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #2e5b43;
+    }
+
+    .vergleich {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 28px 0;
+    }
+
+    .box {
+      border-radius: 14px;
+      padding: 24px;
+      border: 1px solid #e2ddd1;
+    }
+
+    .box.shop {
+      background: #f7f4ed;
+    }
+
+    .box.verein {
+      background: #eef3ed;
+    }
+
+    .box h2 {
+      margin-top: 0;
+      color: #20392b;
+      font-size: 1.3rem;
+    }
+
+    .ablauf {
+      margin: 16px 0 0;
+      font-weight: 600;
+    }
+
+    .ablauf span {
+      display: block;
+      padding: 7px 0;
+    }
+
+    .beispiel {
+      background: #f7f4ed;
+      border-radius: 14px;
+      padding: 24px;
+      margin: 28px 0;
+    }
+
+    .beispiel h2 {
+      margin-top: 0;
+      color: #20392b;
+      font-size: 1.3rem;
+    }
+
+    .beispiel strong {
+      color: #2e5b43;
+    }
+
+    .gegenfrage {
+      background: #f5edd8;
+      border: 1px solid #d4bd80;
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 30px;
+    }
+
+    .gegenfrage strong {
+      display: block;
+      color: #8a6a2d;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.9rem;
+    }
+
+    .gegenfrage p {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      color: #73766f;
+      font-size: 0.78rem;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 700px) {
+      .tafel {
+        padding: 26px 20px;
+      }
+
+      .kopf {
+        align-items: flex-start;
+      }
+
+      .nummer {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+      }
+
+      .vergleich {
+        grid-template-columns: 1fr;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+    
+    .tafel-navigation {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #d8d1c2;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tafel-navigation a {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #20392b;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.tafel-navigation a:hover,
+.tafel-navigation a:focus {
+  background: #a8843d;
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .tafel-navigation {
+    flex-direction: column;
+  }
+
+  .tafel-navigation a,
+  .tafel-navigation span {
+    width: 100%;
+    text-align: center;
+  }
+}
+    
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="ausstellung">
+      Das Kleingedruckte der Cannabis-Teillegalisierung
+    </div>
+  </header>
+
+  <main>
+    <section class="tafel">
+
+      <div class="kopf">
+        <div class="nummer">10</div>
+
+        <div>
+          <h1>ANBAUVEREINIGUNG ≠ CANNABIS-SHOP</h1>
+        </div>
+      </div>
+
+      <div class="linie"></div>
+
+      <div class="gesetz">
+        Gesetzliche Grundlage: § 19 KCanG
+      </div>
+
+      <p>
+        Eine Anbauvereinigung kann ihren Mitgliedern unter den gesetzlichen
+        Voraussetzungen Cannabis aus dem gemeinschaftlichen Anbau abgeben.
+      </p>
+
+      <p>
+        Sie ist aber <strong>kein normaler Cannabis-Fachhandel</strong>,
+        in den jede erwachsene Person spontan hineingehen und Cannabis
+        wie ein gewöhnliches Produkt kaufen kann.
+      </p>
+
+      <div class="vergleich">
+
+        <div class="box shop">
+          <h2>Das klassische Fachgeschäft</h2>
+
+          <div class="ablauf">
+            <span>→ Geschäft betreten</span>
+            <span>→ Produkt auswählen</span>
+            <span>→ bezahlen</span>
+            <span>→ Produkt mitnehmen</span>
+          </div>
+
+          <p>
+            Das wäre ein Modell mit reguliertem Einzelhandel und
+            Laufkundschaft.
+          </p>
+        </div>
+
+        <div class="box verein">
+          <h2>Die Anbauvereinigung</h2>
+
+          <div class="ablauf">
+            <span>→ Mitglied sein</span>
+            <span>→ Vereinsregeln beachten</span>
+            <span>→ gesetzliche Voraussetzungen erfüllen</span>
+            <span>→ Cannabis im vorgesehenen Rahmen erhalten</span>
+          </div>
+
+          <p>
+            Der Zugang ist an die Mitgliedschaft und weitere gesetzliche
+            Vorgaben gebunden.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="hinweis">
+        <strong>Der entscheidende Unterschied:</strong>
+
+        Eine Anbauvereinigung produziert gemeinschaftlich für ihre
+        Mitglieder. Sie ersetzt nicht automatisch den klassischen
+        Einzelhandel.
+      </div>
+
+      <div class="beispiel">
+        <h2>Beispiel: Laufkundschaft</h2>
+
+        <p>
+          Emma kommt an einem Anbauverein vorbei und möchte spontan
+          Cannabis kaufen. Sie möchte sich eine Sorte aussuchen,
+          bezahlen und wieder gehen.
+        </p>
+
+        <p>
+          Genau dieses Prinzip
+          <strong>„Laufkundschaft → Produkt auswählen → bezahlen →
+          mitnehmen“</strong> ist nicht das Modell der
+          Anbauvereinigung.
+        </p>
+      </div>
+
+      <div class="gegenfrage">
+        <strong>Frage an die Besucherinnen und Besucher</strong>
+
+        <p>
+          Was unterscheidet eine Anbauvereinigung von einem regulierten
+          Cannabis-Fachgeschäft – und wäre ein solches Fachgeschäft
+          eine sinnvolle Ergänzung?
+        </p>
+      </div>
+
+    </section>
+
+<nav class="tafel-navigation" aria-label="Tafelnavigation">
+  <a href="Tafel9.html">← Vorherige Tafel</a>
+  <a href="Start.html">🏠 Startseite</a>
+  <a href="Tafel11.html">Nächste Tafel →</a>
+</nav>
+
+    <footer>
+    
+        © 2026 Patrick Dornfeld / Hanfverband Freiburg<br>
+      Informations- und Diskussionsausstellung · Rechtsstand: 03.10.2026
+    </footer>
+  </main>
+
+</body>
+</html>

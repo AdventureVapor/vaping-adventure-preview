@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Das Kleingedruckte der Cannabis-Teillegalisierung</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f0e7;
+      color: #26382d;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #20392b;
+      color: white;
+      padding: 22px 24px;
+    }
+
+    header .ausstellung {
+      max-width: 1100px;
+      margin: auto;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 45px 20px 70px;
+    }
+
+    /* STARTBEREICH */
+
+    .intro {
+      background: white;
+      border-radius: 20px;
+      padding: 48px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      margin-bottom: 45px;
+    }
+
+    .label {
+      display: inline-block;
+      background: #315842;
+      color: white;
+      border-radius: 20px;
+      padding: 7px 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #20392b;
+      font-size: clamp(2.3rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .untertitel {
+      color: #8a6a2d;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 700;
+      margin-top: 18px;
+    }
+
+    .linie {
+      width: 100px;
+      height: 4px;
+      background: #a8843d;
+      margin: 28px 0 30px;
+      border-radius: 3px;
+    }
+
+    .datum {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #315842;
+      margin-bottom: 35px;
+    }
+
+    .intro h2 {
+      color: #20392b;
+      font-size: 1.55rem;
+      margin-bottom: 10px;
+    }
+
+    .intro p {
+      font-size: 1.08rem;
+      max-width: 850px;
+      margin: 0 0 18px;
+    }
+
+    .frage {
+      margin-top: 28px;
+      background: #f5edd8;
+      border: 1px solid #d7bd7d;
+      border-radius: 14px;
+      padding: 22px;
+      font-size: 1.1rem;
+      color: #765a20;
+    }
+
+    .frage strong {
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    /* STATIONEN */
+
+    .stationen-header {
+      margin-bottom: 22px;
+    }
+
+    .stationen-header h2 {
+      margin: 0;
+      color: #20392b;
+      font-size: 2rem;
+    }
+
+    .stationen-header p {
+      margin: 7px 0 0;
+      color: #59665d;
+    }
+
+    .stationen {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .station {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid #e1ddd3;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      transition: transform 0.18s ease,
+                  box-shadow 0.18s ease,
+                  border-color 0.18s ease;
+    }
+
+    .station:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 9px 24px rgba(0,0,0,0.10);
+      border-color: #a8843d;
+    }
+
+    .nummer {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #315842;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .station h3 {
+      margin: 0 0 9px;
+      color: #20392b;
+      font-size: 1.1rem;
+      line-height: 1.25;
+    }
+
+    .station p {
+      margin: 0;
+      color: #626b65;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .weiter {
+      display: block;
+      margin-top: 16px;
+      color: #8a6a2d;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    /* FOOTER */
+
+    footer {
+      margin-top: 50px;
+      padding-top: 22px;
+      border-top: 1px solid #d8d2c6;
+      color: #777;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 850px) {
+      .stationen {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .intro {
+        padding: 36px 30px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 25px 12px 50px;
+      }
+
+      .intro {
+        padding: 28px 21px;
+        border-radius: 15px;
+      }
+
+      .stationen {
+        grid-template-columns: 1fr;
+      }
+
+      .station {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2.35rem;
+      }
+    }
+    
+    .seiten-navigation {
+  background: #20392b;
+  color: white;
+  padding: 16px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.seiten-navigation a {
+  color: white;
+  text-decoration: none;
+}
+
+.seiten-navigation a:hover,
+.seiten-navigation a:focus {
+  color: #e3c77f;
+  text-decoration: underline;
+}
+
+.nav-logo {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+@media (max-width: 700px) {
+  .seiten-navigation {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+  </style>
+</head>
+
+<body>
+<nav class="seiten-navigation" aria-label="Hauptnavigation">
+
+  <a class="nav-logo" href="Start.html">
+
+   <header>
+  <div class="ausstellung">
+    Das Kleingedruckte der Cannabis-Teillegalisierung
+  </div>
+</header>
+
+  </a>
+
+</nav>
+
+
+<main>
+
+  <!-- STARTSEITE -->
+
+  <section class="intro">
+
+    <div class="label">
+      Informations- und Diskussionsausstellung
+    </div>
+
+    <h1>
+      DAS KLEINGEDRUCKTE DER
+      CANNABIS-TEILLEGALISIERUNG
+    </h1>
+
+    <div class="untertitel">
+      18 Stationen durch KCanG und MedCanG
+    </div>
+
+    <div class="linie"></div>
+
+    <div class="datum">
+      Oberkircher Hanfmarkt · 25. Oktober 2026
+    </div>
+
+    <h2>Worum geht es?</h2>
+
+    <p>
+      Was ist für Erwachsene seit der Teillegalisierung erlaubt –
+      und wo setzt das Gesetz Grenzen?
+    </p>
+
+    <p>
+      Diese Ausstellung stellt konkrete Alltagssituationen den
+      gesetzlichen Regeln gegenüber und zeigt, wo zwischen
+      „legal“ und „im Alltag einfach nutzbar“ Unterschiede entstehen.
+    </p>
+
+    <div class="frage">
+      <strong>18 Stationen – viele Fragen:</strong>
+
+      Vom Eigenanbau über Besitz und Weitergabe bis zu
+      Anbauvereinigungen, medizinischem Cannabis, öffentlichem Konsum
+      und der grundsätzlichen Frage nach dem Umgang mit Drogen.
+    </div>
+
+  </section>
+
+
+  <!-- STATIONEN -->
+
+  <section>
+
+    <div class="stationen-header">
+      <h2>Die 18 Stationen</h2>
+
+      <p>
+        Wähle eine Station aus und entdecke das jeweilige Thema.
+      </p>
+    </div>
+
+
+    <div class="stationen">
+
+      <a class="station" href="Tafel1.html">
+        <div class="nummer">01</div>
+        <h3>Legal – aber kein normales Fachgeschäft</h3>
+        <p>Was bedeutet „legal“, wenn es keinen normalen Verkauf gibt?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel2.html">
+        <div class="nummer">02</div>
+        <h3>Drei Pflanzen – aber kein freier gemeinsamer Vorrat</h3>
+        <p>Warum bedeutet „pro Person erlaubt“ nicht automatisch „gemeinsam nutzbar“?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel3.html">
+        <div class="nummer">03</div>
+        <h3>„Kann ich meinem Partner 2 Gramm geben?“</h3>
+        <p>Eigenanbau und die Frage der Weitergabe.</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel4.html">
+        <div class="nummer">04</div>
+        <h3>50 Gramm zu Hause – 25 Gramm unterwegs</h3>
+        <p>Warum unterscheiden sich die zulässigen Besitzmengen?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel5.html">
+        <div class="nummer">05</div>
+        <h3>„Was, wenn die Ernte zu groß ausfällt?“</h3>
+        <p>Drei Pflanzen sind erlaubt – aber die Ernte ist nicht exakt planbar.</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel6.html">
+        <div class="nummer">06</div>
+        <h3>„Kannst du mir mein Cannabis mitbringen?“</h3>
+        <p>Warum gibt es keine einfache private Übergabe?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel7.html">
+        <div class="nummer">07</div>
+        <h3>Kein Cannabis-Lieferservice</h3>
+        <p>Warum kann Cannabis nicht einfach nach Hause geliefert werden?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel8.html">
+        <div class="nummer">08</div>
+        <h3>Nur ein Anbauverein</h3>
+        <p>Warum ist nur eine Mitgliedschaft vorgesehen?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel9.html">
+        <div class="nummer">09</div>
+        <h3>Kein „Cannabis-Club für ein Wochenende“</h3>
+        <p>Warum ist die Mitgliedschaft nicht kurzfristig möglich?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel10.html">
+        <div class="nummer">10</div>
+        <h3>Anbauvereinigung ≠ Cannabis-Shop</h3>
+        <p>Was unterscheidet eine Anbauvereinigung vom normalen Fachgeschäft?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel11.html">
+        <div class="nummer">11</div>
+        <h3>25 Gramm pro Tag – 50 Gramm pro Monat</h3>
+        <p>Welche Mengen dürfen Mitglieder erhalten?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel12.html">
+        <div class="nummer">12</div>
+        <h3>Legal bekommen – aber nicht einfach weitergeben</h3>
+        <p>Warum darf legal erhaltenes Cannabis nicht einfach weitergereicht werden?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel13.html">
+        <div class="nummer">13</div>
+        <h3>„Wo darf ich überhaupt dampfen?“</h3>
+        <p>Öffentlicher Konsum, Orte, Uhrzeiten und Jugendschutz.</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel14.html">
+        <div class="nummer">14</div>
+        <h3>Legitimer Eigenanbau – aber mit Sicherungspflicht</h3>
+        <p>Welche Schutzmaßnahmen verlangt das Gesetz?</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel15.html">
+        <div class="nummer">15</div>
+        <h3>„Ich brauche mein medizinisches Cannabis jetzt.“</h3>
+        <p>Medizinisches Cannabis und sein eigener gesetzlicher Versorgungsweg.</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel16.html">
+        <div class="nummer">16</div>
+        <h3>Säule 2 – Regulierte Fachgeschäfte?</h3>
+        <p>Das ursprüngliche Modell regionaler kommerzieller Modellprojekte.</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel17.html">
+        <div class="nummer">17</div>
+        <h3>Der Schwarzmarkt soll zurückgedrängt werden – aber wo ist das legale Angebot?</h3>
+        <p>Zwischen politischem Ziel und praktischer Verfügbarkeit.</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+      <a class="station" href="Tafel18.html">
+        <div class="nummer">18</div>
+        <h3>Prohibition – hat Verbotspolitik ihr Ziel erreicht?</h3>
+        <p>Von Cannabis zur grundsätzlichen Frage der Drogenpolitik.</p>
+        <span class="weiter">Tafel öffnen →</span>
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+    Informations- und Diskussionsausstellung · Rechtsstand: 03.10.2026
+    <br><br>
+    © 2026 Patrick Dornfeld / Hanfverband Freiburg
+    <br>
+    Texte und Gestaltung: Patrick Dornfeld
+  </footer>
+
+</main>
+
+</body>
+</html>
