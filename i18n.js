@@ -175,10 +175,11 @@
     apply();
   }
   const observer = new MutationObserver(records => {
-    if (records.some(r => r.target?.closest?.("[data-i18n-switch]"))) return;
-    if (language === "en") {
-      records.forEach(r => r.addedNodes?.forEach(translateNode));
-    }
+    if (language !== "en") return;
+    records.forEach(record => {
+      if (record.target?.closest?.("[data-i18n-switch]")) return;
+      record.addedNodes?.forEach(translateNode);
+    });
   });
   document.addEventListener("DOMContentLoaded",() => {
     addSwitch();
