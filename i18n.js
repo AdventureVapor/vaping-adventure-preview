@@ -246,7 +246,7 @@
   const textRendered = new WeakMap();
   const attrOriginal = new WeakMap();
   const attrRendered = new WeakMap();
-  const excluded = "[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline";
+  const excluded = "[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo";
   const keys = Object.keys(pairs).sort((a,b)=>b.length-a.length);
   const reverseKeys = Object.keys(reverse).sort((a,b)=>b.length-a.length);
 
