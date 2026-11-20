@@ -33,6 +33,7 @@ async function cloudWrite(){if(!cloudSession||!cloudKey)return;let payload=await
 function scheduleCloudSave(){if(!cloudSession||!cloudKey)return;setCloudStatus('Änderungen werden gespeichert …');clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>cloudWrite().catch(e=>{console.error(e);setCloudStatus('Cloud-Speicherung fehlgeschlagen');toast('Cloud-Speicherung fehlgeschlagen. Prüfe deine Verbindung und melde dich erneut an.') }),700)}
 function setCloudStatus(text){let el=$('#storage-status');if(el)el.innerHTML=`<i></i> ${esc(text)}`}
 function authEmail(){return $('#cloud-email')?.value.trim().toLowerCase()||''}
+function showRecoveryCode(code){openModal('Dein Wiederherstellungscode',`<p class="subheading">Bewahre diesen Code sicher außerhalb dieses Geräts auf. Du benötigst ihn, um dein verschlüsseltes Tagebuch nach einem Passwort-Reset wieder zu öffnen.</p><div class="formrow" style="margin:16px 0"><label for="recovery-code-value">Wiederherstellungscode</label><input class="field" id="recovery-code-value" type="text" readonly value="${esc(code)}" style="font-family:monospace;font-size:15px;letter-spacing:.04em"></div><button class="btn soft" type="button" id="copy-recovery-code" style="width:100%">Code kopieren</button><p class="tagline" id="recovery-copy-status" aria-live="polite">Der Code wird nur einmal angezeigt. Speichere ihn jetzt sicher.</p>`,'Fertig',()=>{ $('#modal-root').innerHTML=''; });let input=$('#recovery-code-value'),copy=$('#copy-recovery-code'),status=$('#recovery-copy-status');copy.onclick=async()=>{try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(code)}else{input.focus();input.select();if(!document.execCommand('copy'))throw Error('copy failed')}status.textContent='✓ Wiederherstellungscode wurde kopiert.';copy.textContent='Erfolgreich kopiert'}catch{input.focus();input.select();status.textContent='Bitte den markierten Code mit Strg+C kopieren.'}};input.addEventListener('click',()=>input.select());}
 async function cloudLogin(signup){
  let email=authEmail(),password=$('#cloud-pass')?.value;
  if(signup&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return toast('Für ein neues Konto bitte eine gültige E-Mail-Adresse eingeben.');
@@ -76,7 +77,7 @@ async function cloudLogin(signup){
     cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';storageMode='local';db=localDb;render();return;
    }
    db=localDb;storageMode='cloud';let recovery=await createCloudEnvelope(password);await cloudWrite();
-   alert('Dein persönlicher Wiederherstellungscode lautet:\\n\\n'+recovery+'\\n\\nBewahre ihn sicher außerhalb dieses Geräts auf. Er wird nur einmal angezeigt und wird benötigt, um dein verschlüsseltes Tagebuch nach einem Passwort-Reset wieder zu öffnen.');
+   showRecoveryCode(recovery);
    if($('#cloud-pass'))$('#cloud-pass').value='';render();toast('Lokaler Spielstand sicher in die Cloud übertragen');
   }
  }catch(e){
