@@ -50,12 +50,13 @@
     "Zu Gerät":"Link to device","Zu Tagebucheintrag":"Link to diary entry","Keine Zuordnung":"No link",
     "Foto speichern":"Save photo","Bitte ein Foto auswählen":"Please select a photo","Moment":"Moment","Allgemein":"General",
     "FORTSCHRITT OHNE KONSUMZIELE":"PROGRESS WITHOUT CONSUMPTION GOALS",
+    "Quests & Ziele":"Quests & Goals","Quests & Adventure":"Quests & Adventure",
     "Belohnungen gibt es für Dokumentation, Lernen und Gerätepflege.":"Rewards are earned for documenting, learning and device care.",
     "LEVEL":"LEVEL","bis zum nächsten Level":"until next level","Durch Wissen und Pflege":"Through knowledge and care",
     "COINS":"COINS","Deine Lernbelohnungen":"Your learning rewards","WOCHENZIEL":"WEEKLY GOAL",
-    "Dokumentationstagebuch · freiwillig":"Diary activity · optional","Deine Quests":"Your quests",
+    "Dokumentationstagebuch · freiwillig":"Diary activity · optional","Deine Quests":"Your quests","Erster Eintrag":"First entry","Ausrüstung im Blick":"Equipment check","Augenblicke festhalten":"Capture moments","Wissen wächst":"Knowledge grows",
     "ABGESCHLOSSEN":"COMPLETED","QUEST":"QUEST","Erster Eintrag":"First entry",
-    "Dokumentiere deinen ersten Tagebucheintrag.":"Record your first diary entry.",
+    "Dokumentiere deinen ersten Tagebucheintrag.":"Record your first diary entry.","Füge ein Gerät mit Beschreibung hinzu.":"Add a device with a description.","Ergänze ein Foto in deiner Galerie.":"Add a photo to your gallery.","Bestehe einen Lernkurs.":"Pass a learning course.",
     "Ausrüstung im Blick":"Equipment check","Füge ein Gerät mit Beschreibung hinzu.":"Add a device with a description.",
     "Augenblicke festhalten":"Capture moments","Ergänze ein Foto in deiner Galerie.":"Add a photo to your gallery.",
     "Wissen wächst":"Knowledge grows","Bestehe einen Lernkurs.":"Pass a learning course.",
@@ -143,7 +144,7 @@
   function translateNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
       if (node.parentElement?.closest("[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline")) return;
-      if (!node.parentElement?.closest(".course") && node.parentElement?.closest(".card:has(.photo) h3,.card:has(.photo) .row b,.card:has(.tagline) h3,.card:has(.tagline) .pill,.card:has(.tagline) > .subheading")) return;
+      if (!node.parentElement?.closest(".course,.quest-card") && node.parentElement?.closest(".card:has(.photo) h3,.card:has(.photo) .row b,.card:has(.tagline) h3,.card:has(.tagline) .pill,.card:has(.tagline) > .subheading")) return;
       const next = translateText(node.nodeValue);
       if (next !== node.nodeValue) node.nodeValue = next;
     } else if (node.nodeType === Node.ELEMENT_NODE) {
