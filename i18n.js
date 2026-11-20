@@ -215,7 +215,7 @@
     "Tagebucheinträge":"diary entries",
     "📱 LOKALER SPIELSTAND AKTIV":"📱 LOCAL SAVE ACTIVE",
     "☁️ CLOUD-SPIELSTAND AKTIV":"☁️ CLOUD SAVE ACTIVE",
-    "Tagebucheinträge · ":"diary entries · "
+    "Tagebucheinträge · ":"diary entries · ",
     "Öffnen →":"Open →",
 
     "Hilfe":"Help",
