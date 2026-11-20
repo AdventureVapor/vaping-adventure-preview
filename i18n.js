@@ -65,6 +65,7 @@
     "Du entscheidest, wo gespeichert wird.":"You decide where your data is stored.",
     "Wähle lokalen Speicher oder richte eine clientseitig verschlüsselte Cloud ein.":"Choose local storage or set up a client-side encrypted cloud.",
     "Speicher & Backup →":"Storage & backup →",
+     "Speicher & Backup":"Storage & backup",
     "Akkusicherheit":"Battery safety",
     "Reinigung & Pflege":"Cleaning & care",
     "Gerätekunde":"Device knowledge",
