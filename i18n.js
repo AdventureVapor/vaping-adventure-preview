@@ -69,7 +69,7 @@
     "Lerninhalte sind allgemeine Informationen und ersetzen keine Herstellerhinweise oder medizinische Beratung.":"Learning content provides general information and does not replace manufacturer instructions or medical advice.",
     "LERNEN & WISSEN":"LEARNING & KNOWLEDGE","Kurse zu Bedienung, Sicherheit, Pflege und gesundheitlicher Aufklärung.":"Courses on operation, safety, care and health awareness.",
     "DEIN LERNFORTSCHRITT":"YOUR LEARNING PROGRESS","Kursen bestanden":"courses passed",
-    "Grundlagen":"Basics","Einführung":"Introduction","LEKTIONEN":"LESSONS","Lerne wichtige Grundlagen und beantworte anschließend einen kurzen Wissenstest.":"Learn important basics and then answer a short knowledge quiz.",
+    "Grundlagen":"Basics","Einführung":"Introduction","Akkusicherheit":"Battery safety","Reinigung & Pflege":"Cleaning & care","Gerätekunde":"Device knowledge","LEKTIONEN":"LESSONS","Lerne wichtige Grundlagen und beantworte anschließend einen kurzen Wissenstest.":"Learn important basics and then answer a short knowledge quiz.",
     "Bestanden":"Passed","Ergebnis ansehen":"View result","Kurs öffnen":"Open course","Belohnung:":"Reward:",
     "Kurzübersicht":"Overview","Wissenstest":"Knowledge quiz","Prüfung abgeben":"Submit quiz",
     "Noch nicht bestanden":"Not passed yet","Bitte alle Fragen beantworten":"Please answer all questions",
@@ -142,7 +142,8 @@
   }
   function translateNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
-      if (node.parentElement?.closest("[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline,.card:has(.photo) h3,.card:has(.photo) .row b,.card:has(.tagline) h3,.card:has(.tagline) .pill,.card:has(.tagline) > .subheading")) return;
+      if (node.parentElement?.closest("[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline")) return;
+      if (!node.parentElement?.closest(".course") && node.parentElement?.closest(".card:has(.photo) h3,.card:has(.photo) .row b,.card:has(.tagline) h3,.card:has(.tagline) .pill,.card:has(.tagline) > .subheading")) return;
       const next = translateText(node.nodeValue);
       if (next !== node.nodeValue) node.nodeValue = next;
     } else if (node.nodeType === Node.ELEMENT_NODE) {
@@ -165,6 +166,7 @@
       button.setAttribute("aria-label", language === "de" ? "Switch to English" : "Zu Deutsch wechseln");
     }
     document.body.childNodes.forEach(translateNode);
+    document.querySelectorAll(".sidebar-note,.sidebar .nav-label,.sidebar .nav").forEach(translateNode);
   }
   function addSwitch() {
     const right = document.querySelector(".topright");
