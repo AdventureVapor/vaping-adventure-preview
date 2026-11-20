@@ -201,6 +201,37 @@
     "Dein Benutzername bleibt als Profilname erhalten. Nach der Umstellung meldest du dich mit deiner E-Mail-Adresse an. Bestehende Cloud-Spielstände bleiben beim E-Mail-Wechsel am selben Konto.":"Your username will remain as your profile name. After the change, you will sign in with your email address. Existing cloud saves remain linked to the same account when you change your email.",
     "Exportiere deine Tagebucheinträge oder importiere eine CSV mit Vorschau und Duplikaterkennung.":"Export your diary entries or import a CSV with a preview and duplicate detection.",
     "Öffnen →":"Open →",
+
+    "Hilfe":"Help",
+    "Hilfe-Bibliothek":"Help library",
+    "Hilfe durchsuchen …":"Search help …",
+    "Willkommen bei My Vaping Adventure. Hier findest du kurze Erklärungen zu allen Bereichen und Funktionen.":"Welcome to My Vaping Adventure. Here you will find short explanations of all sections and features.",
+    "Erste Schritte":"Getting started",
+    "Auf der Übersicht findest du deine wichtigsten Zahlen und die zuletzt erfassten Sessions. Über die Navigation wechselst du zwischen den Bereichen.":"The overview shows your key statistics and most recently recorded sessions. Use the navigation to move between sections.",
+    "Vaping Diary – Tagebuch":"Vaping Diary",
+    "Mit „Neuer Eintrag“ dokumentierst du Datum, Uhrzeit, Gerät, Sorte, Züge, Temperatur, Ort und Notizen. Vorhandene Einträge kannst du bearbeiten oder löschen. Die Suche und Filter helfen beim Wiederfinden.":"Use “New entry” to record the date, time, device, strain, draws, temperature, location and notes. You can edit or delete existing entries. Search and filters help you find them again.",
+    "Strain Collection – Sorten":"Strain Collection",
+    "Lege Sorten in deiner Sammlung an und ergänze ihre Angaben. THC- und CBD-Werte kannst du als Prozentangaben eintragen, sofern du verlässliche Produktinformationen hast.":"Add strains to your collection and enter their details. You can enter THC and CBD values as percentages if you have reliable product information.",
+    "Verwalte deine Vaporizer, E-Zigaretten und Tabakerhitzer. Du kannst Geräte ergänzen, bearbeiten und mit Fotos dokumentieren. Bilder werden innerhalb der Geräte-Karten passend dargestellt.":"Manage your vaporizers, e-cigarettes and tobacco heaters. You can add and edit devices and document them with photos. Images are displayed within the device cards.",
+    "Photo Gallery – Fotos":"Photo Gallery",
+    "Füge Bilder hinzu, um besondere Geräte, Setups oder Momente festzuhalten. Achte darauf, regelmäßig ein Backup zu erstellen, wenn du viele Fotos speicherst.":"Add images to capture special devices, setups or moments. Remember to create backups regularly if you store many photos.",
+    "Quests & Ziele":"Quests & Goals",
+    "Quests belohnen deinen Fortschritt mit Erfahrungspunkten und Coins. Erledigte Aufgaben und dein Level werden mit deinem Spielstand gespeichert.":"Quests reward your progress with experience points and coins. Completed tasks and your level are saved with your game data.",
+    "Education – Lernbereich":"Education – Learning area",
+    "Hier findest du Lerninhalte und Kurse, zum Beispiel zu Gerätekunde, Reinigung und Akkusicherheit. Dein Lernfortschritt gehört zu deinem Spielstand.":"Here you will find learning content and courses, for example on device knowledge, cleaning and battery safety. Your learning progress is part of your saved game data.",
+    "Lokal speichern":"Local storage",
+    "Im lokalen Modus liegen deine Daten im Browser auf genau diesem Gerät. Sie werden nicht automatisch auf andere Geräte übertragen. Browserdaten löschen oder ein Gerätewechsel kann lokale Daten entfernen.":"In local mode, your data is stored in the browser on this device only. It is not automatically transferred to other devices. Clearing browser data or changing devices may remove local data.",
+    "Verschlüsselte Cloud":"Encrypted cloud",
+    "Du kannst dich mit deinem Konto anmelden und deinen Spielstand geräteübergreifend synchronisieren. Die Daten werden vor dem Hochladen im Browser verschlüsselt. Bewahre dein Verschlüsselungskennwort sicher auf.":"You can sign in to your account and synchronize your saved game data across devices. The data is encrypted in your browser before uploading. Keep your encryption password safe.",
+    "Backup & Wiederherstellung":"Backup & recovery",
+    "Unter „Speicher & Backup“ kannst du ein vollständiges JSON-Backup herunterladen und später wieder einspielen. Einspielen ersetzt den aktiven Spielstand; erstelle deshalb vorher eine Sicherung. CSV eignet sich für den Export und Import von Tagebucheinträgen.":"Under “Storage & backup”, you can download a complete JSON backup and restore it later. Restoring replaces the active save, so create a backup first. CSV is suitable for exporting and importing diary entries.",
+    "Cloud-Spielstand auf das Gerät übernehmen":"Transfer cloud save to this device",
+    "Wenn du deinen Cloud-Spielstand dauerhaft in den lokalen Speicher dieses Geräts übernehmen möchtest: 1. Melde dich mit deinem Cloud-Konto an. 2. Öffne „Speicher & Backup“ und klicke bei „JSON-Backup“ auf „Backup herunterladen“. Damit sicherst du den gerade aktiven Cloud-Spielstand als Datei. 3. Wechsle anschließend über „Zu lokalem Spielstand wechseln“ beziehungsweise melde dich ab. 4. Im lokalen Modus öffnest du wieder „Speicher & Backup“, wählst unter „Backup einspielen“ die zuvor heruntergeladene JSON-Datei aus und klickst auf „JSON auswählen & einspielen“. Dadurch wird der lokale Spielstand durch den Cloud-Spielstand aus der Datei ersetzt. Wichtig: Nicht den lokalen Spielstand in die Cloud hochladen, wenn du die Cloud-Daten übernehmen möchtest. Bewahre die Backup-Datei sicher auf.":"If you want to permanently transfer your cloud save to this device’s local storage: 1. Sign in to your cloud account. 2. Open “Storage & backup” and click “Download backup” under “JSON backup”. This saves the currently active cloud data as a file. 3. Then switch to local storage using “Switch to local save” or sign out. 4. In local mode, open “Storage & backup” again, select the JSON file you downloaded under “Restore backup”, and click “Select & restore JSON”. This replaces the local save with the cloud save from the file. Important: Do not upload the local save to the cloud if you want to transfer cloud data. Keep the backup file safe.",
+    "Konto und Anmeldung":"Account and sign-in",
+    "Für die Cloud kannst du ein Konto mit E-Mail-Adresse und Passwort erstellen. Bestätige deine E-Mail-Adresse. Über die Passwort-zurücksetzen-Funktion kannst du einen Wiederherstellungslink anfordern.":"For cloud storage, you can create an account with an email address and password. Confirm your email address. You can request a recovery link using the password reset function.",
+    "Hilfe auf dem iPhone":"Help on iPhone",
+    "Die Seite passt sich auch kleinen Bildschirmen an. Unten findest du die mobile Navigation; unter „Mehr“ liegen weitere Bereiche wie Geräte, Fotos, Education und Backups.":"The page also adapts to small screens. You will find mobile navigation at the bottom; under “More” are additional sections such as Devices, Photos, Education and Backups."
+
   };
   const reverse = Object.fromEntries(Object.entries(pairs).map(([de,en])=>[en,de]));
   let language = localStorage.getItem("mva_language") || "de";
