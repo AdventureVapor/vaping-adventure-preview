@@ -15,7 +15,7 @@ let page="home", pendingPhoto=null, csvPending=[], sortMode='desc', galleryIndex
 function toast(s){let t=document.createElement('div');t.className='toast';t.textContent=s;document.body.append(t);setTimeout(()=>t.remove(),2600)}
 const cloudConfig=()=>window.MVA_CLOUD||{};
 function cloudReady(){let c=cloudConfig();return /^https:\/\//.test(c.url||'')&&!!c.apiKey}
-function b64(bytes){return btoa(String.fromCharCode(...new Uint8Array(bytes)))}
+function b64(bytes){const a=new Uint8Array(bytes);let binary="";const chunk=0x8000;for(let i=0;i<a.length;i+=chunk)binary+=String.fromCharCode(...a.subarray(i,i+chunk));return btoa(binary)}
 function unb64(s){return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
 async function deriveCloudKey(password,salt){let material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:600000,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
 async function aesWrap(key,bytes){let iv=crypto.getRandomValues(new Uint8Array(12)),cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,bytes);return {iv:b64(iv),ciphertext:b64(cipher)}}
