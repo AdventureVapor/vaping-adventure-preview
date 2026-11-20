@@ -120,3 +120,9 @@
 /* Improve contrast of the overview hero button */
 .hero .btn{color:var(--green);background:#fff;border-color:#fff;font-weight:800}
 .hero .btn:hover{background:#edf3e9;border-color:#edf3e9}
+
+
+/* Flag icons in the language switch */
+.language-switch{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.language-flag{display:block;width:19px;height:13px;object-fit:cover;border:1px solid #00000018;border-radius:2px;flex:none}
+@media(max-width:650px){.language-flag{width:17px;height:12px}}
