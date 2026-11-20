@@ -187,7 +187,7 @@
     "Vaporizer":"Vaporizer","E-Zigarette":"E-cigarette","Tabakerhitzer":"Tobacco heater",
     "Keine Sorte angegeben":"No strain specified","Noch keine Beschreibung":"No description yet",
     "Aus Sammlung wählen oder neu eingeben":"Choose from collection or enter a new one",
-    "Optional":"Optional","Session":"Session","Puffs":"Puffs","Züge":"draws","min":"min"
+    "Optional":"Optional","Session":"Session","Puffs":"Puffs","Züge":"draws","min":"min",
     "In deinem Cloud-Konto ist bereits ein Spielstand gespeichert. Entscheide, welche Daten künftig auf allen Geräten verwendet werden sollen.":"A save already exists in your cloud account. Choose which data should be used on all your devices from now on.",
     "Ersetzt den aktuell angezeigten lokalen Spielstand auf diesem Gerät.":"Replaces the local save currently displayed on this device.",
     "Dein JSON-Backup bleibt davon unberührt. Wähle bewusst aus, welcher Spielstand maßgeblich sein soll.":"Your JSON backup will not be affected. Carefully choose which save should be the primary one.",
