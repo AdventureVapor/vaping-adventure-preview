@@ -154,7 +154,7 @@
     document.documentElement.lang = language;
     const button = document.querySelector("[data-i18n-switch]");
     if (button) {
-      button.textContent = language === "de" ? "🇬🇧 English" : "🇩🇪 Deutsch";
+      button.innerHTML = language === "de" ? '<span class="language-flag" aria-hidden="true">🇬🇧</span><span>English</span>' : '<span class="language-flag" aria-hidden="true">🇩🇪</span><span>Deutsch</span>';
       button.setAttribute("aria-label", language === "de" ? "Switch to English" : "Zu Deutsch wechseln");
     }
     document.body.childNodes.forEach(translateNode);
