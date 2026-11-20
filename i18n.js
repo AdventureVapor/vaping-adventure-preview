@@ -320,9 +320,10 @@
   function updateSwitch() {
     const button = document.querySelector("[data-i18n-switch]");
     if (!button) return;
-    button.innerHTML = language === "de"
-      ? '<img class="language-flag" src="Bilder/flag-gb.svg" alt=""><span>English</span>'
-      : '<img class="language-flag" src="Bilder/flag-de.svg" alt=""><span>Deutsch</span>';
+    const flag = language === "de"
+      ? '<svg class="language-flag" viewBox="0 0 60 40" role="img" aria-label="United Kingdom"><rect width="60" height="40" fill="#012169"/><path d="M0 0 60 40M60 0 0 40" stroke="#fff" stroke-width="9"/><path d="M0 0 60 40M60 0 0 40" stroke="#c8102e" stroke-width="4"/><path d="M30 0v40M0 20h60" stroke="#fff" stroke-width="13"/><path d="M30 0v40M0 20h60" stroke="#c8102e" stroke-width="7"/></svg>'
+      : '<svg class="language-flag" viewBox="0 0 60 40" role="img" aria-label="Deutschland"><rect width="60" height="13.333" fill="#000"/><rect y="13.333" width="60" height="13.334" fill="#dd0000"/><rect y="26.667" width="60" height="13.333" fill="#ffce00"/></svg>';
+    button.innerHTML = flag + (language === "de" ? '<span>English</span>' : '<span>Deutsch</span>');
     button.setAttribute("aria-label", language === "de" ? "Switch to English" : "Zu Deutsch wechseln");
   }
 
