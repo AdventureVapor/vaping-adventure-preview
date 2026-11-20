@@ -31,7 +31,7 @@
     "Keine Angabe":"Not specified","Notizen":"Notes",
     "Neue Sorte automatisch in meiner Sammlung speichern":"Automatically save new strain to my collection",
     "Änderungen speichern":"Save changes","Eintrag speichern":"Save entry","Bitte alle Fragen beantworten":"Please answer all questions",
-    "Eintrag gespeichert":"Entry saved","DEINE SAMMLUNG":"YOUR COLLECTION","Sorten durchsuchen …":"Search strains …",
+    "Eintrag gespeichert":"Entry saved","DEINE SAMMLUNG":"YOUR COLLECTION","Speichere Sortennamen und Notizen für deine Tagebucheinträge.":"Save strain names and notes for your diary entries.","Sorten durchsuchen …":"Search strains …",
     "＋ Sorte hinzufügen":"＋ Add strain","Noch keine Sorten":"No strains yet","Füge deine erste Sorte hinzu.":"Add your first strain.",
     "Sorte bearbeiten":"Edit strain","Sorte hinzufügen":"Add strain","Sortenname":"Strain name","Hersteller":"Manufacturer",
     "Kategorie":"Category","z. B. Blüte, Liquid":"e.g. flower, e-liquid","Sorte speichern":"Save strain",
