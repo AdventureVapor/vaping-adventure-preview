@@ -35,7 +35,7 @@ function setCloudStatus(text){let el=$('#storage-status');if(el)el.innerHTML=`<i
 function authEmail(){return $('#cloud-email')?.value.trim().toLowerCase()||''}
 async function cloudLogin(signup){
  let email=authEmail(),password=$('#cloud-pass')?.value;
- if(signup&&!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email))return toast('Für ein neues Konto bitte eine gültige E-Mail-Adresse eingeben.');
+ if(signup&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return toast('Für ein neues Konto bitte eine gültige E-Mail-Adresse eingeben.');
  if(!signup&&!email)return toast('Bitte deine E-Mail-Adresse oder deinen bisherigen Benutzernamen eingeben.');
  if(!password||password.length<8)return toast('Das Kennwort muss mindestens 8 Zeichen haben.');
  let button=$('#cloud-connect');if(button){button.disabled=true;button.textContent='Einen Moment …'}
