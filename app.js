@@ -60,6 +60,31 @@ async function logoutProfile(){
  updateNav();toast('Du wurdest abgemeldet.');
 }
 function go(p){page=p;updateNav();render();window.scrollTo(0,0)}
+
+document.addEventListener('click',e=>{
+ const trigger=e.target.closest('#profile-trigger');
+ const menu=$('#profile-menu');
+ if(trigger&&menu){
+  const opening=menu.hidden;
+  updateProfile();
+  menu.hidden=!opening;
+  trigger.setAttribute('aria-expanded',String(opening));
+  return;
+ }
+ const action=e.target.closest('[data-profile-action]');
+ if(action){
+  if(menu)menu.hidden=true;
+  $('#profile-trigger')?.setAttribute('aria-expanded','false');
+  if(action.dataset.profileAction==='backup')go('backup');
+  if(action.dataset.profileAction==='logout')logoutProfile();
+  return;
+ }
+ if(menu&&!menu.hidden&&!e.target.closest('#profile-menu')){
+  menu.hidden=true;
+  $('#profile-trigger')?.setAttribute('aria-expanded','false');
+ }
+});
+
 document.addEventListener('click',e=>{let n=e.target.closest('[data-page]');if(n){e.preventDefault();go(n.dataset.page)}});
 const header=(eyebrow,title,sub,action='')=>`<div class="row mobile-stack"><div><div class="eyebrow">${eyebrow}</div><h1 class="heading">${title}</h1><p class="subheading">${sub}</p></div>${action}</div>`;
 const card=(label,value,note)=>`<div class="card"><div class="stat-label">${label}</div><div class="stat-value">${value}</div><div class="stat-caption">${note}</div></div>`;
