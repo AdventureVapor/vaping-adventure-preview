@@ -135,7 +135,7 @@
   }
   function translateNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
-      if (node.parentElement?.closest("[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline,.card:has(.photo) h3,.card:has(.tagline) h3,.card:has(.tagline) > .subheading")) return;
+      if (node.parentElement?.closest("[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo,.tagline,.card:has(.photo) h3,.card:has(.photo) .row b,.card:has(.tagline) h3,.card:has(.tagline) .pill,.card:has(.tagline) > .subheading")) return;
       const next = translateText(node.nodeValue);
       if (next !== node.nodeValue) node.nodeValue = next;
     } else if (node.nodeType === Node.ELEMENT_NODE) {
