@@ -28,6 +28,8 @@ Alle relevanten Änderungen für My Vaping Adventure werden hier nachvollziehbar
 - Profil-, Sprach- und Speicherfunktionen weiter geprüft.
 
 ### Sicherheit und Qualitätssicherung
+- Supabase-Einrichtungsanleitung ergänzt und aus dem README verlinkt.
+- Doppelte Deklarationen von Hilfsfunktionen in app.js entfernt.
 - Supabase Row Level Security und nutzerbezogene Policies geprüft.
 - Fremdschlüssel für Cloud-Spielstände und Löschweitergabe geprüft.
 - Browser-Konfiguration auf versehentlich eingebundene geheime Supabase-Schlüssel geprüft.
