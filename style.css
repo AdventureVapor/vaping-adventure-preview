@@ -264,3 +264,83 @@ body[data-theme="midnight"] .field{color:#f0f4fb}body[data-theme="midnight"] .fi
 .theme-choice-copy b{display:block;font-size:12px}.theme-choice-copy small{display:block;font-size:10px;line-height:1.4;color:#77817b;margin-top:4px}
 .theme-choice-status{font-size:10px;font-weight:800;color:#27834a;white-space:nowrap}.theme-picker-note{margin-top:17px}
 @media(max-width:600px){.theme-picker{padding:10px}.theme-picker-dialog{padding:18px;max-height:94vh}.theme-choice-grid{grid-template-columns:1fr}.theme-choice{grid-template-columns:68px 1fr auto;gap:9px;padding:10px}.theme-choice.selected{padding:9px}.theme-mini{height:50px}.theme-picker-head h2{font-size:22px}}
+
+
+/* Version 1.4 – gut lesbare, responsive Typografie in allen fünf Designs */
+html{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-size:clamp(15px,1.05vw,16px);line-height:1.55}
+p,li{line-height:1.65}
+.heading{font-size:clamp(25px,3vw,32px);line-height:1.2;letter-spacing:-.5px}
+.hero h2{font-size:clamp(21px,2.2vw,26px);line-height:1.25}
+.hero p,.subheading,.empty{font-size:14px;line-height:1.65}
+.eyebrow,.nav-label{font-size:11px;line-height:1.4;letter-spacing:1px}
+.nav{font-size:14px;min-height:44px;line-height:1.35}
+.btn{font-size:13px;line-height:1.4}
+.btn.small,.text-btn{font-size:12px}
+.stat-label,.stat-caption,.item-content small,.tagline,.pill{font-size:12px;line-height:1.45}
+.stat-value{font-size:clamp(22px,2vw,28px);line-height:1.2}
+.item-content b,.formrow label{font-size:14px;line-height:1.45}
+.field{font-size:14px;line-height:1.45}
+.section-head h3{font-size:18px;line-height:1.3}
+.sidebar-note p,.more-link small,.help-topic p,.theme-choice-copy small{font-size:12px;line-height:1.6}
+.more-link b{font-size:17px;line-height:1.3}
+.help-topic h3{font-size:14px;line-height:1.4}
+.modal h2{font-size:22px;line-height:1.3}
+.theme-picker-head h2{font-size:clamp(21px,3vw,26px);line-height:1.25}
+.theme-choice-copy b{font-size:14px;line-height:1.35}
+.theme-choice-status{font-size:11px}
+.brand b{font-size:18px;line-height:1.25}
+.brand small{font-size:10px;line-height:1.35}
+.local{font-size:12px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #246f43;outline-offset:3px}
+.card,.item,.modal,.help-topic,.profile-menu,.theme-picker-dialog{overflow-wrap:anywhere}
+.card p,.item-content,.subheading,.empty,.help-topic p{overflow-wrap:anywhere}
+@media(max-width:650px){
+ body{font-size:15px;line-height:1.55}
+ .main{padding:22px 15px 38px}
+ .heading{font-size:clamp(24px,7vw,28px);line-height:1.2}
+ .subheading,.hero p,.empty{font-size:14px}
+ .hero h2{font-size:22px;line-height:1.25}
+ .hero p{line-height:1.65}
+ .nav{font-size:14px}
+ .btn{font-size:14px;min-height:40px}
+ .btn.small{font-size:12px;min-height:34px}
+ .field{font-size:16px;min-height:42px} /* verhindert automatisches iPhone-Zoom beim Fokussieren */
+ .formrow label,.item-content b{font-size:14px}
+ .item-content small,.stat-label,.stat-caption,.tagline{font-size:12px}
+ .stat-value{font-size:23px}
+ .section-head h3{font-size:18px}
+ .more-link b{font-size:16px}
+ .more-link small{font-size:12px}
+ .theme-picker-dialog{padding:17px}
+ .theme-choice{min-height:76px}
+ .theme-choice-copy b{font-size:14px}
+ .theme-choice-copy small{font-size:12px}
+ .theme-choice-status{font-size:11px}
+ .local{font-size:10px}
+}
+@media(max-width:380px){
+ .topbar{padding-left:11px;padding-right:11px}
+ .brand{gap:8px}
+ .brand b{font-size:15px}
+ .topright{gap:5px}
+ .main{padding-left:12px;padding-right:12px}
+ .stats{gap:8px}
+ .stats .card{padding:11px}
+ .stat-label,.stat-caption{font-size:11px}
+ .theme-choice{grid-template-columns:58px minmax(0,1fr);gap:8px}
+ .theme-choice-status{grid-column:2}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+/* Lesbarkeit der sekundären Texte und Bedienelemente je Farbthema */
+body[data-theme="forest"]{--muted:#35583a}
+body[data-theme="forest"] .subheading,
+body[data-theme="forest"] .stat-label,
+body[data-theme="forest"] .stat-caption,
+body[data-theme="forest"] .sidebar-note p,
+body[data-theme="forest"] .help-topic p{color:#35583a}
+body[data-theme="ocean"]{--muted:#315f69}
+body[data-theme="sunset"]{--muted:#70483e}
+body[data-theme="midnight"]{--muted:#c5d2e4}
+body[data-theme="midnight"] .stat-caption,
+body[data-theme="midnight"] .sidebar-note p{color:#c5d2e4}
