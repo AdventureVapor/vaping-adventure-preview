@@ -167,3 +167,8 @@ body[data-theme="forest"] .profile-menu .profile-state{background:#e5eee0;color:
 .theme-switch:hover{filter:brightness(.97)}
 body[data-theme="forest"] .theme-switch{background:#e1ecdc;border-color:#d2e0ce;color:#315c3e}
 @media(max-width:650px){.theme-switch{min-height:28px;padding:4px 7px;font-size:9px}}
+
+@media(max-width:650px){
+ body .theme-switch{width:30px;min-width:30px;height:30px;padding:0;justify-content:center;overflow:hidden;font-size:0}
+ body .theme-switch::before{content:"🌿";font-size:15px;line-height:1}
+}
