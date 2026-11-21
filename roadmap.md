@@ -18,6 +18,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 ### Verschlüsselte Cloud und Datenspeicherung
 - [x] Supabase Auth und `mva_saves` eingerichtet
+- [x] Tabellenstruktur von `mva_saves` geprüft: `user_id` (`uuid`), `payload` (`jsonb`) und `updated_at` (`timestamptz`)
 - [x] Row Level Security (RLS) aktiviert und Policies in Supabase geprüft
   - [x] SELECT: `auth.uid() = user_id` – Nutzer können nur ihren eigenen Spielstand lesen
   - [x] INSERT: `auth.uid() = user_id` – Nutzer können nur einen Spielstand mit ihrer eigenen Benutzer-ID anlegen
@@ -89,7 +90,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Wiederherstellungscode extern aufbewahrt und Wiederherstellungsablauf mit Testkonto 2 praktisch getestet
   - [x] Nach Passwort-Reset neues Passwort gesetzt und Zugriff auf den zuvor gespeicherten verschlüsselten Cloud-Spielstand erfolgreich wiederhergestellt (Nutzerbestätigung)
 - [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren (für Alpha 1.3 nicht erforderlich, da noch keine echten Nutzer vorhanden sind; bei Bedarf vor einer späteren Migration neu bewerten)
-- [ ] Weitere Sicherheits- und Konfigurationspunkte abschließend kontrollieren (RLS-Policies für `mva_saves` sind geprüft; Tabellenstruktur und Schlüsselkonfiguration stehen noch aus)
+- [ ] Weitere Sicherheits- und Konfigurationspunkte abschließend kontrollieren (RLS-Policies und Tabellenstruktur von `mva_saves` sind geprüft; Schlüsselkonfiguration steht noch aus)
 
 ### Veröffentlichung
 - [ ] Hilfetexte und Einrichtungsanleitung finalisieren
