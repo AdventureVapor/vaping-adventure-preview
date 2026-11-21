@@ -138,7 +138,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Nach Merge: Sprachwechsel Deutsch/Englisch und sichtbare Beschriftungen geprüft
 - [x] Nach Merge: „Speicher & Backup“ zeigt Cloud-Konto und Sicherungsfunktionen
 - [x] Nach Merge: JSON-Backup-Download erfolgreich gestartet und Datei heruntergeladen (Nutzerbestätigung)
-- [ ] Nach Merge: CSV-Export erneut prüfen
+- [x] Nach Merge: CSV-Export und CSV-Import vom Nutzer erfolgreich bestätigt
 - [ ] Nach Merge: weitere noch offene Regressionstests und vollständige Sicherheitsprüfung
 - [ ] Produktionsübernahme vorbereiten – erst nach Abschluss der Release-Prüfungen
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
