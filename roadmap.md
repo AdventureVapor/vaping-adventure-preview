@@ -53,9 +53,10 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 ## Noch offen – Alpha 1.3
 
 ### Qualitätssicherung
-- [ ] Hilfebibliothek vollständig im Gast- und angemeldeten Modus durchprüfen
-  - [x] Gastmodus: Hilfebibliothek öffnen und englische Suche testen; Nutzer bestätigt, dass die Suche funktioniert
-  - [ ] Angemeldeten Modus ebenfalls prüfen
+- [x] Hilfebibliothek im Gast- und angemeldeten Modus geprüft
+  - [x] Gastmodus: Hilfebibliothek öffnen und englische Suche testen
+  - [x] Angemeldeter Modus: Hilfebibliothek öffnen und englische Suche testen
+  - [x] Nutzer bestätigt, dass die Suche in beiden Modi funktioniert
 - [x] Kopierfunktion des Wiederherstellungscode-Dialogs mit einem separaten Testkonto geprüft; Kopieren des Feldinhalts funktioniert
 - [ ] Sprachumschaltung systematisch in allen Bereichen prüfen; verbliebene gemischte oder nicht übersetzte Texte korrigieren
 - [ ] Vollständigen Synchronisierungstest zwischen mehreren Geräten abschließen
