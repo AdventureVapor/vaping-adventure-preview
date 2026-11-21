@@ -76,7 +76,8 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [ ] Fehler aus der abschließenden Testrunde beheben
 
 ### Sicherheit und Wiederherstellung
-- [ ] Direkten Passwortwechsel im angemeldeten Cloud-Konto in Preview testen (Funktion implementiert; Praxistest steht aus)
+- [x] Direkten Passwortwechsel im angemeldeten Cloud-Konto in Preview getestet; Nutzer bestätigt, dass er funktioniert
+- [x] Passwort-Zurücksetzen über „Passwort vergessen“ in Preview erneut getestet; Nutzer bestätigt, dass es funktioniert
 - [ ] Zusammenspiel von Passwortänderung, Passwort-Zurücksetzen und Wiederherstellungscode abschließend prüfen
 - [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren
 - [ ] Sicherheits- und Konfigurationscheckliste abschließend kontrollieren
