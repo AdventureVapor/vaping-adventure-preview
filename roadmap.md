@@ -80,8 +80,9 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 ### Sicherheit und Wiederherstellung
 - [x] Direkten Passwortwechsel im angemeldeten Cloud-Konto in Preview getestet; Nutzer bestätigt, dass er funktioniert
 - [x] Passwort-Zurücksetzen über „Passwort vergessen“ in Preview erneut getestet; Nutzer bestätigt, dass es funktioniert
-- [ ] Zusammenspiel von Passwortänderung, Passwort-Zurücksetzen und Wiederherstellungscode abschließend prüfen
-  - [ ] Wiederherstellungscode sicher aufbewahren und Wiederherstellungsablauf praktisch testen
+- [x] Zusammenspiel von Passwortänderung, Passwort-Zurücksetzen und Wiederherstellungscode abschließend geprüft
+  - [x] Wiederherstellungscode extern aufbewahrt und Wiederherstellungsablauf mit Testkonto 2 praktisch getestet
+  - [x] Nach Passwort-Reset neues Passwort gesetzt und Zugriff auf den zuvor gespeicherten verschlüsselten Cloud-Spielstand erfolgreich wiederhergestellt (Nutzerbestätigung)
 - [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren
 - [ ] Sicherheits- und Konfigurationscheckliste abschließend kontrollieren
 
@@ -95,6 +96,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 ## Spätere Ausbaustufe
 
 ### Version 1.4 – Ideen / Planung
+- [ ] Individuelle Registrierungs-/Bestätigungsmail gestalten (Absendername, Betreff, Text, Logo/Branding und Gestaltung; abhängig von Supabase-/SMTP-Anbieter)
 - [ ] Französische Sprache ergänzen
 - [ ] Französische Flagge und Übersetzungen integrieren
 - [ ] Gewählte Sprache dauerhaft speichern und Sprachwechsel prüfen
