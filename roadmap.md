@@ -18,7 +18,12 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 ### Verschlüsselte Cloud und Datenspeicherung
 - [x] Supabase Auth und `mva_saves` eingerichtet
-- [x] Row Level Security (RLS) mit benutzergebundenen Richtlinien
+- [x] Row Level Security (RLS) aktiviert und Policies in Supabase geprüft
+  - [x] SELECT: `auth.uid() = user_id` – Nutzer können nur ihren eigenen Spielstand lesen
+  - [x] INSERT: `auth.uid() = user_id` – Nutzer können nur einen Spielstand mit ihrer eigenen Benutzer-ID anlegen
+  - [x] UPDATE: `auth.uid() = user_id` in `USING` und `WITH CHECK` – Nutzer können nur ihren eigenen Spielstand ändern und die Benutzerzuordnung nicht auf eine fremde ID ändern
+  - [x] Alle drei Policies gelten für die Rolle `authenticated`
+  - [x] Nutzer hat die Aktivierung von RLS (Anzeige „Disable RLS“) und die SQL-Bedingungen aller drei Policies in der Supabase-Oberfläche bestätigt
 - [x] Verschlüsselte Cloud-Speicherung (AES-GCM)
 - [x] Lokalen und Cloud-Spielstand auswählen
 - [x] Cloud-Spielstand laden und nach erneutem Login wiederherstellen
@@ -83,8 +88,8 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Zusammenspiel von Passwortänderung, Passwort-Zurücksetzen und Wiederherstellungscode abschließend geprüft
   - [x] Wiederherstellungscode extern aufbewahrt und Wiederherstellungsablauf mit Testkonto 2 praktisch getestet
   - [x] Nach Passwort-Reset neues Passwort gesetzt und Zugriff auf den zuvor gespeicherten verschlüsselten Cloud-Spielstand erfolgreich wiederhergestellt (Nutzerbestätigung)
-- [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren
-- [ ] Sicherheits- und Konfigurationscheckliste abschließend kontrollieren
+- [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren (für Alpha 1.3 nicht erforderlich, da noch keine echten Nutzer vorhanden sind; bei Bedarf vor einer späteren Migration neu bewerten)
+- [ ] Weitere Sicherheits- und Konfigurationspunkte abschließend kontrollieren (RLS-Policies für `mva_saves` sind geprüft; Tabellenstruktur und Schlüsselkonfiguration stehen noch aus)
 
 ### Veröffentlichung
 - [ ] Hilfetexte und Einrichtungsanleitung finalisieren
