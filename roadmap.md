@@ -81,7 +81,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Abschließende QA-Runde: Tagebucheintrag angelegt, gespeichert und erneut geöffnet; Nutzer bestätigt korrekte Anzeige
 - [x] Abschließende QA-Runde: Tagebucheintrag bearbeitet und Änderung gespeichert; Nutzer bestätigt korrekte Anzeige
 - [x] Abschließende QA-Runde: Tagebucheintrag gelöscht; Nutzer bestätigt, dass er korrekt aus der Liste verschwindet
-- [x] Abschließende QA-Runde: Tagebucheintrag mit Foto gespeichert und erneut geöffnet; Nutzer bestätigt, dass das Foto korrekt angezeigt wird
+- [x] Abschließende QA-Runde: Foto hinzugefügt; Nutzer bestätigt, dass es in der Galerie erscheint (nicht direkt im Tagebucheintrag)
 - [x] Gesamten zentralen Ablauf (Registrierung, Bestätigung und erfolgreiche Anmeldung) mit Testkonto 2 erfolgreich durchlaufen
   - [x] Mit Testkonto abmelden und erneut anmelden
   - [x] Nach erneutem Login: Tagebucheinträge, Geräte und Galerie-Fotos weiterhin vorhanden
