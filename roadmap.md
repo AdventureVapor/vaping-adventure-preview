@@ -48,7 +48,10 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Gastansicht mit Anmelde- und Registrierungsoptionen
 - [x] Wiederherstellungscode-Dialog mit Kopierfunktion implementiert und in Preview erfolgreich getestet
 - [x] Deutsch-/Englisch-Umschalter
-- [x] Hilfebibliothek öffnet sich und funktioniert im ersten Praxistest
+- [x] Hilfebibliothek öffnet sich und funktioniert im Praxistest
+- [x] Übersetzungen in allen linken Navigationsbereichen vom Nutzer auf Deutsch und Englisch geprüft
+- [x] Speicher-/Datensicherungsseite auf fehlende englische Übersetzung geprüft und Satz ergänzt
+- [x] Nutzer bestätigt: Bei der abschließenden Durchsicht der Bereiche wurden keine weiteren Übersetzungsfehler gefunden
 
 ## Noch offen – Alpha 1.3
 
@@ -58,7 +61,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Angemeldeter Modus: Hilfebibliothek öffnen und englische Suche testen
   - [x] Nutzer bestätigt, dass die Suche in beiden Modi funktioniert
 - [x] Kopierfunktion des Wiederherstellungscode-Dialogs mit einem separaten Testkonto geprüft; Kopieren des Feldinhalts funktioniert
-- [ ] Sprachumschaltung systematisch in allen Bereichen prüfen; verbliebene gemischte oder nicht übersetzte Texte korrigieren
+- [x] Sprachumschaltung und sichtbare Übersetzungen in allen linken Bereichen geprüft
 - [ ] Vollständigen Synchronisierungstest zwischen mehreren Geräten abschließen
 - [ ] Gesamten zentralen Ablauf (Registrierung, Bestätigung, Login, Datenänderung, Logout, erneuter Login) abschließend durchtesten
 - [ ] Fehler aus der abschließenden Testrunde beheben
