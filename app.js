@@ -148,19 +148,42 @@ async function logoutProfile(){
 function go(p){page=p;updateNav();render();window.scrollTo(0,0)}
 
 const THEME_KEY="mva_theme";
+const THEME_OPTIONS=[
+ {id:"classic",name:"Original",desc:"Das bisherige vertraute Design",swatches:["#f5f5f0","#ffffff","#315b4a"]},
+ {id:"forest",name:"Forest & Nature",desc:"Sattes Hanfgrün und helles Blattgrün",swatches:["#3e9b45","#b9e36a","#155b2c"]},
+ {id:"ocean",name:"Ocean Blue",desc:"Meeresblau, Türkis und klare Flächen",swatches:["#087f9b","#b9edf0","#07566e"]},
+ {id:"sunset",name:"Sunset",desc:"Warme Orange-, Korall- und Cremetöne",swatches:["#d97843","#ffe0b9","#a94332"]},
+ {id:"midnight",name:"Midnight",desc:"Dunkles Nachtblau mit leuchtendem Akzent",swatches:["#151c2d","#29354b","#78b9ff"]}
+];
 function applyTheme(){
- const theme=localStorage.getItem(THEME_KEY)==="forest"?"forest":"classic";
+ const saved=localStorage.getItem(THEME_KEY)||"classic";
+ const theme=THEME_OPTIONS.some(t=>t.id===saved)?saved:"classic";
  document.body.dataset.theme=theme;
  const button=$("#theme-switch");
- if(button){button.textContent=theme==="forest"?"🌱 Original":"🌿 Natur";button.setAttribute("aria-pressed",String(theme==="forest"));button.setAttribute("aria-label",theme==="forest"?"Zum bisherigen Design wechseln":"Naturdesign aktivieren");}
+ if(button){button.textContent="🎨 Design";button.setAttribute("aria-label","Design auswählen");}
+ document.querySelectorAll("[data-theme-choice]").forEach(b=>{
+  const active=b.dataset.themeChoice===theme;
+  b.classList.toggle("selected",active);
+  b.setAttribute("aria-pressed",String(active));
+  const status=b.querySelector(".theme-choice-status");if(status)status.textContent=active?"Aktiv":"Auswählen";
+ });
+}
+function openThemePicker(){
+ let picker=$("#theme-picker");
+ if(!picker){
+  picker=document.createElement("div");picker.id="theme-picker";picker.className="theme-picker";
+  picker.innerHTML=`<div class="theme-picker-backdrop" data-theme-close></div><section class="theme-picker-dialog" role="dialog" aria-modal="true" aria-labelledby="theme-picker-title"><div class="theme-picker-head"><div><span class="eyebrow">PERSONALISIERE DEIN ABENTEUER</span><h2 id="theme-picker-title">Design auswählen</h2><p>Wähle das Aussehen deiner persönlichen Vaping-Seite.</p></div><button class="theme-picker-close" type="button" data-theme-close aria-label="Schließen">×</button></div><div class="theme-choice-grid">${THEME_OPTIONS.map(t=>`<button type="button" class="theme-choice" data-theme-choice="${t.id}" aria-pressed="false"><span class="theme-mini" data-mini-theme="${t.id}"><i></i><i></i><i></i></span><span class="theme-choice-copy"><b>${t.name}</b><small>${t.desc}</small></span><span class="theme-choice-status">Auswählen</span></button>`).join("")}</div><p class="theme-picker-note">Deine Auswahl wird auf diesem Gerät gespeichert.</p></section>`;
+  document.body.appendChild(picker);
+ }
+ picker.classList.add("open");applyTheme();
 }
 document.addEventListener("click",e=>{
- const button=e.target.closest("[data-theme-toggle]");
- if(!button)return;
- const next=document.body.dataset.theme==="forest"?"classic":"forest";
- localStorage.setItem(THEME_KEY,next);
- applyTheme();
+ if(e.target.closest("[data-theme-picker]")){openThemePicker();return;}
+ const choice=e.target.closest("[data-theme-choice]");
+ if(choice){localStorage.setItem(THEME_KEY,choice.dataset.themeChoice);applyTheme();return;}
+ if(e.target.closest("[data-theme-close]")){$("#theme-picker")?.classList.remove("open");}
 });
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#theme-picker")?.classList.remove("open");});
 
 document.addEventListener('click',e=>{
  const trigger=e.target.closest('#profile-trigger');
