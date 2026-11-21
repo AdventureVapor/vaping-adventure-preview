@@ -84,6 +84,11 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Testkonto 2 erfolgreich registriert; Wiederherstellungscode wurde ausgegeben (Nutzerbestätigung)
   - [x] Bestätigungs-E-Mail erhalten und Bestätigungslink erfolgreich angeklickt; Registrierung abgeschlossen (Nutzerbestätigung)
 - [ ] Fehler aus der abschließenden Testrunde beheben
+- [ ] CSV-Import-Duplikaterkennung nach Korrektur erneut praktisch testen
+  - [x] Ursache gefunden: CSV-Export-Überschrift „Gerät“ wurde nach Normalisierung als `gerat` eingelesen, der Import suchte aber nur `geraet`; dadurch blieb das Gerätefeld leer und Duplikate wurden nicht erkannt
+  - [x] Import-Mapping für `gerat` ergänzt und Duplikaterkennung auf alle exportierten Tagebuchfelder erweitert
+  - [x] Cache-Version der Preview aktualisiert
+  - [ ] Bereits durch den fehlerhaften Testimport entstandene doppelte Einträge separat bereinigen; keine automatische Löschung ohne Sicherung/Freigabe
 
 ### Sicherheit und Wiederherstellung
 - [x] Direkten Passwortwechsel im angemeldeten Cloud-Konto in Preview getestet; Nutzer bestätigt, dass er funktioniert
