@@ -106,7 +106,12 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 ### Veröffentlichung
 - [ ] Hilfetexte und Einrichtungsanleitung finalisieren
-- [ ] Versionsnummer und Änderungsübersicht final prüfen
+  - [x] README auf Alpha 1.3 aktualisiert: Einstieg, Speicherarten, Cloud-Sicherheit, Backups und Preview-/Produktionsablauf
+  - [x] Hilfebibliothek und bestehende Hilfethemen geprüft
+- [x] Versionsnummer und Änderungsübersicht geprüft
+  - [x] README und Roadmap führen Alpha 1.3
+  - [x] CHANGELOG.md für Alpha 1.3 Release Candidate ergänzt
+  - [x] App-Skript verwendet den aktualisierten Cache-Parameter für den CSV-Fix; Release bleibt ausdrücklich RC bis zur finalen Freigabe
 - [ ] Alpha-1.3-Qualitätssicherung abschließen
 - [ ] Produktionsübernahme vorbereiten
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
