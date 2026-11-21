@@ -129,7 +129,7 @@
     "Neue Einträge übernehmen":"Import new entries","mögliche Duplikate":"possible duplicates","erkannt":"detected","neu":"new",
     "Bitte eine gültige E-Mail-Adresse eingeben.":"Please enter a valid email address.",
     "Wir unterstützen den:":"We support:",
-    "Dein Profil":"Your profile","Gastmodus":"Guest mode","Du bist aktuell nicht mit einem Cloud-Konto angemeldet.":"You are not currently signed in to a cloud account.",
+    "Dein Profil":"Your profile","Abmelden":"Sign out","Gastmodus":"Guest mode","Du bist aktuell nicht mit einem Cloud-Konto angemeldet.":"You are not currently signed in to a cloud account.",
     "Verschlüsselte Cloud aktiv":"Encrypted cloud active","Nur auf diesem Gerät gespeichert":"Stored on this device only",
     "Speicher & Backup öffnen →":"Open storage & backup →","Cloud-Konto verbinden →":"Connect cloud account →",
     "Profil von ":"Profile of "," öffnen":" open","Profilmenü öffnen":"Open profile menu","Hilfe-Bibliothek öffnen":"Open help library",
