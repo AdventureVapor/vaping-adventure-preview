@@ -46,6 +46,8 @@ The interface currently supports German and English. The language selector chang
 
 ## Supabase configuration and security
 
+See [cloud-setup.md](cloud-setup.md) for the Supabase project, table, RLS, authentication, and email setup steps.
+
 The browser configuration uses the Supabase project URL and a publishable key (or legacy anon key). Row Level Security (RLS) must remain enabled on the save table, with policies restricting each authenticated user to their own row.
 
 **Never put a Supabase secret/service-role key, database password, or other server-side credential in browser code or in `cloud-config.js`.** Browser-side keys are public by design; access control must be enforced by Supabase RLS policies.
