@@ -19,6 +19,8 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 ### Verschlüsselte Cloud und Datenspeicherung
 - [x] Supabase Auth und `mva_saves` eingerichtet
 - [x] Tabellenstruktur von `mva_saves` geprüft: `user_id` (`uuid`), `payload` (`jsonb`) und `updated_at` (`timestamptz`)
+- [x] Fremdschlüssel von `mva_saves.user_id` auf `auth.users.id` geprüft; `ON DELETE CASCADE` ist aktiv (beim Löschen eines Auth-Benutzerkontos wird auch dessen Cloud-Spielstand gelöscht)
+  - [x] Vier vorhandene Datensätze geprüft; keiner verweist auf ein nicht existentes Auth-Benutzerkonto
 - [x] Row Level Security (RLS) aktiviert und Policies in Supabase geprüft
   - [x] SELECT: `auth.uid() = user_id` – Nutzer können nur ihren eigenen Spielstand lesen
   - [x] INSERT: `auth.uid() = user_id` – Nutzer können nur einen Spielstand mit ihrer eigenen Benutzer-ID anlegen
