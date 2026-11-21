@@ -46,7 +46,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Aktive-Speicher-Anzeige für lokalen und Cloud-Spielstand
 - [x] Profilmenü für angemeldete Nutzer
 - [x] Gastansicht mit Anmelde- und Registrierungsoptionen
-- [x] Wiederherstellungscode-Dialog mit Kopierfunktion implementiert
+- [x] Wiederherstellungscode-Dialog mit Kopierfunktion implementiert und in Preview erfolgreich getestet
 - [x] Deutsch-/Englisch-Umschalter
 - [x] Hilfebibliothek öffnet sich und funktioniert im ersten Praxistest
 
@@ -54,7 +54,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 ### Qualitätssicherung
 - [ ] Hilfebibliothek vollständig im Gast- und angemeldeten Modus durchprüfen (erster Funktionstest erfolgreich)
-- [ ] Kopierfunktion des Wiederherstellungscode-Dialogs mit einem separaten Testkonto prüfen
+- [x] Kopierfunktion des Wiederherstellungscode-Dialogs mit einem separaten Testkonto geprüft; Kopieren des Feldinhalts funktioniert
 - [ ] Sprachumschaltung systematisch in allen Bereichen prüfen; verbliebene gemischte oder nicht übersetzte Texte korrigieren
 - [ ] Vollständigen Synchronisierungstest zwischen mehreren Geräten abschließen
 - [ ] Gesamten zentralen Ablauf (Registrierung, Bestätigung, Login, Datenänderung, Logout, erneuter Login) abschließend durchtesten
@@ -78,6 +78,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [ ] Französische Sprache ergänzen
 - [ ] Französische Flagge und Übersetzungen integrieren
 - [ ] Gewählte Sprache dauerhaft speichern und Sprachwechsel prüfen
+- [ ] Individuelle Darstellung der gesamten App über auswählbare Design-Themen (zunächst eine kleine Auswahl, später erweiterbar auf etwa 5–10 Themen); Vorschau und dauerhafte Speicherung der Auswahl
 
 ## Technischer Stand
 
