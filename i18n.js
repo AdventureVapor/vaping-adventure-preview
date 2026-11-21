@@ -1,6 +1,17 @@
 "use strict";
 (() => {
   const pairs = {
+    "Gästebuch":"Guestbook","GEMEINSCHAFT":"COMMUNITY","Grüße und Nachrichten aus der Community":"Greetings and messages from the community",
+    "Hinterlasse einen freundlichen Gruß und lies Nachrichten aus der Community.":"Leave a friendly greeting and read messages from the community.",
+    "Zum Schreiben eines Grußes melde dich bitte mit deinem Cloud-Konto an.":"To write a message, please sign in with your cloud account.",
+    "Dein Anzeigename":"Your display name","Deine Nachricht":"Your message","Gruß einreichen":"Submit greeting",
+    "Dein Gruß wurde eingereicht und wartet auf Freigabe.":"Your greeting has been submitted and is awaiting approval.",
+    "Freigegebene Grüße werden geladen …":"Loading approved greetings …","Noch wurden keine Grüße veröffentlicht. Sei der Erste!":"No greetings have been published yet. Be the first!",
+    "Das Gästebuch konnte nicht geladen werden. Bitte versuche es später erneut.":"Guestbook could not be loaded. Please try again later.",
+    "Die Gästebuch-Datenbank wurde noch nicht eingerichtet.":"The guestbook database has not been set up yet.",
+    "Bitte warte eine Minute, bevor du einen weiteren Gruß einreichst.":"Please wait a minute before submitting another greeting.",
+    "Nachrichten werden vor der Veröffentlichung geprüft. Bitte teile keine privaten Informationen.":"Messages are checked before publication. Please do not include private information.",
+
     "ADVENTURE · DEIN PRIVATES TAGEBUCH":"ADVENTURE · YOUR PRIVATE DIARY",
     "Nur auf diesem Gerät":"On this device only",
     "DEIN BEREICH":"YOUR SPACE","Übersicht":"Overview","Strain Collection":"Strain Collection","Geräte":"Devices","Photo Gallery":"Photo Gallery",
