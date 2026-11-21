@@ -344,13 +344,14 @@
       button.className = "language-switch";
       button.type = "button";
       button.setAttribute("data-i18n-switch","");
-      button.addEventListener("click", () => {
-        language = language === "de" ? "en" : "de";
-        localStorage.setItem("mva_language", language);
-        apply();
-      });
       right.insertBefore(button, right.firstChild);
     }
+    // Always attach the handler: the switch already exists in index.html.
+    button.addEventListener("click", () => {
+      language = language === "de" ? "en" : "de";
+      localStorage.setItem("mva_language", language);
+      apply();
+    });
     updateSwitch();
   }
 
