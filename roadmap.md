@@ -84,6 +84,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Abschließende QA-Runde: Foto hinzugefügt; Nutzer bestätigt, dass es in der Galerie erscheint (nicht direkt im Tagebucheintrag)
 - [x] Abschließende QA-Runde: Nach vollständigem Neuladen erneute Anmeldung erforderlich; Foto war anschließend weiterhin in der Galerie vorhanden (Nutzerbestätigung)
 - [x] Abschließende QA-Runde: CSV-Export und CSV-Import vom Nutzer erfolgreich bestätigt
+- [x] Abschließende QA-Runde: Vollständiges JSON-Backup heruntergeladen und wieder eingelesen; Nutzer bestätigt erfolgreichen Ablauf
 - [x] Gesamten zentralen Ablauf (Registrierung, Bestätigung und erfolgreiche Anmeldung) mit Testkonto 2 erfolgreich durchlaufen
   - [x] Mit Testkonto abmelden und erneut anmelden
   - [x] Nach erneutem Login: Tagebucheinträge, Geräte und Galerie-Fotos weiterhin vorhanden
