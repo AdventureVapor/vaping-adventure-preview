@@ -139,6 +139,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Nach Merge: „Speicher & Backup“ zeigt Cloud-Konto und Sicherungsfunktionen
 - [x] Nach Merge: JSON-Backup-Download erfolgreich gestartet und Datei heruntergeladen (Nutzerbestätigung)
 - [x] Nach Merge: CSV-Export und CSV-Import vom Nutzer erfolgreich bestätigt
+- [x] Nach Merge: nach Abmeldung und erneutem Login Tagebucheinträge, Geräte und Galeriefotos weiterhin vorhanden (Nutzerbestätigung)
 - [ ] Nach Merge: weitere noch offene Regressionstests und vollständige Sicherheitsprüfung
 - [ ] Produktionsübernahme vorbereiten – erst nach Abschluss der Release-Prüfungen
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
