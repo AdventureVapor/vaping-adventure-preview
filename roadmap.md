@@ -92,7 +92,12 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Wiederherstellungscode extern aufbewahrt und Wiederherstellungsablauf mit Testkonto 2 praktisch getestet
   - [x] Nach Passwort-Reset neues Passwort gesetzt und Zugriff auf den zuvor gespeicherten verschlüsselten Cloud-Spielstand erfolgreich wiederhergestellt (Nutzerbestätigung)
 - [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren (für Alpha 1.3 nicht erforderlich, da noch keine echten Nutzer vorhanden sind; bei Bedarf vor einer späteren Migration neu bewerten)
-- [ ] Weitere Sicherheits- und Konfigurationspunkte abschließend kontrollieren (RLS-Policies und Tabellenstruktur von `mva_saves` sind geprüft; Schlüsselkonfiguration steht noch aus)
+- [x] Weitere Sicherheits- und Konfigurationspunkte geprüft
+  - [x] RLS-Policies und Tabellenstruktur von `mva_saves` geprüft
+  - [x] Fremdschlüssel `mva_saves.user_id` → `auth.users.id` einschließlich `ON DELETE CASCADE` geprüft; vier vorhandene Datensätze ohne verwaiste Benutzerzuordnung
+  - [x] Browser-Konfiguration `cloud-config.js` geprüft: verwendet einen `sb_publishable_`-Schlüssel und die richtige Supabase-Projektadresse
+  - [x] App-Dateien `app.js`, `index.html`, `help.js`, `i18n.js`, `cloud-config.js` und `README.md` auf typische Muster geheimer Supabase-/Datenbank-Schlüssel geprüft; keine entsprechenden Treffer in ausführbarem App-Code oder Konfiguration gefunden
+  - [ ] Hinweis: Dies ist eine gezielte Quelltextprüfung, kein vollständiger automatisierter Secret-Scan des gesamten Git-Verlaufs oder externer Deployment-Einstellungen
 
 ### Veröffentlichung
 - [ ] Hilfetexte und Einrichtungsanleitung finalisieren
