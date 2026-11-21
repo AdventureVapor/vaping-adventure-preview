@@ -88,7 +88,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Ursache gefunden: CSV-Export-Überschrift „Gerät“ wurde nach Normalisierung als `gerat` eingelesen, der Import suchte aber nur `geraet`; dadurch blieb das Gerätefeld leer und Duplikate wurden nicht erkannt
   - [x] Import-Mapping für `gerat` ergänzt und Duplikaterkennung auf alle exportierten Tagebuchfelder erweitert
   - [x] Cache-Version der Preview aktualisiert
-  - [ ] Bereits durch den fehlerhaften Testimport entstandene doppelte Einträge separat bereinigen; keine automatische Löschung ohne Sicherung/Freigabe
+  - [x] Durch den fehlerhaften Testimport entstandene Duplikate betreffen ausschließlich das Testkonto; keine Bereinigung erforderlich
 
 ### Sicherheit und Wiederherstellung
 - [x] Direkten Passwortwechsel im angemeldeten Cloud-Konto in Preview getestet; Nutzer bestätigt, dass er funktioniert
