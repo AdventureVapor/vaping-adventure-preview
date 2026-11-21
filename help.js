@@ -29,7 +29,7 @@
     root.querySelector("#help-backdrop").addEventListener("click", event => { if (event.target.id === "help-backdrop") close(); });
     root.querySelector("#help-search").addEventListener("input", event => {
       const query = event.target.value.trim().toLowerCase();
-      root.querySelectorAll(".help-topic").forEach(topic => { topic.hidden = !topic.dataset.search.includes(query); });
+      root.querySelectorAll(".help-topic").forEach(topic => { topic.hidden = !(topic.dataset.search + " " + topic.textContent.toLowerCase()).includes(query); });
     });
     root.querySelector("#help-search").focus();
   }
