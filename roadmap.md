@@ -99,7 +99,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Registrierung und E-Mail-Bestätigung in einem vollständigen Durchlauf mit Testkonto 2 geprüft
   - [x] Testkonto 2 erfolgreich registriert; Wiederherstellungscode wurde ausgegeben (Nutzerbestätigung)
   - [x] Bestätigungs-E-Mail erhalten und Bestätigungslink erfolgreich angeklickt; Registrierung abgeschlossen (Nutzerbestätigung)
-- [ ] Fehler aus der abschließenden Testrunde beheben
+- [x] Fehler aus der abschließenden Testrunde behoben; die gemeldeten englischen Beschriftungen wurden ergänzt und vom Nutzer erneut geprüft
 - [x] CSV-Import-Duplikaterkennung nach Korrektur erneut praktisch getestet; Nutzer bestätigt: funktioniert
   - [x] Ursache gefunden: CSV-Export-Überschrift „Gerät“ wurde nach Normalisierung als `gerat` eingelesen, der Import suchte aber nur `geraet`; dadurch blieb das Gerätefeld leer und Duplikate wurden nicht erkannt
   - [x] Import-Mapping für `gerat` ergänzt und Duplikaterkennung auf alle exportierten Tagebuchfelder erweitert
@@ -112,24 +112,24 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Zusammenspiel von Passwortänderung, Passwort-Zurücksetzen und Wiederherstellungscode abschließend geprüft
   - [x] Wiederherstellungscode extern aufbewahrt und Wiederherstellungsablauf mit Testkonto 2 praktisch getestet
   - [x] Nach Passwort-Reset neues Passwort gesetzt und Zugriff auf den zuvor gespeicherten verschlüsselten Cloud-Spielstand erfolgreich wiederhergestellt (Nutzerbestätigung)
-- [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren (für Alpha 1.3 nicht erforderlich, da noch keine echten Nutzer vorhanden sind; bei Bedarf vor einer späteren Migration neu bewerten)
+- [x] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag als bekannte Einschränkung dokumentiert; für Alpha 1.3 nicht erforderlich, vor einer späteren Migration erneut bewerten
 - [x] Weitere Sicherheits- und Konfigurationspunkte geprüft
   - [x] RLS-Policies und Tabellenstruktur von `mva_saves` geprüft
   - [x] Fremdschlüssel `mva_saves.user_id` → `auth.users.id` einschließlich `ON DELETE CASCADE` geprüft; vier vorhandene Datensätze ohne verwaiste Benutzerzuordnung
   - [x] Browser-Konfiguration `cloud-config.js` geprüft: verwendet einen `sb_publishable_`-Schlüssel und die richtige Supabase-Projektadresse
   - [x] App-Dateien `app.js`, `index.html`, `help.js`, `i18n.js`, `cloud-config.js` und `README.md` auf typische Muster geheimer Supabase-/Datenbank-Schlüssel geprüft; keine entsprechenden Treffer in ausführbarem App-Code oder Konfiguration gefunden
-  - [ ] Hinweis: Dies ist eine gezielte Quelltextprüfung, kein vollständiger automatisierter Secret-Scan des gesamten Git-Verlaufs oder externer Deployment-Einstellungen
+  - [ ] Vor Produktionsfreigabe vollständigen automatisierten Secret-Scan des gesamten Git-Verlaufs und Prüfung externer Deployment-Einstellungen durchführen (bisher nur gezielte Quelltextprüfung)
 
 ### Veröffentlichung
-- [ ] Hilfetexte und Einrichtungsanleitung finalisieren
+- [x] Hilfetexte und Einrichtungsanleitung finalisiert
   - [x] README auf Alpha 1.3 aktualisiert: Einstieg, Speicherarten, Cloud-Sicherheit, Backups und Preview-/Produktionsablauf
   - [x] Hilfebibliothek und bestehende Hilfethemen geprüft
 - [x] Versionsnummer und Änderungsübersicht geprüft
   - [x] README und Roadmap führen Alpha 1.3
   - [x] CHANGELOG.md für Alpha 1.3 Release Candidate ergänzt
   - [x] App-Skript verwendet den aktualisierten Cache-Parameter für den CSV-Fix; Release bleibt ausdrücklich RC bis zur finalen Freigabe
-- [ ] Alpha-1.3-Qualitätssicherung abschließen
-- [ ] Produktionsübernahme vorbereiten
+- [ ] Alpha-1.3-Qualitätssicherung abschließen – letzte Release-Prüfungen und Sicherheitsprüfung stehen noch aus
+- [ ] Produktionsübernahme vorbereiten – erst nach Abschluss der Release-Prüfungen
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
 
 ## Spätere Ausbaustufe
@@ -147,8 +147,8 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - **Preview-Branch:** `main`
 - **Produktions-Repository:** `AdventureVapor/vaping-adventure`
 - **Produktionsbranch:** `main` – bleibt bis zur ausdrücklichen Freigabe unangetastet.
-- **Release-Kandidat:** `release-1.3-candidate`
-- **Pull Request:** #7 – nicht mergen, bevor die Qualitätssicherung abgeschlossen und die Freigabe erteilt wurde.
+- **Release-Kandidat:** noch nicht als separater Branch vorhanden; aktueller geprüfter Arbeitsstand liegt auf `main` der Preview
+- **Pull Request:** derzeit kein offener PR gefunden; vor Veröffentlichung gegebenenfalls einen Release-PR anlegen.
 
 ---
 
