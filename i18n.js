@@ -1,6 +1,7 @@
 "use strict";
 (() => {
-  const pairs = {\n    "Gästebuch":"Guestbook","GEMEINSCHAFT":"COMMUNITY","Grüße und Nachrichten aus der Community":"Greetings and messages from the community",
+  const pairs = {
+    "Gästebuch":"Guestbook","GEMEINSCHAFT":"COMMUNITY","Grüße und Nachrichten aus der Community":"Greetings and messages from the community",
     "Hinterlasse einen freundlichen Gruß und lies Nachrichten aus der Community.":"Leave a friendly greeting and read messages from the community.",
     "Zum Schreiben eines Grußes melde dich bitte mit deinem Cloud-Konto an.":"To write a message, please sign in with your cloud account.",
     "Dein Anzeigename":"Your display name","Deine Nachricht":"Your message","Gruß einreichen":"Submit greeting",
