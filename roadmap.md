@@ -28,6 +28,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Fehler bei großen Base64-Daten behoben; Foto-Upload und erneutes Laden geprüft
 - [x] Nutzer bestätigt: Auf dem iPhone erstellter Tagebuch-Testeintrag blieb nach Abmeldung, erneutem Login und erneutem Laden des Cloud-Spielstands erhalten
 - [x] Nutzer bestätigt: iPhone-Testeintrag und zugehöriges Foto waren nach Anmeldung am PC und Laden des Cloud-Spielstands ebenfalls vorhanden
+- [x] Nutzer bestätigt: Am PC erstellter Tagebuch-Testeintrag war nach erneutem Laden des Cloud-Spielstands auf dem iPhone vorhanden
 
 ### Datenimport und Backups
 - [x] CSV-Import
@@ -64,10 +65,10 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Nutzer bestätigt, dass die Suche in beiden Modi funktioniert
 - [x] Kopierfunktion des Wiederherstellungscode-Dialogs mit einem separaten Testkonto geprüft; Kopieren des Feldinhalts funktioniert
 - [x] Sprachumschaltung und sichtbare Übersetzungen in allen linken Bereichen geprüft
-- [ ] Vollständigen Synchronisierungstest zwischen mehreren Geräten abschließen
-  - [x] iPhone: Testeintrag erstellt und nach Abmeldung, erneutem Login und erneutem Laden des Cloud-Spielstands wiedergefunden
+- [x] Synchronisierungstest zwischen iPhone und PC in beide Richtungen erfolgreich
   - [x] iPhone → PC: Testeintrag und Foto nach Anmeldung am PC und Laden des Cloud-Spielstands vorhanden
-  - [ ] PC → iPhone: am PC einen Testeintrag erstellen und auf dem iPhone laden
+  - [x] PC → iPhone: PC-Testeintrag nach erneutem Laden des Cloud-Spielstands auf dem iPhone vorhanden
+  - [x] iPhone: Testeintrag nach Abmeldung, erneutem Login und erneutem Laden des Cloud-Spielstands wiedergefunden
 - [ ] Gesamten zentralen Ablauf (Registrierung, Bestätigung, Login, Datenänderung, Logout, erneuter Login) abschließend durchtesten
 - [ ] Fehler aus der abschließenden Testrunde beheben
 
