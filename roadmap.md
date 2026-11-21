@@ -73,12 +73,15 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] Mit Testkonto abmelden und erneut anmelden
   - [x] Nach erneutem Login: Tagebucheinträge, Geräte und Galerie-Fotos weiterhin vorhanden
   - [ ] Registrierung und E-Mail-Bestätigung in einem vollständigen Durchlauf prüfen
+  - [x] Testkonto 2 erfolgreich registriert; Wiederherstellungscode wurde ausgegeben (Nutzerbestätigung)
+  - [ ] Bestätigungs-E-Mail öffnen und Bestätigungslink anklicken; bestätigten Kontostatus prüfen
 - [ ] Fehler aus der abschließenden Testrunde beheben
 
 ### Sicherheit und Wiederherstellung
 - [x] Direkten Passwortwechsel im angemeldeten Cloud-Konto in Preview getestet; Nutzer bestätigt, dass er funktioniert
 - [x] Passwort-Zurücksetzen über „Passwort vergessen“ in Preview erneut getestet; Nutzer bestätigt, dass es funktioniert
 - [ ] Zusammenspiel von Passwortänderung, Passwort-Zurücksetzen und Wiederherstellungscode abschließend prüfen
+  - [ ] Wiederherstellungscode sicher aufbewahren und Wiederherstellungsablauf praktisch testen
 - [ ] Umgang mit älteren Cloud-Spielständen ohne Wiederherstellungsumschlag dokumentieren
 - [ ] Sicherheits- und Konfigurationscheckliste abschließend kontrollieren
 
