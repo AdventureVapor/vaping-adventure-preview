@@ -172,3 +172,48 @@ body[data-theme="forest"] .theme-switch{background:#dff0d7;border-color:#cde4c8;
  body .theme-switch{width:30px;min-width:30px;height:30px;padding:0;justify-content:center;overflow:hidden;font-size:0}
  body .theme-switch::before{content:"🌿";font-size:15px;line-height:1}
 }
+
+
+/* Version 1.4 – sattes Hanfgrün als Seitenhintergrund, helles Blattgrün für Karten */
+body[data-theme="forest"]{
+  --paper:#b9e36a;
+  --bg:#3e9b45;
+  background:#3e9b45;
+}
+body[data-theme="forest"] .app,
+body[data-theme="forest"] .main,
+body[data-theme="forest"] .content{background:transparent}
+body[data-theme="forest"] .card,
+body[data-theme="forest"] .item,
+body[data-theme="forest"] .field,
+body[data-theme="forest"] .modal,
+body[data-theme="forest"] .help-topic,
+body[data-theme="forest"] .profile-menu{
+  background:#b9e36a;
+  border-color:#a6d45b;
+  color:#203729;
+}
+body[data-theme="forest"] .btn,
+body[data-theme="forest"] .btn.soft,
+body[data-theme="forest"] .theme-switch,
+body[data-theme="forest"] .language-switch,
+body[data-theme="forest"] .help-trigger,
+body[data-theme="forest"] .profile-trigger{
+  background:#b9e36a;
+  border-color:#a6d45b;
+  color:#203729;
+}
+body[data-theme="forest"] .topbar,
+body[data-theme="forest"] .sidebar,
+body[data-theme="forest"] .mobile-nav{
+  background:#b9e36a;
+  border-color:#a6d45b;
+}
+body[data-theme="forest"] .nav,
+body[data-theme="forest"] .mobile-nav button{color:#315b2f}
+body[data-theme="forest"] .nav.active,
+body[data-theme="forest"] .mobile-nav button.active{
+  background:#a6d45b;
+  color:#174d28;
+}
+body[data-theme="forest"] .field::placeholder{color:#45653c}
