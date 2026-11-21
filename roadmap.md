@@ -89,6 +89,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Abschließende QA-Runde: Passwortwechsel-Formular und Cloud-Anmeldebeschriftung in englischer Sprache korrigiert; Nutzer bestätigt die Anzeige nach erneutem Laden
 - [x] Abschließende QA-Runde: Neues Gerät mit Foto angelegt und gespeichert; Nutzer bestätigt erfolgreichen Ablauf
 - [x] Abschließende QA-Runde: Gerät gelöscht; Nutzer bestätigt erfolgreichen Ablauf
+- [x] Abschließende QA-Runde: Galerie-Foto in der Großbildansicht geöffnet, Vor-/Zurück-Navigation und Schließen erfolgreich geprüft (Nutzerbestätigung)
 - [x] Gesamten zentralen Ablauf (Registrierung, Bestätigung und erfolgreiche Anmeldung) mit Testkonto 2 erfolgreich durchlaufen
   - [x] Mit Testkonto abmelden und erneut anmelden
   - [x] Nach erneutem Login: Tagebucheinträge, Geräte und Galerie-Fotos weiterhin vorhanden
