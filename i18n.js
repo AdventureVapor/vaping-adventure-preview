@@ -80,6 +80,7 @@
     "Wechsle zwischen lokalem Spielstand und verschlüsselter Cloud. Exportiere zusätzlich ein Backup.":"Switch between local game data and encrypted cloud storage. You can also export a backup.",
     "AKTIV · VERSCHLÜSSELT":"ACTIVE · ENCRYPTED","Cloud-Konto:":"Cloud account:",
     "Spielstände werden vor dem Senden mit AES-GCM verschlüsselt. Dein Kennwort wird nur für die Anmeldung verwendet und bleibt im Arbeitsspeicher dieser Sitzung.":"Game data is encrypted with AES-GCM before being sent. Your password is only used to sign in and remains in this session's memory.",
+    "Deine Konto-ID und dein verschlüsselter Cloud-Spielstand bleiben erhalten.":"Your account ID and encrypted cloud save will remain unchanged.",
     "Zu lokalem Spielstand wechseln":"Switch to local game data","OPTIONAL · AES-GCM":"OPTIONAL · AES-GCM",
     "Verschlüsselte Cloud":"Encrypted cloud","Mit E-Mail-Adresse und Kennwort anmelden. Der Cloud-Spielstand ist vom lokalen Spielstand getrennt. Beim ersten Verbinden kannst du vorhandene lokale Daten verschlüsselt hochladen.":"Sign in with your email address and password. Cloud data is separate from local data. The first time you connect, you can upload your existing local data in encrypted form.",
     "Einmalige Einrichtung erforderlich: Supabase-Projekt konfigurieren. Siehe cloud-setup.md.":"One-time setup required: configure a Supabase project. See cloud-setup.md.",
