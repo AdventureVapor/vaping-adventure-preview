@@ -124,3 +124,46 @@
 /* Improve contrast of the overview hero button */
 .hero .btn{color:var(--green);background:#fff;border-color:#fff;font-weight:800}
 .hero .btn:hover{background:#edf3e9;border-color:#edf3e9}
+
+
+/* Version 1.4 – zweites Design: Forest & Nature */
+body[data-theme="forest"]{
+ --ink:#26372b;--muted:#718071;--line:#dce6d8;--paper:#f8fbf5;--bg:#edf3e9;
+ --green:#315c3e;--lime:#c8dcb5;--orange:#c58a58;--blue:#dce9d9;
+ --shadow:0 12px 36px #203b2812;
+ background:linear-gradient(145deg,#edf3e9 0%,#e7efe3 48%,#f3f5eb 100%);
+}
+body[data-theme="forest"] .topbar{background:#f7faf3;border-color:#d8e4d4}
+body[data-theme="forest"] .sidebar{border-color:#d8e4d4}
+body[data-theme="forest"] .nav{color:#657968}
+body[data-theme="forest"] .nav.active{color:#294d34;background:#dce9d8}
+body[data-theme="forest"] .sidebar-note{background:#dce9d8;color:#294d34}
+body[data-theme="forest"] .sidebar-note p{color:#5f7663}
+body[data-theme="forest"] .nav em,body[data-theme="forest"] .item-icon,
+body[data-theme="forest"] .pill,body[data-theme="forest"] .more-icon{background:#e5eee0;color:#49694d}
+body[data-theme="forest"] .btn{background:#f9fcf6;border-color:#d8e4d4}
+body[data-theme="forest"] .btn.primary{background:#315c3e;border-color:#315c3e;color:#fff}
+body[data-theme="forest"] .btn.soft{background:#e1ecdc;color:#315c3e}
+body[data-theme="forest"] .hero{background:linear-gradient(120deg,#294f36,#47734c);color:#fff}
+body[data-theme="forest"] .hero .eyebrow{color:#d1e1ca}
+body[data-theme="forest"] .hero p,body[data-theme="forest"] .hero-stat small{color:#e0eadc}
+body[data-theme="forest"] .card{background:var(--paper);border-color:#dfe8db}
+body[data-theme="forest"] .item{background:#f9fcf6;border-color:#dce6d8}
+body[data-theme="forest"] .field{background:#fbfdf9;border-color:#d6e2d2}
+body[data-theme="forest"] .field:focus{border-color:#719b73;box-shadow:0 0 0 3px #dcebd9}
+body[data-theme="forest"] .photo,body[data-theme="forest"] .gallery-thumb{background:#e3ecdf}
+body[data-theme="forest"] .progress{background:#dce8d7}
+body[data-theme="forest"] .progress i{background:#719b68}
+body[data-theme="forest"] .mobile-nav{background:#f7faf3f2;border-color:#d8e4d4}
+body[data-theme="forest"] .mobile-nav button{color:#718071}
+body[data-theme="forest"] .mobile-nav button.active{color:#315c3e}
+body[data-theme="forest"] .modal{background:#f9fcf6}
+body[data-theme="forest"] .help-topic{background:#f9fcf6;border-color:#dce6d8}
+body[data-theme="forest"] .language-switch,body[data-theme="forest"] .help-trigger{background:#f9fcf6;color:#315c3e;border-color:#dce6d8}
+body[data-theme="forest"] .profile-trigger{background:#dce9d8;color:#315c3e}
+body[data-theme="forest"] .profile-menu{background:#f9fcf6;border-color:#dce6d8}
+body[data-theme="forest"] .profile-menu .profile-state{background:#e5eee0;color:#315c3e}
+.theme-switch{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--green);font-size:10px;font-weight:700;white-space:nowrap}
+.theme-switch:hover{filter:brightness(.97)}
+body[data-theme="forest"] .theme-switch{background:#e1ecdc;border-color:#d2e0ce;color:#315c3e}
+@media(max-width:650px){.theme-switch{min-height:28px;padding:4px 7px;font-size:9px}}
