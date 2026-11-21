@@ -67,6 +67,8 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 ## Noch offen – Alpha 1.3
 
 ### Qualitätssicherung
+- [x] Doppelte Deklarationen von Hilfsfunktionen in app.js entfernt.
+- [x] Fehlende cloud-setup.md ergänzt und im README verlinkt; Supabase-/RLS-Einrichtung dokumentiert.
 - [x] Hilfebibliothek im Gast- und angemeldeten Modus geprüft
   - [x] Gastmodus: Hilfebibliothek öffnen und englische Suche testen
   - [x] Angemeldeter Modus: Hilfebibliothek öffnen und englische Suche testen
@@ -144,11 +146,11 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 ## Technischer Stand
 
 - **Preview-Repository:** `AdventureVapor/vaping-adventure-preview`
-- **Preview-Branch:** `main`
+- **Preview-Branch:** `main` (Ausgangsstand); vorbereitender QA-Branch: `release-1.3-qa-prep`
 - **Produktions-Repository:** `AdventureVapor/vaping-adventure`
 - **Produktionsbranch:** `main` – bleibt bis zur ausdrücklichen Freigabe unangetastet.
-- **Release-Kandidat:** noch nicht als separater Branch vorhanden; aktueller geprüfter Arbeitsstand liegt auf `main` der Preview
-- **Pull Request:** derzeit kein offener PR gefunden; vor Veröffentlichung gegebenenfalls einen Release-PR anlegen.
+- **Release-Kandidat:** `release-1.3-qa-prep` enthält vorbereitende Dokumentations- und Codebereinigungen; noch nicht in Preview `main` übernommen.
+- **Pull Request:** QA-Vorbereitungs-PR wird als Entwurf angelegt; keine Produktionsänderung.
 
 ---
 
