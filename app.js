@@ -147,6 +147,21 @@ async function logoutProfile(){
 }
 function go(p){page=p;updateNav();render();window.scrollTo(0,0)}
 
+const THEME_KEY="mva_theme";
+function applyTheme(){
+ const theme=localStorage.getItem(THEME_KEY)==="forest"?"forest":"classic";
+ document.body.dataset.theme=theme;
+ const button=$("#theme-switch");
+ if(button){button.textContent=theme==="forest"?"🌱 Original":"🌿 Natur";button.setAttribute("aria-pressed",String(theme==="forest"));button.setAttribute("aria-label",theme==="forest"?"Zum bisherigen Design wechseln":"Naturdesign aktivieren");}
+}
+document.addEventListener("click",e=>{
+ const button=e.target.closest("[data-theme-toggle]");
+ if(!button)return;
+ const next=document.body.dataset.theme==="forest"?"classic":"forest";
+ localStorage.setItem(THEME_KEY,next);
+ applyTheme();
+});
+
 document.addEventListener('click',e=>{
  const trigger=e.target.closest('#profile-trigger');
  const menu=$('#profile-menu');
@@ -210,5 +225,6 @@ function parseCsv(t){let delim=(t.split(/\r?\n/)[0].match(/;/g)||[]).length>=(t.
 function importCsv(e){let f=e.target.files[0];if(!f)return;f.text().then(t=>{let rows=parseCsv(t),h=rows.shift().map(x=>x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z]/g,''));csvPending=rows.map(r=>{let o={};h.forEach((k,i)=>o[k]=r[i]||'');let pick=(...keys)=>keys.map(k=>o[k]).find(Boolean)||'';let notes=pick('notizen','notes','bemerkungen'),puffs=pick('puffs','zuege','anzahlzuege')||((notes.match(/(?:züge|zuege|puffs?)\s*[:=]?\s*(\d+)/i)||[])[1]||'');return {id:id(),date:pick('datum','date'),time:pick('uhrzeit','zeit','time'),category:pick('kategorie','category')||'vaporizer',device:pick('geraet','gerat','device'),strain:pick('sorte','strain','material'),duration:pick('dauer','duration'),puffs,notes,temp:pick('temperatur','temp'),location:pick('ort','location'),taste:pick('geschmack','taste')}}).filter(x=>x.device||x.date||x.notes);const normCsvValue=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/\s+/g,' ').toLowerCase();let csvFields=['date','time','category','device','duration','puffs','strain','temp','location','taste','notes'];let fingerprint=x=>csvFields.map(k=>normCsvValue(k==='category'?(x[k]||'vaporizer'):x[k])).join('¦');let dup=x=>db.entries.some(y=>fingerprint(y)===fingerprint(x));$('#csv-preview').innerHTML=`<p class="subheading">${csvPending.length} erkannt · ${csvPending.filter(x=>!dup(x)).length} neu · ${csvPending.filter(dup).length} mögliche Duplikate. ${csvPending.slice(0,10).map(x=>`<br>${esc(x.date)} · ${esc(x.device)} ${dup(x)?'· Duplikat':''}`).join('')}</p><button class="btn primary" id="csv-commit" ${csvPending.filter(x=>!dup(x)).length?'':'disabled'}>Neue Einträge übernehmen</button>`;$('#csv-commit').onclick=()=>{csvPending.filter(x=>!dup(x)).forEach(x=>{db.entries.push(x);if(!db.devices.some(d=>d.name.toLowerCase()===x.device.toLowerCase()))db.devices.push({name:x.device,category:x.category})});put();render();toast('CSV importiert')}}).catch(()=>toast('CSV konnte nicht gelesen werden'))}
 function bindGlobal(){document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>{switch(b.dataset.action){case'new':entryForm();break;case'new-strain':strainForm();break;case'new-device':deviceForm();break;case'new-photo':photoForm();break;case'export-json':jsonExport();break;case'export-csv':csvExport();break;case'import-json':$('#json-file').click();break;case'cloud-login':cloudLogin(false);break;case'cloud-signup':cloudLogin(true);break;case'cloud-reset':sendPasswordReset();break;case'cloud-change-email':changeCloudEmail();break;case'cloud-change-password':changeCloudPassword();break;case'switch-local':switchLocal();break}});document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>entryForm(db.entries.find(x=>x.id===b.dataset.edit)));document.querySelectorAll('[data-delete-entry]').forEach(b=>b.onclick=()=>{if(confirm('Eintrag löschen?')){db.entries=db.entries.filter(x=>x.id!==b.dataset.deleteEntry);put();render()}});document.querySelectorAll('[data-edit-strain]').forEach(b=>b.onclick=()=>strainForm(db.strains.find(x=>x.id===b.dataset.editStrain)));document.querySelectorAll('[data-del-strain]').forEach(b=>b.onclick=()=>{db.strains=db.strains.filter(x=>x.id!==b.dataset.delStrain);put();render()});document.querySelectorAll('[data-edit-device]').forEach(b=>b.onclick=()=>deviceForm(db.devices.find(x=>x.name===b.dataset.editDevice)));document.querySelectorAll('[data-del-device]').forEach(b=>b.onclick=()=>{if(db.entries.some(x=>x.device===b.dataset.delDevice))return toast('Gerät wird noch verwendet');db.devices=db.devices.filter(x=>x.name!==b.dataset.delDevice);put();render()});document.querySelectorAll('[data-del-photo]').forEach(b=>b.onclick=()=>{db.photos=db.photos.filter(x=>x.id!==b.dataset.delPhoto);put();render()});document.querySelectorAll('[data-course]').forEach(b=>b.onclick=()=>courseView(courses.find(c=>c.id===b.dataset.course)));document.querySelectorAll('[data-claim]').forEach(b=>b.onclick=()=>{let q=questData.find(q=>q.id===b.dataset.claim);if(!q||db.game.quests.includes(q.id)||!q.check())return;db.game.quests.push(q.id);db.game.xp=(db.game.xp||0)+q.xp;db.game.coins=(db.game.coins||0)+q.coins;put();render()})}
 function newBoot(){db.entries=db.entries.map(e=>{let m=String(e.notes||'').match(/(?:anzahl\s*)?(?:züge|zuege|puffs?)\s*[:=]?\s*(\d+)/i);if(!e.puffs&&m)e.puffs=m[1];return e});put();render()}
+applyTheme();
 newBoot();
 handlePasswordRecovery();

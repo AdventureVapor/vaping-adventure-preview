@@ -146,12 +146,33 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 ## Spätere Ausbaustufe
 
-### Version 1.4 – Ideen / Planung
+### Version 1.4 – Entwicklungsplanung
+
+Die Entwicklung findet zunächst ausschließlich im Branch `development-1.4` des Preview-Repositories statt. Die öffentliche Produktionsversion bleibt unverändert. Änderungen werden erst nach Prüfung und ausdrücklicher Freigabe in Preview-`main` übernommen.
+
+#### 1. Optik und Design-Themen – aktueller Arbeitsschwerpunkt
+- [ ] Auswahl verschiedener Designs für die gesamte App (zunächst eine überschaubare Auswahl, später auf etwa 5–10 Themen erweiterbar)
+- [ ] Einheitliche Gestaltung aller Bereiche: Farben, Hintergründe, Schaltflächen, Karten, Menüs und Eingabefelder
+- [ ] Design-Auswahl direkt in der App mit Vorschau ermöglichen
+- [ ] Gewähltes Design dauerhaft pro Benutzer speichern und nach erneutem Login bzw. auf anderen Geräten wiederherstellen
+- [ ] Lesbarkeit, Kontraste und Bedienbarkeit in jedem Design sicherstellen
+
+#### 2. Gästebuch
+- [ ] Öffentliches Gästebuch für Besucher einführen
+- [ ] Einträge mit Name, Datum und Nachricht ermöglichen
+- [ ] Einträge vor Veröffentlichung moderieren können bzw. unerwünschte Einträge löschen
+- [ ] Spam-Schutz und Schutz vor missbräuchlichen Inhalten vorsehen
+- [ ] Festlegen, welche Angaben öffentlich sichtbar sind und welche Verwaltungsrechte nur dem Betreiber zustehen
+
+#### 3. Französische Sprache
+- [ ] Französisch als zusätzliche Sprache ergänzen
+- [ ] Französische Flagge und Sprachwahl integrieren
+- [ ] App-Oberfläche und Hilfebibliothek vollständig ins Französische übersetzen
+- [ ] Gewählte Sprache dauerhaft speichern
+- [ ] Sprachwechsel und Übersetzungen in allen Bereichen prüfen
+
+#### Weitere Idee für Version 1.4
 - [ ] Individuelle Registrierungs-/Bestätigungsmail gestalten (Absendername, Betreff, Text, Logo/Branding und Gestaltung; abhängig von Supabase-/SMTP-Anbieter)
-- [ ] Französische Sprache ergänzen
-- [ ] Französische Flagge und Übersetzungen integrieren
-- [ ] Gewählte Sprache dauerhaft speichern und Sprachwechsel prüfen
-- [ ] Individuelle Darstellung der gesamten App über auswählbare Design-Themen (zunächst eine kleine Auswahl, später erweiterbar auf etwa 5–10 Themen); Vorschau und dauerhafte Speicherung der Auswahl
 
 ## Technischer Stand
 
