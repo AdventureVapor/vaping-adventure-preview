@@ -131,6 +131,15 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] CHANGELOG.md für Alpha 1.3 Release Candidate ergänzt
   - [x] App-Skript verwendet den aktualisierten Cache-Parameter für den CSV-Fix; Release bleibt ausdrücklich RC bis zur finalen Freigabe
 - [ ] Alpha-1.3-Qualitätssicherung abschließen – letzte Release-Prüfungen und Sicherheitsprüfung stehen noch aus
+- [x] Nach Merge der QA-Vorbereitung in Preview-main: Anmeldung erfolgreich geprüft
+- [x] Nach Merge: vorhandene Tagebucheinträge sichtbar
+- [x] Nach Merge: Geräte und gespeicherte Fotos vorhanden
+- [x] Nach Merge: Galerie zeigt gespeicherte Bilder; Bilder lassen sich öffnen
+- [x] Nach Merge: Sprachwechsel Deutsch/Englisch und sichtbare Beschriftungen geprüft
+- [x] Nach Merge: „Speicher & Backup“ zeigt Cloud-Konto und Sicherungsfunktionen
+- [x] Nach Merge: JSON-Backup-Download erfolgreich gestartet und Datei heruntergeladen (Nutzerbestätigung)
+- [ ] Nach Merge: CSV-Export erneut prüfen
+- [ ] Nach Merge: weitere noch offene Regressionstests und vollständige Sicherheitsprüfung
 - [ ] Produktionsübernahme vorbereiten – erst nach Abschluss der Release-Prüfungen
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
 
@@ -146,11 +155,11 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 ## Technischer Stand
 
 - **Preview-Repository:** `AdventureVapor/vaping-adventure-preview`
-- **Preview-Branch:** `main` (Ausgangsstand); vorbereitender QA-Branch: `release-1.3-qa-prep`
+- **Preview-Branch:** `main`; QA-Vorbereitungsbranch `release-1.3-qa-prep` wurde per PR #1 in `main` übernommen
 - **Produktions-Repository:** `AdventureVapor/vaping-adventure`
 - **Produktionsbranch:** `main` – bleibt bis zur ausdrücklichen Freigabe unangetastet.
-- **Release-Kandidat:** `release-1.3-qa-prep` enthält vorbereitende Dokumentations- und Codebereinigungen; noch nicht in Preview `main` übernommen.
-- **Pull Request:** QA-Vorbereitungs-PR wird als Entwurf angelegt; keine Produktionsänderung.
+- **Release-Kandidat:** QA-Vorbereitungsänderungen sind in Preview `main` enthalten (Merge-Commit `491971abdf6afbcacfb3e8f72b9959886203e0bc`).
+- **Pull Request:** Preview-PR #1 wurde gemergt; Produktions-Repository und Produktionsbranch wurden nicht verändert.
 
 ---
 
