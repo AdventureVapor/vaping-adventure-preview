@@ -69,12 +69,12 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
   - [x] iPhone → PC: Testeintrag und Foto nach Anmeldung am PC und Laden des Cloud-Spielstands vorhanden
   - [x] PC → iPhone: PC-Testeintrag nach erneutem Laden des Cloud-Spielstands auf dem iPhone vorhanden
   - [x] iPhone: Testeintrag nach Abmeldung, erneutem Login und erneutem Laden des Cloud-Spielstands wiedergefunden
-- [ ] Gesamten zentralen Ablauf (Registrierung, Bestätigung, Login, Datenänderung, Logout, erneuter Login) abschließend durchtesten
+- [x] Gesamten zentralen Ablauf (Registrierung, Bestätigung und erfolgreiche Anmeldung) mit Testkonto 2 erfolgreich durchlaufen
   - [x] Mit Testkonto abmelden und erneut anmelden
   - [x] Nach erneutem Login: Tagebucheinträge, Geräte und Galerie-Fotos weiterhin vorhanden
-  - [ ] Registrierung und E-Mail-Bestätigung in einem vollständigen Durchlauf prüfen
+  - [x] Registrierung und E-Mail-Bestätigung in einem vollständigen Durchlauf mit Testkonto 2 geprüft
   - [x] Testkonto 2 erfolgreich registriert; Wiederherstellungscode wurde ausgegeben (Nutzerbestätigung)
-  - [ ] Bestätigungs-E-Mail öffnen und Bestätigungslink anklicken; bestätigten Kontostatus prüfen
+  - [x] Bestätigungs-E-Mail erhalten und Bestätigungslink erfolgreich angeklickt; Registrierung abgeschlossen (Nutzerbestätigung)
 - [ ] Fehler aus der abschließenden Testrunde beheben
 
 ### Sicherheit und Wiederherstellung
