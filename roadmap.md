@@ -199,6 +199,28 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Redundanten Text neben dem Logo entfernt; nur der lokalisierte Tagebuch-Untertitel bleibt sichtbar
 - [ ] Abschließende Sichtprüfung durch den Nutzer auf verschiedenen iPhone-Größen und am Desktop
 
+### 11. Kontaktformular – geplant
+
+- [ ] Kontaktformular als eigene, leicht auffindbare Funktion in My Vaping Adventure vorsehen
+- [ ] Zweck, Empfänger und mögliche Anfragen vor Umsetzung festlegen
+- [ ] Erforderliche Felder datensparsam gestalten (z. B. Betreff und Nachricht; Kontaktdaten nur soweit für eine Antwort erforderlich)
+- [ ] Serverseitige Validierung, Spam-Schutz und Missbrauchsschutz einplanen
+- [ ] Sichere Übermittlung und geschützte Verarbeitung der Nachrichten sicherstellen; keine geheimen Zugangsdaten im Frontend hinterlegen
+- [ ] Datenschutzhinweise am Formular ergänzen und Speicher-/Löschfristen festlegen
+- [ ] Verständliche Erfolgs- und Fehlermeldungen sowie barrierearme Bedienung vorsehen
+- [ ] Kontaktformular in Deutsch, Englisch und Französisch anbieten
+- [ ] Versand, Datenschutz, Spam-Schutz und Darstellung auf Desktop und iPhone testen
+
+### 12. Bereich „Kontrolliertes Vapen“ mit Wochenzielen – Konzept folgt
+
+- [ ] Eigenständigen Bereich „Kontrolliertes Vapen“ konzipieren und in Version 1.4 einplanen
+- [ ] Wochenziele und einen nachvollziehbaren Wochenfortschritt als zentrales Element vorsehen
+- [ ] Ziele, Ablauf, Auswertung, Erinnerungen und mögliche Anpassungen erst anhand der vom Nutzer angekündigten Informationen konkret festlegen
+- [ ] Nutzerbestimmte Ziele und Fortschritte datensparsam und geschützt speichern
+- [ ] Keine medizinischen Versprechen oder pauschalen Empfehlungen zur Nikotinmenge bzw. Dosierung geben
+- [ ] Gesundheits- und Sicherheitsinformationen ausgewogen darstellen und bei Bedarf auf professionelle Unterstützung verweisen
+- [ ] Sprachversionen und Bedienbarkeit auf Desktop und iPhone berücksichtigen
+
 ### 7. Vape-Akademie mit sieben Lernleveln – geplant
 
 - [ ] Den bisherigen Lernbereich zu einer fortlaufenden Vape-Akademie mit sieben aufeinander aufbauenden Levels erweitern
