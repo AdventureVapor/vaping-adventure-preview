@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>Neue E-Mail-Adresse bestätigen</title>
+  <style>
+    @media screen and (max-width:620px) {
+      .email-shell{width:100% !important}
+      .content-cell{padding:28px 22px !important}
+      .header-cell{padding:25px 18px !important}
+      .footer-cell{padding:22px 18px !important}
+      .cta{display:block !important;text-align:center !important}
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f5f5f0;font-family:Arial,Helvetica,sans-serif;color:#202b28;">
+  <div style="display:none;font-size:1px;color:#f5f5f0;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">KONTO-SICHERHEIT</div>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;background-color:#f5f5f0;">
+    <tr><td align="center" style="padding:28px 12px;">
+      <table role="presentation" class="email-shell" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;max-width:600px;border-collapse:separate;border-spacing:0;background-color:#ffffff;border-radius:14px;overflow:hidden;">
+        <tr><td class="header-cell" align="center" bgcolor="#315b4a" style="padding:30px 24px;background-color:#315b4a;">
+          <img src="https://raw.githubusercontent.com/AdventureVapor/vaping-adventure/main/Bilder/logo.png" width="112" alt="My Vaping Adventure" border="0" style="display:block;width:112px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none;">
+        </td></tr>
+        <tr><td class="content-cell" style="padding:38px 42px 34px;background-color:#ffffff;">
+          <p style="margin:0 0 10px;font-size:12px;line-height:18px;font-weight:bold;letter-spacing:1.2px;text-transform:uppercase;color:#6b806f;">KONTO-SICHERHEIT</p>
+          <h1 style="margin:0 0 20px;font-size:26px;line-height:34px;font-weight:700;letter-spacing:-0.4px;color:#202b28;">Neue E-Mail-Adresse bestätigen</h1>
+          <div style="font-size:15px;line-height:25px;color:#46534b;"><p style="margin:0 0 14px;">Hallo!</p><p style="margin:0 0 14px;">für dein My-Vaping-Adventure-Konto wurde eine Änderung der E-Mail-Adresse angefordert. Bitte bestätige die Änderung über die Schaltfläche.</p><p style="margin:0;">Wenn du diese Änderung nicht selbst veranlasst hast, ignoriere diese Nachricht und ändere vorsichtshalber dein Kontopasswort.</p></div>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 22px;border-collapse:separate;">
+            <tr><td align="center" bgcolor="#315b4a" style="border-radius:8px;background-color:#315b4a;">
+              <a class="cta" href="{{ .ConfirmationURL }}" target="_blank" style="display:inline-block;padding:14px 22px;border:1px solid #315b4a;border-radius:8px;color:#ffffff;text-decoration:none;font-size:14px;line-height:18px;font-weight:bold;">E-Mail-Adresse bestätigen</a>
+            </td></tr>
+          </table>
+          <p style="margin:0;font-size:12px;line-height:19px;color:#77817b;">Falls der Button nicht funktioniert, kopiere diesen Link in deinen Browser:<br><a href="{{ .ConfirmationURL }}" style="color:#315b4a;text-decoration:underline;word-break:break-all;">Bestätigungslink öffnen</a></p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:28px;border-collapse:collapse;">
+            <tr><td style="border-top:1px solid #e8e9e3;padding-top:18px;font-size:12px;line-height:19px;color:#77817b;">Bestätige die Änderung nur, wenn du sie selbst angefordert hast. Gib diesen Link nicht an andere Personen weiter.</td></tr>
+          </table>
+        </td></tr>
+        <tr><td class="footer-cell" bgcolor="#eef2e9" style="padding:23px 42px;background-color:#eef2e9;">
+          <p style="margin:0 0 8px;font-size:12px;line-height:18px;font-weight:bold;color:#315b4a;">My Vaping Adventure</p>
+          <p style="margin:0;font-size:11px;line-height:18px;color:#68766c;">Diese Nachricht wurde automatisch von My Vaping Adventure versendet.</p>
+          <p style="margin:10px 0 0;font-size:11px;line-height:18px;color:#68766c;"><a href="mailto:myvapingadventure@gmail.com" style="color:#315b4a;text-decoration:underline;">myvapingadventure@gmail.com</a></p>
+        </td></tr>
+      </table>
+      <p style="margin:14px 0 0;font-size:10px;line-height:16px;color:#929a93;text-align:center;">Bitte antworte nicht direkt auf diese automatisch versendete Nachricht.</p>
+    </td></tr>
+  </table>
+</body>
+</html>
