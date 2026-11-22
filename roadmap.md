@@ -204,17 +204,19 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Redundanten Text neben dem Logo entfernt; nur der lokalisierte Tagebuch-Untertitel bleibt sichtbar
 - [ ] Abschließende Sichtprüfung durch den Nutzer auf verschiedenen iPhone-Größen und am Desktop
 
-### 11. Kontaktformular – geplant
+### 11. Kontaktformular – Basisversion umgesetzt, Praxistest offen
 
-- [ ] Kontaktformular als eigene, leicht auffindbare Funktion in My Vaping Adventure vorsehen
-- [ ] Zweck, Empfänger und mögliche Anfragen vor Umsetzung festlegen
-- [ ] Erforderliche Felder datensparsam gestalten (z. B. Betreff und Nachricht; Kontaktdaten nur soweit für eine Antwort erforderlich)
-- [ ] Serverseitige Validierung, Spam-Schutz und Missbrauchsschutz einplanen
-- [ ] Sichere Übermittlung und geschützte Verarbeitung der Nachrichten sicherstellen; keine geheimen Zugangsdaten im Frontend hinterlegen
-- [ ] Datenschutzhinweise am Formular ergänzen und Speicher-/Löschfristen festlegen
-- [ ] Verständliche Erfolgs- und Fehlermeldungen sowie barrierearme Bedienung vorsehen
-- [ ] Kontaktformular in Deutsch, Englisch und Französisch anbieten
-- [ ] Versand, Datenschutz, Spam-Schutz und Darstellung auf Desktop und iPhone testen
+- [x] Kontaktbereich als eigene Funktion in „Mehr“ integrieren
+- [x] Formularfelder für Name, Antwort-E-Mail, Thema, Betreff und Nachricht ergänzen
+- [x] Kontaktadresse `myvapingadventure@gmail.com` einbinden
+- [x] Kontaktformular in Deutsch, Englisch und Französisch anbieten
+- [x] Responsive Darstellung für Desktop und iPhone ergänzen
+- [x] Versandweg der Basisversion: Das Formular öffnet per `mailto:` das E-Mail-Programm mit vorbereiteter Nachricht; der Nutzer prüft und versendet die E-Mail selbst
+- [ ] Formular auf iPhone und Desktop praktisch testen (Öffnen des E-Mail-Programms und korrekt vorausgefüllte Empfänger-/Nachrichtenfelder)
+- [ ] Falls später ein direkter Versand ohne Öffnen eines E-Mail-Programms gewünscht ist: externen/serverseitigen E-Mail-Dienst mit sicherer Konfiguration, serverseitiger Validierung und Spam-Schutz prüfen
+- [ ] Datenschutzinformationen und gegebenenfalls Aufbewahrungs-/Löschregeln für eine spätere serverseitige Verarbeitung festlegen
+
+**Hinweis zur aktuellen Umsetzung:** Die Basisversion versendet keine Nachricht automatisch und speichert keine Formulardaten in My Vaping Adventure. Es werden keine E-Mail-Zugangsdaten im Frontend hinterlegt. Der praktische Funktionstest steht noch aus.
 
 ### 12. Bereich „Kontrolliertes Vapen“ mit Wochenzielen – Konzept folgt
 
