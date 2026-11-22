@@ -246,7 +246,7 @@
     "Warme Orange-, Korall- und Cremetöne":"Warm orange, coral and cream tones",
     "Dunkles Nachtblau mit leuchtendem Akzent":"Deep midnight blue with a bright accent",
     "Aktiv":"Active",
-    "Deine Auswahl wird auf diesem Gerät gespeichert.":"Your selection is saved on this device."
+    "Deine Auswahl wird auf diesem Gerät gespeichert.":"Your selection is saved on this device.",
     "Hilfe":"Help",
     "Hilfe-Bibliothek":"Help library",
     "Hilfe durchsuchen …":"Search help …",
