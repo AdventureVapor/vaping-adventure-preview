@@ -51,7 +51,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
   - [ ] Trennung zwischen privatem Profil und später öffentlich sichtbarem Profilbereich dokumentieren
   - [ ] Keine öffentlichen Profilfelder oder zusätzlichen personenbezogenen Angaben ohne spätere bewusste Entscheidung aktivieren
   - [ ] Bestehende Konten, Tagebücher und Cloud-Spielstände durch die Vorbereitungen unverändert lassen
-- [ ] Geräte-Bedienungsanleitungen: pro Gerät eine PDF (max. 1 MB) hinzufügen, austauschen oder entfernen können
+- [ ] Geräte-Bedienungsanleitungen: pro Gerät eine PDF (max. 3 MB) hinzufügen, austauschen oder entfernen können; anklickbarer PDF-Link direkt unter der jeweiligen Gerätekarte
 - [ ] PDF-Bedienungsanleitung in einem integrierten, responsiven Ansichtsfenster öffnen und auf iPhone/PC prüfen
 - [ ] PDF-Anleitungen in lokalem Spielstand, verschlüsselter Cloud-Synchronisierung sowie JSON-Backup berücksichtigen und Größen-/Speichergrenzen testen
 - [ ] Abschließende 1.4.1-Regression: Login, Tagebuch, Geräte, Galerie, Cloud-Synchronisierung, Backups und Sprachwechsel prüfen
