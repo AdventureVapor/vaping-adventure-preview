@@ -439,3 +439,41 @@ body[data-theme="forest"]::before,body[data-theme="forest"]::after{
     radial-gradient(ellipse 28% 20% at 43% 43%,rgba(232,255,222,.42) 0%,rgba(232,255,222,.16) 42%,transparent 74%),
     radial-gradient(ellipse 34% 24% at 72% 56%,rgba(232,255,222,.40) 0%,rgba(232,255,222,.14) 40%,transparent 72%);
 }
+
+
+/* V1.4.1 – deutlich sichtbare, gerichtete Dampfwolken */
+body::before,body::after{
+  z-index:2!important;
+  position:fixed!important;
+  pointer-events:none!important;
+  left:-30vw!important;
+  width:160vw!important;
+  height:54vh!important;
+  border-radius:0!important;
+  filter:blur(17px)!important;
+  opacity:.58!important;
+  background:
+    radial-gradient(ellipse 13% 28% at 12% 55%,rgba(255,255,255,.72) 0 34%,transparent 75%),
+    radial-gradient(ellipse 18% 36% at 27% 43%,rgba(255,255,255,.62) 0 32%,transparent 76%),
+    radial-gradient(ellipse 14% 30% at 43% 58%,rgba(255,255,255,.66) 0 34%,transparent 76%),
+    radial-gradient(ellipse 19% 38% at 61% 43%,rgba(255,255,255,.56) 0 32%,transparent 76%),
+    radial-gradient(ellipse 15% 31% at 79% 57%,rgba(255,255,255,.64) 0 33%,transparent 76%);
+  animation:vapor-drift-forward 34s linear infinite alternate!important;
+}
+body::before{top:7vh!important}
+body::after{top:52vh!important;opacity:.42!important;animation-duration:46s!important;animation-delay:-19s!important}
+body>header.topbar,body>.shell,body>nav.mobile-nav,body>#modal-root{
+  position:relative!important;
+  z-index:3!important;
+}
+body[data-theme="forest"]::before,body[data-theme="forest"]::after{
+  background:
+    radial-gradient(ellipse 13% 28% at 12% 55%,rgba(239,255,226,.78) 0 34%,transparent 75%),
+    radial-gradient(ellipse 18% 36% at 27% 43%,rgba(239,255,226,.68) 0 32%,transparent 76%),
+    radial-gradient(ellipse 14% 30% at 43% 58%,rgba(239,255,226,.72) 0 34%,transparent 76%),
+    radial-gradient(ellipse 19% 38% at 61% 43%,rgba(239,255,226,.62) 0 32%,transparent 76%),
+    radial-gradient(ellipse 15% 31% at 79% 57%,rgba(239,255,226,.70) 0 33%,transparent 76%);
+}
+@media(prefers-reduced-motion:reduce){
+ body::before,body::after{animation:none!important;opacity:.38!important}
+}
