@@ -258,6 +258,19 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Logo/Branding und Gestaltung der E-Mail bzw. des Bestätigungsbuttons anpassen
 - [ ] Vor Umsetzung die konkreten Möglichkeiten und Grenzen des Supabase-/SMTP-Mailanbieters prüfen
 
+### 10. Impressum und rechtliche Anbieterkennzeichnung – geplant
+
+- [ ] Prüfen, welche Impressumspflichten für My Vaping Adventure als öffentliche Web-App mit Benutzerkonten und Community-Funktionen gelten (insbesondere DDG und Medienstaatsvertrag)
+- [ ] Tatsächlichen Betreiber der Website und dessen Rechtsform eindeutig festlegen
+- [ ] Erforderliche Betreiberangaben zusammentragen: vollständiger Name, ladungsfähige Anschrift und erreichbare Kontaktmöglichkeit einschließlich E-Mail-Adresse
+- [ ] Prüfen, ob zusätzliche Angaben erforderlich sind (z. B. Register-/Umsatzsteuerangaben, Aufsichtsbehörde oder journalistisch-redaktionell verantwortliche Person)
+- [ ] Privatsphäre des Betreibers berücksichtigen und vor Veröffentlichung klären, ob eine geeignete alternative ladungsfähige Geschäfts-/Zustellanschrift rechtlich verwendet werden kann; keine erfundene Anschrift und keine ungeprüfte Adresse einer Wohneinrichtung verwenden
+- [ ] Impressum als eigene, dauerhaft erreichbare Seite erstellen und im Footer gut sichtbar mit „Impressum“ verlinken
+- [ ] Impressum klar von der Datenschutzerklärung trennen; beide Seiten gegenseitig sinnvoll erreichbar machen
+- [ ] Angaben und rechtliche Einordnung vor Veröffentlichung anhand der tatsächlichen Betreiber- und Angebotsdaten prüfen lassen; keine Platzhalter oder ungeprüften Angaben live schalten
+- [ ] Darstellung und Erreichbarkeit des Impressums auf Desktop und iPhone prüfen
+- [ ] Sprachversionen für Deutsch, Englisch und Französisch vorsehen; rechtlich maßgebliche Angaben vollständig und konsistent halten
+
 ### 9. Vorbereitung auf Benutzerprofile und Community – geplant
 
 - [ ] Anforderungen für ein erweitertes Benutzerprofil und das geplante Forum in Version 1.5/1.6 dokumentieren
