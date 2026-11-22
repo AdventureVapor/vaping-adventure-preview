@@ -612,3 +612,18 @@ body[data-theme="forest"]::before,body[data-theme="forest"]::after{
 .contact-aside h3{font:700 16px Manrope;margin:15px 0 7px}
 .contact-aside a{display:inline-block;margin-top:15px}
 @media(max-width:750px){.contact-layout{grid-template-columns:1fr}.contact-form{padding:15px}.contact-form .formgrid{grid-template-columns:1fr}.contact-form .formrow.full{grid-column:auto}.contact-actions{align-items:flex-start;flex-direction:column}.contact-aside{padding:16px}}
+
+
+/* Version 1.4.1 – Bedienungsanleitungen je Gerät */
+.manual-card-action{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.manual-upload{padding-top:14px;border-top:1px solid var(--line)}
+.manual-current{margin:4px 0;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.manual-remove{display:flex!important;flex-direction:row!important;align-items:center;gap:8px;color:var(--muted)!important;font-size:12px!important;font-weight:500!important}
+.manual-remove input{width:auto}
+.manual-backdrop{padding:12px}
+.manual-modal{width:min(1000px,100%);height:min(92dvh,900px);max-height:92dvh;display:flex;flex-direction:column;overflow:hidden;padding:16px}
+.manual-viewer-head{flex:0 0 auto;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.manual-viewer-head h2{margin:0;font-size:17px;overflow-wrap:anywhere}
+.manual-viewer-head .tagline{margin-top:4px}
+.manual-frame{display:block;flex:1 1 auto;width:100%;min-height:0;margin-top:12px;border:0;border-radius:8px;background:#f3f3f3}
+@media(max-width:650px){.manual-modal{height:calc(100dvh - 24px - env(safe-area-inset-bottom));max-height:none;padding:12px}.manual-frame{margin-top:9px}}
