@@ -207,6 +207,15 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Logo/Branding und Gestaltung der E-Mail bzw. des Bestätigungsbuttons anpassen
 - [ ] Vor Umsetzung die konkreten Möglichkeiten und Grenzen des Supabase-/SMTP-Mailanbieters prüfen
 
+### 8. Vorbereitung auf Benutzerprofile und Community – geplant
+
+- [ ] Anforderungen für ein erweitertes Benutzerprofil und das geplante Forum in Version 1.5/1.6 dokumentieren
+- [ ] Bestehende Supabase-Authentifizierung, Benutzer-IDs und Cloud-Datenspeicherung auf Erweiterbarkeit prüfen
+- [ ] Datenmodell für getrennte private Kontodaten und später öffentlich angezeigte Profilinformationen konzeptionell vorbereiten
+- [ ] Rollen- und Berechtigungsmodell für Gäste, angemeldete Cloudbenutzer und Moderation entwerfen
+- [ ] Sicherheitskonzept für private und öffentliche Inhalte einschließlich Supabase-RLS vorbereiten
+- [ ] Sicherstellen, dass die Erweiterung bestehende Konten, Tagebücher und Cloud-Spielstände nicht beeinträchtigt
+
 ### 7. Abschlussprüfung Version 1.4 – noch offen
 
 - [ ] Vollständige Sprachprüfung Deutsch, Englisch und Französisch
@@ -219,9 +228,36 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Regressionstests und Sicherheitsprüfung abschließen
 - [ ] Produktionsübernahme erst nach abgeschlossener QA und ausdrücklicher Freigabe
 
-## Version 1.5 – vorgemerkte Ideen
+## Version 1.5 – Benutzersystem und Startanimation
 
-### Startanimation „The First Puff“
+### Google-Anmeldung – geplant
+
+- [ ] Anmeldung und Registrierung mit Google-Konto als zusätzliche Option integrieren
+- [ ] Bestehende E-Mail-/Passwort-Anmeldung weiterhin anbieten
+- [ ] Sichere Kontoverknüpfung und Verhalten bei bereits vorhandenen Konten testen
+- [ ] OAuth-Weiterleitungsadressen für Preview und später Produktion konfigurieren
+- [ ] Anmeldung, Abmeldung, Passwort-/Kontowiederherstellung und Cloud-Datenerhalt mit Google-Testkonten prüfen
+
+### Erweiterte Benutzerprofile – geplant
+
+- [ ] Bestehende Supabase-Authentifizierung um ein eigenes Benutzerprofil je Cloudkonto erweitern
+- [ ] Nickname als öffentliche Kennung festlegen; Eindeutigkeit und Änderbarkeit definieren
+- [ ] Profilfelder vorsehen: Vorname, Nachname, Geburtsdatum, E-Mail-Adresse und Avatar/Profilbild
+- [ ] Optionale Homepage/Website-Adresse im Profil unterstützen
+- [ ] Optionale WhatsApp-Nummer als private Kontoinformation unterstützen
+- [ ] Für Homepage und WhatsApp-Nummer getrennte, freiwillige Sichtbarkeitseinstellungen vorsehen; standardmäßig privat
+- [ ] E-Mail-Adresse und Geburtsdatum als private Kontodaten behandeln; keine öffentliche Anzeige
+- [ ] Profilbild sicher speichern und Größen-/Dateitypgrenzen festlegen
+- [ ] Profilbearbeitung und Anzeige der eigenen Kontodaten vorsehen
+- [ ] Rollen und Berechtigungen als Grundlage für das spätere Forum vorbereiten
+- [ ] Google-Anmeldung über Supabase Auth (OAuth) vorbereiten und die Google-Cloud-OAuth-Konfiguration einrichten
+- [ ] E-Mail-/Passwort-Anmeldung als alternative Anmeldemethode beibehalten
+- [ ] Sicheres Verhalten bei bestehenden Konten, identischen E-Mail-Adressen und Kontoverknüpfung festlegen
+- [ ] Datenschutz, Einwilligung, Löschung und Aufbewahrung personenbezogener Daten prüfen
+- [ ] Bestehende Konten und bisherige Cloud-Daten bei der Erweiterung unverändert erhalten
+- [ ] Profil- und Berechtigungsstruktur in Preview mit mehreren Testkonten prüfen
+
+### Startanimation „The First Puff”
 
 - [ ] Aus dem ausgewählten My-Vaping-Adventure-Logo eine Startanimation entwickeln
 - [ ] Die Person im Logo führt die Vape zum Mund und nimmt einen Zug
@@ -233,6 +269,25 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Überspringen der Animation ermöglichen
 - [ ] Rücksicht auf reduzierte Animationen/„Bewegung reduzieren“ des Betriebssystems nehmen
 - [ ] Geeignete Logo-Datei mit transparentem Hintergrund (Alpha-Kanal) vorbereiten; die derzeitige Logo-Datei ist noch nicht als transparent bestätigt
+
+## Version 1.6 – My Vaping Adventure Forum
+
+### Community-Forum – geplant
+
+- [ ] Eigenständigen Forum-Bereich in My Vaping Adventure integrieren
+- [ ] Forum-Beiträge und Antworten für alle Besucher lesbar machen
+- [ ] Erstellen von Beiträgen und Antworten ausschließlich angemeldeten Cloudbenutzern erlauben
+- [ ] Vor dem Speichern jedes Beitrags eine gut sichtbare Sichtbarkeitsauswahl anbieten:
+  - [ ] „Für angemeldete Benutzer sichtbar“ – nur eingeloggte Cloudbenutzer können den Beitrag sehen
+  - [ ] „Öffentlich sichtbar“ – der Beitrag ist auch ohne Anmeldung sichtbar
+- [ ] Sichtbarkeit nach dem Speichern zuverlässig durch Datenbankregeln (RLS) absichern; private Beiträge dürfen nicht über direkte Datenbankabfragen oder APIs öffentlich abrufbar sein
+- [ ] Beiträge im Forum mit Nickname und freiwillig gewähltem Avatar/Profilbild des Verfassers anzeigen
+- [ ] E-Mail-Adresse, Geburtsdatum und weitere private Kontodaten niemals in Beiträgen oder öffentlichen Profilansichten offenlegen
+- [ ] Forum-Kategorien, Themenübersicht, Beitragsansicht und Antwortfunktion planen und umsetzen
+- [ ] Bearbeiten und Löschen eigener Beiträge sowie Moderationsmöglichkeiten festlegen
+- [ ] Spam-Schutz, Meldefunktion und angemessene Moderationsregeln prüfen
+- [ ] Berechtigungen und Sichtbarkeit mit Gastzugriff sowie mehreren angemeldeten Testkonten umfassend testen
+- [ ] Forum auf Desktop und iPhone responsiv gestalten
 
 ## Technischer Stand
 
