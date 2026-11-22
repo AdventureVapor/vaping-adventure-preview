@@ -146,6 +146,11 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 ## Version 1.4 – Umsetzung in Preview
 
+- [x] Kontaktbereich mit responsivem Kontaktformular in „Mehr“ integrieren
+- [x] Kontaktformular in Deutsch, Englisch und Französisch ergänzen
+- [x] Kontaktadresse `myvapingadventure@gmail.com` einbinden; Nachricht wird im Mailprogramm vorbereitet, geprüft und manuell versendet
+- [ ] Kontaktformular auf iPhone und Desktop praktisch testen
+
 Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die Produktionsversion 1.3 bleibt bis zum Abschluss der Qualitätssicherung und einer ausdrücklichen Freigabe unverändert.
 
 ### 1. Optik und Design-Themen – umgesetzt
