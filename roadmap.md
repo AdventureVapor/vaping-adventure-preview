@@ -199,6 +199,21 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Redundanten Text neben dem Logo entfernt; nur der lokalisierte Tagebuch-Untertitel bleibt sichtbar
 - [ ] Abschließende Sichtprüfung durch den Nutzer auf verschiedenen iPhone-Größen und am Desktop
 
+### 7. Kurs „Vom Rauchen zum Vapen“ – geplant
+
+- [ ] Eigenständigen Einsteigerkurs entwickeln, der erwachsene Raucher verständlich beim möglichen Umstieg von Tabakzigaretten auf E-Zigaretten begleitet
+- [ ] Grundlagen erklären: Verbrennung und Dampf, Unterschiede zwischen Tabakzigarette und E-Zigarette sowie Einordnung der gesundheitlichen Risiken
+- [ ] Klar und ausgewogen darauf hinweisen, dass Vapen nicht risikofrei ist und Nichtraucher sowie Minderjährige nicht zum Einstieg motiviert werden sollen
+- [ ] Gerätearten und ihre Bedienung erklären (Pod-Systeme, MTL-/DL-Geräte und nachfüllbare Systeme)
+- [ ] Grundlagen zu Liquids, Nikotinstärken, Nikotinsalzen und Aromen vermitteln; keine individuelle medizinische Dosierung empfehlen
+- [ ] Praktische Einstiegshilfe: passendes Einsteigergerät auswählen, Gerät befüllen, Coil wechseln und richtig laden
+- [ ] Häufige Anfängerfehler, Pflege, Reinigung, Auslaufen und sichere Aufbewahrung behandeln
+- [ ] Strategien für den schrittweisen Umstieg und den Umgang mit dem parallelen Rauchen (Dual Use) sachlich erläutern
+- [ ] Nikotinabhängigkeit, Entzug und Rückfallrisiken ansprechen und auf professionelle Unterstützung sowie evidenzbasierte Rauchstopp-Angebote verweisen
+- [ ] Kurs in übersichtliche Lektionen mit Lernzielen, Bildern/Illustrationen und kurzen Wissensprüfungen aufteilen
+- [ ] Kurs vollständig in Deutsch, Englisch und Französisch anbieten
+- [ ] Inhalte regelmäßig auf Aktualität, rechtliche Vorgaben und sachliche Ausgewogenheit prüfen
+
 ### 6. Individuelle Registrierungs- und Bestätigungsmails – noch offen
 
 - [ ] Absendername individuell festlegen
@@ -207,7 +222,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Logo/Branding und Gestaltung der E-Mail bzw. des Bestätigungsbuttons anpassen
 - [ ] Vor Umsetzung die konkreten Möglichkeiten und Grenzen des Supabase-/SMTP-Mailanbieters prüfen
 
-### 8. Vorbereitung auf Benutzerprofile und Community – geplant
+### 9. Vorbereitung auf Benutzerprofile und Community – geplant
 
 - [ ] Anforderungen für ein erweitertes Benutzerprofil und das geplante Forum in Version 1.5/1.6 dokumentieren
 - [ ] Bestehende Supabase-Authentifizierung, Benutzer-IDs und Cloud-Datenspeicherung auf Erweiterbarkeit prüfen
@@ -216,7 +231,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Sicherheitskonzept für private und öffentliche Inhalte einschließlich Supabase-RLS vorbereiten
 - [ ] Sicherstellen, dass die Erweiterung bestehende Konten, Tagebücher und Cloud-Spielstände nicht beeinträchtigt
 
-### 7. Abschlussprüfung Version 1.4 – noch offen
+### 8. Abschlussprüfung Version 1.4 – noch offen
 
 - [ ] Vollständige Sprachprüfung Deutsch, Englisch und Französisch
 - [ ] Registrierung, E-Mail-Bestätigung, Anmeldung und Passwort-Zurücksetzen erneut prüfen
