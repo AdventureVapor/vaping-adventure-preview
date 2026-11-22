@@ -80,6 +80,17 @@
         ["Wie sollten Liquids gelagert werden?",["Kindersicher und gemäß Kennzeichnung","Offen neben Lebensmitteln","In Getränkeflaschen"],0],
         ["Was ist bei unbekannter Flüssigkeit sinnvoll?",["Nicht verwenden und Kennzeichnung prüfen","Probieren","Mit anderen Liquids mischen"],0]
       ],disclaimer:"Allgemeine Produktinformation. Keine individuelle Nikotinberatung und keine Mischanleitung. Kennzeichnung, Sicherheitsdaten und örtliche Vorschriften beachten."},
+      {id:"nicotine-knowledge",title:"Nikotin verstehen",level:"Gesundheitswissen",description:"Lerne, wie Nikotin wirkt, warum es abhängig machen kann und welche Risiken und Warnzeichen wichtig sind.",lessons:[
+        "Nikotin ist ein psychoaktiver Stoff und kann abhängig machen. Es beeinflusst unter anderem das Belohnungssystem und kann kurzfristig Aufmerksamkeit, Puls und Blutdruck verändern.",
+        "Eine Abhängigkeit kann sich durch starkes Verlangen, Kontrollverlust und Entzugssymptome zeigen. Mögliche Entzugssymptome sind Reizbarkeit, Unruhe, Schlafprobleme und Konzentrationsschwierigkeiten.",
+        "Nikotinprodukte sind nicht für Minderjährige, Nichtraucher oder Schwangere geeignet. Bei Fragen zu Abhängigkeit oder Entzug können Arztpraxis, Apotheke und Suchtberatung unterstützen. Dieser Kurs gibt keine individuelle Dosierungsempfehlung."
+      ],questions:[
+        ["Kann Nikotin abhängig machen?",["Ja","Nein","Nur in Lebensmitteln"],0],
+        ["Was kann ein Entzug auslösen?",["Reizbarkeit und Unruhe","Garantiert bessere Konzentration","Keine Veränderungen"],0],
+        ["Wen soll dieser Kurs nicht zum Nikotinkonsum ermutigen?",["Minderjährige und Nichtraucher","Alle Erwachsenen","Nur Fachpersonal"],0],
+        ["Welche Unterstützung kann bei Abhängigkeit helfen?",["Suchtberatung und medizinische Fachpersonen","Ungeprüfte Internet-Tipps","Eigenmächtige Medikamentenänderung"],0],
+        ["Gibt dieser Kurs persönliche Nikotin-Dosierungen vor?",["Ja","Nein"],1]
+      ],disclaimer:"Allgemeine Gesundheitsinformation. Nikotin macht abhängig. Keine individuelle Dosierungs- oder Therapieempfehlung; bei Fragen professionelle Unterstützung nutzen."},
       {id:"troubleshooting-basics",title:"Fehlerbehebung für Einsteiger",level:"Grundlagen",description:"Ordne typische Probleme ein und lerne, wann du ein Gerät außer Betrieb nehmen solltest.",lessons:[
         "Bei fehlender Funktion zuerst einfache, sichere Punkte prüfen: Ist das Gerät eingeschaltet, geladen und korrekt zusammengesetzt? Die Anleitung erklärt die modellabhängigen Anzeigen und Sperren.",
         "Bei Leckage, ungewöhnlicher Hitze, beschädigtem Akku, verschmortem Geruch oder sichtbaren Schäden die Nutzung beenden. Gerät nicht öffnen oder eigenmächtig reparieren, wenn dies nicht ausdrücklich vorgesehen ist.",
@@ -170,6 +181,17 @@
         ["How should liquids be stored?",["Securely and according to the label","Open beside food","In drink bottles"],0],
         ["What should you do with an unknown liquid?",["Do not use it; check the label","Taste it","Mix it with other liquids"],0]
       ],disclaimer:"General product information. No personal nicotine advice or mixing instructions. Follow labels, safety information and local rules."},
+      {id:"nicotine-knowledge",title:"Understanding Nicotine",level:"Health Knowledge",description:"Learn how nicotine works, why it can cause dependence and which risks and warning signs matter.",lessons:[
+        "Nicotine is a psychoactive substance and can cause dependence. It affects the brain's reward system and can temporarily change attention, heart rate and blood pressure.",
+        "Dependence may involve strong cravings, loss of control and withdrawal symptoms. Possible symptoms include irritability, restlessness, sleep problems and difficulty concentrating.",
+        "Nicotine products are not suitable for minors, non-smokers or pregnant people. Healthcare professionals, pharmacists and addiction services can help with questions about dependence or withdrawal. This course gives no personal dosage advice."
+      ],questions:[
+        ["Can nicotine cause dependence?",["Yes","No","Only in food"],0],
+        ["What can withdrawal involve?",["Irritability and restlessness","Guaranteed better focus","No changes"],0],
+        ["Who should this course not encourage to use nicotine?",["Minors and non-smokers","All adults","Only professionals"],0],
+        ["What support may help with dependence?",["Addiction services and healthcare professionals","Unverified online tips","Changing medication without advice"],0],
+        ["Does this course provide personal nicotine dosages?",["Yes","No"],1]
+      ],disclaimer:"General health information. Nicotine is addictive. No individual dosage or treatment advice; seek professional support when needed."},
       {id:"troubleshooting-basics",title:"Troubleshooting for Beginners",level:"Basics",description:"Recognise common issues and learn when a device should be taken out of service.",lessons:[
         "If a device does not work, check simple safe points first: is it switched on, charged and assembled correctly? The manual explains model-specific indicators and locks.",
         "Stop using a device if it leaks, becomes unusually hot, has a damaged battery, smells burnt or shows visible damage. Do not open or repair it unless the manufacturer explicitly allows it.",
@@ -260,6 +282,17 @@
         ["Comment stocker les liquides ?",["En sécurité et selon l’étiquette","Ouverts près des aliments","Dans des bouteilles de boisson"],0],
         ["Que faire avec un liquide inconnu ?",["Ne pas l’utiliser et vérifier l’étiquette","Le goûter","Le mélanger à d’autres liquides"],0]
       ],disclaimer:"Information générale sur les produits. Pas de conseil individuel sur la nicotine ni de recette de mélange. Respecte les étiquettes et règles locales."},
+      {id:"nicotine-knowledge",title:"Comprendre la nicotine",level:"Connaissances santé",description:"Découvre le fonctionnement de la nicotine, son potentiel de dépendance et les risques et signes d’alerte.",lessons:[
+        "La nicotine est une substance psychoactive qui peut entraîner une dépendance. Elle agit notamment sur le système de récompense du cerveau et peut modifier temporairement l’attention, le rythme cardiaque et la tension artérielle.",
+        "La dépendance peut se manifester par une forte envie, une perte de contrôle et des symptômes de sevrage. Ceux-ci peuvent inclure irritabilité, agitation, troubles du sommeil et difficultés de concentration.",
+        "Les produits contenant de la nicotine ne conviennent pas aux mineurs, aux non-fumeurs ni aux personnes enceintes. Médecins, pharmaciens et services d’addictologie peuvent aider. Ce cours ne donne aucun conseil individuel de dosage."
+      ],questions:[
+        ["La nicotine peut-elle entraîner une dépendance ?",["Oui","Non","Uniquement dans les aliments"],0],
+        ["Que peut provoquer le sevrage ?",["Irritabilité et agitation","Une meilleure concentration garantie","Aucun changement"],0],
+        ["Qui ce cours ne doit-il pas encourager à utiliser de la nicotine ?",["Les mineurs et les non-fumeurs","Tous les adultes","Uniquement les professionnels"],0],
+        ["Quel soutien peut aider en cas de dépendance ?",["Services d’addictologie et professionnels de santé","Conseils Internet non vérifiés","Modifier seul un traitement"],0],
+        ["Ce cours donne-t-il des dosages individuels de nicotine ?",["Oui","Non"],1]
+      ],disclaimer:"Information générale sur la santé. La nicotine crée une dépendance. Aucun conseil individuel de dosage ou de traitement ; demande un accompagnement professionnel si nécessaire."}
       {id:"troubleshooting-basics",title:"Dépannage pour débutants",level:"Bases",description:"Identifie les problèmes courants et apprends quand arrêter d’utiliser un appareil.",lessons:[
         "Si l’appareil ne fonctionne pas, vérifie d’abord les points simples et sûrs : est-il allumé, chargé et correctement assemblé ? La notice explique les indicateurs et verrouillages propres au modèle.",
         "Arrête l’utilisation en cas de fuite, chaleur inhabituelle, batterie endommagée, odeur de brûlé ou dommage visible. N’ouvre pas et ne répare pas l’appareil sauf autorisation explicite du fabricant.",
