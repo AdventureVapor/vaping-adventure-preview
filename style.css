@@ -462,10 +462,18 @@ body::before,body::after{
 }
 body::before{top:7vh!important}
 body::after{top:52vh!important;opacity:.42!important;animation-duration:46s!important;animation-delay:-19s!important}
-body>header.topbar,body>.shell,body>nav.mobile-nav,body>#modal-root{
+/* Profil-Dropdown muss oberhalb des Inhaltsbereichs bleiben. */
+body>header.topbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:30!important;
+}
+body>.shell,body>nav.mobile-nav,body>#modal-root{
   position:relative!important;
   z-index:3!important;
 }
+.profile-wrap{position:relative;z-index:31}
+.profile-menu{z-index:32!important}
 body[data-theme="forest"]::before,body[data-theme="forest"]::after{
   background:
     radial-gradient(ellipse 13% 28% at 12% 55%,rgba(239,255,226,.78) 0 34%,transparent 75%),
