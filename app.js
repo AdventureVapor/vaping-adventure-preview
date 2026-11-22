@@ -244,7 +244,7 @@ function contact(v){
   e.preventDefault();
   if(!form.reportValidity())return;
   const name=$('#contact-name').value.trim(),email=$('#contact-email').value.trim(),topic=$('#contact-topic').value,subject=$('#contact-subject').value.trim(),message=$('#contact-message').value.trim();
-  const body=[message,'','---',t('contact.name')+': '+name,t('contact.email')+': '+email,t('contact.topic')+': '+topic].join('\\n');
+  const body=[message,'','---',t('contact.name')+': '+name,t('contact.email')+': '+email,t('contact.topic')+': '+topic].join('\n');
   const url='mailto:myvapingadventure@gmail.com?subject='+encodeURIComponent('[My Vaping Adventure] '+subject)+'&body='+encodeURIComponent(body);
   window.location.href=url;
   toast(t('contact.opening'));
