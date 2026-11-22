@@ -379,6 +379,7 @@
   "ABGESCHLOSSEN": "TERMINÉ",
   "Erledigt ✓": "Terminé ✓",
   "Du entscheidest, wo gespeichert wird.": "Vous choisissez où vos données sont enregistrées.",
+  "Wähle lokalen Speicher oder richte eine clientseitig verschlüsselte Cloud ein.": "Choisissez le stockage local ou configurez un cloud chiffré côté client.",
   "Speicher & Backup →": "Stockage et sauvegarde →",
   "Speicher & Backup": "Stockage et sauvegarde",
   "Akkusicherheit": "Sécurité des batteries",
