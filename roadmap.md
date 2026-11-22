@@ -492,3 +492,10 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Schaltflächen „Zurück“ und „Weiter“ mit Seitenzähler ergänzen
 - [x] Tastatur-Navigation mit Pfeiltasten links/rechts ergänzen
 - [ ] PDF-Ansicht und Seitennavigation mit echten Anleitungen auf Desktop und iPhone testen
+
+
+### PDF-Bedienungsanleitungen – Zoomsteuerung (Preview)
+- [x] Vergrößern und Verkleinern im integrierten PDF-Viewer ergänzen
+- [x] Zoomstufen von 50 % bis 300 % mit Rücksetzen auf 100 % anbieten
+- [x] Zoomsteuerung responsiv und mehrsprachig (DE/EN/FR) gestalten
+- [ ] Zoom und Seitennavigation mit echten Anleitungen auf Desktop und iPhone testen
