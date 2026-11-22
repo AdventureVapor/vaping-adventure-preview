@@ -256,7 +256,8 @@ const courses=[{id:'battery',title:'Akkusicherheit',level:'Grundlagen',xp:30,coi
  xp:40,coins:30,
  lessonsKey:[
   'course.smoking.lesson1','course.smoking.lesson2','course.smoking.lesson3',
-  'course.smoking.lesson4','course.smoking.lesson5','course.smoking.lesson6'
+  'course.smoking.lesson4','course.smoking.lesson5','course.smoking.lesson6',
+  'course.smoking.lesson7','course.smoking.lesson8'
  ],
  questionsKey:[
   ['course.smoking.q1',['course.smoking.q1a','course.smoking.q1b','course.smoking.q1c'],1],
