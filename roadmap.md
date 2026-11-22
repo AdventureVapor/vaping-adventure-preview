@@ -504,3 +504,24 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Zoomstufen von 50 % bis 300 % mit Rücksetzen auf 100 % anbieten
 - [x] Zoomsteuerung responsiv und mehrsprachig (DE/EN/FR) gestalten
 - [x] Zoom und Seitennavigation vom Nutzer erfolgreich getestet
+
+
+## Version 1.4.1 – Kontrolliertes Vapen
+
+### Phase 1: Bestandsaufnahme – in Preview umgesetzt, Praxistest offen
+- [x] Eigenen Bereich „Kontrolliertes Vapen“ in der Navigation freigeschaltet
+- [x] Phase 1 als reine Bestandsaufnahme angelegt – ohne vorgegebene Reduktionsziele
+- [x] Wochenübersicht nach Montag bis Sonntag und vier Zeitfenstern (0–6, 6–12, 12–18, 18–24 Uhr) umgesetzt
+- [x] Sessions automatisch aus den vorhandenen Tagebucheinträgen ermittelt (ein Tagebucheintrag = eine Session)
+- [x] Kategorien Vaporizer, E-Zigarette und Tabakheater getrennt ausgewiesen
+- [x] Tageswerte, Wochensummen, durchschnittliche Sessions pro Kalendertag und konsumfreie Tage automatisch berechnet
+- [x] Startdatum der Bestandsaufnahme speicherbar; 30-Tage-Zeitraum mit Fortschrittsanzeige
+- [x] Einträge ohne Uhrzeit werden in Tages- und Wochensummen berücksichtigt und separat ausgewiesen
+- [ ] Preview-Praxistest: Woche mit Tagebucheinträgen, Kategorien, Zeitfenstern und konsumfreien Tagen gegenrechnen
+- [ ] Startdatum speichern, Neuladen und Synchronisierung zwischen Geräten prüfen
+- [ ] Darstellung und Bedienung auf iPhone und Desktop prüfen
+
+### Phase 2: Zielsetzung – noch nicht Bestandteil von 1.4.1
+- [ ] Nach etwa einem Monat Bestandsaufnahme die Daten auswerten
+- [ ] Individuelle und realistische Ziele gemeinsam festlegen
+- [ ] Zielverlauf und Fortschritt auf Grundlage der dokumentierten Sessions abbilden
