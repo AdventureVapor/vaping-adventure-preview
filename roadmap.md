@@ -199,20 +199,22 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Redundanten Text neben dem Logo entfernt; nur der lokalisierte Tagebuch-Untertitel bleibt sichtbar
 - [ ] Abschließende Sichtprüfung durch den Nutzer auf verschiedenen iPhone-Größen und am Desktop
 
-### 7. Kurs „Vom Rauchen zum Vapen“ – geplant
+### 7. Kurs „Vom Rauchen zum Vapen“ – in Preview umgesetzt, QA offen
 
-- [ ] Eigenständigen Einsteigerkurs entwickeln, der erwachsene Raucher verständlich beim möglichen Umstieg von Tabakzigaretten auf E-Zigaretten begleitet
-- [ ] Grundlagen erklären: Verbrennung und Dampf, Unterschiede zwischen Tabakzigarette und E-Zigarette sowie Einordnung der gesundheitlichen Risiken
-- [ ] Klar und ausgewogen darauf hinweisen, dass Vapen nicht risikofrei ist und Nichtraucher sowie Minderjährige nicht zum Einstieg motiviert werden sollen
-- [ ] Gerätearten und ihre Bedienung erklären (Pod-Systeme, MTL-/DL-Geräte und nachfüllbare Systeme)
-- [ ] Grundlagen zu Liquids, Nikotinstärken, Nikotinsalzen und Aromen vermitteln; keine individuelle medizinische Dosierung empfehlen
-- [ ] Praktische Einstiegshilfe: passendes Einsteigergerät auswählen, Gerät befüllen, Coil wechseln und richtig laden
-- [ ] Häufige Anfängerfehler, Pflege, Reinigung, Auslaufen und sichere Aufbewahrung behandeln
-- [ ] Strategien für den schrittweisen Umstieg und den Umgang mit dem parallelen Rauchen (Dual Use) sachlich erläutern
-- [ ] Nikotinabhängigkeit, Entzug und Rückfallrisiken ansprechen und auf professionelle Unterstützung sowie evidenzbasierte Rauchstopp-Angebote verweisen
-- [ ] Kurs in übersichtliche Lektionen mit Lernzielen, Bildern/Illustrationen und kurzen Wissensprüfungen aufteilen
-- [ ] Kurs vollständig in Deutsch, Englisch und Französisch anbieten
-- [ ] Inhalte regelmäßig auf Aktualität, rechtliche Vorgaben und sachliche Ausgewogenheit prüfen
+- [x] Eigenständigen Einsteigerkurs für erwachsene Menschen, die bereits rauchen, in der Education-/Lernsektion ergänzt
+- [x] Sechs Lektionen zu den Grundlagen (Verbrennung und Aerosol), Zielgruppe und Risiken, Gerätearten, Liquids/Nikotin, sicherer Bedienung und Unterstützung beim Rauchstopp erstellt
+- [x] Sachliche Hinweise integriert: E-Zigaretten sind nicht risikofrei, Nikotin macht abhängig; Nichtraucher und Minderjährige sollen nicht anfangen
+- [x] MTL-/DL-Geräte und Pod-Systeme sowie Herstellerhinweise und kompatibles Zubehör behandelt
+- [x] Dual Use (paralleles Rauchen und Vapen) und professionelle Rauchstopp-Unterstützung angesprochen
+- [x] Wissenstest mit fünf Fragen und Bestehensgrenze von 80 Prozent integriert
+- [x] Kursfortschritt, Ergebnis und bestehendes XP-/Coin-Belohnungssystem eingebunden
+- [x] Vollständige Kursübersetzung für Deutsch, Englisch und Französisch ergänzt
+- [x] Kursansicht für Desktop und Mobilgeräte gestaltet
+- [ ] Sicht- und Funktionstest durch den Nutzer in Preview (Desktop und iPhone)
+- [ ] Quiz-Erfolg, Nichtbestehen, erneutes Absolvieren und Fortschrittsspeicherung prüfen
+- [ ] Sprachwechsel während des Kurses in Deutsch, Englisch und Französisch prüfen
+- [ ] Inhalte auf Aktualität, rechtliche Vorgaben und sachliche Ausgewogenheit gegenlesen
+- [ ] Optionale Illustrationen und zusätzliche Praxisbeispiele ergänzen
 
 ### 6. Individuelle Registrierungs- und Bestätigungsmails – noch offen
 
@@ -234,6 +236,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 ### 8. Abschlussprüfung Version 1.4 – noch offen
 
 - [ ] Vollständige Sprachprüfung Deutsch, Englisch und Französisch
+- [ ] Neuen Kurs „Vom Rauchen zum Vapen“ in DE/EN/FR, mit Quiz, Fortschrittsspeicherung und auf Desktop/iPhone prüfen
 - [ ] Registrierung, E-Mail-Bestätigung, Anmeldung und Passwort-Zurücksetzen erneut prüfen
 - [ ] Tagebuch, Geräte, Fotos und Galerie prüfen
 - [ ] Gästebuch einschließlich Moderationsablauf prüfen
