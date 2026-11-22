@@ -561,11 +561,13 @@
       right.insertBefore(button, right.firstChild);
     }
     // Always attach the handler: the switch already exists in index.html.
-    button.addEventListener("click", () => {
+    // onclick statt addEventListener: verhindert doppelte oder verlorene Handler
+    // und bleibt auch nach erneutem Rendern des Kopfbereichs funktionsfähig.
+    button.onclick = () => {
       language = language === "de" ? "en" : language === "en" ? "fr" : "de";
       localStorage.setItem("mva_language", language);
       apply();
-    });
+    };
     updateSwitch();
   }
 
