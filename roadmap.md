@@ -22,6 +22,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Dunkelgrünes zentrales E-Mail-Design und drei deutsche Supabase-Auth-Vorlagen erstellt
 - [x] Alle drei Vorlagen im Supabase-Dashboard eingefügt, Vorschau kontrolliert und gespeichert (Nutzerbestätigung)
 - [x] Sidebar-Platzhalter „Kontrolliertes Vapen“ ergänzt; noch ohne Funktion
+- [ ] Eigenständiges Education-Symbol im Stil des offiziellen App-Logos gestalten: Universität-/Campus-Motiv mit Universitätsmütze, einer vapenden Person und dem Schriftzug „My Vaping Education“; als Symbol für den Education-Bereich in Version 1.4.1 vorbereiten
 - [ ] Absendername, Absenderadresse und SMTP-Zustellung für die gestalteten Auth-Mails abschließend konfigurieren bzw. prüfen
 - [ ] Registrierung, Passwort-Reset und E-Mail-Änderung mit Testkonten vollständig durchtesten
 - [x] Registrierungs-/Confirm-Mail in der Vorschau geprüft: Gestaltung korrekt, offizielles Logo wird angezeigt (Nutzerbestätigung)
