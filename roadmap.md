@@ -223,6 +223,12 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
   - [ ] Level 6 – Profi: fortgeschrittene Verdampfertechnik, Selbstwickler und systematische Fehlerbehebung
   - [ ] Level 7 – Master: vertiefende Spezialthemen und umfassender Abschlusstest
 - [ ] Weitere geplante Kurse schrittweise ausarbeiten: Gerätekunde, Akkusicherheit, Coil/Watte/Verdampferpflege, Liquid-Wissen, Fehlerbehebung für Einsteiger und Nikotin verstehen
+- [ ] Zusätzlich folgende eigenständige Kurse entwickeln und in die passenden Lernlevel integrieren:
+  - [ ] **Aufbau einer E-Zigarette:** Komponenten, Strom- und Liquidweg, Verdampferkopf, Tank/Pod, Akku und Bedienung
+  - [ ] **Liquid selber mischen – der Rechenkurs:** Volumen, Mischungsverhältnisse und Prozentrechnung mit einem nachvollziehbaren Rechenweg; Sicherheit im Umgang mit Inhaltsstoffen. Keine Anleitung zum Umgang mit hochkonzentriertem Nikotin oder riskanten Konzentraten
+  - [ ] **Aufbau und Funktion eines Tabakerhitzers:** Heizelement, Tabaksticks, Luftführung, Temperatursteuerung und Unterschiede zur Verbrennungszigarette und E-Zigarette
+  - [ ] **Aufbau und Funktion eines Vaporizers:** Heizkammer, Temperaturregelung, Luftweg, Mundstück und Unterschiede zwischen Konduktion und Konvektion
+  - [ ] **Cannabis – Wirkungen und Nebenwirkungen:** sachliche Aufklärung zu möglichen akuten und längerfristigen Wirkungen, Nebenwirkungen, Risiken, Wechselwirkungen, Beeinträchtigung der Fahrtüchtigkeit und Warnzeichen; keine Konsumempfehlung oder individuelle medizinische Beratung
 - [ ] Bestehende Kursfortschritte und ältere Spielstände bei Einführung des Levelsystems erhalten und sicher migrieren
 - [ ] Freischaltlogik, Grenzfälle bei der 75-%-Berechnung, Wiederholungsversuche, Sprachwechsel und Synchronisierung mit mehreren Testkonten prüfen
 - [ ] Darstellung und Bedienung der Akademie auf Desktop und iPhone testen
