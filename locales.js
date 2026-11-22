@@ -1,9 +1,9 @@
 "use strict";
 /*
  * My Vaping Adventure – zentrale, schlüsselbasierte Übersetzungen.
- * Neue UI-Texte werden künftig mit data-i18n-key oder MVA_LOCALES.t()
- * übersetzt. Die bisherige Ersetzung deutscher Textfragmente bleibt
- * während der schrittweisen Migration als Rückwärtskompatibilität aktiv.
+ * Neue UI-Texte werden mit data-i18n-key oder MVA_LOCALES.t() übersetzt.
+ * Die bisherige Ersetzung deutscher Textfragmente bleibt während der
+ * schrittweisen Migration als Rückwärtskompatibilität aktiv.
  */
 (() => {
   const dictionaries = {
@@ -29,8 +29,7 @@
       "mobile.quests": "Quests",
       "mobile.more": "Mehr",
       "theme.button": "🎨 Design",
-      "help.button": "Hilfe"
-    },
+      "help.button": "Hilfe",
       "page.diary.eyebrow": "DEINE AUFZEICHNUNGEN",
       "page.diary.title": "Vaping Diary",
       "page.diary.description.local": "Deine Sessions und Eindrücke, lokal auf diesem Gerät gespeichert.",
@@ -93,7 +92,8 @@
       "learn.reward": "Belohnung: {xp} XP · {coins} Coins",
       "learn.viewResult": "Ergebnis ansehen",
       "learn.openCourse": "Kurs öffnen",
-      "learn.disclaimer": "Lerninhalte sind allgemeine Informationen und ersetzen keine Herstellerhinweise oder medizinische Beratung.",
+      "learn.disclaimer": "Lerninhalte sind allgemeine Informationen und ersetzen keine Herstellerhinweise oder medizinische Beratung."
+    },
     en: {
       "brand.tagline": "ADVENTURE · YOUR PRIVATE DIARY",
       "nav.section.personal": "YOUR SPACE",
@@ -116,8 +116,7 @@
       "mobile.quests": "Quests",
       "mobile.more": "More",
       "theme.button": "🎨 Design",
-      "help.button": "Help"
-    },
+      "help.button": "Help",
       "page.diary.eyebrow": "YOUR RECORDS",
       "page.diary.title": "Vaping Diary",
       "page.diary.description.local": "Your sessions and impressions, saved locally on this device.",
@@ -180,7 +179,8 @@
       "learn.reward": "Reward: {xp} XP · {coins} Coins",
       "learn.viewResult": "View result",
       "learn.openCourse": "Open course",
-      "learn.disclaimer": "Learning content is general information and does not replace manufacturer instructions or medical advice.",
+      "learn.disclaimer": "Learning content is general information and does not replace manufacturer instructions or medical advice."
+    },
     fr: {
       "brand.tagline": "ADVENTURE · VOTRE JOURNAL PRIVÉ",
       "nav.section.personal": "VOTRE ESPACE",
@@ -203,8 +203,7 @@
       "mobile.quests": "Missions",
       "mobile.more": "Plus",
       "theme.button": "🎨 Thème",
-      "help.button": "Aide"
-    }
+      "help.button": "Aide",
       "page.diary.eyebrow": "VOS NOTES",
       "page.diary.title": "Journal de vapotage",
       "page.diary.description.local": "Vos sessions et impressions, enregistrées localement sur cet appareil.",
@@ -267,14 +266,14 @@
       "learn.reward": "Récompense : {xp} XP · {coins} pièces",
       "learn.viewResult": "Voir le résultat",
       "learn.openCourse": "Ouvrir le cours",
-      "learn.disclaimer": "Ces contenus sont des informations générales et ne remplacent ni les consignes du fabricant ni un avis médical.",
+      "learn.disclaimer": "Ces contenus sont des informations générales et ne remplacent ni les consignes du fabricant ni un avis médical."
+    }
   };
-
   let language = "de";
   const getLanguage = () => language;
   const t = (key, params = {}) => {
     const template = dictionaries[language]?.[key] ?? dictionaries.de[key] ?? key;
-    return String(template).replace(/\{(\w+)\}/g, (_, name) =>
+    return String(template).replace(/\\{(\\w+)\\}/g, (_, name) =>
       Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : `{${name}}`);
   };
   const apply = (root = document) => {
@@ -307,7 +306,6 @@
       lang, { total: keys.length, missing: keys.filter(key => !dictionaries[lang][key]) }
     ]));
   };
-
   window.MVA_LOCALES = Object.freeze({ t, apply, setLanguage, getLanguage, audit });
   document.addEventListener("DOMContentLoaded", () => apply(document), { once: true });
   const observer = new MutationObserver(records => {
