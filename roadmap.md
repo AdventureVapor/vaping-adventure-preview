@@ -388,3 +388,18 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 ---
 
 *Die Roadmap wird während der Entwicklung fortgeschrieben. Bereits bestätigte Funktionen werden nicht erneut als offen geführt; noch nicht abschließend geprüfte Funktionen bleiben als QA-Punkte markiert.*
+
+### 13. Installierbare PWA für Windows-PC und iPhone – geplant
+
+- [ ] My Vaping Adventure als Progressive Web App (PWA) installierbar machen
+- [ ] Web-App-Manifest mit App-Name „My Vaping Adventure“, Kurzname, Beschreibung, Start-URL, passendem Theme-/Hintergrundfarbwert und eigenständigem Darstellungsmodus („standalone“) ergänzen
+- [ ] Eigenständige App-Symbole aus dem offiziellen My-Vaping-Adventure-Logo in geeigneten Größen und Formaten bereitstellen; zusätzlich iOS-taugliches Apple-Touch-Icon vorsehen
+- [ ] Windows-Installation über einen unterstützten Browser ermöglichen; die installierte App soll in einem eigenen Fenster ohne gewöhnliche Browserleisten starten
+- [ ] iPhone-Installation über Safari („Zum Home-Bildschirm“) unterstützen; iOS-spezifische Metadaten, Touch-Icon, Statusleisten-Darstellung und sichere Safe-Area-Abstände berücksichtigen
+- [ ] Service Worker und sinnvolle Cache-Strategie ergänzen, damit die App-Oberfläche zuverlässig lädt; private Tagebuch-, Profil- und Cloud-Daten niemals ungeschützt oder geräteübergreifend im öffentlichen Cache speichern
+- [ ] Offline-Verhalten klar definieren: statische App-Oberfläche gegebenenfalls offline bereitstellen, Cloud-Funktionen und Synchronisation bei fehlender Verbindung verständlich kennzeichnen und Änderungen erst nach erfolgreicher Synchronisation als gesichert anzeigen
+- [ ] Updates der installierten App zuverlässig ausrollen und Versionswechsel ohne Datenverlust ermöglichen
+- [ ] Installation und Start auf Windows-PC (mindestens aktuelle Browser mit PWA-Unterstützung) sowie iPhone/Safari prüfen; zusätzlich Anmeldung, Abmeldung, Cloud-Synchronisation, Tagebuch, Fotos, Navigation und Darstellung in beiden Umgebungen testen
+- [ ] Installationshinweise innerhalb der App bereitstellen, die je nach Gerät und Browser die passenden Schritte erklären
+- [ ] PWA-Funktion in Deutsch, Englisch und Französisch anbieten und auf Desktop sowie iPhone responsiv prüfen
+
