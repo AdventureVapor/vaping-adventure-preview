@@ -199,6 +199,34 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Redundanten Text neben dem Logo entfernt; nur der lokalisierte Tagebuch-Untertitel bleibt sichtbar
 - [ ] Abschließende Sichtprüfung durch den Nutzer auf verschiedenen iPhone-Größen und am Desktop
 
+### 7. Vape-Akademie mit sieben Lernleveln – geplant
+
+- [ ] Den bisherigen Lernbereich zu einer fortlaufenden Vape-Akademie mit sieben aufeinander aufbauenden Levels erweitern
+- [ ] Lernstufen: Level 1 „Newbie“, Level 2 „Anfänger“, Level 3 „Fortgeschrittener Anfänger“, Level 4 „Fortgeschritten“, Level 5 „Experte“, Level 6 „Profi“ und Level 7 „Master“
+- [ ] Level 1 ist von Anfang an frei zugänglich; höhere Levels bleiben bis zum erfolgreichen Aufstieg gesperrt
+- [ ] Pro Level mehrere thematisch zusammenhängende Kurse anbieten; Kurse höherer Levels vertiefen und ergänzen das Wissen aus vorherigen Levels
+- [ ] Für den Aufstieg mindestens 75 % der Kurse des aktuellen Levels abschließen (auf ganze Kurse aufrunden)
+- [ ] Erst nach Erreichen der Kursquote den Level-Abschlusstest freischalten
+- [ ] Level-Test mit mindestens 80 % richtigen Antworten bestehen, um das nächste Level freizuschalten
+- [ ] Nicht bestandene Tests dürfen wiederholt werden; bereits abgeschlossene Kurse und bestandene Level bleiben dauerhaft freigeschaltet
+- [ ] Fortschritt pro Kurs, Kursquote, Testergebnis und erreichtes Level im Benutzerkonto speichern und geräteübergreifend synchronisieren
+- [ ] Gesperrte Level und Kurse mit Vorschau anzeigen, damit der Lernpfad und die nächsten Lernziele sichtbar bleiben
+- [ ] Level-Abzeichen, Lernfortschritt und bestehendes XP-/Coin-System sinnvoll miteinander verbinden; XP allein darf keine Level freischalten
+- [ ] Alle Level, Kurse, Tests und Fortschrittsanzeigen in Deutsch, Englisch und Französisch anbieten
+- [ ] Lerninhalte sachlich und sicher gestalten: keine Werbung an Minderjährige oder Nichtraucher, keine individuellen Nikotin-/Dosierungsempfehlungen und klare Hinweise auf Gesundheitsrisiken
+- [ ] Kurszuordnung als erster Entwurf:
+  - [ ] Level 1 – Newbie: Grundlagen der E-Zigarette, Geräte-Grundlagen und der bestehende Kurs „Vom Rauchen zum Vapen“ (nur für erwachsene Raucher)
+  - [ ] Level 2 – Anfänger: Pod-Systeme, MTL/RDL/DL, Gerätetypen und grundlegende Liquidkunde
+  - [ ] Level 3 – Fortgeschrittener Anfänger: Coils, Watte, Verdampferpflege und typische Einsteigerfehler
+  - [ ] Level 4 – Fortgeschritten: Akkusicherheit, technische Grundlagen und sichere Gerätebedienung
+  - [ ] Level 5 – Experte: Liquid-Wissen, Inhaltsstoffe, Nikotin und vertiefte Fehlerdiagnose
+  - [ ] Level 6 – Profi: fortgeschrittene Verdampfertechnik, Selbstwickler und systematische Fehlerbehebung
+  - [ ] Level 7 – Master: vertiefende Spezialthemen und umfassender Abschlusstest
+- [ ] Weitere geplante Kurse schrittweise ausarbeiten: Gerätekunde, Akkusicherheit, Coil/Watte/Verdampferpflege, Liquid-Wissen, Fehlerbehebung für Einsteiger und Nikotin verstehen
+- [ ] Bestehende Kursfortschritte und ältere Spielstände bei Einführung des Levelsystems erhalten und sicher migrieren
+- [ ] Freischaltlogik, Grenzfälle bei der 75-%-Berechnung, Wiederholungsversuche, Sprachwechsel und Synchronisierung mit mehreren Testkonten prüfen
+- [ ] Darstellung und Bedienung der Akademie auf Desktop und iPhone testen
+
 ### 7. Kurs „Vom Rauchen zum Vapen“ – in Preview umgesetzt, QA offen
 
 - [x] Eigenständigen Einsteigerkurs für erwachsene Menschen, die bereits rauchen, in der Education-/Lernsektion ergänzt
