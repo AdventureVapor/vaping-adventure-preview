@@ -52,7 +52,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
   - [ ] Keine öffentlichen Profilfelder oder zusätzlichen personenbezogenen Angaben ohne spätere bewusste Entscheidung aktivieren
   - [ ] Bestehende Konten, Tagebücher und Cloud-Spielstände durch die Vorbereitungen unverändert lassen
 - [x] Geräte-Bedienungsanleitungen: pro Gerät eine PDF (max. 3 MB) hinzufügen, austauschen oder entfernen können; anklickbarer PDF-Link direkt unter der jeweiligen Gerätekarte
-- [x] PDF-Bedienungsanleitung im integrierten Ansichtsfenster öffnen; PDF.js-Seitenrendering, Scrollbereich sowie „Zurück“-/„Weiter“-Schaltflächen mit Seitenzähler und Pfeiltasten-Navigation umgesetzt; abschließender Gerätetest auf iPhone/PC steht noch aus
+- [x] PDF-Bedienungsanleitung im integrierten Ansichtsfenster öffnen; PDF.js-Seitenrendering, Scrollbereich sowie „Zurück“-/„Weiter“-Schaltflächen mit Seitenzähler und Pfeiltasten-Navigation umgesetzt und vom Nutzer erfolgreich getestet
 - [ ] PDF-Anleitungen in lokalem Spielstand, verschlüsselter Cloud-Synchronisierung sowie JSON-Backup berücksichtigen und Größen-/Speichergrenzen testen
 - [ ] Abschließende 1.4.1-Regression: Login, Tagebuch, Geräte, Galerie, Cloud-Synchronisierung, Backups und Sprachwechsel prüfen
 - [ ] Produktionsübernahme von 1.4.1 erst nach abgeschlossener QA und ausdrücklicher Freigabe
@@ -491,11 +491,11 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] PDF-Seiten einzeln im integrierten Viewer rendern
 - [x] Schaltflächen „Zurück“ und „Weiter“ mit Seitenzähler ergänzen
 - [x] Tastatur-Navigation mit Pfeiltasten links/rechts ergänzen
-- [ ] PDF-Ansicht und Seitennavigation mit echten Anleitungen auf Desktop und iPhone testen
+- [x] PDF-Ansicht und Seitennavigation mit echten Anleitungen erfolgreich vom Nutzer getestet
 
 
 ### PDF-Bedienungsanleitungen – Zoomsteuerung (Preview)
 - [x] Vergrößern und Verkleinern im integrierten PDF-Viewer ergänzen
 - [x] Zoomstufen von 50 % bis 300 % mit Rücksetzen auf 100 % anbieten
 - [x] Zoomsteuerung responsiv und mehrsprachig (DE/EN/FR) gestalten
-- [ ] Zoom und Seitennavigation mit echten Anleitungen auf Desktop und iPhone testen
+- [x] Zoom und Seitennavigation vom Nutzer erfolgreich getestet
