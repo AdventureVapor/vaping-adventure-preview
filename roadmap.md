@@ -485,3 +485,10 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Installationshinweise innerhalb der App bereitstellen, die je nach Gerät und Browser die passenden Schritte erklären
 - [ ] PWA-Funktion in Deutsch, Englisch und Französisch anbieten und auf Desktop sowie iPhone responsiv prüfen
 
+
+
+### PDF-Bedienungsanleitungen – Seitennavigation (Preview)
+- [x] PDF-Seiten einzeln im integrierten Viewer rendern
+- [x] Schaltflächen „Zurück“ und „Weiter“ mit Seitenzähler ergänzen
+- [x] Tastatur-Navigation mit Pfeiltasten links/rechts ergänzen
+- [ ] PDF-Ansicht und Seitennavigation mit echten Anleitungen auf Desktop und iPhone testen
