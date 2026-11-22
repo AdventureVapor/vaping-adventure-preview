@@ -485,3 +485,18 @@ body[data-theme="forest"]::before,body[data-theme="forest"]::after{
 @media(prefers-reduced-motion:reduce){
  body::before,body::after{animation:none!important;opacity:.38!important}
 }
+
+
+/* Desktop: Navigation bis an den linken Bildschirmrand führen */
+@media(min-width:651px){
+  .shell{
+    width:100%;
+    max-width:none;
+    margin:0;
+    grid-template-columns:225px minmax(0,1fr);
+  }
+  .sidebar{
+    padding-left:16px;
+    padding-right:16px;
+  }
+}
