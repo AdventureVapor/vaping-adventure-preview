@@ -560,16 +560,20 @@
       button.setAttribute("data-i18n-switch","");
       right.insertBefore(button, right.firstChild);
     }
-    // Always attach the handler: the switch already exists in index.html.
-    // onclick statt addEventListener: verhindert doppelte oder verlorene Handler
-    // und bleibt auch nach erneutem Rendern des Kopfbereichs funktionsfähig.
-    button.onclick = () => {
-      language = language === "de" ? "en" : language === "en" ? "fr" : "de";
-      localStorage.setItem("mva_language", language);
-      apply();
-    };
     updateSwitch();
   }
+
+  // Delegierter Listener auf document: funktioniert auch dann, wenn ein
+  // Framework oder ein späterer Render den Button-Inhalt neu aufbaut.
+  document.addEventListener("click", event => {
+    const button = event.target.closest?.("[data-i18n-switch]");
+    if (!button) return;
+    event.preventDefault();
+    event.stopPropagation();
+    language = language === "de" ? "en" : language === "en" ? "fr" : "de";
+    try { localStorage.setItem("mva_language", language); } catch (_) {}
+    apply();
+  }, true);
 
   const observer = new MutationObserver(records => {
     for (const record of records) {
