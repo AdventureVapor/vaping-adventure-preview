@@ -156,7 +156,10 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Passende Nur-Text-Fassungen für alle drei Auth-Anlässe ergänzt
 - [x] Supabase-Platzhalter `{{ .ConfirmationURL }}` in den HTML- und Textvorlagen für Aktionslinks vorgesehen
 - [x] Betreffvorschläge und konkrete Übernahmeschritte in `email-templates/README.md` dokumentiert
-- [ ] Vorlagen in den passenden Supabase-Dashboard-E-Mail-Editoren einrichten (noch nicht erfolgt)
+- [x] Vorlage „Confirm sign up“ im Supabase-Dashboard mit Betreff und dunkelgrüner HTML-Gestaltung eingefügt und vom Nutzer als gespeichert bestätigt
+- [x] Vorlage „Reset Password“ mit Betreff und dunkelgrüner HTML-Gestaltung in den Supabase-Editor eingefügt; Vorschau kontrolliert
+- [ ] Vorlage „Reset Password“ im Supabase-Dashboard speichern und Speichern bestätigen
+- [ ] Vorlage „Change Email Address“ im Supabase-Dashboard einrichten und speichern
 - [ ] Absendername, tatsächliche Absenderadresse, SMTP-Zustellung und Betreffzeilen final festlegen
 - [ ] Englische und französische Fassungen erstellen; sprachabhängige Zustellung technisch klären
 - [ ] Registrierung, Passwort-Reset und E-Mail-Änderung mit separaten Testkonten praktisch testen
