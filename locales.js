@@ -298,6 +298,7 @@
   const setLanguage = value => {
     language = ["de", "en", "fr"].includes(value) ? value : "de";
     apply(document);
+    window.MVA_ON_LANGUAGE_CHANGE?.(language);
     return language;
   };
   const audit = () => {
