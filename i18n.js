@@ -359,6 +359,8 @@
   "Eintrag speichern": "Enregistrer l’entrée",
   "Eintrag gespeichert": "Entrée enregistrée",
   "DEINE SAMMLUNG": "VOTRE COLLECTION",
+  "My Strain Collection": "Ma collection de variétés",
+  "Speichere Sortennamen und Notizen für deine Tagebucheinträge.": "Enregistrez les noms des variétés et vos notes dans votre journal.",
   "＋ Sorte hinzufügen": "＋ Ajouter une variété",
   "Noch keine Sorten": "Aucune variété pour le moment",
   "Sorte bearbeiten": "Modifier la variété",
