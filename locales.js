@@ -263,7 +263,10 @@
       "cloud.backupUnaffected": "Dein JSON-Backup bleibt davon unberührt. Wähle bewusst aus, welcher Spielstand maßgeblich sein soll.",
       "cloud.applyChoice": "Auswahl übernehmen",
       "cloud.localConfirm": "Wirklich den lokalen Spielstand hochladen? Der bisherige Cloud-Spielstand wird ersetzt.",
-      "device.selectOptional": "Gerät auswählen (optional)"
+      "device.selectOptional": "Gerät auswählen (optional)",
+      "confirm.cloudReplace": "Wirklich den lokalen Spielstand hochladen und den bisherigen Cloud-Spielstand ersetzen?",
+      "confirm.backupReplace": "Dieses Backup ersetzt alle aktuellen lokalen Daten. Fortfahren?",
+      "confirm.deleteEntry": "Eintrag löschen?"
     },
     en: {
       "brand.tagline": "ADVENTURE · YOUR PRIVATE DIARY",
@@ -521,7 +524,10 @@
       "cloud.backupUnaffected": "Your JSON backup is not affected. Choose carefully which save should be authoritative.",
       "cloud.applyChoice": "Apply selection",
       "cloud.localConfirm": "Really upload the local save? The existing cloud save will be replaced.",
-      "device.selectOptional": "Choose device (optional)"
+      "device.selectOptional": "Choose device (optional)",
+      "confirm.cloudReplace": "Really upload the local save and replace the existing cloud save?",
+      "confirm.backupReplace": "This backup will replace all current local data. Continue?",
+      "confirm.deleteEntry": "Delete entry?"
     },
     fr: {
       "brand.tagline": "ADVENTURE · VOTRE JOURNAL PRIVÉ",
@@ -779,7 +785,10 @@
       "cloud.backupUnaffected": "Votre sauvegarde JSON n’est pas concernée. Choisissez soigneusement la sauvegarde à conserver.",
       "cloud.applyChoice": "Appliquer le choix",
       "cloud.localConfirm": "Voulez-vous vraiment téléverser la sauvegarde locale ? La sauvegarde cloud actuelle sera remplacée.",
-      "device.selectOptional": "Choisir un appareil (facultatif)"
+      "device.selectOptional": "Choisir un appareil (facultatif)",
+      "confirm.cloudReplace": "Voulez-vous vraiment téléverser la sauvegarde locale et remplacer la sauvegarde cloud existante ?",
+      "confirm.backupReplace": "Cette sauvegarde remplacera toutes les données locales actuelles. Continuer ?",
+      "confirm.deleteEntry": "Supprimer cette entrée ?"
     }
   };
   let language = "de";
