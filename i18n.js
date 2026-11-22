@@ -237,6 +237,16 @@
     "Tagebucheinträge · ":"diary entries · ",
     "Öffnen →":"Open →",
 
+    "PERSONALISIERE DEIN ABENTEUER":"PERSONALIZE YOUR ADVENTURE",
+    "Design auswählen":"Choose a design",
+    "Wähle das Aussehen deiner persönlichen Vaping-Seite.":"Choose the look of your personal Vaping page.",
+    "Das bisherige vertraute Design":"The familiar original design",
+    "Sattes Hanfgrün und helles Blattgrün":"Rich hemp green and light leaf green",
+    "Meeresblau, Türkis und klare Flächen":"Ocean blue, turquoise and clean surfaces",
+    "Warme Orange-, Korall- und Cremetöne":"Warm orange, coral and cream tones",
+    "Dunkles Nachtblau mit leuchtendem Akzent":"Deep midnight blue with a bright accent",
+    "Aktiv":"Active",
+    "Deine Auswahl wird auf diesem Gerät gespeichert.":"Your selection is saved on this device."
     "Hilfe":"Help",
     "Hilfe-Bibliothek":"Help library",
     "Hilfe durchsuchen …":"Search help …",
