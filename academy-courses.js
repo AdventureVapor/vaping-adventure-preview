@@ -292,7 +292,7 @@
         ["Qui ce cours ne doit-il pas encourager à utiliser de la nicotine ?",["Les mineurs et les non-fumeurs","Tous les adultes","Uniquement les professionnels"],0],
         ["Quel soutien peut aider en cas de dépendance ?",["Services d’addictologie et professionnels de santé","Conseils Internet non vérifiés","Modifier seul un traitement"],0],
         ["Ce cours donne-t-il des dosages individuels de nicotine ?",["Oui","Non"],1]
-      ],disclaimer:"Information générale sur la santé. La nicotine crée une dépendance. Aucun conseil individuel de dosage ou de traitement ; demande un accompagnement professionnel si nécessaire."}
+      ],disclaimer:"Information générale sur la santé. La nicotine crée une dépendance. Aucun conseil individuel de dosage ou de traitement ; demande un accompagnement professionnel si nécessaire."},
       {id:"troubleshooting-basics",title:"Dépannage pour débutants",level:"Bases",description:"Identifie les problèmes courants et apprends quand arrêter d’utiliser un appareil.",lessons:[
         "Si l’appareil ne fonctionne pas, vérifie d’abord les points simples et sûrs : est-il allumé, chargé et correctement assemblé ? La notice explique les indicateurs et verrouillages propres au modèle.",
         "Arrête l’utilisation en cas de fuite, chaleur inhabituelle, batterie endommagée, odeur de brûlé ou dommage visible. N’ouvre pas et ne répare pas l’appareil sauf autorisation explicite du fabricant.",
