@@ -51,8 +51,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
   - [ ] Trennung zwischen privatem Profil und später öffentlich sichtbarem Profilbereich dokumentieren
   - [ ] Keine öffentlichen Profilfelder oder zusätzlichen personenbezogenen Angaben ohne spätere bewusste Entscheidung aktivieren
   - [ ] Bestehende Konten, Tagebücher und Cloud-Spielstände durch die Vorbereitungen unverändert lassen
-- [ ] Geräte-Bedienungsanleitungen: pro Gerät eine PDF (max. 3 MB) hinzufügen, austauschen oder entfernen können; anklickbarer PDF-Link direkt unter der jeweiligen Gerätekarte
-- [ ] PDF-Bedienungsanleitung in einem integrierten, responsiven Ansichtsfenster öffnen; Blob-URL-Darstellung und Scrollbereich verbessert; Anzeige auf iPhone/PC prüfen
+- [x] Geräte-Bedienungsanleitungen: pro Gerät eine PDF (max. 3 MB) hinzufügen, austauschen oder entfernen können; anklickbarer PDF-Link direkt unter der jeweiligen Gerätekarte
+- [x] PDF-Bedienungsanleitung im integrierten Ansichtsfenster öffnen; PDF.js-Seitenrendering, Scrollbereich sowie „Zurück“-/„Weiter“-Schaltflächen mit Seitenzähler und Pfeiltasten-Navigation umgesetzt; abschließender Gerätetest auf iPhone/PC steht noch aus
 - [ ] PDF-Anleitungen in lokalem Spielstand, verschlüsselter Cloud-Synchronisierung sowie JSON-Backup berücksichtigen und Größen-/Speichergrenzen testen
 - [ ] Abschließende 1.4.1-Regression: Login, Tagebuch, Geräte, Galerie, Cloud-Synchronisierung, Backups und Sprachwechsel prüfen
 - [ ] Produktionsübernahme von 1.4.1 erst nach abgeschlossener QA und ausdrücklicher Freigabe
