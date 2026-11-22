@@ -1,0 +1,14 @@
+My Vaping Adventure – Bitte bestätige deine E-Mail-Adresse
+
+Hallo!
+
+Schön, dass du bei My Vaping Adventure dabei bist. Bitte bestätige deine E-Mail-Adresse, damit du deine Registrierung abschließen und dein Konto nutzen kannst.
+
+E-Mail-Adresse bestätigen:
+{{ .ConfirmationURL }}
+
+Wenn du diese Registrierung nicht selbst gestartet hast, kannst du diese Nachricht ignorieren.
+
+My Vaping Adventure
+myvapingadventure@gmail.com
+Diese Nachricht wurde automatisch versendet.
