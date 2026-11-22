@@ -432,7 +432,17 @@
   "Keine Sorte angegeben": "Aucune variété indiquée",
   "Öffnen →": "Ouvrir →",
   "Senden": "Envoyer",
-  "Nachricht": "Message"
+  "Nachricht": "Message",
+  "PERSONALISIERE DEIN ABENTEUER": "PERSONNALISEZ VOTRE AVENTURE",
+  "Wähle das Aussehen deiner persönlichen Vaping-Seite.": "Choisissez l’apparence de votre page Vaping personnelle.",
+  "Das bisherige vertraute Design": "L’apparence habituelle",
+  "Sattes Hanfgrün und helles Blattgrün": "Vert chanvre intense et vert feuille clair",
+  "Meeresblau, Türkis und klare Flächen": "Bleu marin, turquoise et surfaces épurées",
+  "Warme Orange-, Korall- und Cremetöne": "Tons chauds orange, corail et crème",
+  "Dunkles Nachtblau mit leuchtendem Akzent": "Bleu nuit profond avec une touche lumineuse",
+  "Aktiv": "Actif",
+  "Deine Auswahl wird auf diesem Gerät gespeichert.": "Votre choix est enregistré sur cet appareil.",
+  "Wir unterstützen den:": "Nous soutenons :"
 };
   const reverse = Object.fromEntries(Object.entries(pairs).map(([de,en])=>[en,de]));
   let language = ["de","en","fr"].includes(localStorage.getItem("mva_language")) ? localStorage.getItem("mva_language") : "de";
