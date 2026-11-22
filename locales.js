@@ -273,7 +273,7 @@
   const getLanguage = () => language;
   const t = (key, params = {}) => {
     const template = dictionaries[language]?.[key] ?? dictionaries.de[key] ?? key;
-    return String(template).replace(/\\{(\\w+)\\}/g, (_, name) =>
+    return String(template).replace(/\{(\w+)\}/g, (_, name) =>
       Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : `{${name}}`);
   };
   const apply = (root = document) => {
