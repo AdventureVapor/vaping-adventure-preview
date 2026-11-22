@@ -665,3 +665,25 @@ body[data-theme="forest"]::before,body[data-theme="forest"]::after{
 .edu-table th{background:#eaf0e8;color:var(--green);font-weight:700}
 .edu-table tbody tr:nth-child(even){background:#fafbf8}
 @media(max-width:650px){.edu-lesson{padding:15px 13px;margin:14px 0}.edu-lesson-head h3{font-size:15px}.edu-illustration{padding:7px 3px}.edu-illustration svg{min-width:560px;max-height:190px}.edu-illustration{overflow-x:auto}.edu-course-banner{padding:17px}.edu-course-banner p{font-size:19px}}
+
+/* Version 1.4.1 – Kontrolliertes Vapen: Phase 1 Bestandsaufnahme */
+.cv-intro{margin:22px 0;padding:22px}
+.cv-intro>p{font-size:13px;line-height:1.6;color:var(--muted)}
+.cv-start-row{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-top:16px}
+.cv-start-row .formrow{min-width:min(260px,100%)}
+.cv-progress{margin-top:18px;display:grid;gap:9px}
+.cv-week-row{align-items:end;margin:26px 0 14px}
+.cv-week-row h3{font:700 16px Manrope;margin:0 0 6px}
+.cv-week-row .formrow{min-width:190px}
+.cv-stats{margin-bottom:16px}
+.cv-table-card{padding:12px;overflow:hidden}
+.cv-table-wrap{width:100%;overflow-x:auto}
+.cv-table{width:100%;border-collapse:collapse;min-width:760px;font-size:11px}
+.cv-table th,.cv-table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.cv-table thead th{font-size:10px;color:var(--muted);background:var(--bg)}
+.cv-table td.cv-num{text-align:center;font-variant-numeric:tabular-nums}
+.cv-table td.cv-total,.cv-table th:last-child{background:var(--blue);font-weight:800}
+.cv-table .cv-day-total td{border-top:2px solid var(--green);background:var(--bg)}
+.cv-table .cv-day-total td.cv-total{background:var(--blue)}
+.cv-note{line-height:1.65;margin:12px 2px 20px}
+@media(max-width:650px){.cv-intro{padding:16px}.cv-week-row{align-items:stretch;flex-direction:column}.cv-week-row .formrow{width:100%}.cv-table-card{padding:8px}.cv-table{min-width:720px}}
