@@ -230,15 +230,29 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 
 ## Version 1.5 – Benutzersystem und Startanimation
 
+### Google-Anmeldung – geplant
+
+- [ ] Anmeldung und Registrierung mit Google-Konto als zusätzliche Option integrieren
+- [ ] Bestehende E-Mail-/Passwort-Anmeldung weiterhin anbieten
+- [ ] Sichere Kontoverknüpfung und Verhalten bei bereits vorhandenen Konten testen
+- [ ] OAuth-Weiterleitungsadressen für Preview und später Produktion konfigurieren
+- [ ] Anmeldung, Abmeldung, Passwort-/Kontowiederherstellung und Cloud-Datenerhalt mit Google-Testkonten prüfen
+
 ### Erweiterte Benutzerprofile – geplant
 
 - [ ] Bestehende Supabase-Authentifizierung um ein eigenes Benutzerprofil je Cloudkonto erweitern
 - [ ] Nickname als öffentliche Kennung festlegen; Eindeutigkeit und Änderbarkeit definieren
 - [ ] Profilfelder vorsehen: Vorname, Nachname, Geburtsdatum, E-Mail-Adresse und Avatar/Profilbild
+- [ ] Optionale Homepage/Website-Adresse im Profil unterstützen
+- [ ] Optionale WhatsApp-Nummer als private Kontoinformation unterstützen
+- [ ] Für Homepage und WhatsApp-Nummer getrennte, freiwillige Sichtbarkeitseinstellungen vorsehen; standardmäßig privat
 - [ ] E-Mail-Adresse und Geburtsdatum als private Kontodaten behandeln; keine öffentliche Anzeige
 - [ ] Profilbild sicher speichern und Größen-/Dateitypgrenzen festlegen
 - [ ] Profilbearbeitung und Anzeige der eigenen Kontodaten vorsehen
 - [ ] Rollen und Berechtigungen als Grundlage für das spätere Forum vorbereiten
+- [ ] Google-Anmeldung über Supabase Auth (OAuth) vorbereiten und die Google-Cloud-OAuth-Konfiguration einrichten
+- [ ] E-Mail-/Passwort-Anmeldung als alternative Anmeldemethode beibehalten
+- [ ] Sicheres Verhalten bei bestehenden Konten, identischen E-Mail-Adressen und Kontoverknüpfung festlegen
 - [ ] Datenschutz, Einwilligung, Löschung und Aufbewahrung personenbezogener Daten prüfen
 - [ ] Bestehende Konten und bisherige Cloud-Daten bei der Erweiterung unverändert erhalten
 - [ ] Profil- und Berechtigungsstruktur in Preview mit mehreren Testkonten prüfen
