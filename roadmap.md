@@ -24,6 +24,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Sidebar-Platzhalter „Kontrolliertes Vapen“ ergänzt; noch ohne Funktion
 - [ ] Absendername, Absenderadresse und SMTP-Zustellung für die gestalteten Auth-Mails abschließend konfigurieren bzw. prüfen
 - [ ] Registrierung, Passwort-Reset und E-Mail-Änderung mit Testkonten vollständig durchtesten
+- [x] Registrierungs-/Confirm-Mail in der Vorschau geprüft: Gestaltung korrekt, offizielles Logo wird angezeigt (Nutzerbestätigung)
 - [ ] E-Mail-Darstellung/Zustellung in Gmail, Apple Mail und Outlook prüfen
 - [ ] Kontaktformular auf Windows-PC und iPhone praktisch testen
 - [ ] Kurse, Quiz, Fortschrittsspeicherung und Sprachwechsel in DE/EN/FR auf PC und iPhone testen
