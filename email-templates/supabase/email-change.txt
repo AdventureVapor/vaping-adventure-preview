@@ -1,0 +1,14 @@
+My Vaping Adventure – Neue E-Mail-Adresse bestätigen
+
+Hallo!
+
+Für dein My-Vaping-Adventure-Konto wurde eine Änderung der E-Mail-Adresse angefordert. Bitte bestätige die Änderung über den folgenden Link:
+
+E-Mail-Adresse bestätigen:
+{{ .ConfirmationURL }}
+
+Wenn du diese Änderung nicht selbst veranlasst hast, ignoriere diese Nachricht und ändere vorsichtshalber dein Kontopasswort.
+
+My Vaping Adventure
+myvapingadventure@gmail.com
+Diese Nachricht wurde automatisch versendet.
