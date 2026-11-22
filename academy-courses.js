@@ -273,5 +273,5 @@
       ],disclaimer:"Conseils généraux. En cas de doute, cesse d’utiliser l’appareil et contacte le fabricant ou le service après-vente. Pas d’instructions de réparation ou de modification."}
     ]
   };
-  window.MVA_ACADEMY_COURSES = { getCourses(){ return data[lang()] || data.de; } };
+  window.MVA_ACADEMY_COURSES = { getCourses(){ return (data[lang()] || data.de).map(course => ({...course,xp:30,coins:20})); } };
 })();
