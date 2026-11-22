@@ -470,7 +470,7 @@
   const textRendered = new WeakMap();
   const attrOriginal = new WeakMap();
   const attrRendered = new WeakMap();
-  const excluded = "[data-i18n-switch],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo";
+  const excluded = "[data-i18n-switch],[data-i18n-key],[data-i18n-attr],[data-user-content],input,textarea,select,[contenteditable=true],.item-content,.photo";
   const keys = Object.keys(pairs).sort((a,b)=>b.length-a.length);
   const reverseKeys = Object.keys(reverse).sort((a,b)=>b.length-a.length);
 
@@ -546,6 +546,7 @@
 
   function apply() {
     document.documentElement.lang = language;
+    window.MVA_LOCALES?.setLanguage(language);
     updateSwitch();
     document.body.childNodes.forEach(translateNode);
     document.querySelectorAll(".sidebar-note,.sidebar .nav-label,.sidebar .nav").forEach(translateNode);
