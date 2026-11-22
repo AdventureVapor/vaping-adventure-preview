@@ -420,3 +420,22 @@ body[data-theme="midnight"]::before,body[data-theme="midnight"]::after{
   body::before,body::after{height:48vh;filter:blur(26px);opacity:.24}
   body::after{top:48vh}
 }
+
+/* Korrektur: Dampfwolken sichtbar oberhalb des Seitenhintergrunds, unterhalb der Oberfläche */
+body::before,body::after{z-index:0}
+body>.topbar,body>.shell,body>.mobile-nav,body>#modal-root{
+  position:relative;
+  z-index:1;
+}
+body::before,body::after{
+  background:
+    radial-gradient(ellipse 32% 22% at 18% 50%,rgba(255,255,255,.48) 0%,rgba(255,255,255,.20) 38%,transparent 72%),
+    radial-gradient(ellipse 28% 20% at 43% 43%,rgba(255,255,255,.38) 0%,rgba(255,255,255,.14) 42%,transparent 74%),
+    radial-gradient(ellipse 34% 24% at 72% 56%,rgba(255,255,255,.34) 0%,rgba(255,255,255,.12) 40%,transparent 72%);
+}
+body[data-theme="forest"]::before,body[data-theme="forest"]::after{
+  background:
+    radial-gradient(ellipse 32% 22% at 18% 50%,rgba(232,255,222,.58) 0%,rgba(232,255,222,.22) 38%,transparent 72%),
+    radial-gradient(ellipse 28% 20% at 43% 43%,rgba(232,255,222,.42) 0%,rgba(232,255,222,.16) 42%,transparent 74%),
+    radial-gradient(ellipse 34% 24% at 72% 56%,rgba(232,255,222,.40) 0%,rgba(232,255,222,.14) 40%,transparent 72%);
+}
