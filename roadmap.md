@@ -144,35 +144,95 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [ ] Produktionsübernahme vorbereiten – erst nach Abschluss der Release-Prüfungen
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
 
-## Spätere Ausbaustufe
+## Version 1.4 – Umsetzung in Preview
 
-### Version 1.4 – Entwicklungsplanung
+Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die Produktionsversion 1.3 bleibt bis zum Abschluss der Qualitätssicherung und einer ausdrücklichen Freigabe unverändert.
 
-Die Entwicklung findet zunächst ausschließlich im Branch `development-1.4` des Preview-Repositories statt. Die öffentliche Produktionsversion bleibt unverändert. Änderungen werden erst nach Prüfung und ausdrücklicher Freigabe in Preview-`main` übernommen.
+### 1. Optik und Design-Themen – umgesetzt
 
-#### 1. Optik und Design-Themen – aktueller Arbeitsschwerpunkt
-- [ ] Auswahl verschiedener Designs für die gesamte App (zunächst eine überschaubare Auswahl, später auf etwa 5–10 Themen erweiterbar)
-- [ ] Einheitliche Gestaltung aller Bereiche: Farben, Hintergründe, Schaltflächen, Karten, Menüs und Eingabefelder
-- [ ] Design-Auswahl direkt in der App mit Vorschau ermöglichen
-- [ ] Gewähltes Design dauerhaft pro Benutzer speichern und nach erneutem Login bzw. auf anderen Geräten wiederherstellen
-- [ ] Lesbarkeit, Kontraste und Bedienbarkeit in jedem Design sicherstellen
+- [x] Menü zur Auswahl der Darstellung integriert
+- [x] Fünf Designs umgesetzt: Original, Forest & Nature, Ocean Blue, Sunset und Midnight
+- [x] Design-Auswahl wird lokal im jeweiligen Browser/Gerät gespeichert
+- [x] Typografie, Lesbarkeit und Kontraste überarbeitet
+- [x] Responsive Darstellung für Desktop und Mobilgeräte verbessert
+- [x] Desktop-Sidebar bündig am linken Bildschirmrand ausgerichtet; vom Nutzer in Preview bestätigt
+- [x] Kopfzeile vergrößert und Logo deutlich hervorgehoben
+- [x] Doppelte Markenbezeichnung neben dem Logo entfernt; die Kopfzeile zeigt nur noch den passenden Tagebuch-Untertitel
+- [x] Untertitel in Deutsch, Englisch und Französisch angepasst
 
-#### 2. Gästebuch
-- [ ] Öffentliches Gästebuch für Besucher einführen
-- [ ] Einträge mit Name, Datum und Nachricht ermöglichen
-- [ ] Einträge vor Veröffentlichung moderieren können bzw. unerwünschte Einträge löschen
-- [ ] Spam-Schutz und Schutz vor missbräuchlichen Inhalten vorsehen
-- [ ] Festlegen, welche Angaben öffentlich sichtbar sind und welche Verwaltungsrechte nur dem Betreiber zustehen
+### 2. Gästebuch – umgesetzt
 
-#### 3. Französische Sprache
-- [ ] Französisch als zusätzliche Sprache ergänzen
-- [ ] Französische Flagge und Sprachwahl integrieren
-- [ ] App-Oberfläche und Hilfebibliothek vollständig ins Französische übersetzen
-- [ ] Gewählte Sprache dauerhaft speichern
-- [ ] Sprachwechsel und Übersetzungen in allen Bereichen prüfen
+- [x] Öffentlich lesbares Gästebuch
+- [x] Neue Einträge können nur von angemeldeten Nutzern eingereicht werden
+- [x] Neue Einträge werden zunächst zurückgehalten und müssen moderiert/freigegeben werden
+- [x] Moderation und Löschen über das Supabase-Dashboard möglich
+- [x] Öffentliche Ansicht und Einreichungsablauf vom Nutzer praktisch geprüft
 
-#### Weitere Idee für Version 1.4
-- [ ] Individuelle Registrierungs-/Bestätigungsmail gestalten (Absendername, Betreff, Text, Logo/Branding und Gestaltung; abhängig von Supabase-/SMTP-Anbieter)
+### 3. Französische Sprache – umgesetzt
+
+- [x] Französisch als dritte App-Sprache ergänzt
+- [x] Navigation, Menüs und zentrale Oberflächen übersetzt
+- [x] Tagebuch, Geräteverwaltung und Galerie übersetzt
+- [x] Lernbereiche, Kurse und Gästebuch übersetzt
+- [x] Cloud-Speicher, Backups und Kontoverwaltung übersetzt
+- [x] Übersetzungsfehler und gemischte Sprachreste in mehreren Korrekturrunden behoben
+
+### 4. Zentrale Übersetzungsarchitektur – umgesetzt, Migration läuft weiter
+
+- [x] Einheitliches Key-basiertes Übersetzungssystem eingeführt
+- [x] 259 gemeinsame Übersetzungsschlüssel für Deutsch, Englisch und Französisch angelegt
+- [x] Dynamische Inhalte und nachträglich eingefügte Oberflächenelemente berücksichtigt
+- [x] Platzhalter/Interpolation für dynamische Texte unterstützt
+- [x] Prüfung auf fehlende Übersetzungsschlüssel ergänzt
+- [ ] Verbliebene ältere Textfragment-Übersetzungen schrittweise durch Übersetzungsschlüssel ersetzen
+- [ ] Nach weiteren UI-Änderungen vollständige Sprachprüfung in DE/EN/FR wiederholen
+
+### 5. Desktop- und iPhone-Feinschliff – umgesetzt
+
+- [x] Desktop-Sidebar und Hauptbereich korrekt im Layout verankert
+- [x] Kopfzeile und Logo für große und kleine Bildschirme angepasst
+- [x] iPhone-Kopfzeile kompakter gestaltet, damit Sprachwahl, Design, Hilfe und Profil Platz finden
+- [x] Safe-Area-Abstände für iPhone berücksichtigt (untere Navigation, Dialoge, Galerie-Lightbox und Hinweise)
+- [x] Abstand zum unteren Navigationsbereich verbessert, damit Inhalte nicht verdeckt werden
+- [x] Horizontales Überlaufen reduziert und Umbruchverhalten verbessert
+- [x] Bedienflächen und Dialoge für kleinere Displays optimiert
+- [x] Redundanten Text neben dem Logo entfernt; nur der lokalisierte Tagebuch-Untertitel bleibt sichtbar
+- [ ] Abschließende Sichtprüfung durch den Nutzer auf verschiedenen iPhone-Größen und am Desktop
+
+### 6. Individuelle Registrierungs- und Bestätigungsmails – noch offen
+
+- [ ] Absendername individuell festlegen
+- [ ] Betreff der Bestätigungs-E-Mail anpassen
+- [ ] Nachrichtentext individuell gestalten
+- [ ] Logo/Branding und Gestaltung der E-Mail bzw. des Bestätigungsbuttons anpassen
+- [ ] Vor Umsetzung die konkreten Möglichkeiten und Grenzen des Supabase-/SMTP-Mailanbieters prüfen
+
+### 7. Abschlussprüfung Version 1.4 – noch offen
+
+- [ ] Vollständige Sprachprüfung Deutsch, Englisch und Französisch
+- [ ] Registrierung, E-Mail-Bestätigung, Anmeldung und Passwort-Zurücksetzen erneut prüfen
+- [ ] Tagebuch, Geräte, Fotos und Galerie prüfen
+- [ ] Gästebuch einschließlich Moderationsablauf prüfen
+- [ ] Cloud-Speicherung und Synchronisierung zwischen Geräten prüfen
+- [ ] CSV-Import/-Export sowie JSON-Backup und Wiederherstellung prüfen
+- [ ] Responsive Darstellung auf Desktop und iPhone abschließend prüfen
+- [ ] Regressionstests und Sicherheitsprüfung abschließen
+- [ ] Produktionsübernahme erst nach abgeschlossener QA und ausdrücklicher Freigabe
+
+## Version 1.5 – vorgemerkte Ideen
+
+### Startanimation „The First Puff“
+
+- [ ] Aus dem ausgewählten My-Vaping-Adventure-Logo eine Startanimation entwickeln
+- [ ] Die Person im Logo führt die Vape zum Mund und nimmt einen Zug
+- [ ] Anschließend wird der Dampf sichtbar ausgeatmet
+- [ ] Die Person pustet den Dampf in Richtung Betrachter
+- [ ] Der Dampf breitet sich aus und füllt nach und nach den gesamten Bildschirm
+- [ ] Der Dampf geht anschließend in die eigentliche Startseite der App über
+- [ ] Animation für Desktop und iPhone optimieren
+- [ ] Überspringen der Animation ermöglichen
+- [ ] Rücksicht auf reduzierte Animationen/„Bewegung reduzieren“ des Betriebssystems nehmen
+- [ ] Geeignete Logo-Datei mit transparentem Hintergrund (Alpha-Kanal) vorbereiten; die derzeitige Logo-Datei ist noch nicht als transparent bestätigt
 
 ## Technischer Stand
 
