@@ -6,6 +6,70 @@
 
 Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowie noch offene Prüfungen. Ein Häkchen bedeutet, dass die Funktion umgesetzt und – soweit sinnvoll – erfolgreich geprüft wurde.
 
+
+## Releaseplanung Version 1.4
+
+Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases werden ausschließlich in Preview vorbereitet, getestet und erst nach ausdrücklicher Freigabe in Produktion übernommen.
+
+### Version 1.4.1 – Oberfläche, Inhalte, E-Mail-Grundlage und Startanimation
+
+**Ziel:** Die bereits weitgehend umgesetzten Funktionen bündeln, die wichtigsten offenen Praxistests abschließen und einen überschaubaren ersten 1.4-Release veröffentlichungsfähig machen.
+
+- [x] Fünf Designs, responsive Oberflächenverbesserungen und französische App-Sprache in Preview umgesetzt
+- [x] Gästebuch mit Einreichung und Moderationsablauf in Preview umgesetzt
+- [x] Lernkurse und mehrsprachige Kursinhalte in Preview ergänzt
+- [x] Kontaktbereich und mehrsprachiges Kontaktformular als `mailto:`-Basisversion umgesetzt
+- [x] Dunkelgrünes zentrales E-Mail-Design und drei deutsche Supabase-Auth-Vorlagen erstellt
+- [x] Alle drei Vorlagen im Supabase-Dashboard eingefügt, Vorschau kontrolliert und gespeichert (Nutzerbestätigung)
+- [x] Sidebar-Platzhalter „Kontrolliertes Vapen“ ergänzt; noch ohne Funktion
+- [ ] Absendername, Absenderadresse und SMTP-Zustellung für die gestalteten Auth-Mails abschließend konfigurieren bzw. prüfen
+- [ ] Registrierung, Passwort-Reset und E-Mail-Änderung mit Testkonten vollständig durchtesten
+- [ ] E-Mail-Darstellung/Zustellung in Gmail, Apple Mail und Outlook prüfen
+- [ ] Kontaktformular auf Windows-PC und iPhone praktisch testen
+- [ ] Kurse, Quiz, Fortschrittsspeicherung und Sprachwechsel in DE/EN/FR auf PC und iPhone testen
+- [ ] Gästebuch einschließlich Moderations- und Löschablauf abschließend testen
+- [ ] Vollständige Sprachprüfung und Regressionstests für die in 1.4.1 enthaltenen Änderungen durchführen
+- [ ] Vollständigen automatisierten Secret-Scan des gesamten Git-Verlaufs und Prüfung externer Deployment-Einstellungen durchführen
+- [ ] Startanimation „The First Puff“ entwickeln und in Preview integrieren:
+  - [ ] Offizielles Logo wird auf schwarzem Hintergrund eingeblendet
+  - [ ] Kamera zoomt in die Landschaft innerhalb des Logos
+  - [ ] In der Landschaft sieht man eine Person, die am Vaporizer zieht und sichtbar ausatmet
+  - [ ] Der Dampf zieht aus der Logo-Landschaft heraus in den schwarzen Bildschirmbereich
+  - [ ] Der Dampf verwirbelt sich und formt den Schriftzug „Your Sessions, Your Devices, Your Adventure“
+  - [ ] Der Schriftzug löst sich wieder in Dampf auf; daraus entsteht „My Vaping Adventure“
+  - [ ] Übergang von der Animation zur App-Startseite
+  - [ ] Drei unterschiedliche GIF-/Animationsentwürfe als Stilvorlagen erstellen und gemeinsam auswählen
+  - [ ] Für Windows-PC und iPhone optimieren; Animation überspringbar machen
+  - [ ] Betriebssystemeinstellung „Bewegung reduzieren“ berücksichtigen und eine reduzierte Alternative anbieten
+  - [ ] Logo-Datei mit transparentem Hintergrund/Alpha-Kanal vorbereiten
+- [ ] Technische Vorbereitungen für Benutzerprofile in Preview:
+  - [ ] Bestehende Supabase-Auth- und Benutzer-ID-Struktur auf Erweiterbarkeit prüfen
+  - [ ] Datenmodell für private Kontodaten und später freiwillig öffentliche Profilangaben entwerfen
+  - [ ] Profil-Datensatz eindeutig über die Auth-Benutzer-ID zuordnen
+  - [ ] RLS-Konzept festlegen, sodass private Profildaten ausschließlich vom jeweiligen Nutzer gelesen und geändert werden können
+  - [ ] Trennung zwischen privatem Profil und später öffentlich sichtbarem Profilbereich dokumentieren
+  - [ ] Keine öffentlichen Profilfelder oder zusätzlichen personenbezogenen Angaben ohne spätere bewusste Entscheidung aktivieren
+  - [ ] Bestehende Konten, Tagebücher und Cloud-Spielstände durch die Vorbereitungen unverändert lassen
+- [ ] Abschließende 1.4.1-Regression: Login, Tagebuch, Geräte, Galerie, Cloud-Synchronisierung, Backups und Sprachwechsel prüfen
+- [ ] Produktionsübernahme von 1.4.1 erst nach abgeschlossener QA und ausdrücklicher Freigabe
+
+### Version 1.4.2 – weitere Funktionen und Ausbau
+
+**Ziel:** Die größeren noch offenen Funktionspakete nach dem 1.4.1-Release fertigstellen.
+
+- [ ] Bereich „Kontrolliertes Vapen“ funktional entwickeln (Wochenziele, Fortschritt, Auswertung, datensparsame Speicherung und Übersetzungen)
+- [ ] Vape-Akademie mit sieben Lernleveln, Kursquoten, Leveltests und Freischaltlogik umsetzen
+- [ ] Bestehende Kursfortschritte bei Einführung der Akademie erhalten und sicher migrieren
+- [ ] Akademie-Fortschritt und Freischaltlogik mit mehreren Testkonten und geräteübergreifender Synchronisierung prüfen
+- [ ] Englische und französische E-Mail-Vorlagen ergänzen und sprachabhängige Zustellung technisch klären
+- [ ] Impressum und erforderliche rechtliche Anbieterinformationen vor Veröffentlichung vollständig klären und einbauen
+- [ ] Verbliebene ältere Textfragment-Übersetzungen auf das zentrale Übersetzungssystem umstellen
+- [ ] Vollständige Sprachprüfung DE/EN/FR nach Abschluss der neuen Funktionen wiederholen
+- [ ] Installierbare PWA für Windows-PC und iPhone umsetzen und auf beiden Plattformen testen
+- [ ] Abschließende Gesamt-QA für 1.4.2 und ausdrückliche Produktionsfreigabe einholen
+
+**Release-Regel:** Ein erledigter Entwicklungspunkt ist nicht automatisch produktionsreif. Jede Version erhält eine eigene QA-Runde, einen geprüften Preview-Stand und eine separate ausdrückliche Freigabe. Die Produktion bleibt bis dahin unverändert.
+
 ## Alpha 1.3 – umgesetzt und geprüft
 
 ### Konten und Anmeldung
@@ -144,7 +208,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [ ] Produktionsübernahme vorbereiten – erst nach Abschluss der Release-Prüfungen
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
 
-## Version 1.4 – Zentrales E-Mail-Designsystem
+## Version 1.4 – Detailstatus der aufgeteilten Releases
 
 - [x] Verbindliche visuelle Master-Vorlage für alle ausgehenden E-Mails festgelegt: Dunkelgrün passend zur App
 - [x] Kopfbereich verbindlich auf das offizielle Logo allein festgelegt (kein zusätzlicher Schriftzug)
@@ -202,7 +266,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Cloud-Speicher, Backups und Kontoverwaltung übersetzt
 - [x] Übersetzungsfehler und gemischte Sprachreste in mehreren Korrekturrunden behoben
 
-### 4. Zentrale Übersetzungsarchitektur – umgesetzt, Migration läuft weiter
+### 4. Zentrale Übersetzungsarchitektur – umgesetzt; Restmigration in Version 1.4.2
 
 - [x] Einheitliches Key-basiertes Übersetzungssystem eingeführt
 - [x] 259 gemeinsame Übersetzungsschlüssel für Deutsch, Englisch und Französisch angelegt
@@ -238,7 +302,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 
 **Hinweis zur aktuellen Umsetzung:** Die Basisversion versendet keine Nachricht automatisch und speichert keine Formulardaten in My Vaping Adventure. Es werden keine E-Mail-Zugangsdaten im Frontend hinterlegt. Der praktische Funktionstest steht noch aus.
 
-### 12. Bereich „Kontrolliertes Vapen“ mit Wochenzielen – Konzept folgt
+### 12. Version 1.4.2: Bereich „Kontrolliertes Vapen“ mit Wochenzielen – Konzept folgt
 
 - [ ] Eigenständigen Bereich „Kontrolliertes Vapen“ konzipieren und in Version 1.4 einplanen
 - [ ] Wochenziele und einen nachvollziehbaren Wochenfortschritt als zentrales Element vorsehen
@@ -248,7 +312,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Gesundheits- und Sicherheitsinformationen ausgewogen darstellen und bei Bedarf auf professionelle Unterstützung verweisen
 - [ ] Sprachversionen und Bedienbarkeit auf Desktop und iPhone berücksichtigen
 
-### 7. Vape-Akademie mit sieben Lernleveln – geplant
+### 7. Version 1.4.2: Vape-Akademie mit sieben Lernleveln – geplant
 
 - [ ] Den bisherigen Lernbereich zu einer fortlaufenden Vape-Akademie mit sieben aufeinander aufbauenden Levels erweitern
 - [ ] Lernstufen: Level 1 „Newbie“, Level 2 „Anfänger“, Level 3 „Fortgeschrittener Anfänger“, Level 4 „Fortgeschritten“, Level 5 „Experte“, Level 6 „Profi“ und Level 7 „Master“
@@ -307,7 +371,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Logo/Branding und Gestaltung der E-Mail bzw. des Bestätigungsbuttons anpassen
 - [ ] Vor Umsetzung die konkreten Möglichkeiten und Grenzen des Supabase-/SMTP-Mailanbieters prüfen
 
-### 10. Impressum und rechtliche Anbieterkennzeichnung – geplant
+### 10. Version 1.4.2: Impressum und rechtliche Anbieterkennzeichnung – geplant
 
 - [ ] Prüfen, welche Impressumspflichten für My Vaping Adventure als öffentliche Web-App mit Benutzerkonten und Community-Funktionen gelten (insbesondere DDG und Medienstaatsvertrag)
 - [ ] Tatsächlichen Betreiber der Website und dessen Rechtsform eindeutig festlegen
@@ -320,7 +384,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Darstellung und Erreichbarkeit des Impressums auf Desktop und iPhone prüfen
 - [ ] Sprachversionen für Deutsch, Englisch und Französisch vorsehen; rechtlich maßgebliche Angaben vollständig und konsistent halten
 
-### 9. Vorbereitung auf Benutzerprofile und Community – geplant
+### 9. Version 1.4.1: technische Vorbereitung auf Benutzerprofile und Community – geplant
 
 - [ ] Anforderungen für ein erweitertes Benutzerprofil und das geplante Forum in Version 1.5/1.6 dokumentieren
 - [ ] Bestehende Supabase-Authentifizierung, Benutzer-IDs und Cloud-Datenspeicherung auf Erweiterbarkeit prüfen
@@ -329,7 +393,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Sicherheitskonzept für private und öffentliche Inhalte einschließlich Supabase-RLS vorbereiten
 - [ ] Sicherstellen, dass die Erweiterung bestehende Konten, Tagebücher und Cloud-Spielstände nicht beeinträchtigt
 
-### 8. Abschlussprüfung Version 1.4 – noch offen
+### 8. Abschlussprüfung der Releases 1.4.1 und 1.4.2 – noch offen
 
 - [ ] Vollständige Sprachprüfung Deutsch, Englisch und Französisch
 - [ ] Neuen Kurs „Vom Rauchen zum Vapen“ in DE/EN/FR, mit Quiz, Fortschrittsspeicherung und auf Desktop/iPhone prüfen
@@ -342,7 +406,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Regressionstests und Sicherheitsprüfung abschließen
 - [ ] Produktionsübernahme erst nach abgeschlossener QA und ausdrücklicher Freigabe
 
-## Version 1.5 – Benutzersystem und Startanimation
+## Version 1.5 – Benutzersystem
 
 ### Google-Anmeldung – geplant
 
@@ -370,19 +434,6 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Datenschutz, Einwilligung, Löschung und Aufbewahrung personenbezogener Daten prüfen
 - [ ] Bestehende Konten und bisherige Cloud-Daten bei der Erweiterung unverändert erhalten
 - [ ] Profil- und Berechtigungsstruktur in Preview mit mehreren Testkonten prüfen
-
-### Startanimation „The First Puff”
-
-- [ ] Aus dem ausgewählten My-Vaping-Adventure-Logo eine Startanimation entwickeln
-- [ ] Die Person im Logo führt die Vape zum Mund und nimmt einen Zug
-- [ ] Anschließend wird der Dampf sichtbar ausgeatmet
-- [ ] Die Person pustet den Dampf in Richtung Betrachter
-- [ ] Der Dampf breitet sich aus und füllt nach und nach den gesamten Bildschirm
-- [ ] Der Dampf geht anschließend in die eigentliche Startseite der App über
-- [ ] Animation für Desktop und iPhone optimieren
-- [ ] Überspringen der Animation ermöglichen
-- [ ] Rücksicht auf reduzierte Animationen/„Bewegung reduzieren“ des Betriebssystems nehmen
-- [ ] Geeignete Logo-Datei mit transparentem Hintergrund (Alpha-Kanal) vorbereiten; die derzeitige Logo-Datei ist noch nicht als transparent bestätigt
 
 ## Version 1.6 – My Vaping Adventure Forum
 
@@ -416,7 +467,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 
 *Die Roadmap wird während der Entwicklung fortgeschrieben. Bereits bestätigte Funktionen werden nicht erneut als offen geführt; noch nicht abschließend geprüfte Funktionen bleiben als QA-Punkte markiert.*
 
-### 13. Installierbare PWA für Windows-PC und iPhone – geplant
+### 13. Version 1.4.2: installierbare PWA für Windows-PC und iPhone – geplant
 
 - [ ] My Vaping Adventure als Progressive Web App (PWA) installierbar machen
 - [ ] Web-App-Manifest mit App-Name „My Vaping Adventure“, Kurzname, Beschreibung, Start-URL, passendem Theme-/Hintergrundfarbwert und eigenständigem Darstellungsmodus („standalone“) ergänzen
