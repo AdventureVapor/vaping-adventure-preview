@@ -150,9 +150,17 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Kopfbereich verbindlich auf das offizielle Logo allein festgelegt (kein zusätzlicher Schriftzug)
 - [x] Wiederverwendbares HTML-Masterlayout mit responsivem Tabellenaufbau, Aktionsbutton, Fallback-Link und Footer erstellt
 - [x] Designregeln, Platzhalter, technische E-Mail-Grundsätze und Supabase-Übernahme dokumentiert
-- [ ] Masterlayout auf Bestätigungs-, Passwort-Reset- und weitere Auth-E-Mails in Supabase übertragen
-- [ ] Absendername, Betreffzeilen, Vorschautexte und Nur-Text-Versionen je E-Mail-Anlass finalisieren
-- [ ] Deutsche, englische und französische Vorlagen erstellen und auf Gmail, Apple Mail sowie Outlook prüfen
+- [x] Deutsche Supabase-HTML-Vorlage für Registrierungsbestätigung erstellt (`email-templates/supabase/signup-confirmation.html`)
+- [x] Deutsche Supabase-HTML-Vorlage für Passwort-Zurücksetzen erstellt (`email-templates/supabase/password-reset.html`)
+- [x] Deutsche Supabase-HTML-Vorlage für Änderung der E-Mail-Adresse erstellt (`email-templates/supabase/email-change.html`)
+- [x] Passende Nur-Text-Fassungen für alle drei Auth-Anlässe ergänzt
+- [x] Supabase-Platzhalter `{{ .ConfirmationURL }}` in den HTML- und Textvorlagen für Aktionslinks vorgesehen
+- [x] Betreffvorschläge und konkrete Übernahmeschritte in `email-templates/README.md` dokumentiert
+- [ ] Vorlagen in den passenden Supabase-Dashboard-E-Mail-Editoren einrichten (noch nicht erfolgt)
+- [ ] Absendername, tatsächliche Absenderadresse, SMTP-Zustellung und Betreffzeilen final festlegen
+- [ ] Englische und französische Fassungen erstellen; sprachabhängige Zustellung technisch klären
+- [ ] Registrierung, Passwort-Reset und E-Mail-Änderung mit separaten Testkonten praktisch testen
+- [ ] Darstellung und Zustellung in Gmail, Apple Mail und Outlook prüfen
 
 ## Version 1.4 – Umsetzung in Preview
 

@@ -60,3 +60,31 @@ Supabase verwaltet die Auth-E-Mail-Vorlagen je Anlass separat (z. B. Registrieru
 ## 6. Vorlagen für neue E-Mail-Anlässe
 
 Für jede neue Nachricht werden vor dem Einbau festgelegt: Anlass, Empfängergruppe, Betreff, Preheader, Überschrift, Nachrichtentext, Hauptaktion, Fallback-Link, Sicherheits-/Gültigkeitshinweis und Nur-Text-Version. Die visuelle Masterstruktur bleibt unverändert.
+
+## 7. Konkrete Supabase-Auth-Vorlagen
+
+Unter `supabase/` liegen direkt übertragbare deutsche HTML- und Nur-Text-Vorlagen:
+
+| Supabase-E-Mail-Anlass | HTML-Datei | Nur-Text-Datei | Betreffvorschlag |
+| --- | --- | --- | --- |
+| Confirm signup / Registrierung bestätigen | `signup-confirmation.html` | `signup-confirmation.txt` | Bitte bestätige deine E-Mail-Adresse – My Vaping Adventure |
+| Reset Password / Passwort zurücksetzen | `password-reset.html` | `password-reset.txt` | Passwort zurücksetzen – My Vaping Adventure |
+| Change Email Address / E-Mail-Adresse ändern | `email-change.html` | `email-change.txt` | Neue E-Mail-Adresse bestätigen – My Vaping Adventure |
+
+Alle drei HTML-Vorlagen verwenden den Supabase-Template-Ausdruck `{{ .ConfirmationURL }}` für Aktionsbutton und Ersatzlink. Diesen Ausdruck beim Einfügen in den jeweils passenden Supabase-E-Mail-Editor unverändert lassen. Die Dateien sind für den jeweiligen Anlass formuliert; nicht eine Vorlage für einen anderen Anlass einsetzen.
+
+### Übernahme in Supabase
+
+1. Im Supabase-Dashboard das richtige Projekt öffnen.
+2. Zu **Authentication → Email Templates** wechseln.
+3. Den passenden Anlass öffnen (Confirm signup, Reset Password oder Change Email Address).
+4. Den Inhalt der jeweiligen HTML-Datei in das HTML-Feld übernehmen.
+5. Den Betreffvorschlag separat im Betreff-Feld eintragen.
+6. Die Nur-Text-Fassung als Textalternative verwenden, sofern der konfigurierte Versandweg ein separates Textfeld unterstützt; andernfalls muss der Maildienst eine Textalternative erzeugen.
+7. Mit einem separaten Testkonto den vollständigen Ablauf auslösen und den Link testen.
+
+**Noch nicht erledigt:** Die Vorlagen liegen ausschließlich im Preview-Repository. Es wurde keine Supabase-Dashboard-Einstellung verändert. Die Betreffzeilen sind Vorschläge und der Absendername/-adresse müssen im Auth-/SMTP-Setup separat festgelegt werden. Die Dateien sind derzeit auf Deutsch; englische und französische Fassungen sowie Tests in Gmail, Apple Mail und Outlook stehen noch aus.
+
+### Wichtiger Hinweis zu Sprachen
+
+Supabase Auth verwendet nicht automatisch drei verschiedene HTML-Dateien anhand der App-Sprachauswahl. Eine echte sprachabhängige Zustellung benötigt eine passende Lösung im Auth-/E-Mail-Versandablauf (z. B. sprachbezogene Vorlagen über einen eigenen sicheren Mailversand). Bis dahin ist die deutsche Vorlage die festgelegte Basis; keine automatische Sprachumschaltung behaupten.
