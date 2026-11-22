@@ -199,6 +199,56 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Redundanten Text neben dem Logo entfernt; nur der lokalisierte Tagebuch-Untertitel bleibt sichtbar
 - [ ] Abschließende Sichtprüfung durch den Nutzer auf verschiedenen iPhone-Größen und am Desktop
 
+### Lernakademie mit 7 Leveln und Kurs-Freischaltung – geplant
+
+Ziel: Der Lernbereich wird zu einer aufeinander aufbauenden Vape-Akademie. Die Level heißen vorläufig Newbie bis Master. Level 1 ist direkt und kostenlos zugänglich; weitere Level werden durch nachweisbaren Lernfortschritt freigeschaltet.
+
+#### Verbindliche Spielregeln des Lernsystems
+
+- [ ] Sieben aufeinander aufbauende Lernlevel einführen: Level 1 Newbie, Level 2 Anfänger, Level 3 Fortgeschrittener Anfänger, Level 4 Fortgeschritten, Level 5 Experte, Level 6 Profi und Level 7 Master.
+- [ ] Alle Kurse in Level 1 von Beginn an kostenlos und ohne vorherige Freischaltung zugänglich machen.
+- [ ] Für den Aufstieg müssen mindestens 75 Prozent der Kurse des aktuellen Levels abgeschlossen sein.
+- [ ] Ein Kurs zählt erst als abgeschlossen, wenn seine Lektionen durchgearbeitet und sein Wissenstest bestanden wurden.
+- [ ] Nach Erreichen der 75-Prozent-Schwelle wird die Level-Abschlussprüfung freigeschaltet.
+- [ ] Die Abschlussprüfung gilt ab mindestens 80 Prozent richtiger Antworten als bestanden; bei nicht ganzzahligem Ergebnis wird auf die nächste erforderliche richtige Antwort aufgerundet.
+- [ ] Nach bestandener Prüfung wird das nächste Level automatisch freigeschaltet.
+- [ ] Nicht bestandene Prüfungen dürfen erneut absolviert werden; abgeschlossene Kurse und frühere Ergebnisse bleiben erhalten.
+- [ ] Bereits freigeschaltete Level und Kurse bleiben dauerhaft zugänglich.
+- [ ] XP und Coins bleiben Belohnungen für Lernen, ersetzen aber weder Kursabschluss noch Prüfung.
+- [ ] Fortschritt, Kursabschlüsse, Prüfungsergebnisse und freigeschaltete Level für angemeldete Nutzer im Cloud-Konto speichern und zwischen Geräten synchronisieren; Gastfortschritt bleibt lokal.
+- [ ] Gesperrte Level mit Vorschau auf Titel, Lernziele und Kursinhalte anzeigen, ohne die Inhalte vorzeitig freizugeben.
+- [ ] Fortschrittsanzeige je Level, Akademie-Gesamtfortschritt und Level-Abzeichen ergänzen.
+- [ ] Sämtliche Level-, Kurs-, Prüfungs- und Fortschrittstexte in Deutsch, Englisch und Französisch anbieten.
+
+#### Vorgesehene Level- und Kursstruktur
+
+| Level | Bezeichnung | Themenschwerpunkte und vorgesehene Kurse |
+|---|---|---|
+| 1 | Newbie | Kostenloser Einstieg: Geräte-Grundlagen, erste Orientierung zu Pod-/MTL-/DL-Systemen sowie „Vom Rauchen zum Vapen“ als sachlicher Kurs ausschließlich für erwachsene Raucher, die einen Rauchstopp anstreben. |
+| 2 | Anfänger | Gerätekunde vertiefen: Pod-Systeme, Mods, Tanks, Airflow, Coils und grundlegende Bedienung. |
+| 3 | Fortgeschrittener Anfänger | Coil, Watte und Verdampferpflege; Reinigung, Liquidnachfluss und typische Anfängerfehler. |
+| 4 | Fortgeschritten | Akkusicherheit, Laden, Transport, Lagerung, Schäden erkennen sowie Fehlerbehebung bei Leaks, Kontaktproblemen und fehlendem Dampf. |
+| 5 | Experte | Liquid-Wissen: PG/VG, Inhaltsstoffe, Aromen, Nikotinformen, Kennzeichnung und sichere Aufbewahrung; technische Zusammenhänge vertiefen. |
+| 6 | Profi | Fortgeschrittene Gerätetechnik, systematische Fehlerdiagnose und – wo geeignet – Grundlagen zu Selbstwickelverdampfern und deren sicherer Handhabung. |
+| 7 | Master | Vertiefende Fallbeispiele, Wissenstransfer, komplexe Fehlerbilder und umfassende Abschlussprüfung über die Inhalte der Akademie. |
+
+#### Bereits vorhandene und vorgemerkte Kurse einordnen
+
+- [ ] Bestehende Kurse „Geräte-Grundlagen“, „Akkusicherheit“ und „Reinigung & Pflege“ den passenden Leveln zuordnen und ihre Inhalte aufeinander abstimmen.
+- [ ] Den bereits umgesetzten Kurs „Vom Rauchen zum Vapen“ als einen der frei zugänglichen Level-1-Kurse einordnen.
+- [ ] Die sechs vorgemerkten Kurse in die Levelstruktur integrieren: Gerätekunde, Akkusicherheit, Coil/Watte/Verdampferpflege, Liquid-Wissen, Fehlerbehebung für Einsteiger und Nikotin verstehen.
+- [ ] Doppelte Inhalte zwischen bestehenden Kursen und neuen Kursen vermeiden; frühere Inhalte werden in höheren Leveln vertieft statt unnötig wiederholt.
+- [ ] Für jedes Level Lernziele, Kursumfang, Kursquiz und eine eigenständige Level-Abschlussprüfung fachlich ausarbeiten.
+
+#### Umsetzung und Qualitätssicherung
+
+- [ ] Zunächst Datenmodell und Freischaltlogik entwerfen, bevor die Oberfläche umgebaut wird.
+- [ ] Sicherstellen, dass Nutzer den Fortschritt nicht durch bloßes Öffnen eines Kurses oder durch XP-Manipulation freischalten können.
+- [ ] Fortschrittsspeicherung, Synchronisierung, erneute Prüfungsversuche und Wiederherstellung nach Login testen.
+- [ ] Grenzfälle prüfen: genau 75 Prozent Kursabschluss, Rundung der 80-Prozent-Prüfung, Levelwechsel und bereits vorhandene Lernstände.
+- [ ] Akademie auf Desktop und iPhone sowie in DE/EN/FR testen.
+- [ ] Gesundheits- und Sicherheitsinhalte sachlich und ausgewogen halten; keine Bewerbung des Vapens für Minderjährige oder Nichtraucher und keine individuellen Nikotin-Dosierungsempfehlungen.
+
 ### 7. Kurs „Vom Rauchen zum Vapen“ – in Preview umgesetzt, QA offen
 
 - [x] Eigenständigen Einsteigerkurs für erwachsene Menschen, die bereits rauchen, in der Education-/Lernsektion ergänzt
