@@ -8,7 +8,7 @@
 (() => {
   const dictionaries = {
     de: {
-      "brand.tagline": "ADVENTURE · DEIN PRIVATES TAGEBUCH",
+      "brand.tagline": "DEIN PRIVATES TAGEBUCH",
       "nav.section.personal": "DEIN BEREICH",
       "nav.overview": "Übersicht",
       "nav.diary": "Vaping Diary",
@@ -269,7 +269,7 @@
       "confirm.deleteEntry": "Eintrag löschen?"
     },
     en: {
-      "brand.tagline": "ADVENTURE · YOUR PRIVATE DIARY",
+      "brand.tagline": "YOUR PRIVATE DIARY",
       "nav.section.personal": "YOUR SPACE",
       "nav.overview": "Overview",
       "nav.diary": "Vaping Diary",
@@ -530,7 +530,7 @@
       "confirm.deleteEntry": "Delete entry?"
     },
     fr: {
-      "brand.tagline": "ADVENTURE · VOTRE JOURNAL PRIVÉ",
+      "brand.tagline": "VOTRE JOURNAL PRIVÉ",
       "nav.section.personal": "VOTRE ESPACE",
       "nav.overview": "Vue d’ensemble",
       "nav.diary": "Journal de vapotage",

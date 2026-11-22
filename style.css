@@ -535,3 +535,57 @@ body[data-theme="forest"]::before,body[data-theme="forest"]::after{
 @media(max-width:380px){
   .mark{width:68px;height:68px;flex-basis:68px}
 }
+
+
+/* Version 1.4 – iPhone-Feinschliff: Kopfzeile, sichere Abstände und Bedienbarkeit */
+@media(max-width:650px){
+  html,body{max-width:100%;overflow-x:clip}
+  body{min-height:100vh;min-height:100dvh}
+  .topbar{min-height:81px;height:81px;padding:5px 10px;gap:6px}
+  .brand{flex:0 1 auto;min-width:0;gap:7px}
+  .brand>span:last-child{min-width:0}
+  .brand b{display:block;font-size:15px;line-height:1.2;white-space:nowrap}
+  .brand small{font-size:6.5px;letter-spacing:.55px;line-height:1.25;white-space:nowrap}
+  .mark{width:64px;height:64px;flex:0 0 64px}
+  .topright{flex:0 0 auto;gap:5px;min-width:0}
+  .local{display:none}
+  .language-switch{width:34px;min-width:34px;height:32px;min-height:32px;padding:4px;gap:0;overflow:hidden}
+  .language-switch span{display:none}
+  .language-flag{width:20px;height:14px;min-width:20px;flex-basis:20px}
+  .theme-switch{width:32px;min-width:32px;height:32px;min-height:32px;padding:0;justify-content:center}
+  .help-trigger{width:32px;height:32px;min-width:32px;padding:2px;justify-content:center;gap:0}
+  .help-trigger b{display:none}
+  .help-trigger span{width:25px;height:25px;font-size:15px}
+  .profile-trigger{width:32px;height:32px}
+  .shell{min-height:calc(100dvh - 145px)}
+  .main{padding:22px 14px calc(100px + env(safe-area-inset-bottom))}
+  .mobile-nav{height:calc(64px + env(safe-area-inset-bottom));padding:5px 8px calc(5px + env(safe-area-inset-bottom))}
+  .mobile-nav button{flex:1;min-width:0;max-width:88px;gap:3px}
+  .mobile-nav button small{font-size:10px;white-space:nowrap}
+  .modal-backdrop{padding:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+  .modal{max-height:90dvh;padding:19px 16px}
+  .modal-foot{flex-wrap:wrap}
+  .modal-foot .btn{flex:1 1 auto}
+  .toast{bottom:calc(76px + env(safe-area-inset-bottom));max-width:calc(100vw - 28px);text-align:center}
+  .toolbar .field{min-width:0}
+  .item-actions{flex-wrap:wrap}
+  .item-actions .btn{min-height:34px}
+  .gallery-lightbox{padding:6px;padding-bottom:calc(6px + env(safe-area-inset-bottom))}
+  .gallery-lightbox-panel{height:calc(100dvh - 12px - env(safe-area-inset-bottom))}
+}
+@media(max-width:380px){
+  .topbar{padding-left:7px;padding-right:7px;gap:3px}
+  .brand{gap:5px}
+  .brand b{font-size:14px}
+  .brand small{font-size:6px;letter-spacing:.35px}
+  .mark{width:56px;height:56px;flex-basis:56px}
+  .topright{gap:3px}
+  .language-switch,.theme-switch,.help-trigger{width:29px;min-width:29px;height:29px;min-height:29px}
+  .profile-trigger{width:29px;height:29px}
+  .main{padding-left:11px;padding-right:11px}
+  .mobile-nav{padding-left:4px;padding-right:4px}
+  .mobile-nav button small{font-size:9px}
+}
+@supports not (overflow:clip){
+  @media(max-width:650px){html,body{overflow-x:hidden}}
+}
