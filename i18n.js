@@ -270,8 +270,172 @@
     "Die Seite passt sich auch kleinen Bildschirmen an. Unten findest du die mobile Navigation; unter „Mehr“ liegen weitere Bereiche wie Geräte, Fotos, Education und Backups.":"The page also adapts to small screens. You will find mobile navigation at the bottom; under “More” are additional sections such as Devices, Photos, Education and Backups."
 
   };
+  const frPairs = {
+  "Gästebuch": "Livre d’or",
+  "GEMEINSCHAFT": "COMMUNAUTÉ",
+  "Grüße und Nachrichten aus der Community": "Messages et salutations de la communauté",
+  "Hinterlasse einen freundlichen Gruß und lies Nachrichten aus der Community.": "Laissez un petit mot amical et découvrez les messages de la communauté.",
+  "Zum Schreiben eines Grußes melde dich bitte mit deinem Cloud-Konto an.": "Connectez-vous à votre compte cloud pour laisser un message.",
+  "Dein Anzeigename": "Votre nom affiché",
+  "Deine Nachricht": "Votre message",
+  "Gruß einreichen": "Envoyer le message",
+  "Dein Gruß wurde eingereicht und wartet auf Freigabe.": "Votre message a été envoyé et attend sa validation.",
+  "Freigegebene Grüße werden geladen …": "Chargement des messages approuvés…",
+  "Noch wurden keine Grüße veröffentlicht. Sei der Erste!": "Aucun message n’a encore été publié. Soyez le premier !",
+  "Das Gästebuch konnte nicht geladen werden. Bitte versuche es später erneut.": "Impossible de charger le livre d’or. Veuillez réessayer plus tard.",
+  "Die Gästebuch-Datenbank wurde noch nicht eingerichtet.": "La base de données du livre d’or n’est pas encore configurée.",
+  "Bitte warte eine Minute, bevor du einen weiteren Gruß einreichst.": "Veuillez attendre une minute avant d’envoyer un autre message.",
+  "Nachrichten werden vor der Veröffentlichung geprüft. Bitte teile keine privaten Informationen.": "Les messages sont vérifiés avant publication. Ne partagez aucune information personnelle.",
+  "ADVENTURE · DEIN PRIVATES TAGEBUCH": "ADVENTURE · VOTRE JOURNAL PRIVÉ",
+  "Nur auf diesem Gerät": "Sur cet appareil uniquement",
+  "DEIN BEREICH": "VOTRE ESPACE",
+  "Übersicht": "Vue d’ensemble",
+  "Geräte": "Appareils",
+  "DEIN PERSÖNLICHES TAGEBUCH": "VOTRE JOURNAL PERSONNEL",
+  "Schön, dass du da bist.": "Ravi de vous retrouver.",
+  "Halte deine Sessions, Geräte und Entdeckungen an einem Ort fest.": "Retrouvez vos sessions, appareils et découvertes au même endroit.",
+  "＋ Neuer Eintrag": "＋ Nouvelle entrée",
+  "DEIN ADVENTURE BEGINNT HIER": "VOTRE AVENTURE COMMENCE ICI",
+  "Dein Weg. Deine Aufzeichnungen.": "Votre parcours. Vos notes.",
+  "Dokumentiere deine Erfahrungen, lerne deine Geräte kennen und sammle Fortschritt durch Wissen und gute Pflege.": "Consignez vos expériences, découvrez vos appareils et progressez grâce aux connaissances et à un bon entretien.",
+  "Zum Tagebuch →": "Accéder au journal →",
+  "TAGEBUCHEINTRÄGE": "ENTRÉES DU JOURNAL",
+  "Deine dokumentierten Sessions": "Vos sessions enregistrées",
+  "GERÄTE": "APPAREILS",
+  "In deiner Sammlung": "Dans votre collection",
+  "PUFFS / ZÜGE": "BOUFFÉES / TIRAGES",
+  "Optional erfasste Gesamtzahl": "Nombre total facultatif",
+  "SORTEN": "VARIÉTÉS",
+  "Zuletzt im Tagebuch": "Dernières entrées du journal",
+  "Alle ansehen →": "Tout afficher →",
+  "Deine Geschichte beginnt hier": "Votre histoire commence ici",
+  "Dein erster Eintrag wartet auf dich.": "Votre première entrée vous attend.",
+  "Eintrag erstellen": "Créer une entrée",
+  "Dein nächster Schritt": "Votre prochaine étape",
+  "Alle Quests →": "Toutes les missions →",
+  "WISSEN & PFLEGE": "CONNAISSANCES ET ENTRETIEN",
+  "Lerne etwas Neues": "Apprenez quelque chose de nouveau",
+  "Kurse zu Akkusicherheit, Reinigung und Gerätekunde.": "Cours sur la sécurité des batteries, le nettoyage et les appareils.",
+  "Kurse entdecken →": "Découvrir les cours →",
+  "DEINE AUFZEICHNUNGEN": "VOS NOTES",
+  "Suche in Einträgen …": "Rechercher dans les entrées…",
+  "Alle Geräte": "Tous les appareils",
+  "Alle Kategorien": "Toutes les catégories",
+  "Neueste zuerst": "Les plus récentes d’abord",
+  "Älteste zuerst": "Les plus anciennes d’abord",
+  "Bearbeiten": "Modifier",
+  "Löschen": "Supprimer",
+  "Keine Einträge gefunden": "Aucune entrée trouvée",
+  "Fertig": "Terminé",
+  "Schließen": "Fermer",
+  "Abbrechen": "Annuler",
+  "Speichern": "Enregistrer",
+  "Gerät auswählen (optional)": "Choisir un appareil (facultatif)",
+  "Eintrag bearbeiten": "Modifier l’entrée",
+  "Neue Session": "Nouvelle session",
+  "Datum": "Date",
+  "Uhrzeit": "Heure",
+  "Geräteklasse": "Type d’appareil",
+  "Gerät": "Appareil",
+  "Sorte / Material": "Variété / matériau",
+  "Puffs / Züge · optional": "Bouffées / tirages · facultatif",
+  "Dauer · Minuten": "Durée · minutes",
+  "Temperatur · °C": "Température · °C",
+  "Ort": "Lieu",
+  "Geschmack · 1–5": "Goût · 1–5",
+  "Keine Angabe": "Non renseigné",
+  "Notizen": "Notes",
+  "Änderungen speichern": "Enregistrer les modifications",
+  "Eintrag speichern": "Enregistrer l’entrée",
+  "Eintrag gespeichert": "Entrée enregistrée",
+  "DEINE SAMMLUNG": "VOTRE COLLECTION",
+  "＋ Sorte hinzufügen": "＋ Ajouter une variété",
+  "Noch keine Sorten": "Aucune variété pour le moment",
+  "Sorte bearbeiten": "Modifier la variété",
+  "Sorte hinzufügen": "Ajouter une variété",
+  "Sortenname": "Nom de la variété",
+  "Hersteller": "Fabricant",
+  "Kategorie": "Catégorie",
+  "Sorte speichern": "Enregistrer la variété",
+  "DEINE AUSRÜSTUNG": "VOTRE ÉQUIPEMENT",
+  "＋ Gerät hinzufügen": "＋ Ajouter un appareil",
+  "Noch keine Geräte": "Aucun appareil pour le moment",
+  "Gerät bearbeiten": "Modifier l’appareil",
+  "Gerät hinzufügen": "Ajouter un appareil",
+  "Gerätename": "Nom de l’appareil",
+  "Beschreibung": "Description",
+  "Gerät speichern": "Enregistrer l’appareil",
+  "DEINE MOMENTE": "VOS INSTANTS",
+  "My Photo Gallery": "Ma galerie photo",
+  "＋ Foto hinzufügen": "＋ Ajouter une photo",
+  "Deine Galerie ist noch leer": "Votre galerie est encore vide",
+  "Foto hinzufügen": "Ajouter une photo",
+  "Foto speichern": "Enregistrer la photo",
+  "FORTSCHRITT OHNE KONSUMZIELE": "PROGRESSION SANS OBJECTIFS DE CONSOMMATION",
+  "Quests & Ziele": "Missions et objectifs",
+  "Belohnungen gibt es für Dokumentation, Lernen und Gerätepflege.": "Les récompenses valorisent la documentation, l’apprentissage et l’entretien des appareils.",
+  "LEVEL": "NIVEAU",
+  "COINS": "PIÈCES",
+  "ABGESCHLOSSEN": "TERMINÉ",
+  "Erledigt ✓": "Terminé ✓",
+  "Du entscheidest, wo gespeichert wird.": "Vous choisissez où vos données sont enregistrées.",
+  "Speicher & Backup →": "Stockage et sauvegarde →",
+  "Speicher & Backup": "Stockage et sauvegarde",
+  "Akkusicherheit": "Sécurité des batteries",
+  "Reinigung & Pflege": "Nettoyage et entretien",
+  "Gerätekunde": "Connaissance des appareils",
+  "LERNEN & WISSEN": "APPRENTISSAGE ET CONNAISSANCES",
+  "DEIN LERNFORTSCHRITT": "VOTRE PROGRESSION",
+  "Grundlagen": "Notions de base",
+  "Bestanden": "Réussi",
+  "Kurzübersicht": "Aperçu",
+  "Wissenstest": "Test de connaissances",
+  "Prüfung abgeben": "Valider le test",
+  "DEINE DATEN, DEINE KONTROLLE": "VOS DONNÉES, VOTRE CONTRÔLE",
+  "AKTIV · VERSCHLÜSSELT": "ACTIF · CHIFFRÉ",
+  "Passwort ändern": "Modifier le mot de passe",
+  "Bisheriges Passwort": "Mot de passe actuel",
+  "Neues Passwort wiederholen": "Confirmer le nouveau mot de passe",
+  "Zu lokalem Spielstand wechseln": "Passer aux données locales",
+  "Verschlüsselte Cloud": "Cloud chiffré",
+  "E-Mail-Adresse": "Adresse e-mail",
+  "Anmelden": "Se connecter",
+  "Registrieren": "Créer un compte",
+  "Passwort vergessen?": "Mot de passe oublié ?",
+  "EMPFOHLEN": "RECOMMANDÉ",
+  "Backup herunterladen": "Télécharger la sauvegarde",
+  "WIEDERHERSTELLEN": "RESTAURER",
+  "Backup einspielen": "Restaurer une sauvegarde",
+  "JSON auswählen & einspielen": "Choisir et restaurer le fichier JSON",
+  "CSV exportieren": "Exporter en CSV",
+  "CSV importieren": "Importer un fichier CSV",
+  "Einträge": "entrées",
+  "Fotos": "photos",
+  "Dein Profil": "Votre profil",
+  "Hilfe": "Aide",
+  "Hilfe-Bibliothek": "Centre d’aide",
+  "Hilfe durchsuchen …": "Rechercher dans l’aide…",
+  "Erste Schritte": "Premiers pas",
+  "Sprache einstellen": "Choisir la langue",
+  "Hilfe auf dem iPhone": "Aide sur iPhone",
+  "Cloud-Konto:": "Compte cloud :",
+  "Cloud gespeichert": "Données enregistrées dans le cloud",
+  "Lokal gespeichert": "Enregistré localement",
+  "Erfolgreich angemeldet": "Connexion réussie",
+  "Konto erstellt": "Compte créé",
+  "Konto konnte nicht bestätigt werden.": "Impossible de confirmer le compte.",
+  "Eintrag löschen?": "Supprimer cette entrée ?",
+  "Foto löschen": "Supprimer la photo",
+  "Optional": "Facultatif",
+  "Vaporizer": "Vaporisateur",
+  "Sorte": "Variété",
+  "Keine Sorte angegeben": "Aucune variété indiquée",
+  "Öffnen →": "Ouvrir →",
+  "Senden": "Envoyer",
+  "Nachricht": "Message"
+};
   const reverse = Object.fromEntries(Object.entries(pairs).map(([de,en])=>[en,de]));
-  let language = localStorage.getItem("mva_language") || "de";
+  let language = ["de","en","fr"].includes(localStorage.getItem("mva_language")) ? localStorage.getItem("mva_language") : "de";
   const textOriginal = new WeakMap();
   const textRendered = new WeakMap();
   const attrOriginal = new WeakMap();
@@ -281,8 +445,8 @@
   const reverseKeys = Object.keys(reverse).sort((a,b)=>b.length-a.length);
 
   function translateText(value, targetLanguage) {
-    const dictionary = targetLanguage === "en" ? pairs : reverse;
-    const ordered = targetLanguage === "en" ? keys : reverseKeys;
+    const dictionary = targetLanguage === "en" ? pairs : targetLanguage === "fr" ? frPairs : reverse;
+    const ordered = targetLanguage === "en" ? keys : targetLanguage === "fr" ? Object.keys(frPairs).sort((a,b)=>b.length-a.length) : reverseKeys;
     let output = value;
     for (const source of ordered) {
       if (output.includes(source)) output = output.split(source).join(dictionary[source]);
@@ -339,11 +503,15 @@
   function updateSwitch() {
     const button = document.querySelector("[data-i18n-switch]");
     if (!button) return;
-    const flag = language === "de"
-      ? '<svg class="language-flag" viewBox="0 0 60 40" role="img" aria-label="United Kingdom"><rect width="60" height="40" fill="#012169"/><path d="M0 0 60 40M60 0 0 40" stroke="#fff" stroke-width="9"/><path d="M0 0 60 40M60 0 0 40" stroke="#c8102e" stroke-width="4"/><path d="M30 0v40M0 20h60" stroke="#fff" stroke-width="13"/><path d="M30 0v40M0 20h60" stroke="#c8102e" stroke-width="7"/></svg>'
-      : '<svg class="language-flag" viewBox="0 0 60 40" role="img" aria-label="Deutschland"><rect width="60" height="13.333" fill="#000"/><rect y="13.333" width="60" height="13.334" fill="#dd0000"/><rect y="26.667" width="60" height="13.333" fill="#ffce00"/></svg>';
-    button.innerHTML = flag + (language === "de" ? '<span>English</span>' : '<span>Deutsch</span>');
-    button.setAttribute("aria-label", language === "de" ? "Switch to English" : "Zu Deutsch wechseln");
+    const flags = {
+      de: '<svg class="language-flag" viewBox="0 0 60 40" role="img" aria-label="United Kingdom"><rect width="60" height="40" fill="#012169"/><path d="M0 0 60 40M60 0 0 40" stroke="#fff" stroke-width="9"/><path d="M0 0 60 40M60 0 0 40" stroke="#c8102e" stroke-width="4"/><path d="M30 0v40M0 20h60" stroke="#fff" stroke-width="13"/><path d="M30 0v40M0 20h60" stroke="#c8102e" stroke-width="7"/></svg>',
+      en: '<svg class="language-flag" viewBox="0 0 60 40" role="img" aria-label="France"><rect width="20" height="40" fill="#002395"/><rect x="20" width="20" height="40" fill="#fff"/><rect x="40" width="20" height="40" fill="#ed2939"/></svg>',
+      fr: '<svg class="language-flag" viewBox="0 0 60 40" role="img" aria-label="Deutschland"><rect width="60" height="13.333" fill="#000"/><rect y="13.333" width="60" height="13.334" fill="#dd0000"/><rect y="26.667" width="60" height="13.333" fill="#ffce00"/></svg>'
+    };
+    const labels = {de:"English",en:"Français",fr:"Deutsch"};
+    const aria = {de:"Switch to English",en:"Passer en français",fr:"Zu Deutsch wechseln"};
+    button.innerHTML = flags[language] + '<span>' + labels[language] + '</span>';
+    button.setAttribute("aria-label", aria[language]);
   }
 
   function apply() {
@@ -366,7 +534,7 @@
     }
     // Always attach the handler: the switch already exists in index.html.
     button.addEventListener("click", () => {
-      language = language === "de" ? "en" : "de";
+      language = language === "de" ? "en" : language === "en" ? "fr" : "de";
       localStorage.setItem("mva_language", language);
       apply();
     });
@@ -406,7 +574,7 @@
   window.MVA_I18N = {
     getLanguage: () => language,
     setLanguage(value) {
-      language = value === "en" ? "en" : "de";
+      language = ["de","en","fr"].includes(value) ? value : "de";
       localStorage.setItem("mva_language", language);
       apply();
     }
