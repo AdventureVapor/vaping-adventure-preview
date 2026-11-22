@@ -144,6 +144,16 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [ ] Produktionsübernahme vorbereiten – erst nach Abschluss der Release-Prüfungen
 - [ ] Produktionsübernahme erst nach QA und ausdrücklicher Freigabe
 
+## Version 1.4 – Zentrales E-Mail-Designsystem
+
+- [x] Verbindliche visuelle Master-Vorlage für alle ausgehenden E-Mails festgelegt: Dunkelgrün passend zur App
+- [x] Kopfbereich verbindlich auf das offizielle Logo allein festgelegt (kein zusätzlicher Schriftzug)
+- [x] Wiederverwendbares HTML-Masterlayout mit responsivem Tabellenaufbau, Aktionsbutton, Fallback-Link und Footer erstellt
+- [x] Designregeln, Platzhalter, technische E-Mail-Grundsätze und Supabase-Übernahme dokumentiert
+- [ ] Masterlayout auf Bestätigungs-, Passwort-Reset- und weitere Auth-E-Mails in Supabase übertragen
+- [ ] Absendername, Betreffzeilen, Vorschautexte und Nur-Text-Versionen je E-Mail-Anlass finalisieren
+- [ ] Deutsche, englische und französische Vorlagen erstellen und auf Gmail, Apple Mail sowie Outlook prüfen
+
 ## Version 1.4 – Umsetzung in Preview
 
 - [x] Kontaktbereich mit responsivem Kontaktformular in „Mehr“ integrieren
