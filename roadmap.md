@@ -343,6 +343,8 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Grundlagenkurse vorhanden: Gerätekunde, Akkusicherheit und Reinigung/Pflege (bereits vorhanden) sowie Coil/Watte/Verdampferpflege, Liquid-Wissen, Fehlerbehebung für Einsteiger und Nikotin verstehen (neu ergänzt)
 - [ ] Zusätzlich folgende eigenständige Kurse entwickeln und in die passenden Lernlevel integrieren:
   - [x] **Aufbau einer E-Zigarette:** Komponenten, Strom- und Liquidweg, Verdampferkopf, Tank/Pod, Akku und Bedienung – als mehrsprachiger Kurs mit Lektionen und Wissenstest in Preview umgesetzt
+  - [x] Kurs „Aufbau einer E-Zigarette“ für 1.4.1 auf sieben aufeinander aufbauende Lektionen und einen Wissenstest mit zehn Fragen erweitert; Inhalte und Quiz vollständig in DE/EN/FR gepflegt, bestehende Kurs-ID `ecig-structure` und gespeicherte Fortschrittsdaten bleiben erhalten
+  - [ ] Erweiterten Grundlagenkurs auf Desktop und iPhone prüfen; zehn Fragen, 80-%-Bestehensgrenze, Wiederholungsversuche, Ergebnis-/Fortschrittsspeicherung und Sprachwechsel DE/EN/FR testen
   - [x] **Liquid selber mischen – der Rechenkurs:** Volumen, Mischungsverhältnisse und Prozentrechnung mit neutralen Übungswerten; keine Anleitung zum Umgang mit hochkonzentriertem Nikotin oder riskanten Konzentraten – als mehrsprachiger Kurs mit Wissenstest umgesetzt
   - [x] **Aufbau und Funktion eines Tabakerhitzers:** Heizelement, Tabaksticks, Luftführung, Temperatursteuerung und Unterschiede zur Verbrennungszigarette und E-Zigarette – als mehrsprachiger Kurs mit Wissenstest umgesetzt
   - [x] **Aufbau und Funktion eines Vaporizers:** Heizkammer, Temperaturregelung, Luftweg, Mundstück und Unterschiede zwischen Konduktion und Konvektion – als mehrsprachiger Kurs mit Wissenstest umgesetzt
@@ -402,6 +404,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 
 - [ ] Vollständige Sprachprüfung Deutsch, Englisch und Französisch
 - [ ] Neuen Kurs „Vom Rauchen zum Vapen“ in DE/EN/FR, mit Quiz, Fortschrittsspeicherung und auf Desktop/iPhone prüfen
+- [ ] Erweiterten Grundlagenkurs „Aufbau einer E-Zigarette“ (sieben Lektionen, zehn Quizfragen) auf Desktop/iPhone, in DE/EN/FR sowie mit Fortschrittsspeicherung und Wiederholungsversuchen prüfen
 - [ ] Registrierung, E-Mail-Bestätigung, Anmeldung und Passwort-Zurücksetzen erneut prüfen
 - [ ] Tagebuch, Geräte, Fotos und Galerie prüfen
 - [ ] Gästebuch einschließlich Moderationsablauf prüfen
