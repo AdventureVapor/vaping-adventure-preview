@@ -244,7 +244,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
   - [ ] Level 5 – Experte: Liquid-Wissen, Inhaltsstoffe, Nikotin und vertiefte Fehlerdiagnose
   - [ ] Level 6 – Profi: fortgeschrittene Verdampfertechnik, Selbstwickler und systematische Fehlerbehebung
   - [ ] Level 7 – Master: vertiefende Spezialthemen und umfassender Abschlusstest
-- [ ] Weitere geplante Kurse schrittweise ausarbeiten: Gerätekunde, Akkusicherheit, Coil/Watte/Verdampferpflege, Liquid-Wissen, Fehlerbehebung für Einsteiger und Nikotin verstehen
+- [x] Grundlagenkurse vorhanden: Gerätekunde, Akkusicherheit und Reinigung/Pflege (bereits vorhanden) sowie Coil/Watte/Verdampferpflege, Liquid-Wissen, Fehlerbehebung für Einsteiger und Nikotin verstehen (neu ergänzt)
 - [ ] Zusätzlich folgende eigenständige Kurse entwickeln und in die passenden Lernlevel integrieren:
   - [x] **Aufbau einer E-Zigarette:** Komponenten, Strom- und Liquidweg, Verdampferkopf, Tank/Pod, Akku und Bedienung – als mehrsprachiger Kurs mit Lektionen und Wissenstest in Preview umgesetzt
   - [x] **Liquid selber mischen – der Rechenkurs:** Volumen, Mischungsverhältnisse und Prozentrechnung mit neutralen Übungswerten; keine Anleitung zum Umgang mit hochkonzentriertem Nikotin oder riskanten Konzentraten – als mehrsprachiger Kurs mit Wissenstest umgesetzt
