@@ -508,6 +508,17 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Zoom und Seitennavigation vom Nutzer erfolgreich getestet
 
 
+### Cloud-Speicherung – Zuverlässigkeit nach CSV-Import (Preview)
+- [x] Cloud-Schreibvorgänge serialisieren und gleichzeitige Uploads zusammenführen, damit keine älteren Datenstände neuere Änderungen überschreiben
+- [x] Änderungen während eines laufenden Uploads erkennen und den neuesten Spielstand anschließend automatisch nachspeichern
+- [x] Fehlgeschlagene Cloud-Uploads mit begrenzten Wiederholungen (1, 3 und 8 Sekunden) erneut versuchen
+- [x] Fehlerantworten der Cloud robuster auswerten, auch wenn der Server keine gültige JSON-Antwort liefert
+- [x] Letzten Upload-Stand zusätzlich als lokal gespeicherte, clientseitig verschlüsselte Wiederherstellungskopie ablegen
+- [x] CSV-Import meldet die Übernahme getrennt von der noch laufenden Cloud-Synchronisierung
+- [ ] Praxistest: CSV-Import mit mehreren Einträgen, Cloud-Status und erneutes Laden nach erfolgreicher Synchronisierung prüfen
+- [ ] Praxistest: Cloud-Speicherung bei kurzzeitig unterbrochener Verbindung und automatischen Wiederholungen prüfen
+- [ ] Prüfen, dass lokale verschlüsselte Wiederherstellungskopie bei knappem Gerätespeicher keine Datenänderung verhindert
+
 ## Version 1.4.1 – Kontrolliertes Vapen
 
 ### Phase 1: Bestandsaufnahme – in Preview umgesetzt, Praxistest offen
