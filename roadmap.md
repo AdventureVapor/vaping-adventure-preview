@@ -64,6 +64,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 **Ziel:** Die größeren noch offenen Funktionspakete nach dem 1.4.1-Release fertigstellen.
 
 - [ ] Bereich „Kontrolliertes Vapen“ funktional entwickeln (Wochenziele, Fortschritt, Auswertung, datensparsame Speicherung und Übersetzungen)
+  - [x] Wochen-Navigation in „Woche auswählen“: Pfeil links für Vorwoche und Pfeil rechts für Folgewoche; automatische Aktualisierung der Wochenauswertung in Preview umgesetzt
+  - [ ] Pfeilnavigation auf iPhone und Desktop praktisch testen; Wochenwechsel und berechnete Tagebuchwerte gegenprüfen
 - [ ] Vape-Akademie mit sieben Lernleveln, Kursquoten, Leveltests und Freischaltlogik umsetzen
 - [ ] Bestehende Kursfortschritte bei Einführung der Akademie erhalten und sicher migrieren
 - [ ] Akademie-Fortschritt und Freischaltlogik mit mehreren Testkonten und geräteübergreifender Synchronisierung prüfen
