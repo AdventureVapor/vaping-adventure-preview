@@ -33,8 +33,52 @@ async function cloudRead(){let rows=await cloudFetch(`/rest/v1/mva_saves?select=
 async function cloudWrite(){if(!cloudSession||!cloudKey)return;let payload=await encryptCloud(db);await cloudFetch('/rest/v1/mva_saves?on_conflict=user_id',{method:'POST',headers:{Authorization:`Bearer ${cloudSession.token}`,Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({user_id:cloudSession.userId,payload,updated_at:new Date().toISOString()})});setCloudStatus('Cloud gespeichert')}
 function scheduleCloudSave(){if(!cloudSession||!cloudKey)return;setCloudStatus('Änderungen werden gespeichert …');clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>cloudWrite().catch(e=>{console.error(e);setCloudStatus('Cloud-Speicherung fehlgeschlagen');toast('Cloud-Speicherung fehlgeschlagen: '+(e.message||'Bitte Verbindung prüfen.')) }),700)}
 function setCloudStatus(text){let el=$('#storage-status');if(el)el.innerHTML=`<i></i> ${esc(text)}`}
+
+async function showLoginAnimation(){
+ const src='Bilder/vaanimat.gif';
+ const overlay=document.createElement('div');
+ overlay.id='mva-login-animation';
+ overlay.setAttribute('role','dialog');
+ overlay.setAttribute('aria-modal','true');
+ overlay.setAttribute('aria-label','My Vaping Adventure');
+ overlay.style.cssText='position:fixed;inset:0;z-index:100000;background:#090d0b;display:flex;align-items:center;justify-content:center;padding:18px;opacity:1;transition:opacity .35s ease';
+ const img=document.createElement('img');
+ img.src=src+'?v=login-animation-1';
+ img.alt='My Vaping Adventure – Startanimation';
+ img.style.cssText='display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:16px';
+ overlay.appendChild(img);
+ document.body.appendChild(overlay);
+ let duration=8000;
+ try{
+  const response=await fetch(src,{cache:'no-store'});
+  if(response.ok){
+   const bytes=new Uint8Array(await response.arrayBuffer());
+   let p=13,packed=bytes[10];
+   if(packed&0x80)p+=3*(1<<((packed&7)+1));
+   let total=0,frames=0;
+   const skipBlocks=()=>{while(p<bytes.length){const n=bytes[p++];if(!n)break;p+=n}};
+   while(p<bytes.length){
+    const marker=bytes[p++];
+    if(marker===0x3b)break;
+    if(marker===0x21){
+     const label=bytes[p++];
+     if(label===0xf9){const n=bytes[p++];if(n>=4){p++;const delay=bytes[p]|(bytes[p+1]<<8);p+=2;p++;total+=delay*10;frames++}if(bytes[p]===0)p++}
+     else skipBlocks();
+    }else if(marker===0x2c){
+     p+=8;const imagePacked=bytes[p++];
+     if(imagePacked&0x80)p+=3*(1<<((imagePacked&7)+1));
+     p++;skipBlocks();
+    }else break;
+   }
+   if(frames&&total>0)duration=total;
+  }
+ }catch(error){console.warn('GIF-Dauer konnte nicht ermittelt werden; Fallback wird verwendet.',error)}
+ const close=()=>{overlay.style.opacity='0';setTimeout(()=>overlay.remove(),380)};
+ window.setTimeout(close,duration+250);
+}
+
 function authEmail(){return $('#cloud-email')?.value.trim().toLowerCase()||''}
-function showRecoveryCode(code){const t=localeText;openModal(t('recovery.title'),`<p class="subheading">${t('recovery.description')}</p><div class="formrow" style="margin:16px 0"><label for="recovery-code-value">${t('recovery.label')}</label><input class="field" id="recovery-code-value" type="text" readonly value="${esc(code)}" style="font-family:monospace;font-size:15px;letter-spacing:.04em"></div><button class="btn soft" type="button" id="copy-recovery-code" style="width:100%">${t('recovery.copy')}</button><p class="tagline" id="recovery-copy-status" aria-live="polite">${t('recovery.once')}</p>`,t('dialog.save'),()=>{$('#modal-root').innerHTML=''});let input=$('#recovery-code-value'),copy=$('#copy-recovery-code'),status=$('#recovery-copy-status');copy.onclick=async()=>{try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(code)}else{input.focus();input.select();if(!document.execCommand('copy'))throw Error('copy failed')}status.textContent=t('recovery.copied');copy.textContent=t('recovery.copySuccess')}catch{input.focus();input.select();status.textContent=t('recovery.copyHint')}};input.addEventListener('click',()=>input.select())}
+function showRecoveryCode(code){const t=localeText;openModal(t('recovery.title'),`<p class="subheading">${t('recovery.description')}</p><div class="formrow" style="margin:16px 0"><label for="recovery-code-value">${t('recovery.label')}</label><input class="field" id="recovery-code-value" type="text" readonly value="${esc(code)}" style="font-family:monospace;font-size:15px;letter-spacing:.04em"></div><button class="btn soft" type="button" id="copy-recovery-code" style="width:100%">${t('recovery.copy')}</button><p class="tagline" id="recovery-copy-status" aria-live="polite">${t('recovery.once')}</p>`,t('dialog.save'),()=>{$('#modal-root').innerHTML='';showLoginAnimation()});let input=$('#recovery-code-value'),copy=$('#copy-recovery-code'),status=$('#recovery-copy-status');copy.onclick=async()=>{try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(code)}else{input.focus();input.select();if(!document.execCommand('copy'))throw Error('copy failed')}status.textContent=t('recovery.copied');copy.textContent=t('recovery.copySuccess')}catch{input.focus();input.select();status.textContent=t('recovery.copyHint')}};input.addEventListener('click',()=>input.select())}
 async function cloudLogin(signup){
  let email=authEmail(),password=$('#cloud-pass')?.value;
  if(signup&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return toast('Für ein neues Konto bitte eine gültige E-Mail-Adresse eingeben.');
@@ -63,14 +107,14 @@ async function cloudLogin(signup){
      try{
       db=localDb;storageMode='cloud';await cloudWrite();
       setCloudStatus('Verschlüsselte Cloud · '+(cloudSession.email||''));
-      $('#modal-root').innerHTML='';if($('#cloud-pass'))$('#cloud-pass').value='';render();toast('Lokaler Spielstand sicher in die Cloud übertragen');
+      $('#modal-root').innerHTML='';if($('#cloud-pass'))$('#cloud-pass').value='';render();showLoginAnimation();toast('Lokaler Spielstand sicher in die Cloud übertragen');
      }catch(error){
       db=localDb;storageMode='local';setCloudStatus('Nur auf diesem Gerät');
       toast(error.message||'Upload fehlgeschlagen. Deine lokalen Daten bleiben erhalten.');
      }
     }else{
      db=cloudData;storageMode='cloud';setCloudStatus('Verschlüsselte Cloud · '+(cloudSession.email||''));
-     $('#modal-root').innerHTML='';if($('#cloud-pass'))$('#cloud-pass').value='';render();toast('Cloud-Spielstand geladen');
+     $('#modal-root').innerHTML='';if($('#cloud-pass'))$('#cloud-pass').value='';render();showLoginAnimation();toast('Cloud-Spielstand geladen');
     }
    });
   }else{
