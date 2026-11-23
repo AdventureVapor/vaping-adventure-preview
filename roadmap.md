@@ -527,3 +527,15 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Nach etwa einem Monat Bestandsaufnahme die Daten auswerten
 - [ ] Individuelle und realistische Ziele gemeinsam festlegen
 - [ ] Zielverlauf und Fortschritt auf Grundlage der dokumentierten Sessions abbilden
+
+### Login-Startanimation – in Preview umgesetzt, Praxistest offen
+- [x] Die Startanimation `Bilder/vaanimat.gif` aus dem Projekt-Repository auch im Preview-Repository bereitstellen
+- [x] Nach erfolgreicher Cloud-Anmeldung ein eigenes bildschirmfüllendes Startfenster über der App öffnen
+- [x] GIF automatisch abspielen und die Gesamtdauer anhand der Bildframe-Zeiten ermitteln
+- [x] Startfenster nach dem vollständigen Animationsdurchlauf automatisch schließen
+- [x] Animation auch nach der erstmaligen Kontoanmeldung nach dem Bestätigen des Wiederherstellungscodes anzeigen
+- [x] Animation nicht bei gewöhnlichen Seitenwechseln oder beim Neuladen einer bereits angemeldeten Sitzung erneut starten
+- [ ] Anmeldung mit vorhandenem Cloud-Konto und Auswahl des Cloud-Spielstands testen
+- [ ] Erstmalige Kontoanmeldung einschließlich Wiederherstellungscode testen
+- [ ] Vollständigen Animationsdurchlauf und automatisches Schließen auf iPhone und Desktop prüfen
+- [ ] Prüfen, dass die App nach dem Schließen bedienbar bleibt und die Anmeldung/Cloud-Synchronisierung unverändert funktionieren
