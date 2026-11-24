@@ -625,7 +625,7 @@ function controlledVaping(v){
  const days=Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return iso(d)});
  const entries=db.entries.filter(e=>days.includes(e.date));
  const categories=[['vaporizer',lang==='en'?'Vaporizer':lang==='fr'?'Vaporisateur':'Vaporizer'],['ecig',lang==='en'?'E-cigarette':lang==='fr'?'Cigarette électronique':'E-Zigarette'],['heater',lang==='en'?'Tobacco heater':lang==='fr'?'Tabac chauffé':'Tabakheater']];
- const bucket=e=>{const m=String(e.time||'').match(/^(\d{1,2}):(\d{2})$/);if(!m)return -1;const h=+m[1],minute=+m[2];if(h>23||minute>59)return -1;return h<6?0:h<12?1:h<18?2:3};
+ const bucket=e=>window.MVAControlledVapingUtils.timeBucket(e.time);
  const count=(cat,slot,day)=>entries.filter(e=>(!cat||e.category===cat)&&(!day||e.date===day)&&(slot===-2||bucket(e)===slot)).length;
  const categoryTotals=Object.fromEntries(categories.map(([key])=>[key,days.map(d=>count(key,-2,d))]));
  const dayTotals=days.map(d=>count(null,-2,d)),weekTotal=dayTotals.reduce((x,y)=>x+y,0),freeDays=dayTotals.filter(x=>x===0).length,missing=entries.filter(e=>bucket(e)<0).length;
