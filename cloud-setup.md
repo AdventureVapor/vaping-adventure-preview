@@ -146,3 +146,28 @@ using (auth.uid() = user_id);
 Die `payload`-Spalte enthält ausschließlich clientseitig AES-GCM-verschlüsselte Daten der jeweiligen Gruppe. Die App soll später nur tatsächlich geänderte Gruppen hochladen. Die bisherige Tabelle `mva_saves` bleibt während der gesamten Umstellung als Legacy-Quelle und Rückfallmöglichkeit bestehen; sie wird nicht automatisch gelöscht oder überschrieben, solange Migration und Wiederherstellung nicht nachweislich funktionieren.
 
 **Wichtig:** Die App-Migration muss zuerst ein vollständiges JSON-Backup sichern, alle vorhandenen Medien einzeln verschlüsselt hochladen und durch erneutes Herunterladen/Entschlüsseln verifizieren. Erst danach dürfen die Datenbankverweise auf die Medien umgestellt werden. Originale in der bisherigen Sicherung bleiben erhalten, bis Anmeldung, Neuladen und Synchronisierung auf einem zweiten Gerät erfolgreich geprüft wurden.
+
+## 9. Verbindliche Regeln für die spätere App-Umstellung
+
+Die aktuelle App-Datenstruktur enthält diese sechs Datengruppen:
+- `entries` – Tagebucheinträge
+- `devices` – Geräte einschließlich ihrer Medienverweise
+- `strains` – Sorten
+- `photos` – Galerieeinträge einschließlich ihrer Medienverweise
+- `game` – XP, Coins, Quests und Lernfortschritt
+- `controlledVaping` – Startdatum und Daten der Funktion „Kontrolliertes Vapen“
+
+Die sechs Gruppen müssen vollständig übernommen werden. Unbekannte zusätzliche Felder eines älteren oder neueren Backups dürfen bei einer Migration nicht stillschweigend verworfen werden. Deshalb bleibt das ursprüngliche vollständige JSON-Backup die maßgebliche Rückfallkopie.
+
+**Keine einfache Last-write-wins-Synchronisierung:** Das Feld `revision` allein verhindert noch keine Überschreibung durch ein zweites Gerät. Vor Aktivierung muss die App konkurrierende Änderungen pro Datengruppe erkennen (optimistischer Versionsvergleich/Compare-and-Swap oder gleichwertige atomare Lösung). Bei einem Konflikt darf die App nicht automatisch den neueren lokalen oder Cloud-Stand verwerfen; sie muss den Konflikt melden und eine sichere Zusammenführung bzw. bewusste Auswahl ermöglichen.
+
+**Migrationsreihenfolge:**
+1. Vollständiges JSON-Backup erzeugen und lokal zum Download anbieten.
+2. Bestehenden Cloud-Spielstand entschlüsseln und unverändert als Legacy-Quelle behalten.
+3. Alle Fotos und PDF-Anleitungen einzeln verschlüsselt hochladen und durch Download, Entschlüsselung, Größen- und SHA-256-Prüfung verifizieren.
+4. Die sechs Datengruppen in die neue Tabelle schreiben und jede Gruppe nach dem Schreiben erneut lesen und entschlüsseln.
+5. Erst nach vollständiger Prüfung den neuen Speicher als aktiv markieren. Bis dahin ausschließlich den Legacy-Speicher verwenden.
+6. Anmeldung, Neuladen, Bearbeiten, Löschen, JSON-Export/-Import und Synchronisierung mit einem zweiten Gerät testen.
+7. Legacy-Spielstand und ursprüngliche Medien erst nach ausdrücklicher Freigabe und erfolgreicher Wiederherstellungsprobe außer Betrieb nehmen.
+
+Ein fehlgeschlagener Schritt bricht die Migration ab. Bereits hochgeladene neue Objekte dürfen dabei höchstens als unreferenzierte Dateien zurückbleiben; vorhandene Legacy-Daten und Medien werden niemals als Teil eines automatischen Rollbacks gelöscht.
