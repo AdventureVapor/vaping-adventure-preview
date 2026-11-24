@@ -820,3 +820,11 @@ Hinweis: Die Änderung verhindert eine voreilige Erfolgsmeldung beim Bearbeiten.
 - [ ] Prüfen, dass mehrere Konten getrennte Wiederherstellungskopien erhalten und die IndexedDB-Daten nach Neuladen erhalten bleiben.
 
 Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem Browser/Gerät. Sie ist nicht mit einem geräteübergreifenden Backup gleichzusetzen. Die bestehenden Cloud-Daten und vorhandenen Medien werden durch diese Änderung nicht migriert oder gelöscht.
+
+
+## Rückmeldung beim Speichern von Tagebucheinträgen (Preview)
+
+- [x] Speichern-Button zeigt während eines laufenden Speichervorgangs „Speichert …“ und ist gegen Doppelklick gesperrt.
+- [x] Im Cloud-Modus wird der Speicherstatus beim manuellen Speichern eines Tagebucheintrags sichtbar auf „Tagebucheintrag wird in der Cloud gespeichert …“ gesetzt.
+- [x] Nach Abschluss wird die ursprüngliche Button-Beschriftung wiederhergestellt; Fehler bleiben sichtbar und der Dialog bleibt zur erneuten Speicherung geöffnet.
+- [ ] Im Browser mit dem Switch²-Eintrag testen: Button-Rückmeldung, Statuswechsel und erfolgreiche Änderung des Datums.
