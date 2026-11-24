@@ -220,7 +220,7 @@ async function flushCloudSave(){
  }catch(error){
   console.error('Cloud-Speicherung vor dem Abmelden fehlgeschlagen:',error);
   setCloudStatus('Cloud-Speicherung fehlgeschlagen');
-  toast('Abmeldung abgebrochen: Deine letzte Änderung konnte nicht sicher in der Cloud gespeichert werden. Bitte Verbindung prüfen und erneut versuchen.');
+  toast('Abmeldung abgebrochen: Cloud-Speicherung fehlgeschlagen – '+(error?.message||'Unbekannter Fehler')+'. Deine Daten bleiben angemeldet; bitte erneut versuchen.');
   return false;
  }
 }
