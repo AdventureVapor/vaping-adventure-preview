@@ -57,14 +57,15 @@ begin
      or p_payload->>'v' <> '1'
      or p_payload->>'algorithm' <> 'A256GCM'
      or p_payload->>'revision' is null
-     or case
-          when p_payload->>'revision' ~ '^[0-9]+$'
-            then (p_payload->>'revision')::numeric <> p_expected_revision::numeric + 1
-          else true
-        end
+     or p_payload->>'revision' !~ '^[0-9]+$'
      or coalesce(p_payload->>'iv', '') = ''
      or coalesce(p_payload->>'ciphertext', '') = '' then
     raise exception 'Invalid encrypted payload or revision' using errcode = '22023';
+  end if;
+
+  -- The separate check ensures the numeric cast is reached only for digit-only input.
+  if (p_payload->>'revision')::numeric <> p_expected_revision::numeric + 1 then
+    raise exception 'Encrypted payload revision mismatch' using errcode = '22023';
   end if;
 
   if p_expected_revision = 0 then
@@ -105,7 +106,7 @@ begin
   begin
     perform public.mva_write_data('entries',
       '{"v":1,"algorithm":"A256GCM","revision":1,"iv":"aWlpaWlpaWlpaWlp","ciphertext":"Y2lwaGVydGV4dA=="}'::jsonb, 0);
-    raise exception 'stale initial write unexpectedly succeeded';
+    raise exception 'stale initial write unexpectedly succeeded' using errcode = 'XX000';
   exception when sqlstate 'P0001' then null;
   end;
 
@@ -116,7 +117,7 @@ begin
   begin
     perform public.mva_write_data('entries',
       '{"v":1,"algorithm":"A256GCM","revision":3,"iv":"aWlpaWlpaWlpaWlp","ciphertext":"Y2lwaGVydGV4dA=="}'::jsonb, 1);
-    raise exception 'stale revision write unexpectedly succeeded';
+    raise exception 'stale revision write unexpectedly succeeded' using errcode = 'XX000';
   exception when sqlstate 'P0001' then null;
   end;
 
