@@ -2,6 +2,20 @@
 
 Alle relevanten Änderungen für My Vaping Adventure werden hier nachvollziehbar festgehalten.
 
+## Preview – Vorbereitung 1.4.2 (in Entwicklung, PR #85)
+
+### Datenstruktur und Einstellungen
+- Eine gemeinsame Material-Sammlung für Vaporizer-Material, E-Liquids, Tabakheater-Sticks, Zigarettenmarken, Joint-Mischungen und Bong-Material bleibt erhalten.
+- Materialvorschläge werden nach Kategorie gefiltert; neue Materialien erhalten ihre Kategorie.
+- Tagebucheinträge können eine kompakte Material-ID referenzieren und behalten den Namen als lesbare historische Momentaufnahme.
+- Zentrales Einstellungsmenü mit Vaping-Konfiguration, Sprache, Design, Anmelde-/Kontobereich, Startanimation An/Aus und Profil-/Datenübersicht ergänzt.
+- Kategorien lassen sich global ein- und ausblenden; vorhandene Einträge werden nicht gelöscht.
+- Große Fotos und PDF-Anleitungen bleiben vorerst im bestehenden verschlüsselten Spielstand. Die getrennte Medienablage ist vorbereitet, aber noch nicht mit den Formularen aktiviert und benötigt einen privaten Supabase-Storage-Bucket samt RLS-Prüfung.
+
+### Kommunikation und Sichtbarkeit
+- Roadmap um eine rechtlich und plattformseitig zu prüfende Kommunikationsstrategie für Instagram/Facebook ergänzt.
+- Es wurde noch kein öffentlicher Social-Media-Account angelegt und keine Werbung geschaltet.
+
 ## Alpha 1.3 – Release Candidate
 **Stand: 21. November 2026**
 
