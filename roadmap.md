@@ -419,6 +419,18 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 
 ## Version 1.5 – Benutzersystem
 
+### Vorbereitung Veröffentlichung und Kommunikation – Grundlagen
+- [ ] Ziel und Positionierung von My Vaping Adventure als Tagebuch-, Geräteverwaltungs- und sachliche Lern-/Informationsplattform klar beschreiben; keine Bewerbung des Konsums oder einzelner Nikotin-/Tabakprodukte
+- [ ] Zielgruppen und Altersabgrenzung für die Kommunikation festlegen; keine Ansprache Minderjähriger, Nichtraucher oder besonders schutzbedürftiger Gruppen
+- [ ] Kommunikationsleitlinien für Website, Social Media, Presse-/Projektvorstellung und mögliche Anzeigen erstellen; gesundheitsbezogene Aussagen nur sachlich, belegbar und ohne Heil- oder Erfolgsversprechen
+- [ ] Rechtliche Prüfung der geplanten Öffentlichkeitsarbeit und Werbeformen in Deutschland/EU vorbereiten, insbesondere Tabak-/E-Zigarettenwerbung, Jugendschutz, Datenschutz und Plattformrichtlinien
+- [ ] Zulässige Kanäle und Formate für eine reine Software-/Projektvorstellung identifizieren; bezahlte Werbung erst nach dokumentierter rechtlicher Prüfung einsetzen
+- [ ] Einheitliche Presse-/Projektbeschreibung, Kurzbeschreibung, Logo-Verwendung und Kontaktmöglichkeit vorbereiten
+- [ ] Datenschutzfreundliches Konzept für Reichweitenmessung und Erfolgskontrolle festlegen; keine nicht erforderlichen Tracking- oder Werbe-Cookies ohne wirksame Einwilligung
+- [ ] Veröffentlichungsanforderungen und offene Freigaben in einer zentralen Launch-Checkliste sammeln
+
+
+
 ### Google-Anmeldung – geplant
 
 - [ ] Anmeldung und Registrierung mit Google-Konto als zusätzliche Option integrieren
@@ -448,6 +460,22 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 
 ## Version 1.6 – My Vaping Adventure Forum
 
+### Veröffentlichungsvorbereitung und Kommunikationskampagne
+- [ ] Veröffentlichungsumfang und Starttermin erst nach abgeschlossener Produkt-, Sicherheits- und Rechtsprüfung festlegen
+- [ ] Öffentliche Website-/Landingpage mit verständlicher Beschreibung der App, Funktionen, Systemvoraussetzungen, Kontakt, Impressum und Datenschutzerklärung vorbereiten
+- [ ] Öffentliche Inhalte von privaten Tagebüchern, Benutzerprofilen und geschützten Forenbeiträgen technisch und für Suchmaschinen eindeutig trennen
+- [ ] Kommunikationspaket vorbereiten: Projektvorstellung, Screenshots, Logo-/Bildmaterial, FAQ, kurze Ankündigungstexte und Presse-/Community-Information
+- [ ] Redaktions- und Veröffentlichungsplan für Website und geeignete Social-Media-Kanäle erstellen
+- [ ] Werbe-/Anzeigenmotive ausschließlich als sachliche Vorstellung der Software und ihrer Funktionen konzipieren; keine Produktwerbung für E-Zigaretten, Tabakerzeugnisse, Liquids oder Nikotin
+- [ ] Vor jeder bezahlten oder organischen Werbemaßnahme rechtliche Zulässigkeit und Plattformregeln prüfen lassen; bei Unsicherheit auf die Maßnahme verzichten
+- [ ] Altersgerechte Ausrichtung sicherstellen; keine Minderjährigen ansprechen und keine Konsumanreize, Verharmlosung oder gesundheitlichen Erfolgsversprechen verwenden
+- [ ] Datenschutz, Bild-/Musik-/Markenrechte, Einwilligungen und Impressums-/Kennzeichnungspflichten für alle Veröffentlichungsmaterialien prüfen
+- [ ] Ablauf für Veröffentlichung, Support-Anfragen, Fehlerberichte und Rückmeldungen nach dem Start festlegen
+- [ ] Launch-Checkliste mit Verantwortlichkeiten, Freigabepunkten, Rückfallplan und Kommunikationsablauf abschließen
+- [ ] Öffentliche Freigabe und Start einer möglichen Kampagne nur nach ausdrücklicher Betreiberentscheidung
+
+
+
 ### Community-Forum – geplant
 
 - [ ] Eigenständigen Forum-Bereich in My Vaping Adventure integrieren
@@ -464,6 +492,44 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Spam-Schutz, Meldefunktion und angemessene Moderationsregeln prüfen
 - [ ] Berechtigungen und Sichtbarkeit mit Gastzugriff sowie mehreren angemeldeten Testkonten umfassend testen
 - [ ] Forum auf Desktop und iPhone responsiv gestalten
+
+## Version 1.7 – Suchmaschinenoptimierung (SEO) und Auffindbarkeit
+
+**Ziel:** Die öffentlich zugänglichen Informationen zu My Vaping Adventure technisch und inhaltlich so aufbereiten, dass Suchmaschinen das Projekt korrekt verstehen und interessierte Erwachsene die App über sachliche Suchanfragen finden können. Private Konten und persönliche Daten bleiben vollständig ausgeschlossen.
+
+### Technische Suchmaschinenoptimierung
+- [ ] SEO-Bestandsaufnahme der öffentlichen Website und ihrer indexierbaren Seiten durchführen
+- [ ] Suchmaschinenfreundliche, stabile URLs und eine klare Seitenhierarchie für öffentliche Informationsseiten festlegen
+- [ ] Aussagekräftige, individuelle Seitentitel und Meta-Descriptions in Deutsch, Englisch und Französisch erstellen
+- [ ] Canonical-URLs definieren und doppelte bzw. technisch konkurrierende Seiten vermeiden
+- [ ] Sprachversionen mit korrekten hreflang-Verweisen und passenden Sprach-/Ländercodes verbinden
+- [ ] XML-Sitemap für ausschließlich öffentliche, indexierbare Seiten erstellen und aktuell halten
+- [ ] robots.txt korrekt konfigurieren; Login, Kontobereiche, private Tagebücher, persönliche Geräte-/Galeriedaten und nicht öffentliche Forenbereiche von der Indexierung ausschließen
+- [ ] Sicherstellen, dass private Inhalte nicht nur per robots.txt verborgen, sondern serverseitig durch Authentifizierung und Berechtigungen geschützt sind
+- [ ] Strukturierte Daten (Schema.org) nur dort ergänzen, wo sie zum tatsächlichen öffentlichen Seiteninhalt passen
+- [ ] Open-Graph- und Social-Sharing-Metadaten für öffentliche Projektseiten ergänzen
+- [ ] Ladezeiten, mobile Darstellung, Core Web Vitals, Bildgrößen, Alt-Texte und barrierearme Struktur optimieren
+- [ ] Weiterleitungen, Fehlerseiten, HTTPS, Crawling und Indexierbarkeit technisch prüfen
+- [ ] PWA- und JavaScript-Inhalte auf korrekte Auffindbarkeit durch Suchmaschinen testen
+
+### Inhalte und redaktionelle SEO
+- [ ] Relevante Suchbegriffe für Tagebuch, Geräteverwaltung, Vaporizer-/E-Zigaretten-Aufklärung und App-Funktionen recherchieren, ohne Konsum oder Nikotinprodukte zu bewerben
+- [ ] Keyword- und Themenstruktur für öffentliche Seiten in DE/EN/FR erstellen
+- [ ] Öffentliche Start-/Landingpage mit klarer, sachlicher Nutzenbeschreibung und eindeutigen Funktionsinformationen optimieren
+- [ ] Hilfeseiten und öffentlich zugängliche Lerninhalte mit verständlichen Überschriften, präzisen Texten und internen Verlinkungen strukturieren
+- [ ] Inhalte fachlich gegenprüfen, Quellen bei Gesundheits- und Sicherheitsthemen nennen und keine medizinischen Wirkversprechen oder individuellen Konsumempfehlungen veröffentlichen
+- [ ] Nur tatsächlich öffentliche und freigegebene Inhalte für Suchmaschinen bereitstellen; private Forenbeiträge und personenbezogene Informationen niemals indexieren
+- [ ] Regelmäßige Aktualisierung und redaktionelle Qualitätskontrolle der öffentlichen Inhalte festlegen
+
+### Messung, Qualitätssicherung und Veröffentlichung
+- [ ] Geeignete Suchmaschinen-Dienste (z. B. Google Search Console und Bing Webmaster Tools) für die öffentliche Domain einrichten
+- [ ] Domain-Inhaberschaft verifizieren und Sitemap einreichen
+- [ ] Datenschutzfreundliche Reichweitenmessung und Cookie-/Einwilligungsanforderungen rechtlich prüfen
+- [ ] Indexierungsstatus, Suchanfragen, Klicks, Darstellungsfehler und technische SEO-Probleme regelmäßig kontrollieren
+- [ ] Backlinks und Kooperationen nur seriös, transparent und thematisch passend aufbauen; keine gekauften Links oder manipulativen SEO-Maßnahmen
+- [ ] SEO-Prüfung für Desktop, iPhone sowie alle drei Sprachversionen durchführen
+- [ ] Abschließende rechtliche Prüfung von Inhalten, Metadaten und Werbeaussagen durchführen
+- [ ] SEO-Änderungen zunächst in Preview testen; produktive Veröffentlichung erst nach QA und ausdrücklicher Freigabe
 
 ## Technischer Stand
 
