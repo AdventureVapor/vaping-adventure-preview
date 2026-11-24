@@ -106,4 +106,43 @@ using (bucket_id = 'mva-private-media'
   and (storage.foldername(name))[1] = (select auth.uid())::text);
 ```
 
-Die neue Datei `cloud-media.js` enthält zunächst nur die isolierten AES-GCM-Upload-/Download-/Löschfunktionen. Sie wird noch nicht von Formularen oder Galerie aufgerufen. Die Tagebuch-, Geräte-, Sorten- und Fortschrittsdaten bleiben vorerst gemeinsam im bestehenden clientseitig verschlüsselten Spielstand. Nur die großen Binärdateien sollen später separat gespeichert werden; so bleiben zusammengehörige strukturierte Daten konsistent und jede Tagebuchänderung muss nicht erneut alle Fotos/PDFs übertragen.
+Die Datei `cloud-media.js` stellt verschlüsselte Upload-, Download- und Löschfunktionen bereit. Verifizierte Uploads laden die Datei anschließend wieder herunter und vergleichen Größe sowie SHA-256-Prüfsumme. Diese Funktionen werden erst nach erfolgreicher Einrichtung und Migration mit Galerie und Geräteformularen verbunden. Bis dahin bleiben vorhandene Daten unverändert im bisherigen Cloud-Spielstand.
+
+
+## 8. Getrennte, verschlüsselte Datengruppen (Vorbereitung – App-Migration folgt)
+
+Damit Tagebucheinträge, Geräte, Sorten und Spielfortschritt künftig unabhängig voneinander synchronisiert werden können, wird eine zweite Tabelle vorbereitet. **Das Anlegen dieser Tabelle ändert noch keine vorhandenen Daten und aktiviert die neue Speicherung noch nicht.** Die App verwendet sie erst nach einem separaten, geprüften Update.
+
+```sql
+create table if not exists public.mva_data (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  data_type text not null check (data_type in ('entries','devices','strains','photos','game')),
+  payload jsonb not null,
+  updated_at timestamptz not null default now(),
+  revision bigint not null default 1,
+  primary key (user_id, data_type)
+);
+
+alter table public.mva_data enable row level security;
+
+create policy "MVA data select own rows"
+on public.mva_data for select to authenticated
+using (auth.uid() = user_id);
+
+create policy "MVA data insert own rows"
+on public.mva_data for insert to authenticated
+with check (auth.uid() = user_id);
+
+create policy "MVA data update own rows"
+on public.mva_data for update to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+create policy "MVA data delete own rows"
+on public.mva_data for delete to authenticated
+using (auth.uid() = user_id);
+```
+
+Die `payload`-Spalte enthält ausschließlich clientseitig AES-GCM-verschlüsselte Daten der jeweiligen Gruppe. Die App soll später nur tatsächlich geänderte Gruppen hochladen. Die bisherige Tabelle `mva_saves` bleibt während der gesamten Umstellung als Legacy-Quelle und Rückfallmöglichkeit bestehen; sie wird nicht automatisch gelöscht oder überschrieben, solange Migration und Wiederherstellung nicht nachweislich funktionieren.
+
+**Wichtig:** Die App-Migration muss zuerst ein vollständiges JSON-Backup sichern, alle vorhandenen Medien einzeln verschlüsselt hochladen und durch erneutes Herunterladen/Entschlüsseln verifizieren. Erst danach dürfen die Datenbankverweise auf die Medien umgestellt werden. Originale in der bisherigen Sicherung bleiben erhalten, bis Anmeldung, Neuladen und Synchronisierung auf einem zweiten Gerät erfolgreich geprüft wurden.
