@@ -642,7 +642,7 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 
 - [x] Codeprüfung von Cloud-Speicherung, Abmeldung, Speicherwechsel, JSON-/CSV-Import und lokaler Wiederherstellung durchführen
 - [x] Fehler gefunden: Beim Wechsel vom Cloud- zum lokalen Modus wurde nach erfolgreicher Cloud-Speicherung der alte lokale Spielstand (localDb) wieder eingesetzt; die aktuell geladenen Cloud-Daten konnten dadurch im aktiven Bildschirm verschwinden
-- [ ] Fehlerbehebung: aktuellen Cloud-Spielstand vor dem Wechsel in den lokalen Modus zuverlässig in den lokalen Speicher übernehmen; bei fehlgeschlagener lokaler Sicherung angemeldet bleiben und den Cloud-Modus nicht verlassen
+- [x] Fehlerbehebung in Preview umgesetzt: aktuellen Cloud-Spielstand vor dem Wechsel in den lokalen Modus in localStorage übernehmen; bei fehlgeschlagener lokaler Sicherung angemeldet bleiben und den Cloud-Modus nicht verlassen (Praxistest noch offen)
 - [ ] Cloud-Schreibwarteschlange und Revisionszähler auf parallele Änderungen, laufende Uploads, Wiederholungen und Fehlerzustände prüfen und gegebenenfalls vereinfachen
 - [ ] Speichern, Abmelden, Wechsel Cloud → lokal und erneutes Anmelden mit Testkonten reproduzierbar testen
 - [ ] Kurzzeitige Netzwerkunterbrechung, Token-Erneuerung, mehrfaches Speichern und erneute Synchronisierung testen
