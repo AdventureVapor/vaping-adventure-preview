@@ -26,7 +26,28 @@ async function encryptCloud(data){if(!cloudKey)throw Error('Verschlüsselungssch
 async function decryptCloud(box){if(box?.v===2&&box.envelope?.v===1){let env=box.envelope,salt=unb64(env.password.salt),kek=await deriveCloudKey(cloudPassword,salt),raw=await aesUnwrap(kek,env.password),rawKey=await crypto.subtle.importKey('raw',raw,{name:'AES-GCM'},false,['encrypt','decrypt']);cloudKey=rawKey;cloudEnvelope=env;let plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},cloudKey,unb64(box.ciphertext));return JSON.parse(new TextDecoder().decode(plain))}if(box?.v!==1)throw Error('Unbekanntes Cloud-Backup-Format');cloudSalt=unb64(box.salt);cloudKey=await deriveCloudKey(cloudPassword,cloudSalt);cloudEnvelope=null;let plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},cloudKey,unb64(box.ciphertext));return JSON.parse(new TextDecoder().decode(plain))}
 async function createCloudEnvelope(password){let raw=crypto.getRandomValues(new Uint8Array(32)),dek=await crypto.subtle.importKey('raw',raw,{name:'AES-GCM'},false,['encrypt','decrypt']);let ps=crypto.getRandomValues(new Uint8Array(16)),pk=await deriveCloudKey(password,ps),pw=await aesWrap(pk,raw);let recovery=Array.from(crypto.getRandomValues(new Uint8Array(24)),x=>x.toString(16).padStart(2,'0')).join('');let rs=crypto.getRandomValues(new Uint8Array(16)),rk=await deriveCloudKey(recovery,rs),rw=await aesWrap(rk,raw);cloudKey=dek;cloudEnvelope={v:1,password:{salt:b64(ps),...pw},recovery:{salt:b64(rs),...rw}};return recovery}
 let cloudPassword='';
-async function cloudFetch(path,options={},retry=true){let c=cloudConfig(),res=await fetch(`${c.url.replace(/\/$/,'')}${path}`,{...options,headers:{apikey:c.apiKey,'Content-Type':'application/json',...(options.headers||{})}});if(res.status===401&&retry&&cloudSession?.refreshToken&&!path.startsWith('/auth/')){let rr=await fetch(`${c.url.replace(/\/$/,'')}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:c.apiKey,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:cloudSession.refreshToken})}),rd=await rr.json().catch(()=>({}));if(rr.ok){cloudSession.token=rd.access_token;cloudSession.refreshToken=rd.refresh_token;let headers={...(options.headers||{}),Authorization:`Bearer ${cloudSession.token}`};return cloudFetch(path,{...options,headers},false)}}let body=await res.text(),data=null;if(body){try{data=JSON.parse(body)}catch{data={message:body.slice(0,500)}}}if(!res.ok)throw Error(data?.msg||data?.message||data?.error_description||data?.hint||`Cloud-Fehler (${res.status})`);return data}
+async function timedCloudFetch(url,options={},timeoutMs=20000){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),timeoutMs);
+ try{return await fetch(url,{...options,signal:controller.signal})}
+ catch(error){
+  if(controller.signal.aborted)throw Error('Cloud-Verbindung nach 20 Sekunden ohne Antwort abgebrochen. Bitte Internetverbindung prüfen und erneut versuchen.');
+  throw error;
+ }finally{clearTimeout(timer)}
+}
+async function cloudFetch(path,options={},retry=true){
+ let c=cloudConfig(),base=c.url.replace(/\/$/,'');
+ let res=await timedCloudFetch(`${base}${path}`,{...options,headers:{apikey:c.apiKey,'Content-Type':'application/json',...(options.headers||{})}});
+ if(res.status===401&&retry&&cloudSession?.refreshToken&&!path.startsWith('/auth/')){
+  let rr=await timedCloudFetch(`${base}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:c.apiKey,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:cloudSession.refreshToken})});
+  let rd=await rr.json().catch(()=>({}));
+  if(rr.ok){cloudSession.token=rd.access_token;cloudSession.refreshToken=rd.refresh_token;let headers={...(options.headers||{}),Authorization:`Bearer ${cloudSession.token}`};return cloudFetch(path,{...options,headers},false)}
+ }
+ let body=await res.text(),data=null;
+ if(body){try{data=JSON.parse(body)}catch{data={message:body.slice(0,500)}}}
+ if(!res.ok)throw Error(data?.msg||data?.message||data?.error_description||data?.hint||`Cloud-Fehler (${res.status})`);
+ return data;
+}
 async function cloudAuth(identifier,password){if(!cloudReady())throw Error('Cloud ist noch nicht eingerichtet. Folge der Anleitung in cloud-setup.md.');let loginEmail=identifier.includes('@')?identifier.trim().toLowerCase():`${identifier.trim().toLowerCase()}@mva.invalid`;let d=await cloudFetch('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:loginEmail,password})});return {token:d.access_token,refreshToken:d.refresh_token,userId:d.user.id,email:d.user.email}}
 async function cloudSignup(email,password){if(!cloudReady())throw Error('Cloud ist noch nicht eingerichtet.');let d=await cloudFetch('/auth/v1/signup?redirect_to='+encodeURIComponent(location.origin+location.pathname),{method:'POST',body:JSON.stringify({email,password})});return d}
 async function cloudResetEmail(email){let c=cloudConfig();let res=await fetch(`${c.url.replace(/\/$/,'')}/auth/v1/recover?redirect_to=${encodeURIComponent(location.origin+location.pathname)}`,{method:'POST',headers:{apikey:c.apiKey,'Content-Type':'application/json'},body:JSON.stringify({email})});let d=await res.json().catch(()=>({}));if(!res.ok)throw Error(d.msg||d.message||d.error_description||'E-Mail konnte nicht versendet werden')}
