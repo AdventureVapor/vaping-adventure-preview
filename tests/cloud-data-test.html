@@ -27,7 +27,7 @@ function makeServer(){
  const rows=new Map();let failAfterCommit=false;
  async function request(path,options={}){
   const url=new URL(path,"https://mock.invalid");
-  const type=url.searchParams.get("data_type")||JSON.parse(options.body||"{}").p_data_type;
+  const type=(url.searchParams.get("data_type")||"").replace(/^eq\\./,"")||JSON.parse(options.body||"{}").p_data_type;
   if(path.startsWith("/rest/v1/mva_data?")){
    const row=rows.get(type);return row?[{...row}]:[];
   }
