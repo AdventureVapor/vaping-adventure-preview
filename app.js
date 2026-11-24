@@ -88,6 +88,10 @@ async function cloudStorageFetch(path,options={},retry=true){
  }
  return res;
 }
+function clearCloudMediaAccess(){
+ if(cloudMediaAccess?.resolver&&typeof cloudMediaAccess.resolver.dispose==='function')cloudMediaAccess.resolver.dispose();
+ cloudMediaAccess=null;
+}
 function createCloudMediaResolver(){
  if(storageMode!=='cloud'||!cloudSession||!cloudKey)throw Error('Medien-Cloud: Bitte zuerst mit dem Cloud-Konto anmelden.');
  if(cloudMediaAccess?.userId===cloudSession.userId)return cloudMediaAccess;
@@ -228,8 +232,8 @@ async function cloudLogin(signup){
   if(signup){
    let d=await cloudSignup(email,password);
    if(!d.session){toast('Registrierung gestartet. Bitte bestätige zuerst den Link in deiner E-Mail.');return}
-   cloudSession={token:d.session.access_token,refreshToken:d.session.refresh_token,userId:d.user.id,email:d.user.email};
-  }else cloudSession=await cloudAuth(email,password);
+   clearCloudMediaAccess();cloudSession={token:d.session.access_token,refreshToken:d.session.refresh_token,userId:d.user.id,email:d.user.email};
+  }else{clearCloudMediaAccess();cloudSession=await cloudAuth(email,password);}
   cloudPassword=password;
   let box=await cloudRead();
   if(box){
@@ -258,14 +262,14 @@ async function cloudLogin(signup){
    });
   }else{
    if(!confirm('Dein Cloud-Konto ist noch leer. Soll der lokale Spielstand jetzt verschlüsselt hochgeladen werden?\\n\\n'+localDb.entries.length+' Einträge · '+localDb.devices.length+' Geräte · '+localDb.strains.length+' Sorten · '+localDb.photos.length+' Fotos')){
-    cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';storageMode='local';db=localDb;render();return;
+    clearCloudMediaAccess();cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';storageMode='local';db=localDb;render();return;
    }
    db=localDb;storageMode='cloud';let recovery=await createCloudEnvelope(password);await cloudWrite();
    showRecoveryCode(recovery);
    if($('#cloud-pass'))$('#cloud-pass').value='';render();toast('Lokaler Spielstand sicher in die Cloud übertragen');
   }
  }catch(e){
-  console.error(e);cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';storageMode='local';db=localDb;setCloudStatus('Nur auf diesem Gerät');toast(e.message||'Cloud-Verbindung fehlgeschlagen');
+  console.error(e);clearCloudMediaAccess();cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';storageMode='local';db=localDb;setCloudStatus('Nur auf diesem Gerät');toast(e.message||'Cloud-Verbindung fehlgeschlagen');
  }finally{
   cloudPassword='';
   if(button){button.disabled=false;button.textContent='Anmelden'}
@@ -344,7 +348,7 @@ async function switchLocal(){
  localDb=localSnapshot;
  db=localDb;
  storageMode='local';
- cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';
+ clearCloudMediaAccess();cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';
  setCloudStatus('Nur auf diesem Gerät');render();toast('Cloud-Spielstand lokal gesichert und aktiviert');
  return true;
 }
@@ -363,7 +367,7 @@ function updateProfile(){
 }
 async function logoutProfile(){
  if(storageMode==='cloud'){await switchLocal();if(storageMode==='cloud')return}
- cloudSession=null;cloudKey=null;cloudSalt=null;cloudPassword='';
+ clearCloudMediaAccess();cloudSession=null;cloudKey=null;cloudSalt=null;cloudPassword='';
  const menu=$('#profile-menu'),trigger=$('#profile-trigger');if(menu)menu.hidden=true;if(trigger)trigger.setAttribute('aria-expanded','false');
  updateNav();toast('Du wurdest abgemeldet.');
 }
