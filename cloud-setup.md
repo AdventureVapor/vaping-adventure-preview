@@ -214,11 +214,14 @@ begin
      or p_payload->>'algorithm' <> 'A256GCM'
      or p_payload->>'revision' is null
      or p_payload->>'revision' !~ '^[0-9]+$'
-     or case
-          when p_payload->>'revision' ~ '^[0-9]+
      or coalesce(p_payload->>'iv', '') = ''
      or coalesce(p_payload->>'ciphertext', '') = '' then
     raise exception 'Invalid encrypted payload or revision' using errcode = '22023';
+  end if;
+
+  -- The separate check ensures the numeric cast is reached only for digit-only input.
+  if (p_payload->>'revision')::numeric <> p_expected_revision::numeric + 1 then
+    raise exception 'Encrypted payload revision mismatch' using errcode = '22023';
   end if;
 
   if p_expected_revision = 0 then
