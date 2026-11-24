@@ -118,7 +118,7 @@ begin
 
   begin
     perform public.mva_write_data('entries',
-      '{"v":1,"algorithm":"A256GCM","revision":3,"iv":"aWlpaWlpaWlpaWlp","ciphertext":"Y2lwaGVydGV4dA=="}'::jsonb, 1);
+      '{"v":1,"algorithm":"A256GCM","revision":2,"iv":"aWlpaWlpaWlpaWlp","ciphertext":"Y2lwaGVydGV4dA=="}'::jsonb, 1);
     raise exception 'stale revision write unexpectedly succeeded' using errcode = 'XX000';
   exception when sqlstate 'P0001' then null;
   end;
