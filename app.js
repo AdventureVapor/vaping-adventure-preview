@@ -498,19 +498,19 @@ function contact(v){
 function settings(v){
  const lang=window.MVA_I18N?.getLanguage?.()||'de',t={
  de:{eyebrow:'DEIN PERSÖNLICHER BEREICH',title:'Einstellungen',intro:'Passe My Vaping Adventure an deine Nutzung an.',
- vaping:'Vaping-Konfiguration',what:'Was vapest du?',hint:'Wähle aus, welche Kategorien du im Tagebuch verwenden möchtest. Ausgeblendete Kategorien und ihre bisherigen Einträge werden nicht gelöscht.',
+ vaping:'Vaping-Konfiguration',what:'Was vapest du?',hint:'Wähle aus, welche Kategorien du im Tagebuch und in der Auswertung verwenden möchtest. Ausgeblendete Kategorien und ihre bisherigen Einträge werden nicht gelöscht.',
  language:'Sprache',design:'Design',designHint:'Wähle eines der fünf App-Designs.',choose:'Design auswählen',
  login:'Anmeldung konfigurieren',guest:'Du nutzt My Vaping Adventure derzeit ohne Cloud-Anmeldung.',signed:'Du bist mit deinem Cloud-Konto angemeldet.',account:'Anmelden, registrieren oder Kontoeinstellungen öffnen',logout:'Abmelden',
  animation:'Startanimation',animationHint:'Die Startanimation nach der Anmeldung anzeigen.',profile:'Profil / Daten',profileHint:'Dein Konto und dein aktiver Speicherort.',guestMode:'Gastmodus · nur auf diesem Gerät',cloud:'Verschlüsselte Cloud',email:'E-Mail-Adresse',entries:'Tagebucheinträge',devices:'Geräte',materials:'Materialien',photos:'Fotos',backup:'Speicher & Backup öffnen',on:'Aktiv',off:'Aus'
  },
  en:{eyebrow:'YOUR PERSONAL SPACE',title:'Settings',intro:'Personalize My Vaping Adventure to suit how you use it.',
- vaping:'Vaping configuration',what:'What do you use?',hint:'Choose which categories you want to use in your diary. Hidden categories and their existing entries are never deleted.',
+ vaping:'Vaping configuration',what:'What do you use?',hint:'Choose which categories you want to use in your diary and reports. Hidden categories and their existing entries are never deleted.',
  language:'Language',design:'Design',designHint:'Choose one of the five app themes.',choose:'Choose design',
  login:'Sign-in configuration',guest:'You are currently using My Vaping Adventure without a cloud sign-in.',signed:'You are signed in to your cloud account.',account:'Sign in, register or manage account settings',logout:'Sign out',
  animation:'Start animation',animationHint:'Show the start animation after signing in.',profile:'Profile / Data',profileHint:'Your account and active storage location.',guestMode:'Guest mode · this device only',cloud:'Encrypted cloud',email:'Email address',entries:'Diary entries',devices:'Devices',materials:'Materials',photos:'Photos',backup:'Open Storage & Backup',on:'On',off:'Off'
  },
  fr:{eyebrow:'VOTRE ESPACE PERSONNEL',title:'Paramètres',intro:'Personnalisez My Vaping Adventure selon votre utilisation.',
- vaping:'Configuration du vapotage',what:'Qu’utilisez-vous ?',hint:'Choisissez les catégories à utiliser dans votre journal. Les catégories masquées et leurs anciennes entrées ne sont jamais supprimées.',
+ vaping:'Configuration du vapotage',what:'Qu’utilisez-vous ?',hint:'Choisissez les catégories à utiliser dans votre journal et vos rapports. Les catégories masquées et leurs anciennes entrées ne sont jamais supprimées.',
  language:'Langue',design:'Thème',designHint:'Choisissez l’un des cinq thèmes de l’application.',choose:'Choisir le thème',
  login:'Configuration de la connexion',guest:'Vous utilisez actuellement My Vaping Adventure sans connexion cloud.',signed:'Vous êtes connecté à votre compte cloud.',account:'Se connecter, créer un compte ou gérer le compte',logout:'Se déconnecter',
  animation:'Animation de démarrage',animationHint:'Afficher l’animation après la connexion.',profile:'Profil / Données',profileHint:'Votre compte et votre emplacement de stockage actif.',guestMode:'Mode invité · cet appareil uniquement',cloud:'Cloud chiffré',email:'Adresse e-mail',entries:'Entrées du journal',devices:'Appareils',materials:'Matériaux',photos:'Photos',backup:'Ouvrir Stockage et sauvegarde',on:'Activée',off:'Désactivée'
@@ -693,7 +693,7 @@ function controlledVaping(v){
  monday.setDate(chosen.getDate()-(chosen.getDay()+6)%7);
  const days=Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return iso(d)});
  const entries=db.entries.filter(e=>days.includes(e.date));
- const categories=[['vaporizer',lang==='en'?'Vaporizer':lang==='fr'?'Vaporisateur':'Vaporizer'],['ecig',lang==='en'?'E-cigarette':lang==='fr'?'Cigarette électronique':'E-Zigarette'],['heater',lang==='en'?'Tobacco heater':lang==='fr'?'Tabac chauffé':'Tabakheater'],['cigarette',lang==='en'?'Cigarette':lang==='fr'?'Cigarette':'Zigarette'],['joint','Joint'],['bong','Bong']];
+ const categories=[['vaporizer',lang==='en'?'Vaporizer':lang==='fr'?'Vaporisateur':'Vaporizer'],['ecig',lang==='en'?'E-cigarette':lang==='fr'?'Cigarette électronique':'E-Zigarette'],['heater',lang==='en'?'Tobacco heater':lang==='fr'?'Tabac chauffé':'Tabakheater'],['cigarette',lang==='en'?'Cigarette':lang==='fr'?'Cigarette':'Zigarette'],['joint','Joint'],['bong','Bong']].filter(([key])=>isCategoryEnabled(key));
  const bucket=e=>window.MVAControlledVapingUtils.timeBucket(e.time);
  const count=(cat,slot,day)=>entries.filter(e=>(!cat||e.category===cat)&&(!day||e.date===day)&&(slot===-2||bucket(e)===slot)).length;
  const categoryTotals=Object.fromEntries(categories.map(([key])=>[key,days.map(d=>count(key,-2,d))]));
