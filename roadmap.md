@@ -737,6 +737,18 @@ Hinweis: Das Zeitlimit verhindert endlos wartende Netzwerkanfragen. Es ersetzt k
 Hinweis: Die Anzeige ist eine Näherung anhand der serialisierten Daten und eingebetteten Base64-Medien. Sie misst nicht den tatsächlich belegten Browser- oder Cloud-Speicher.
 
 
+## Foto-Komprimierung vor der Cloud-Synchronisierung (Preview)
+
+- [x] Foto-Komprimierung auf eine definierte maximale Daten-URL-Größe von 700.000 Zeichen ausrichten.
+- [x] Bei größeren Bildern schrittweise Bildabmessungen und JPEG-Qualität reduzieren, statt nur einen einzigen zweiten Komprimierungsschritt auszuführen.
+- [x] Wenn ein Bild die Zielgröße auch nach mehreren Schritten nicht erreicht, verständlich abbrechen, ohne einen übergroßen Fotoeintrag hinzuzufügen.
+- [x] Fehler beim Lesen, Dekodieren oder Komprimieren mit einer verständlichen Rückmeldung behandeln.
+- [ ] Praxistest mit kleinen, großen und sehr detailreichen Fotos auf PC und iPhone.
+- [ ] Anschließend tatsächliche Cloud-Synchronisierungsdauer mit mehreren Fotos und PDF-Anleitungen vergleichen.
+
+Die Anpassung begrenzt die Größe neu hinzugefügter Fotos. Bereits gespeicherte Fotos und PDF-Dateien werden nicht verändert. Die Cloud speichert weiterhin den gesamten verschlüsselten Spielstand als eine Nutzlast; eine echte Trennung in Medienobjekte und Tagebuchdaten erfordert eine separate Backend-Änderung und wird nicht vorweggenommen.
+
+
 ## Cloud-Medienübertragung und lokale Notfallkopie (Preview)
 
 - [x] Geschätzte Größe der verschlüsselten Cloud-Nutzlast zusätzlich zur lokalen Datengröße anzeigen.
