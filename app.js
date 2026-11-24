@@ -645,20 +645,52 @@ async function jsonExport(){try{const snapshot=await createPortableBackupSnapsho
 function validOptionalMediaValue(value){
  return value===undefined||value===null||value===''||typeof value==='string'||isCloudMediaReference(value);
 }
+function hasUnsafeBackupKeys(value){
+ if(!value||typeof value!=='object')return false;
+ for(const key of Object.keys(value)){
+  if(key==='__proto__'||key==='prototype'||key==='constructor')return true;
+  if(hasUnsafeBackupKeys(value[key]))return true;
+ }
+ return false;
+}
 function validBackup(x){
- if(!x||typeof x!=='object'||Array.isArray(x))return false;
- if(['__proto__','prototype','constructor'].some(k=>Object.hasOwn(x,k)))return false;
+ if(!x||typeof x!=='object'||Array.isArray(x)||hasUnsafeBackupKeys(x))return false;
  if(!Array.isArray(x.entries)||!Array.isArray(x.devices))return false;
  for(const k of ['strains','photos'])if(x[k]!==undefined&&!Array.isArray(x[k]))return false;
- for(const k of ['entries','devices','strains','photos']){
-  if(!Array.isArray(x[k]))continue;
-  if(x[k].some(v=>!v||(typeof v!=='object'&&!(k==='devices'&&typeof v==='string'))||Array.isArray(v)))return false;
+ const isRecord=v=>!!v&&typeof v==='object'&&!Array.isArray(v);
+ for(const entry of x.entries){
+  if(!isRecord(entry))return false;
+  for(const key of ['id','date','time','category','device','duration','puffs','strain','temp','location','taste','notes']){
+   if(entry[key]!==undefined&&entry[key]!==null&&!['string','number'].includes(typeof entry[key]))return false;
+  }
+  if(entry.date!==undefined&&typeof entry.date!=='string')return false;
+  if(entry.time!==undefined&&typeof entry.time!=='string')return false;
  }
- if(x.devices.some(d=>typeof d==='string'?!d.trim():typeof d.name!=='string'||!d.name.trim()))return false;
- if(x.devices.some(d=>typeof d==='object'&&(!validOptionalMediaValue(d.photo)||!validOptionalMediaValue(d.manualData))))return false;
- if((x.strains||[]).some(s=>typeof s.name!=='string'||!s.name.trim()))return false;
- if((x.photos||[]).some(p=>!(typeof p.src==='string'&&p.src.trim())&&!isCloudMediaReference(p.src)))return false;
- if(x.game!==undefined&&(!x.game||typeof x.game!=='object'||Array.isArray(x.game)))return false;
+ for(const device of x.devices){
+  if(typeof device==='string'){if(!device.trim())return false;continue}
+  if(!isRecord(device)||typeof device.name!=='string'||!device.name.trim())return false;
+  for(const key of ['category','description','manualName'])if(device[key]!==undefined&&device[key]!==null&&typeof device[key]!=='string')return false;
+  if(!validOptionalMediaValue(device.photo)||!validOptionalMediaValue(device.manualData))return false;
+ }
+ for(const strain of x.strains||[]){
+  if(!isRecord(strain)||typeof strain.name!=='string'||!strain.name.trim())return false;
+  for(const key of ['id','manufacturer','category','notes'])if(strain[key]!==undefined&&strain[key]!==null&&typeof strain[key]!=='string')return false;
+ }
+ for(const photo of x.photos||[]){
+  if(!isRecord(photo)||(!(typeof photo.src==='string'&&photo.src.trim())&&!isCloudMediaReference(photo.src)))return false;
+  for(const key of ['id','title','date','device','entry'])if(photo[key]!==undefined&&photo[key]!==null&&typeof photo[key]!=='string')return false;
+ }
+ if(x.game!==undefined){
+  if(!isRecord(x.game))return false;
+  for(const key of ['xp','coins'])if(x.game[key]!==undefined&&(!Number.isFinite(x.game[key])||x.game[key]<0))return false;
+  if(x.game.quests!==undefined&&(!Array.isArray(x.game.quests)||x.game.quests.some(q=>typeof q!=='string')))return false;
+  if(x.game.courses!==undefined&&!isRecord(x.game.courses))return false;
+  if(x.game.courses&&Object.values(x.game.courses).some(v=>!isRecord(v)||
+   (v.passed!==undefined&&typeof v.passed!=='boolean')||
+   (v.score!==undefined&&(!Number.isFinite(v.score)||v.score<0||v.score>100))||
+   (v.date!==undefined&&typeof v.date!=='string')))return false;
+ }
+ if(x.controlledVaping!==undefined&&!isRecord(x.controlledVaping))return false;
  return true;
 }
 async function materializeBackupMedia(snapshot){
