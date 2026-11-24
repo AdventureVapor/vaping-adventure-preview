@@ -731,3 +731,30 @@ body[data-theme="forest"]::before,body[data-theme="forest"]::after{
 .settings-data-grid b{display:block;font-size:12px;overflow-wrap:anywhere}
 @media(max-width:850px){.settings-layout{grid-template-columns:1fr}.settings-switch{display:none}}
 @media(max-width:520px){.settings-card{padding:17px}.settings-options{grid-template-columns:1fr}.settings-data-grid{gap:8px}}
+
+
+/* Pflanzen- und Kräutertabelle – im Look der Adventure-Oberfläche */
+.plant-intro{margin:20px 0 24px;background:#f1f4ed;border-color:#e1e9dc;box-shadow:none}
+.plant-intro p{font-size:12px;line-height:1.7;color:#5f6e63;margin:12px 0 0}
+.plant-intro .tagline{font-size:10px}
+.plant-tools{margin:24px 0 13px;gap:16px}
+.plant-tools h3{font:700 17px Manrope;margin:0 0 5px}
+.plant-tools .field{width:min(390px,100%)}
+.plant-table-wrap{overflow:auto;border:1px solid #e7a071;border-radius:12px;background:#fff;box-shadow:var(--shadow)}
+.plant-table{width:100%;border-collapse:separate;border-spacing:0;min-width:790px;font-size:12px;line-height:1.5}
+.plant-table thead th{position:sticky;top:0;background:#80b83e;color:#1f3024;text-align:left;padding:12px 11px;font:700 12px Manrope;border-right:1px solid #e7a071}
+.plant-table thead th:last-child{border-right:0}
+.plant-table tbody td{padding:9px 11px;vertical-align:middle;border-top:1px solid #e7a071;border-right:1px solid #e7a071}
+.plant-table tbody td:last-child{border-right:0}
+.plant-table tbody tr:nth-child(odd){background:#d2e2b5}
+.plant-table tbody tr:nth-child(even){background:#f2f2f0}
+.plant-table tbody tr[hidden]{display:none}
+.plant-table tbody td:first-child{min-width:155px}
+.plant-table tbody td:nth-child(2){min-width:155px}
+.plant-table tbody td:nth-child(3){min-width:92px;white-space:nowrap}
+.plant-table tbody td:last-child{min-width:300px}
+.plant-temp{font-weight:600;white-space:nowrap}
+.plant-no-results{padding:25px;text-align:center;color:var(--muted);font-size:12px}
+.plant-credit{text-align:right;color:var(--muted);font-size:11px;margin:13px 2px}
+.plant-credit a{color:var(--green);font-weight:700}
+@media(max-width:650px){.plant-tools{align-items:stretch}.plant-tools .field{width:100%;min-width:100%}.plant-table{font-size:11px}.plant-table thead th,.plant-table tbody td{padding:8px}}
