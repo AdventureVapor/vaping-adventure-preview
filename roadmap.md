@@ -131,7 +131,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 
 ### Kommunikations- und Sichtbarkeitsstrategie – 1.4.2 (Konzept, noch keine Konten angelegt)
 - [ ] Positionierung von My Vaping Adventure als privates, datenschutzorientiertes Tagebuch-/Dokumentationsprojekt klar definieren; keine Aufforderung zum Konsum und keine Verkaufsvermittlung
-- [ ] Vor öffentlicher Bewerbung rechtlich prüfen lassen, ob und in welcher Form die App-Kommunikation wegen des Themenfelds E-Zigaretten/Tabak unter das Werbeverbot des TabakerzG (§§ 19–21) fallen könnte
+- [ ] Vor öffentlicher Bewerbung rechtlich prüfen lassen, ob und in welcher Form die App-Kommunikation wegen des Themenfelds E-Zigaretten/Tabak unter das Werbeverbot des TabakerzG (§§ 19–21) und wegen der Cannabis-Funktionen unter das Werbeverbot des KCanG (§ 6) fallen könnte
 - [ ] Plattformregeln von Instagram/Facebook prüfen: Werbeanzeigen für Tabak-/Nikotinprodukte und Vaping-Geräte sind untersagt; Inhalte, die deren Nutzung fördern, können von Empfehlungen ausgeschlossen werden
 - [ ] Organische Social-Media-Strategie nur nach Rechts- und Plattformprüfung festlegen; keine bezahlten Anzeigen, Produktwerbung, Rabatt-/Affiliate-Angebote, Konsumdarstellungen oder bezahlten Markenkooperationen ohne ausdrückliche rechtliche Freigabe
 - [ ] Neutrale Themenfelder prüfen: App-Funktionen und Bedienoberfläche, Datenschutz/Verschlüsselung, Tagebuch- und Backup-Funktionen, technische Entwicklung, Updates und sachliche Gerätepflege
