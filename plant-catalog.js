@@ -5,7 +5,7 @@ window.MVA_PLANT_CATALOG = [
 ["Mate","Yerba mate","190-200°C","Stimulierend, euphorisierend, leistungssteigernd, antidepressiv (enthält Koffein)"],
 ["Baldrian","Valeriana officinalis","230-240°C","Sedierend, beruhigend, angstlösend / Schlafstörungen, Angststörungen"],
 ["Katzenkralle","Uncaria tomentosa","150-180°C","Antioxidativ, krebshemmend, antidepressiv, antiviral, entzündungshemmend"],
-["Damiana / Damiand","Turnera diffusa","160-200°C","Entspannend, leicht stimulierend, aphrodisierend, veränderte Wahrnehmung, antidepressiv"],
+["Damiana / Damiana","Turnera diffusa","160-200°C","Entspannend, leicht stimulierend, aphrodisierend, veränderte Wahrnehmung, antidepressiv"],
 ["Thymian","Thymus vulgaris","180-200°C","Beruhigend, antibakteriell, schleimlösend, entzündungshemmend, krampflösend / Bei Bronchitis, Erkältungen"],
 ["Mutterkraut","Tanacetum parthenium / Chrysanthemum parthenium","130-180°C","Anregend, beruhigend, entzündungshemmend, krampflösend, gefäßerweiternd / Husten, Asthma, Erkältungen, Fieber, Gicht, Rheuma"],
 ["Studentenblume / Mexikanischer Estragon","Tagetes lucida","140-200°C","Sedierend, beruhigend, traumverstärkend, leicht psychedelisch, “visionär”"],
@@ -84,6 +84,6 @@ window.MVA_PLANT_CATALOG = [
 ["Kalmus / Indischer Kalmus","Acorus calamus","150-180°C","Krampflösend, appetitanregend, entzündungshemmend, antidepressiv, euphorisierend / Depressionen, Zahnfleischentzündung, Blähungen"],
 ["Mulungu","Erythrina mulungu","200-230°C","Sedierend, beruhigend, angstlösend, fiebersenkend, blutdrucksenkend"],
 ["Dendrobium Nobile","Dendrobium nobile","170-190°C","Euphorisierend, beruhigend, Cannabis-ähnlich, leicht psychedelisch"],
-["Schafgarbe","Achillea millefolium","","Krampflösend, verdauungsfördernd / Vielfältige Heilpflanze, volksmedizinisch für fast alle Krankheiten"]
+["Schafgarbe","Achillea millefolium","100-150°C","Krampflösend, verdauungsfördernd / Vielfältige Heilpflanze, volksmedizinisch für fast alle Krankheiten"]
 ];
 window.MVA_PLANT_CATALOG_NOTICE = "Die angegebenen Temperaturen sind nicht verbindlich und können je nach Gerät und Pflanzenmaterial variieren. Generell gilt die Regel, dass man, wenn man zu wenig schmeckt, die Temperatur etwas höher stellen und wenn der Dampf zu kratzig ist, die Temperatur besser runterregeln sollte. Die angegebenen Wirkungen sind teils volksmedizinisch bekannt, teils wissenschaftlich belegt. Das Vaporisieren hilft gegen Übelkeit generell weniger als wenn man die Pflanzen als Tee trinken würde, bei Atemwegserkrankungen hingegen hilft es mehr.";
