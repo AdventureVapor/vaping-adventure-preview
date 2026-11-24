@@ -18,7 +18,7 @@ pre{white-space:pre-wrap;background:#080d0a;padding:16px;border-radius:10px;min-
 <p>Getestet werden Verschlüsselung, Lesen/Schreiben, parallele Änderungen, mehrdeutige Netzwerkfehler und die Bindung an Nutzerkennung.</p>
 <button id="run">Tests starten</button>
 <pre id="out">Bereit. Bitte „Tests starten“ wählen.</pre>
-<script src="../cloud-data.js"></script>
+<script src="../cloud-data.js"></script><script src="../cloud-migration-codec.js"></script>
 <script>
 "use strict";
 const out=document.getElementById("out"),button=document.getElementById("run");
@@ -77,6 +77,17 @@ async function run(){
   try{await wrongUser.read("entries")}catch(e){rejected=true}
   assert(rejected,"Daten ließen sich mit anderer Nutzerkennung entschlüsseln");
   log("Nutzerbindung der Verschlüsselung wird geprüft");
+  assert(!!window.MVACloudMigrationCodec,"Migrations-Codec fehlt");
+  const original={entries:[{id:"e1",notes:"Eintrag"}],devices:[{name:"Test",photo:"data:image/png;base64,AA==",manualData:{v:1,storage:"supabase",path:"u/manual.pdf"}}],strains:[{name:"Sorte"}],photos:[{id:"p1",src:"data:image/jpeg;base64,AA=="}],game:{xp:42,coins:7,quests:["q1"],courses:{kurs:{passed:true}}},controlledVaping:{startDate:"2026-01-02",customFlag:true}};
+  const split=window.MVACloudMigrationCodec.split(original);
+  const joined=window.MVACloudMigrationCodec.join(Object.fromEntries(Object.entries(split).map(([type,data])=>[type,{type,revision:1,data,exists:true}])));
+  assert(JSON.stringify(joined)===JSON.stringify(original),"Aufteilung und Wiederherstellung haben Daten verändert");
+  assert(JSON.stringify(original.devices[0].manualData)===JSON.stringify(split.devices[0].manualData),"Medienreferenz wurde verändert");
+  assert(original.controlledVaping.customFlag===true,"Eingabeobjekt wurde verändert");
+  log("Alle sechs Gruppen lassen sich verlustfrei aufteilen und zusammensetzen (inkl. Medienreferenzen)");
+  const partial=window.MVACloudMigrationCodec.join({entries:{data:[{id:"only"}]},devices:{data:null}});
+  assert(partial.entries.length===1&&partial.devices.length===0&&partial.game.xp===0&&Object.keys(partial.controlledVaping).length===0,"Fehlende Gruppen erhalten keine sicheren Standardwerte");
+  log("Fehlende oder noch leere Gruppen erhalten sichere Standardwerte");
   out.textContent+="\nERGEBNIS: Alle simulierten Tests bestanden. Kein Supabase-Test.";
  }catch(e){
   out.textContent+="\nFEHLER: "+(e.stack||e.message||e);
