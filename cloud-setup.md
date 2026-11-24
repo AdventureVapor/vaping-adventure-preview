@@ -239,3 +239,10 @@ grant execute on function public.mva_write_data(text, jsonb, bigint) to authenti
 Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`) und unterliegt damit weiterhin der RLS-Policy der Tabelle. Der Browser darf nur über die angemeldete Sitzung aufrufen. Der Adapter für `cloud-data.js` muss dieselbe token-aktualisierende Request-Funktion wie die bestehende Cloud-Anmeldung verwenden.
 
 **Wichtig:** Das Modul ist noch nicht mit dem Tagebuch verbunden. Die bestehende Speicherung über `mva_saves` bleibt unverändert. Vor einer Aktivierung müssen zusätzlich Konfliktfälle, zwei gleichzeitig angemeldete Geräte, Wiederherstellung und vollständiger Medienimport getestet werden.
+
+
+## 11. Read-only inventory audit (new preparation module)
+
+`cloud-migration.js` provides `window.MVACloudMigration.audit(db)`. It scans a supplied in-memory game state for inline data URLs and existing encrypted Storage references. For inline media it records the object path, MIME type, inferred media kind, byte size and SHA-256 hash; identical files are grouped by hash. Invalid data URLs are counted and reported.
+
+This audit is deliberately read-only: it performs no network requests, uploads, database writes, reference replacements or deletions. It does not make a migration safe or activate the new storage. It is a preparation and diagnostic building block only. The module is loaded but is not called by the running app.
