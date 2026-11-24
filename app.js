@@ -71,6 +71,34 @@ async function cloudFetch(path,options={},retry=true){
  if(!res.ok)throw Error(data?.msg||data?.message||data?.error_description||data?.hint||`Cloud-Fehler (${res.status})`);
  return data;
 }
+// Binärer Storage-Zugriff mit derselben Sitzung wie die übrigen Cloud-Aufrufe.
+ // Gibt die rohe Response zurück, damit verschlüsselte Dateien als ArrayBuffer gelesen werden können.
+async function cloudStorageFetch(path,options={},retry=true){
+ if(!cloudSession?.token)throw Error('Medien-Cloud: Keine aktive Anmeldung.');
+ const c=cloudConfig(),base=c.url.replace(/\/$/,'');
+ const headers={apikey:c.apiKey,Authorization:`Bearer ${cloudSession.token}`,...(options.headers||{})};
+ const res=await timedCloudFetch(`${base}/storage/v1/object/${path.split('/').map(encodeURIComponent).join('/')}`,{...options,headers},90000);
+ if(res.status===401&&retry&&cloudSession.refreshToken){
+  const rr=await timedCloudFetch(`${base}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:c.apiKey,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:cloudSession.refreshToken})},20000);
+  const rd=await rr.json().catch(()=>({}));
+  if(rr.ok&&rd.access_token&&rd.refresh_token){
+   cloudSession.token=rd.access_token;cloudSession.refreshToken=rd.refresh_token;
+   return cloudStorageFetch(path,options,false);
+  }
+ }
+ return res;
+}
+function createCloudMediaResolver(){
+ if(storageMode!=='cloud'||!cloudSession||!cloudKey)throw Error('Medien-Cloud: Bitte zuerst mit dem Cloud-Konto anmelden.');
+ if(!window.MVAEncryptedMedia||!window.MVACloudMediaResolver)throw Error('Medienmodule sind nicht geladen.');
+ const config=cloudConfig();
+ const media=window.MVAEncryptedMedia.create({
+  url:config.url,apiKey:config.apiKey,userId:cloudSession.userId,key:cloudKey,
+  request:(path,options)=>cloudStorageFetch(path,options)
+ });
+ const resolver=window.MVACloudMediaResolver.create({media});
+ return Object.freeze({media,resolver});
+}
 async function cloudAuth(identifier,password){if(!cloudReady())throw Error('Cloud ist noch nicht eingerichtet. Folge der Anleitung in cloud-setup.md.');let loginEmail=identifier.includes('@')?identifier.trim().toLowerCase():`${identifier.trim().toLowerCase()}@mva.invalid`;let d=await cloudFetch('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email:loginEmail,password})});return {token:d.access_token,refreshToken:d.refresh_token,userId:d.user.id,email:d.user.email}}
 async function cloudSignup(email,password){if(!cloudReady())throw Error('Cloud ist noch nicht eingerichtet.');let d=await cloudFetch('/auth/v1/signup?redirect_to='+encodeURIComponent(location.origin+location.pathname),{method:'POST',body:JSON.stringify({email,password})});return d}
 async function cloudResetEmail(email){let c=cloudConfig();let res=await fetch(`${c.url.replace(/\/$/,'')}/auth/v1/recover?redirect_to=${encodeURIComponent(location.origin+location.pathname)}`,{method:'POST',headers:{apikey:c.apiKey,'Content-Type':'application/json'},body:JSON.stringify({email})});let d=await res.json().catch(()=>({}));if(!res.ok)throw Error(d.msg||d.message||d.error_description||'E-Mail konnte nicht versendet werden')}
