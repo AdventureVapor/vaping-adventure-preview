@@ -247,7 +247,9 @@ revoke all on function public.mva_write_data(text, jsonb, bigint) from public, a
 grant execute on function public.mva_write_data(text, jsonb, bigint) to authenticated;
 ```
 
-Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`) und unterliegt damit weiterhin der RLS-Policy der Tabelle. Der Browser darf nur über die angemeldete Sitzung aufrufen. Der Adapter für `cloud-data.js` muss dieselbe token-aktualisierende Request-Funktion wie die bestehende Cloud-Anmeldung verwenden.
+Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`) und unterliegt damit weiterhin der RLS-Policy der Tabelle. Der Browser darf nur über die angemeldete Sitzung aufrufen. `createCloudDataAccess()` in `app.js` stellt dafür inzwischen einen isolierten Adapter bereit. Er verwendet `cloudFetch()`, einschließlich der vorhandenen einmaligen Token-Erneuerung bei HTTP 401, und übergibt Nutzerkennung sowie entschlüsselten AES-Schlüssel an `MVAEncryptedData.create()`. Der Adapter ist bewusst noch nicht an `put()` oder die bestehende `cloudWrite()`-Speicherung angeschlossen.
+
+Das Datengruppenmodul liest und schreibt jede Gruppe mit ihrer eigenen Revision. `readAll()` liest alle sechs Gruppen parallel. Nach einem mehrdeutigen Netzwerkfehler prüft `write()` durch erneutes Lesen und Entschlüsseln, ob genau die erwartete neue Version mit identischem Inhalt bereits gespeichert wurde. Nur dann gilt der Schreibvorgang als bestätigt. Bei abweichendem Inhalt oder einer anderen Revision wird ein Versionskonflikt gemeldet; es erfolgt kein automatisches Überschreiben.
 
 **Wichtig:** Das Modul ist noch nicht mit dem Tagebuch verbunden. Die bestehende Speicherung über `mva_saves` bleibt unverändert. Vor einer Aktivierung müssen zusätzlich Konfliktfälle, zwei gleichzeitig angemeldete Geräte, Wiederherstellung und vollständiger Medienimport getestet werden.
 
