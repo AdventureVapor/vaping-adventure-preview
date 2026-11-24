@@ -253,3 +253,14 @@ This audit is deliberately read-only: it performs no network requests, uploads, 
 `cloud-media-resolver.js` ergänzt die Mediengrundlage um einen Resolver. Inline-Data-URLs werden unverändert zurückgegeben; verschlüsselte Storage-Referenzen werden über einen ausdrücklich übergebenen Downloadadapter geladen, als Blob-URL bereitgestellt und begrenzt zwischengespeichert. Beim Freigeben des Resolvers werden erzeugte Blob-URLs widerrufen.
 
 Das Modul wird geladen, aber noch nicht von `app.js` verwendet. Vor der Oberflächenintegration muss der Downloadadapter an die token-aktualisierende Cloud-Sitzung angebunden werden. Insbesondere dürfen abgelaufene Sitzungstoken nicht zu dauerhaften Bild-/PDF-Fehlern führen. JSON-Export und -Import müssen weiterhin vollständige, portable Medieninhalte enthalten. Bis dahin bleiben alle bestehenden Medienfelder unverändert.
+
+
+## 13. Token-aktualisierender Storage-Requestadapter
+
+`app.js` enthält jetzt `cloudStorageFetch()` als separaten Binär-Requestpfad. Anders als `cloudFetch()` verarbeitet er den Response-Body nicht als JSON, sondern gibt die rohe HTTP-Response zurück. Dadurch können verschlüsselte Storage-Objekte als `ArrayBuffer` gelesen werden.
+
+Bei HTTP 401 versucht der Adapter einmal, das Sitzungstoken über das gespeicherte Refresh-Token zu erneuern. Bei Erfolg wird der Storage-Aufruf mit dem neuen Zugriffstoken wiederholt. Der Adapter verwendet dieselbe angemeldete `cloudSession` wie die übrigen Cloud-Funktionen und hat ein 90-Sekunden-Zeitlimit.
+
+`cloud-media.js` akzeptiert dafür optional eine injizierte `request`-Funktion. `createCloudMediaResolver()` in `app.js` verbindet diese Funktion mit `MVAEncryptedMedia` und `MVACloudMediaResolver`. Es wird bei Aufruf eine aktive Cloud-Anmeldung und der entschlüsselte AES-Schlüssel benötigt.
+
+**Status und Grenze:** Diese Adapter- und Factory-Funktionen sind vorbereitet, werden aber noch nicht von Galerie, Geräteformular oder PDF-Ansicht aufgerufen. Es wurden keine Medien hochgeladen und keine bestehenden Daten oder Speicherverweise verändert. Ein echter Test gegen Supabase steht aus. Die UI-Integration und portable JSON-Backups müssen weiterhin vor jeder Datenmigration abgeschlossen werden.
