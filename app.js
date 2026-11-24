@@ -32,7 +32,7 @@ const put=()=>{if(storageMode==="local"){try{localStorage.setItem(KEY,JSON.strin
 for(const k of ["entries","devices","strains","photos"])if(!Array.isArray(db[k]))db[k]=[];
 db.game ||= {xp:0,coins:0,quests:[],courses:{}}; db.game.quests ||= []; db.game.courses ||= {};
 const defaults=[...["Venty","Mighty","Volcano","Dr. Dabber Switch2","TerpTorch","TerpHammer","Dynavap M7","Dynavap G3","Dynavap B2","The B","XMAX Qomo","Pax Flow","Cuboo Stick","Smono"].map(name=>({name,category:"vaporizer"})),...["GeekVape Legend 5","ELFX Mega"].map(name=>({name,category:"ecig"})),... ["IQOS","glo"].map(name=>({name,category:"heater"}))];
-const names={vaporizer:"Vaporizer",ecig:"E-Zigarette",heater:"Tabakerhitzer"};
+const names={vaporizer:"Vaporizer",ecig:"E-Zigarette",heater:"Tabakheater",cigarette:"Zigarette",joint:"Joint",bong:"Bong"};
 db.devices=db.devices.map(d=>typeof d==="string"?{name:d,category:"vaporizer"}:d);if(!db.devices.length)db.devices=defaults;else defaults.forEach(d=>{if(!db.devices.some(x=>x.name.toLowerCase()===d.name.toLowerCase()))db.devices.push(d)});
 const $=s=>document.querySelector(s), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const now=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}, id=()=>crypto.randomUUID?.()||String(Date.now()+Math.random());
@@ -624,7 +624,7 @@ function controlledVaping(v){
  monday.setDate(chosen.getDate()-(chosen.getDay()+6)%7);
  const days=Array.from({length:7},(_,i)=>{const d=new Date(monday);d.setDate(monday.getDate()+i);return iso(d)});
  const entries=db.entries.filter(e=>days.includes(e.date));
- const categories=[['vaporizer',lang==='en'?'Vaporizer':lang==='fr'?'Vaporisateur':'Vaporizer'],['ecig',lang==='en'?'E-cigarette':lang==='fr'?'Cigarette électronique':'E-Zigarette'],['heater',lang==='en'?'Tobacco heater':lang==='fr'?'Tabac chauffé':'Tabakheater']];
+ const categories=[['vaporizer',lang==='en'?'Vaporizer':lang==='fr'?'Vaporisateur':'Vaporizer'],['ecig',lang==='en'?'E-cigarette':lang==='fr'?'Cigarette électronique':'E-Zigarette'],['heater',lang==='en'?'Tobacco heater':lang==='fr'?'Tabac chauffé':'Tabakheater'],['cigarette',lang==='en'?'Cigarette':lang==='fr'?'Cigarette':'Zigarette'],['joint','Joint'],['bong','Bong']];
  const bucket=e=>window.MVAControlledVapingUtils.timeBucket(e.time);
  const count=(cat,slot,day)=>entries.filter(e=>(!cat||e.category===cat)&&(!day||e.date===day)&&(slot===-2||bucket(e)===slot)).length;
  const categoryTotals=Object.fromEntries(categories.map(([key])=>[key,days.map(d=>count(key,-2,d))]));
@@ -652,6 +652,39 @@ function controlledVaping(v){
  '<div class="row cv-week-row"><div><h3>'+t.category+' · '+t.week+'</h3><p class="subheading">'+t.note+'</p></div><div class="cv-week-picker"><button class="cv-week-arrow" id="cv-week-prev" type="button" aria-label="'+t.prevWeek+'" title="'+t.prevWeek+'">‹</button><label class="formrow"><span>'+t.week+'</span><input class="field" id="cv-week" type="date" value="'+esc(weekInput)+'"></label><button class="cv-week-arrow" id="cv-week-next" type="button" aria-label="'+t.nextWeek+'" title="'+t.nextWeek+'">›</button></div></div>'+
  '<div class="grid stats cv-stats">'+stats+'</div><div class="card cv-table-card"><div class="cv-table-wrap"><table class="cv-table"><thead><tr><th>'+t.category+'</th><th>'+t.time+'</th>'+dayHeaders+'<th>'+t.total+'</th></tr></thead><tbody>'+table+'</tbody></table></div></div>'+
  '<p class="tagline cv-note">'+t.note+'</p>'+(entries.length?'':'<div class="card empty">'+t.noEntries+'<div style="margin-top:12px"><button class="btn soft" data-page="diary">Zum Tagebuch</button></div></div>');
+
+ // Phase 2 bleibt parallel zur Bestandsaufnahme sichtbar und ist sofort bearbeitbar.
+ const cv=db.controlledVaping||(db.controlledVaping={});
+ const p2=cv.phase2||(cv.phase2={categories:Object.fromEntries(['vaporizer','ecig','heater','cigarette','joint','bong'].map(k=>[k,{enabled:true,maxPerDay:0,maxPerWeek:0,freeDays:0}])),ratings:{}});
+ const weekKey=days[0];
+ const mappings={vaporizer:'Sorte / Material',ecig:'Liquid',heater:'Sticks',cigarette:'Marke',joint:'Mischung',bong:'Sorte / Mischung'};
+ const p2Rows=categories.map(([key,label])=>{
+  const cfg=p2.categories[key]||(p2.categories[key]={enabled:true,maxPerDay:0,maxPerWeek:0,freeDays:0});
+  const selected=entries.filter(e=>e.category===key),total=selected.length,perDay=days.map(d=>selected.filter(e=>e.date===d).length),free=perDay.filter(n=>n===0).length;
+  const namesUsed=selected.map(e=>String(e.strain||e.material||'').trim()).filter(Boolean);
+  const missingNames=selected.length-namesUsed.length;
+  const rating=p2.ratings[weekKey]?.[key]||'';
+  return '<div class="card" style="margin:10px 0"><div class="row"><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" data-p2-enabled="'+key+'" '+(cfg.enabled?'checked':'')+'><strong>'+label+'</strong></label><span class="pill">'+total+' Sessions</span></div><p class="subheading">Erfasste Kategorie: '+mappings[key]+' · '+(namesUsed.length?namesUsed.length+' benannte Sessions':'Noch keine benannten Sessions')+(missingNames?' · '+missingNames+' ohne Angabe':'')+'</p><div class="formgrid"><label class="formrow"><span>Max. Sessions pro Tag</span><input class="field" type="number" min="0" data-p2-day="'+key+'" value="'+Number(cfg.maxPerDay||0)+'"></label><label class="formrow"><span>Max. Sessions pro Woche</span><input class="field" type="number" min="0" data-p2-week="'+key+'" value="'+Number(cfg.maxPerWeek||0)+'"></label><label class="formrow"><span>Ziel: konsumfreie Tage / Woche</span><input class="field" type="number" min="0" max="7" data-p2-free="'+key+'" value="'+Number(cfg.freeDays||0)+'"></label><label class="formrow"><span>Zufriedenheit (1 sehr zufrieden – 7 sehr unzufrieden)</span><select class="field" data-p2-rating="'+key+'"><option value="">Noch nicht bewertet</option>'+Array.from({length:7},(_,i)=>'<option value="'+(i+1)+'" '+(String(rating)===String(i+1)?'selected':'')+'>'+(i+1)+'</option>').join('')+'</select></label></div><p class="tagline">Diese Woche: '+(cfg.maxPerWeek?total+' / '+cfg.maxPerWeek+' Sessions':'Wochenlimit noch nicht gesetzt')+' · '+(cfg.maxPerDay?perDay.filter(n=>n<=cfg.maxPerDay).length+'/7 Tage im Tageslimit':'Tageslimit noch nicht gesetzt')+' · '+free+'/7 konsumfreie Tage (Ziel '+cfg.freeDays+')</p></div>';
+ }).join('');
+ const phase2Html='<section class="card cv-intro" style="margin-top:18px"><span class="pill">PHASE 2 · AKTIV</span><h2>Zielsetzung & kontrollierter Konsum</h2><p>Lege pro Kategorie realistische Session-Grenzen und konsumfreie Tage fest. Eine Session entspricht einem Tagebucheintrag. Der Gesamtkonsum wird als Anzahl der Sessions gezählt – nicht in Gramm oder Millilitern. Beide Phasen bleiben geöffnet.</p><div class="grid stats"><div class="stat"><small>Sessions diese Woche</small><b>'+weekTotal+'</b></div><div class="stat"><small>Konsumfreie Tage</small><b>'+freeDays+'/7</b></div><div class="stat"><small>Kategorien</small><b>'+categories.length+'</b></div></div>'+p2Rows+'<button class="btn primary" id="cv-p2-save" type="button">Ziele & Bewertungen speichern</button></section>';
+ v.insertAdjacentHTML('beforeend',phase2Html);
+ $('#cv-p2-save').addEventListener('click',()=>{
+  for(const [key] of categories){
+   const cfg=p2.categories[key]||(p2.categories[key]={});
+   cfg.enabled=$('[data-p2-enabled="'+key+'"]').checked;
+   cfg.maxPerDay=Math.max(0,Number($('[data-p2-day="'+key+'"]').value)||0);
+   cfg.maxPerWeek=Math.max(0,Number($('[data-p2-week="'+key+'"]').value)||0);
+   cfg.freeDays=Math.min(7,Math.max(0,Number($('[data-p2-free="'+key+'"]').value)||0));
+   const rating=$('[data-p2-rating="'+key+'"]').value;
+   p2.ratings[weekKey]=p2.ratings[weekKey]||{};
+   if(rating)p2.ratings[weekKey][key]=Number(rating);else delete p2.ratings[weekKey][key];
+  }
+  cv.phase2=p2;db.controlledVaping=cv;put();controlledVaping(v);toast('Phase-2-Ziele gespeichert.');
+ });
+ for(const [key] of categories){
+  const toggle=$('[data-p2-enabled="'+key+'"]');
+  toggle?.addEventListener('change',()=>{p2.categories[key].enabled=toggle.checked;db.controlledVaping=cv;put();});
+ }
  $('#cv-week').addEventListener('change',()=>controlledVaping(v));
  const shiftWeek=delta=>{const input=$('#cv-week');const selected=localDate(input.value||now());selected.setDate(selected.getDate()+delta*7);input.value=iso(selected);controlledVaping(v)};
  $('#cv-week-prev').addEventListener('click',()=>shiftWeek(-1));
