@@ -264,3 +264,17 @@ Bei HTTP 401 versucht der Adapter einmal, das Sitzungstoken über das gespeicher
 `cloud-media.js` akzeptiert dafür optional eine injizierte `request`-Funktion. `createCloudMediaResolver()` in `app.js` verbindet diese Funktion mit `MVAEncryptedMedia` und `MVACloudMediaResolver`. Es wird bei Aufruf eine aktive Cloud-Anmeldung und der entschlüsselte AES-Schlüssel benötigt.
 
 **Status und Grenze:** Diese Adapter- und Factory-Funktionen sind vorbereitet, werden aber noch nicht von Galerie, Geräteformular oder PDF-Ansicht aufgerufen. Es wurden keine Medien hochgeladen und keine bestehenden Daten oder Speicherverweise verändert. Ein echter Test gegen Supabase steht aus. Die UI-Integration und portable JSON-Backups müssen weiterhin vor jeder Datenmigration abgeschlossen werden.
+
+
+## 14. Medienanzeige und portable JSON-Backups (UI-Vorbereitung)
+
+`app.js` kann jetzt vorhandene Inline-Medien und bereits vorhandene verschlüsselte Storage-Referenzen in den folgenden Bereichen verarbeiten:
+- Geräteübersicht und Geräteformular-Vorschau für Gerätefotos
+- Galerie-Miniaturen und Foto-Großansicht
+- integrierter PDF-Viewer für Bedienungsanleitungen
+
+Der PDF-Viewer lädt eine Storage-Referenz über den entschlüsselnden Medienadapter als Blob und übergibt die Bytes an PDF.js. Die Datenbankwerte werden dabei nicht verändert.
+
+Der JSON-Export erstellt vor dem Download eine Kopie des Spielstands. Erkannte Storage-Referenzen in Galerie-Fotos, Gerätefotos und PDF-Anleitungen werden in dieser Exportkopie heruntergeladen und wieder als vollständige Data-URLs eingebettet. Das Backup bleibt dadurch unabhängig vom Supabase-Bucket und kann die Medien weiterhin mitnehmen. Der laufende Spielstand wird für den Export nicht umgeschrieben. Der JSON-Import akzeptiert weiterhin Inline-Medien und nun auch formal gültige Storage-Referenzen.
+
+**Wichtige Einschränkung:** Das ist noch keine Bestandsmigration und kein Live-Test. Die aktuelle App legt neue Medien weiterhin inline ab; es wurden keine bestehenden Medien umgestellt. Vor einer echten Migration müssen insbesondere vollständige Export-/Import-Wiederherstellung, Fehlerfälle bei fehlenden Dateien, mehrere Geräte und das Speicher-/Versionskonzept getestet werden. Die lokale Anzeige von Inline-Medien bleibt unverändert.
