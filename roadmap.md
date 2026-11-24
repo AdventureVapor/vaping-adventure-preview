@@ -758,3 +758,17 @@ Die Anpassung begrenzt die Größe neu hinzugefügter Fotos. Bereits gespeichert
 - [ ] Supabase-Fehler bei großen Nutzlasten mit vollständigem HTTP-Fehlertext und realen Datenmengen untersuchen.
 
 Die verschlüsselte Nutzlastgröße ist eine Näherung aus UTF-8-Datenlänge, AES-GCM-Tag und Base64-/JSON-Overhead. Sie ist keine Messung des tatsächlichen HTTP-Transfers oder einer Supabase-Grenze.
+
+
+## Architektur: getrennte, clientseitig verschlüsselte Medienablage (Preview)
+
+- [x] Bestehenden Datenfluss analysiert: Fotos, Gerätebilder und PDF-Anleitungen sind aktuell Base64/Data-URLs innerhalb des vollständigen verschlüsselten `db`-JSON in `mva_saves.payload`.
+- [x] Architektur für privaten Supabase-Storage-Bucket mit AES-GCM-Verschlüsselung im Browser und zufälligen Objektpfaden dokumentiert.
+- [x] RLS-Policy-Vorschlag für benutzergebundene Storage-Objekte dokumentiert; keine öffentlichen URLs und keine Service-Role-Schlüssel.
+- [x] Migration, Altformat-Kompatibilität, portable JSON-Backups, Löschreihenfolge und Rollout-Schritte festgelegt.
+- [ ] Storage-Bucket und Policies in einem separaten Supabase-Testprojekt einrichten und mit zwei Konten isoliert testen.
+- [ ] Upload-/Download-Prototyp mit dem bestehenden Datenverschlüsselungsschlüssel entwickeln und Byte-genau verifizieren.
+- [ ] Galerie, Gerätebilder, PDF-Viewer und JSON-Backup auf Medienreferenzen umstellen; Data-URL-Altbestände weiterhin unterstützen.
+- [ ] Erst nach erfolgreichem Backup-/Restore- und Mehrkontentest eine optionale Migration vorhandener Medien freigeben.
+
+Die Architektur ist dokumentiert, aber noch nicht aktiviert. Es wurden keine Supabase-Tabellen, Buckets oder Policies verändert und keine bestehenden Nutzerdaten migriert. Die App verwendet weiterhin das bisherige eingebettete Medienformat.
