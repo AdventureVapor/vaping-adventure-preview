@@ -422,7 +422,45 @@ function openDeviceManual(deviceName){
  zoomOut.onclick=()=>{zoom=Math.max(.5,Math.round((zoom-.25)*100)/100);showPage(pageNumber).catch(err=>{console.error(err);status.textContent=localeText('device.manualReadError')})};zoomIn.onclick=()=>{zoom=Math.min(3,Math.round((zoom+.25)*100)/100);showPage(pageNumber).catch(err=>{console.error(err);status.textContent=localeText('device.manualReadError')})};zoomReset.onclick=()=>{zoom=1;showPage(pageNumber).catch(err=>{console.error(err);status.textContent=localeText('device.manualReadError')})};prev.onclick=()=>showPage(pageNumber-1).catch(err=>{console.error(err);status.textContent=localeText('device.manualReadError')});next.onclick=()=>showPage(pageNumber+1).catch(err=>{console.error(err);status.textContent=localeText('device.manualReadError')});document.addEventListener('keydown',onKey);
  (async()=>{try{const pdfjs=await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs');pdfjs.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';pdfDoc=await pdfjs.getDocument({data:bytes}).promise;if(closed){pdfDoc.destroy();return}updateControls();await showPage(1)}catch(error){console.error(error);if(!closed){status.textContent=localeText('device.manualReadError');count.textContent=localeText('device.manualUnavailable')}}})();
 }
-function compress(file,done){let r=new FileReader();r.onerror=()=>toast('Foto konnte nicht gelesen werden.');r.onload=()=>{let im=new Image();im.onerror=()=>toast('Bildformat konnte nicht verarbeitet werden.');im.onload=()=>{let c=document.createElement('canvas'),scale=Math.min(1,900/Math.max(im.width,im.height));c.width=Math.max(1,Math.round(im.width*scale));c.height=Math.max(1,Math.round(im.height*scale));c.getContext('2d').drawImage(im,0,0,c.width,c.height);let src=c.toDataURL('image/jpeg',.60);if(src.length>700000){let c2=document.createElement('canvas'),scale2=.75;c2.width=Math.max(1,Math.round(c.width*scale2));c2.height=Math.max(1,Math.round(c.height*scale2));c2.getContext('2d').drawImage(c,0,0,c2.width,c2.height);src=c2.toDataURL('image/jpeg',.48)}done(src)};im.src=r.result};r.readAsDataURL(file)}
+function compress(file,done){
+ let reader=new FileReader();
+ reader.onerror=()=>toast('Foto konnte nicht gelesen werden.');
+ reader.onload=()=>{
+  let image=new Image();
+  image.onerror=()=>toast('Bildformat konnte nicht verarbeitet werden.');
+  image.onload=()=>{
+   try{
+    const canvas=document.createElement('canvas'),context=canvas.getContext('2d');
+    if(!context)throw Error('Canvas nicht verfügbar');
+    const initialScale=Math.min(1,900/Math.max(image.width,image.height));
+    canvas.width=Math.max(1,Math.round(image.width*initialScale));
+    canvas.height=Math.max(1,Math.round(image.height*initialScale));
+    context.drawImage(image,0,0,canvas.width,canvas.height);
+    let src='';
+    for(let attempt=0;attempt<8;attempt++){
+     const quality=attempt===0?.62:Math.max(.38,.58-attempt*.035);
+     src=canvas.toDataURL('image/jpeg',quality);
+     if(src.length<=700000)break;
+     if(Math.max(canvas.width,canvas.height)<=320)break;
+     const scale=.82;
+     const next=document.createElement('canvas');
+     next.width=Math.max(1,Math.round(canvas.width*scale));
+     next.height=Math.max(1,Math.round(canvas.height*scale));
+     const nextContext=next.getContext('2d');
+     if(!nextContext)throw Error('Canvas nicht verfügbar');
+     nextContext.drawImage(canvas,0,0,next.width,next.height);
+     canvas.width=next.width;canvas.height=next.height;
+     context.clearRect(0,0,canvas.width,canvas.height);
+     context.drawImage(next,0,0);
+    }
+    if(!src||src.length>700000){toast('Foto konnte nicht ausreichend verkleinert werden. Bitte ein kleineres Bild auswählen.');return}
+    done(src);
+   }catch(error){console.error(error);toast('Foto konnte nicht komprimiert werden. Bitte ein anderes Bild auswählen.')}
+  };
+  image.src=reader.result;
+ };
+ reader.readAsDataURL(file);
+}
 function gallery(v){const galleryDescription=localeText('page.gallery.description');v.innerHTML=`${header(localeText('page.gallery.eyebrow'),localeText('page.gallery.title'),galleryDescription,`<button class="btn primary" data-action="new-photo">${localeText('action.addPhoto')}</button>`)}<div class="grid gallery-grid">${db.photos.length?db.photos.map((p,i)=>`<article class="card gallery-card"><button class="gallery-thumb" type="button" data-gallery-open="${i}" aria-label="${localeText('gallery.openPhoto',{number:i+1})}"><img src="${p.src}" alt="${esc(p.title||localeText('gallery.moment'))}"></button><div class="row gallery-meta"><div class="gallery-caption"><b>${esc(p.title||localeText('gallery.moment'))}</b><div class="tagline">${esc(p.date||'')} · ${esc(p.device||p.entry||localeText('gallery.general'))}</div></div><button class="btn small" data-del-photo="${p.id}" aria-label="${localeText('gallery.deletePhoto')}">${localeText('action.delete')}</button></div></article>`).join(''):empty(localeText('gallery.empty'),localeText('gallery.emptyHint'))}</div>`;bindGlobal()}
 function showGalleryLightbox(){if(!db.photos.length)return;galleryIndex=(galleryIndex+db.photos.length)%db.photos.length;const p=db.photos[galleryIndex];$('#modal-root').innerHTML=`<div class="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Foto-Großansicht"><div class="gallery-lightbox-panel"><div class="gallery-lightbox-top"><span>${esc(p.title||'Moment')}</span><button type="button" class="gallery-lightbox-close" data-lightbox-close aria-label="Großansicht schließen">×</button></div><div class="gallery-lightbox-stage"><button type="button" class="gallery-lightbox-nav" data-lightbox-prev aria-label="Vorheriges Bild">‹</button><img src="${p.src}" alt="${esc(p.title||'Galeriefoto')}"><button type="button" class="gallery-lightbox-nav" data-lightbox-next aria-label="Nächstes Bild">›</button></div><div class="gallery-lightbox-bottom"><span>${esc(p.date||'')} · ${esc(p.device||p.entry||'Allgemein')}</span><span>${galleryIndex+1} / ${db.photos.length}</span></div></div></div>`;document.body.style.overflow='hidden'}
 function closeGalleryLightbox(){const root=$('#modal-root');if(root?.querySelector('.gallery-lightbox')){root.innerHTML='';document.body.style.overflow=''}}
