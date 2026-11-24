@@ -75,13 +75,16 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
   - [ ] Profil: Nickname/Anzeigename und E-Mail-Adresse anzeigen; Nickname bearbeiten und E-Mail-Änderung mit sicherem Bestätigungsablauf ermöglichen
   - [ ] Profilangaben und Einstellungen zuverlässig im eigenen Benutzerkonto speichern und zwischen Geräten synchronisieren
 - [ ] Tagebuch-Kategorien um „Zigarette“ erweitern – zusätzlich zu Vaporizer, E-Zigarette und Tabakerhitzer
-  - [ ] Kategorie „Zigarette“ für Nutzer anbieten, die Zigarettenkonsum neutral dokumentieren möchten
-  - [ ] In den Einstellungen einen eigenen Bereich „Konsumarten“ vorsehen: Nutzer können angeben, ob sie vapen und/oder rauchen
+  - [ ] Kategorie „Zigarette“ ausschließlich Nutzern anzeigen, die das Zigarettenrauchen in den Einstellungen ausdrücklich aktiviert haben
+  - [ ] Wenn „Zigaretten rauchen“ in den Einstellungen nicht aktiviert ist, darf „☠️ Zigarette“ weder in der Kategorienauswahl noch an anderen Stellen der Tagebuch-Erfassung auftauchen
+  - [ ] In den Einstellungen einen eigenen Bereich „Konsumarten“ vorsehen: Nutzer können angeben, ob sie vapen und/oder Zigaretten rauchen
   - [ ] Bei aktiviertem Vaping auswählen können, welche Arten genutzt werden (Vaporizer, E-Zigarette und/oder Tabakerhitzer)
-  - [ ] Unabhängig davon das Rauchen von Zigaretten separat aktivieren/deaktivieren können
-  - [ ] Das Zigaretten-Symbol mit Totenkopf (☠️ Zigarette) dauerhaft und gut erkennbar in der Kategorien-/Auswahlansicht anzeigen; die Kategorie bleibt als Option sichtbar, auch wenn sie in den persönlichen Einstellungen nicht aktiviert ist
+  - [ ] Das Rauchen von Zigaretten unabhängig von den Vaping-Arten separat aktivieren/deaktivieren können
+  - [ ] Bei Aktivierung des Zigarettenrauchens die Kategorie „☠️ Zigarette“ in der Tagebuchauswahl einblenden; bei Deaktivierung ausblenden
+  - [ ] Hilfebibliothek erweitern: erklären, wo die Konsumarten eingestellt werden, wie „Zigaretten rauchen“ aktiviert/deaktiviert wird und wann die Kategorie „☠️ Zigarette“ in der Tagebuchauswahl erscheint
+  - [ ] Hilfetext klarstellen: Das Ausblenden der Kategorie löscht keine bereits gespeicherten Zigaretten-Tagebucheinträge; historische Einträge bleiben sichtbar und bearbeitbar
   - [ ] Beim Deaktivieren einer Konsumart vorhandene Tagebucheinträge nicht löschen; historische Einträge weiterhin anzeigen und bearbeiten können
-  - [ ] Neue Einstellungen und Kategorie in DE/EN/FR übersetzen und auf Desktop sowie iPhone testen
+  - [ ] Neue Einstellungen, bedingte Kategorienanzeige und Hilfetexte in DE/EN/FR übersetzen und auf Desktop sowie iPhone testen
 - [ ] Englische und französische E-Mail-Vorlagen ergänzen und sprachabhängige Zustellung technisch klären
 - [ ] Impressum und erforderliche rechtliche Anbieterinformationen vor Veröffentlichung vollständig klären und einbauen
 - [ ] Verbliebene ältere Textfragment-Übersetzungen auf das zentrale Übersetzungssystem umstellen
