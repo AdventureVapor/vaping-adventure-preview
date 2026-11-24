@@ -248,11 +248,11 @@ Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`
 This audit is deliberately read-only: it performs no network requests, uploads, database writes, reference replacements or deletions. It does not make a migration safe or activate the new storage. It is a preparation and diagnostic building block only. The module is loaded but is not called by the running app.
 
 
-## 12. Einheitliche Medienauflösung (Vorbereitung – noch nicht aktiviert)
+## 12. Einheitliche Medienauflösung und Cache-Lebenszyklus
 
-`cloud-media-resolver.js` ergänzt die Mediengrundlage um einen Resolver. Inline-Data-URLs werden unverändert zurückgegeben; verschlüsselte Storage-Referenzen werden über einen ausdrücklich übergebenen Downloadadapter geladen, als Blob-URL bereitgestellt und begrenzt zwischengespeichert. Beim Freigeben des Resolvers werden erzeugte Blob-URLs widerrufen.
+`cloud-media-resolver.js` ergänzt die Mediengrundlage um einen Resolver. Inline-Data-URLs werden unverändert zurückgegeben; verschlüsselte Storage-Referenzen werden über einen ausdrücklich übergebenen Downloadadapter geladen, als Blob-URL bereitgestellt und begrenzt zwischengespeichert. `dispose()` widerruft alle erzeugten Blob-URLs und beendet die Cache-Generation. Ein noch laufender Download darf nach `dispose()` keine neue Blob-URL mehr im Cache hinterlassen; eine gegebenenfalls verspätet erzeugte URL wird sofort widerrufen.
 
-Das Modul wird geladen, aber noch nicht von `app.js` verwendet. Vor der Oberflächenintegration muss der Downloadadapter an die token-aktualisierende Cloud-Sitzung angebunden werden. Insbesondere dürfen abgelaufene Sitzungstoken nicht zu dauerhaften Bild-/PDF-Fehlern führen. JSON-Export und -Import müssen weiterhin vollständige, portable Medieninhalte enthalten. Bis dahin bleiben alle bestehenden Medienfelder unverändert.
+Der Resolver ist inzwischen über `createCloudMediaResolver()` in `app.js` an die token-aktualisierende Cloud-Sitzung angebunden und wird von Galerie, Geräteansicht und PDF-Viewer verwendet. Beim Abmelden, beim Wechsel in den lokalen Modus und vor einer neuen Kontoanmeldung wird der Resolver freigegeben. Ein echter Supabase-Live-Test steht weiterhin aus.
 
 
 ## 13. Token-aktualisierender Storage-Requestadapter
@@ -263,7 +263,7 @@ Bei HTTP 401 versucht der Adapter einmal, das Sitzungstoken über das gespeicher
 
 `cloud-media.js` akzeptiert dafür optional eine injizierte `request`-Funktion. `createCloudMediaResolver()` in `app.js` verbindet diese Funktion mit `MVAEncryptedMedia` und `MVACloudMediaResolver`. Es wird bei Aufruf eine aktive Cloud-Anmeldung und der entschlüsselte AES-Schlüssel benötigt.
 
-**Status und Grenze:** Diese Adapter- und Factory-Funktionen sind vorbereitet, werden aber noch nicht von Galerie, Geräteformular oder PDF-Ansicht aufgerufen. Es wurden keine Medien hochgeladen und keine bestehenden Daten oder Speicherverweise verändert. Ein echter Test gegen Supabase steht aus. Die UI-Integration und portable JSON-Backups müssen weiterhin vor jeder Datenmigration abgeschlossen werden.
+**Status und Grenze:** Der Adapter wird von der Medienauflösung der App verwendet. Es wurden keine Medien hochgeladen und keine bestehenden Daten oder Speicherverweise verändert. Ein echter Test gegen Supabase steht aus.
 
 
 ## 14. Medienanzeige und portable JSON-Backups (UI-Vorbereitung)
@@ -275,6 +275,8 @@ Bei HTTP 401 versucht der Adapter einmal, das Sitzungstoken über das gespeicher
 
 Der PDF-Viewer lädt eine Storage-Referenz über den entschlüsselnden Medienadapter als Blob und übergibt die Bytes an PDF.js. Die Datenbankwerte werden dabei nicht verändert.
 
-Der JSON-Export erstellt vor dem Download eine Kopie des Spielstands. Erkannte Storage-Referenzen in Galerie-Fotos, Gerätefotos und PDF-Anleitungen werden in dieser Exportkopie heruntergeladen und wieder als vollständige Data-URLs eingebettet. Das Backup bleibt dadurch unabhängig vom Supabase-Bucket und kann die Medien weiterhin mitnehmen. Der laufende Spielstand wird für den Export nicht umgeschrieben. Der JSON-Import akzeptiert weiterhin Inline-Medien und nun auch formal gültige Storage-Referenzen.
+Der JSON-Export erstellt vor dem Download eine Kopie des Spielstands. Erkannte Storage-Referenzen in Galerie-Fotos, Gerätefotos und PDF-Anleitungen werden in dieser Exportkopie heruntergeladen und wieder als vollständige Data-URLs eingebettet. Das Backup bleibt dadurch unabhängig vom Supabase-Bucket und kann die Medien weiterhin mitnehmen. Der laufende Spielstand wird für den Export nicht umgeschrieben. Der JSON-Import akzeptiert Inline-Medien und formal gültige Storage-Referenzen. Vor dem Ersetzen des aktiven Spielstands werden alle referenzierten Medien vollständig heruntergeladen und entschlüsselt. Schlägt ein Abruf fehl, wird der Import abgebrochen und der bisherige Spielstand nicht ersetzt. Vor einer erfolgreichen Wiederherstellung wird außerdem eine portable Sicherheitskopie des aktuellen Spielstands zum Download erstellt.
+
+Beim Wechsel vom Cloud- in den lokalen Modus werden Cloud-Medien ebenfalls zunächst in vollständige Data-URLs materialisiert, bevor der lokale Spielstand gespeichert und die Cloud-Sitzung beendet wird.
 
 **Wichtige Einschränkung:** Das ist noch keine Bestandsmigration und kein Live-Test. Die aktuelle App legt neue Medien weiterhin inline ab; es wurden keine bestehenden Medien umgestellt. Vor einer echten Migration müssen insbesondere vollständige Export-/Import-Wiederherstellung, Fehlerfälle bei fehlenden Dateien, mehrere Geräte und das Speicher-/Versionskonzept getestet werden. Die lokale Anzeige von Inline-Medien bleibt unverändert.
