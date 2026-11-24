@@ -685,13 +685,37 @@ function importJson(e){
    // download/decryption fails, the current diary remains completely untouched.
    const x=await materializeBackupMedia(parsed);
    if(!validBackup(x))throw Error('Backup-Medien konnten nicht vollständig wiederhergestellt werden.');
+   // Finish pending cloud writes before capturing the pre-restore state.
+   if(storageMode==='cloud'&&!await flushCloudSave())throw Error('Import abgebrochen: Der bisherige Cloud-Spielstand konnte vorher nicht zuverlässig gesichert werden.');
    // Keep a portable safety copy of the current save before replacing it.
    const safetySnapshot=await createPortableBackupSnapshot();
    download(new Blob([JSON.stringify(safetySnapshot,null,2)],{type:'application/json'}),'my-vaping-adventure-before-restore.json');
    const base=emptyDb();
    const next={...base,...x,entries:x.entries,devices:x.devices.map(d=>typeof d==='string'?{name:d,category:'vaporizer'}:{...d,category:names[d.category]?d.category:'vaporizer'}),strains:x.strains||[],photos:x.photos||[],game:{...base.game,...(x.game||{})}};
-   db=next;if(storageMode==='local')localDb=db;
-   put();render();toast('Backup geprüft und wiederhergestellt');
+   if(storageMode==='cloud'){
+    const previous=db;
+    db=next;
+    try{
+     await cloudWrite();
+     if(cloudSavedRevision<cloudSaveRevision)throw Error('Die Cloud hat die Wiederherstellung noch nicht bestätigt.');
+    }catch(writeError){
+     db=previous;
+     try{
+      await cloudWrite();
+      if(cloudSavedRevision<cloudSaveRevision)throw Error('Der vorherige Cloud-Spielstand wurde nicht bestätigt.');
+     }catch(rollbackError){
+      setCloudStatus('Cloud-Speicherstatus unklar – bitte nicht abmelden.');
+      throw Error('Cloud-Import fehlgeschlagen. Auch die erneute Sicherung des vorherigen Spielstands wurde nicht bestätigt. Bitte angemeldet bleiben und den heruntergeladenen Sicherheits-Backup aufbewahren. Ursache: '+(rollbackError?.message||writeError?.message||'unbekannter Cloud-Fehler'));
+     }
+     throw Error('Cloud-Import fehlgeschlagen. Der vorherige Cloud-Spielstand wurde erneut gespeichert. '+(writeError?.message||''));
+    }
+   }else{
+    // Write to localStorage first: quota/security errors must not be hidden by put().
+    localStorage.setItem(KEY,JSON.stringify(next));
+    db=next;
+    localDb=next;
+   }
+   render();toast('Backup geprüft, gespeichert und wiederhergestellt');
   }catch(error){
    console.error('JSON-Backup konnte nicht importiert werden:',error);
    toast('Backup konnte nicht vollständig wiederhergestellt werden: '+(error?.message||'Datei ungültig')+'. Deine bisherigen Daten wurden nicht ersetzt.');
