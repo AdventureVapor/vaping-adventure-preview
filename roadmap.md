@@ -698,3 +698,14 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Cloud-Synchronisierung nach Wiederherstellung auf Erfolg prüfen; Fehlermeldungen und lokale Wiederherstellungskopie kontrollieren.
 
 Die Änderung schützt vor allem vor einem unvollständigen oder fehlerhaften Import, der bisher den laufenden Datenbestand überschreiben konnte. Ein erfolgreicher Import ist noch kein Beleg dafür, dass die Cloud-Synchronisierung abgeschlossen ist; das muss separat getestet werden.
+
+
+## Cloud-Verbindungsstabilität: Zeitlimits für Anfragen (Preview)
+
+- [x] Cloud-Anfragen erhalten ein Zeitlimit von 20 Sekunden, damit eine ausbleibende Serverantwort nicht unbegrenzt auf Speichern oder Abmelden warten lässt.
+- [x] Zeitüberschreitungen werden als verständliche Fehlermeldung ausgegeben; die vorhandenen Wiederholungsversuche der Cloud-Speicherung bleiben aktiv.
+- [x] Auch der Token-Aktualisierungsaufruf nutzt dasselbe Zeitlimit.
+- [ ] Praxistest mit absichtlich langsamer/unterbrochener Verbindung auf PC und iPhone.
+- [ ] Prüfen, ob der konkrete bisherige Cloud-Fehler dadurch verschwindet oder ob die angezeigte Serverfehlermeldung weitere Anpassungen erfordert.
+
+Hinweis: Das Zeitlimit verhindert endlos wartende Netzwerkanfragen. Es ersetzt keinen Test gegen das konfigurierte Cloud-Backend und beweist nicht, dass jeder Speicherfehler behoben ist.
