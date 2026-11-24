@@ -71,3 +71,39 @@ Wenn gleichnamige Policies bereits existieren, nicht erneut blind ausführen: er
 ## 6. Funktionsprüfung
 
 Nach der Einrichtung mit zwei getrennten Testkonten prüfen, dass jedes Konto ausschließlich seinen eigenen Spielstand lesen und ändern kann. Anschließend Registrierung, E-Mail-Bestätigung, Anmeldung, Passwort-Reset, Wiederherstellungscode und Synchronisierung zwischen Geräten testen.
+
+## 7. Separater, verschlüsselter Medienspeicher (Vorbereitung – noch nicht aktiv)
+
+Die Medienablage ist eine optionale Erweiterung und wird erst nach Einrichtung und Tests aktiviert. **Noch keine vorhandenen Fotos oder PDFs verschieben.**
+
+Im SQL Editor kann der private Bucket samt benutzergebundenen Policies vorbereitet werden. Vorher vorhandene Policies im Storage-Bereich prüfen; gleichnamige Policies nicht blind duplizieren.
+
+```sql
+insert into storage.buckets (id, name, public)
+values ('mva-private-media', 'mva-private-media', false)
+on conflict (id) do update set public = false;
+
+create policy "MVA media read own objects"
+on storage.objects for select to authenticated
+using (bucket_id = 'mva-private-media'
+  and (storage.foldername(name))[1] = (select auth.uid())::text);
+
+create policy "MVA media insert own objects"
+on storage.objects for insert to authenticated
+with check (bucket_id = 'mva-private-media'
+  and (storage.foldername(name))[1] = (select auth.uid())::text);
+
+create policy "MVA media update own objects"
+on storage.objects for update to authenticated
+using (bucket_id = 'mva-private-media'
+  and (storage.foldername(name))[1] = (select auth.uid())::text)
+with check (bucket_id = 'mva-private-media'
+  and (storage.foldername(name))[1] = (select auth.uid())::text);
+
+create policy "MVA media delete own objects"
+on storage.objects for delete to authenticated
+using (bucket_id = 'mva-private-media'
+  and (storage.foldername(name))[1] = (select auth.uid())::text);
+```
+
+Die neue Datei `cloud-media.js` enthält zunächst nur die isolierten AES-GCM-Upload-/Download-/Löschfunktionen. Sie wird noch nicht von Formularen oder Galerie aufgerufen. Die Tagebuch-, Geräte-, Sorten- und Fortschrittsdaten bleiben vorerst gemeinsam im bestehenden clientseitig verschlüsselten Spielstand. Nur die großen Binärdateien sollen später separat gespeichert werden; so bleiben zusammengehörige strukturierte Daten konsistent und jede Tagebuchänderung muss nicht erneut alle Fotos/PDFs übertragen.
