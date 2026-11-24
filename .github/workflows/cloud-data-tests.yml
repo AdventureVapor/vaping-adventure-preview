@@ -1,0 +1,41 @@
+name: Cloud data mock tests
+on:
+  push:
+    branches:
+      - fix/cloud-storage-migration-phase1
+  pull_request:
+    branches:
+      - main
+jobs:
+  mock-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright
+        run: npm install --no-save playwright
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start static server
+        run: python3 -m http.server 8080 --directory . >/tmp/server.log 2>&1 &
+      - name: Wait for server
+        run: |
+          for i in {1..20}; do curl -fsS http://127.0.0.1:8080/tests/cloud-data-test.html >/dev/null && break; sleep 1; done
+      - name: Run simulated browser tests
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage();
+            await page.goto('http://127.0.0.1:8080/tests/cloud-data-test.html');
+            await page.click('#run');
+            await page.waitForFunction(()=>/ERGEBNIS:|FEHLER:/.test(document.querySelector('#out').textContent),{timeout:20000});
+            const result=await page.locator('#out').textContent();
+            console.log(result);
+            await browser.close();
+            if(!result.includes('ERGEBNIS: Alle simulierten Tests bestanden'))process.exit(1);
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
