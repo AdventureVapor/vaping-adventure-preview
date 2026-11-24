@@ -11,7 +11,7 @@
   const aad=(userId,type,revision)=>enc.encode("MVA-DATA-v1|"+userId+"|"+type+"|"+revision);
   function assertType(type){if(!TYPES.includes(type))throw Error("Unbekannte Datengruppe: "+type)}
   function make({request,userId,key}){
-    if(typeof request!=="function"||!userId||!(key instanceof CryptoKey))throw Error("Datengruppen-Cloud: Request-Funktion, Nutzer oder AES-Schlüssel fehlt.");
+    if(typeof request!=="function"||!userId||typeof CryptoKey==="undefined"||!(key instanceof CryptoKey))throw Error("Datengruppen-Cloud: Request-Funktion, Nutzer oder AES-Schlüssel fehlt.");
     async function seal(type,value,revision){
       const iv=crypto.getRandomValues(new Uint8Array(12));
       const plain=enc.encode(JSON.stringify(value));
