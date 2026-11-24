@@ -709,3 +709,10 @@ Die Änderung schützt vor allem vor einem unvollständigen oder fehlerhaften Im
 - [ ] Prüfen, ob der konkrete bisherige Cloud-Fehler dadurch verschwindet oder ob die angezeigte Serverfehlermeldung weitere Anpassungen erfordert.
 
 Hinweis: Das Zeitlimit verhindert endlos wartende Netzwerkanfragen. Es ersetzt keinen Test gegen das konfigurierte Cloud-Backend und beweist nicht, dass jeder Speicherfehler behoben ist.
+
+
+## Datumsfehler: Lokales Kalenderdatum verwenden (Preview)
+
+- [x] Datums-Hilfsfunktion auf lokale Kalenderwerte umgestellt, statt das UTC-Datum aus `toISOString()` zu verwenden.
+- [x] Verhindert, dass neue Tagebucheinträge rund um Mitternacht in Zeitzonen östlich von UTC versehentlich dem Vortag zugeordnet werden.
+- [ ] Praxistest auf PC und iPhone nahe Mitternacht sowie nach Zeitzonenwechsel.
