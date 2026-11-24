@@ -11,15 +11,15 @@
   const uuid=()=>crypto.randomUUID();
   const safeSegment=s=>String(s).split("/").map(encodeURIComponent).join("/");
   async function digest(blob){return b64(await crypto.subtle.digest("SHA-256",await blob.arrayBuffer()))}
-  function make({url,apiKey,token,userId,key,bucket=DEFAULT_BUCKET,timeoutMs=90000}){
-    if(!/^https:\/\//.test(url||"")||!apiKey||!token||!userId||!key)throw Error("Medien-Cloud: Konfiguration oder Sitzung fehlt.");
+  function make({url,apiKey,token,userId,key,bucket=DEFAULT_BUCKET,timeoutMs=90000,request:requestOverride=null}){
+    if(!/^https:\/\//.test(url||"")||!apiKey||(!token&&typeof requestOverride!=="function")||!userId||!key)throw Error("Medien-Cloud: Konfiguration oder Sitzung fehlt.");
     if(!(key instanceof CryptoKey))throw Error("Medien-Cloud: AES-Schlüssel fehlt.");
     const base=url.replace(/\/$/,"")+"/storage/v1/object";
-    const headers={"apikey":apiKey,"Authorization":"Bearer "+token};
+    const headers={"apikey":apiKey,...(token?{"Authorization":"Bearer "+token}:{})};
     async function request(path,options={}){
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
       try{
-        const res=await fetch(base+"/"+safeSegment(path),{...options,signal:controller.signal,headers:{...headers,...(options.headers||{})}});
+        const requestOptions={...options,signal:controller.signal,headers:{...headers,...(options.headers||{})}};\n        const res=typeof requestOverride==="function"?await requestOverride(path,requestOptions):await fetch(base+"/"+safeSegment(path),requestOptions);
         if(!res.ok){const body=await res.text().catch(()=>"");let detail=body;try{const parsed=JSON.parse(body);detail=parsed.message||parsed.error||body}catch{}throw Error("Medien-Cloud ("+res.status+"): "+String(detail||"Anfrage fehlgeschlagen").slice(0,240))}
         return res;
       }catch(error){
