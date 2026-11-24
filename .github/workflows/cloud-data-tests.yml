@@ -65,3 +65,5 @@ jobs:
             await browser.close();
           })().catch(e=>{console.error(e);process.exit(1)});
           NODE
+      - name: Run settings and category preference browser tests
+        run: node tests/settings-ui.test.js
