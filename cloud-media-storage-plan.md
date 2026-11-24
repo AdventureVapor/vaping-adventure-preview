@@ -10,7 +10,8 @@ Die App besitzt bereits einen zufälligen Datenverschlüsselungsschlüssel (DEK)
 
 ## Zielarchitektur
 
-- Tagebuch, Gerätestammdaten, Spielstand und Medienverweise bleiben im verschlüsselten `mva_saves.payload`.
+- Tagebuch, Gerätestammdaten, Sorten, Fortschritt/Einstellungen und Medienverweise bleiben zunächst gemeinsam im verschlüsselten `mva_saves.payload`. Diese strukturierten Datensätze bleiben bewusst zusammen, damit zusammengehörige Änderungen atomar und konsistent gespeichert werden.
+- Nur große Binärinhalte (Galeriefotos, Gerätebilder und PDF-Anleitungen) werden separat als einzelne verschlüsselte Storage-Objekte gespeichert.
 - Binäre Foto- und PDF-Inhalte liegen in einem **privaten Supabase-Storage-Bucket** `mva-private-media`.
 - Der Browser verschlüsselt jede Datei vor dem Upload mit dem vorhandenen AES-GCM-DEK und einem frischen zufälligen 96-Bit-IV.
 - Der Storage erhält ausschließlich Ciphertext. Originaldateiname, MIME-Typ, Größe und IV werden in der verschlüsselten Tagebuch-Nutzlast als Metadaten abgelegt.
@@ -110,6 +111,14 @@ Vor Ausführung muss geprüft werden, ob gleichnamige Policies bereits vorhanden
 - Bestehende Nutzer behalten ihre eingebetteten Data-URLs zunächst unverändert. Eine Migration erfolgt pro Medium: hochladen, Upload verifizieren, Referenz speichern, Download/Entschlüsselung prüfen. Erst danach darf die eingebettete Kopie aus dem Cloud-Datensatz entfernt werden.
 - Während der Migration müssen alte und neue Formate gleichzeitig lesbar sein. Bei Unterbrechung bleibt das alte Medium verwendbar.
 - Passwortwechsel und Wiederherstellungscode ändern den DEK nicht; daher bleiben Medien entschlüsselbar. Schlüsselrotation müsste alle Medien neu verschlüsseln und ist eine eigene spätere Funktion.
+
+## Implementierungsstand
+
+- [x] Isoliertes Modul `cloud-media.js` mit AES-GCM-Verschlüsselung, zufälligem IV und zufälligem Objektpfad angelegt.
+- [x] Upload-/Download-/Löschfunktionen auf den eigenen Benutzerordner begrenzt; AAD bindet Ciphertext an Pfad, Medientyp und MIME-Typ.
+- [x] Modul eingebunden, aber noch nicht mit der App-Oberfläche verbunden. Es verändert keine bestehenden Daten und führt keine Migration aus.
+- [ ] Storage-Bucket und RLS-Policies in einem separaten Testprojekt einrichten und mit zwei Konten isoliert testen.
+- [ ] Modul mit echten Testdateien und Byte-/Hashvergleich testen.
 
 ## Rollout in kleinen, überprüfbaren Schritten
 

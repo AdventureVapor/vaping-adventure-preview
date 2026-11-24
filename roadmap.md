@@ -783,3 +783,18 @@ Die Architektur ist dokumentiert, aber noch nicht aktiviert. Es wurden keine Sup
 - [ ] Prüfen, dass die Änderung nach Neuladen und erneutem Anmelden erhalten bleibt und die Cloud-Synchronisierung abgeschlossen ist.
 
 Hinweis: Die Änderung ist eine defensive Absicherung des Dialogs. Sie beweist noch nicht, dass die vom Nutzer beobachtete Abmeldung vollständig behoben ist; dafür ist der beschriebene Praxistest erforderlich.
+
+
+
+## Getrennte Medienablage – technische Grundlage (Preview)
+
+- [x] Datenmodell präzisiert: strukturierte Tagebuch-/Geräte-/Sorten-/Fortschrittsdaten bleiben gemeinsam verschlüsselt; große Fotos und PDFs werden später separat als einzelne Objekte gespeichert.
+- [x] Isoliertes Modul `cloud-media.js` mit clientseitiger AES-GCM-Verschlüsselung, frischem IV pro Datei und zufälligen benutzergebundenen Objektpfaden ergänzt.
+- [x] Download entschlüsselt erst im Browser; Löschen/Download akzeptieren nur Referenzen aus dem eigenen Benutzerordner.
+- [x] Modul in Preview eingebunden, aber noch nicht aktiviert und noch nicht mit bestehenden Formularen verbunden.
+- [ ] Privaten Supabase-Bucket und RLS-Policies in einem Testprojekt einrichten und Zwei-Konten-Isolation prüfen.
+- [ ] Upload/Download mit Testfoto und Test-PDF durchführen und Byte-genau vergleichen.
+- [ ] Galerie, Gerätebilder, PDF-Viewer sowie JSON-Backup/Import auf Medienreferenzen umstellen; Data-URL-Altbestände weiter unterstützen.
+- [ ] Erst nach erfolgreicher Prüfung freiwillige Einzelmigration bestehender Medien ermöglichen.
+
+Wichtig: Diese Stufe ändert keine vorhandenen Medien oder Cloud-Datensätze. Der bisherige Speicherweg bleibt aktiv, bis Backend-Einrichtung und vollständige Integration getestet sind.
