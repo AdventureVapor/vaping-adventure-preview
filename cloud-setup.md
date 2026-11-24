@@ -116,7 +116,7 @@ Damit Tagebucheinträge, Geräte, Sorten und Spielfortschritt künftig unabhäng
 ```sql
 create table if not exists public.mva_data (
   user_id uuid not null references auth.users(id) on delete cascade,
-  data_type text not null check (data_type in ('entries','devices','strains','photos','game')),
+  data_type text not null check (data_type in ('entries','devices','strains','photos','game','controlledVaping')),
   payload jsonb not null,
   updated_at timestamptz not null default now(),
   revision bigint not null default 1,
