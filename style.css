@@ -696,3 +696,13 @@ body[data-theme="forest"]::before,body[data-theme="forest"]::after{
 .cv-week-arrow:hover{background:var(--surface);border-color:var(--accent)}
 .cv-week-arrow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(max-width:650px){.cv-week-picker{width:100%;gap:7px}.cv-week-picker .formrow{min-width:0;flex:1}.cv-week-arrow{width:40px;height:42px;flex-basis:40px}}
+
+/* Erweiterte Wochenübersicht: Zwischensummen je Kategorie und Tageszusammenfassung */
+.cv-table .cv-category-total td{background:var(--surface);font-weight:700;border-top:1px solid var(--line)}
+.cv-table .cv-category-total td.cv-total{background:var(--blue)}
+.cv-table .cv-spacer td{height:8px;padding:0;border:0;background:transparent}
+.cv-table .cv-summary-heading td{padding-top:14px;background:var(--bg);font-weight:800;border-top:2px solid var(--line)}
+.cv-table .cv-summary-row td{background:var(--card)}
+.cv-table .cv-summary-row td.cv-total{background:var(--blue)}
+.cv-table{min-width:900px}
+@media(max-width:650px){.cv-table{min-width:880px}}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Vaping Adventure – Cloud-Datengruppen-Test</title>
+<style>
+body{font:16px system-ui,sans-serif;max-width:850px;margin:32px auto;padding:0 18px;background:#101713;color:#edf4ee}
+h1{font-size:1.5rem}.note{padding:14px;border:1px solid #54705c;border-radius:10px;background:#1b2920}
+button{padding:11px 18px;border:0;border-radius:8px;background:#8bd49a;color:#102016;font-weight:700;cursor:pointer}
+pre{white-space:pre-wrap;background:#080d0a;padding:16px;border-radius:10px;min-height:130px}
+.pass{color:#9ee6a8}.fail{color:#ff9c9c}
+</style>
+</head>
+<body>
+<h1>Cloud-Datengruppen – isolierter Funktionstest</h1>
+<p class="note"><b>Wichtig:</b> Diese Seite verwendet ausschließlich einen simulierten Speicher im Arbeitsspeicher. Sie verbindet sich nicht mit Supabase, liest keine echten Kontodaten und verändert keine Cloud-Daten.</p>
+<p>Getestet werden Verschlüsselung, Lesen/Schreiben, parallele Änderungen, mehrdeutige Netzwerkfehler und die Bindung an Nutzerkennung.</p>
+<button id="run">Tests starten</button>
+<pre id="out">Bereit. Bitte „Tests starten“ wählen.</pre>
+<script src="../cloud-data.js"></script><script src="../cloud-migration-codec.js"></script>
+<script>
+"use strict";
+const out=document.getElementById("out"),button=document.getElementById("run");
+function assert(ok,message){if(!ok)throw Error(message)}
+function makeServer(){
+ const rows=new Map();let failAfterCommit=false;
+ async function request(path,options={}){
+  const url=new URL(path,"https://mock.invalid");
+  const type=(url.searchParams.get("data_type")||"").replace(/^eq\./,"")||JSON.parse(options.body||"{}").p_data_type;
+  if(path.startsWith("/rest/v1/mva_data?")){
+   const row=rows.get(type);return row?[{...row}]:[];
+  }
+  if(path==="/rest/v1/rpc/mva_write_data"){
+   const body=JSON.parse(options.body),old=rows.get(body.p_data_type);
+   const revision=old?.revision||0;
+   if(revision!==body.p_expected_revision)throw Error("MVA_REVISION_CONFLICT");
+   const next=revision+1;
+   rows.set(body.p_data_type,{data_type:body.p_data_type,payload:body.p_payload,revision:next});
+   if(failAfterCommit){failAfterCommit=false;throw Error("Simulierter Timeout nach Commit");}
+   return next;
+  }
+  throw Error("Unerwarteter Mock-Aufruf: "+path);
+ }
+ return {request,rows,timeoutAfterNextCommit(){failAfterCommit=true}};
+}
+async function run(){
+ button.disabled=true;out.textContent="Tests laufen …\n";
+ const log=(name)=>out.textContent+="✓ "+name+"\n";
+ try{
+  assert(!!window.MVAEncryptedData,"Modul MVAEncryptedData fehlt");
+  const key=await crypto.subtle.generateKey({name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+  const server=makeServer(),userId="test-user-123";
+  const first=window.MVAEncryptedData.create({request:server.request,userId,key});
+  const second=window.MVAEncryptedData.create({request:server.request,userId,key});
+  const empty=await first.readAll();
+  assert(Object.keys(empty).length===6,"readAll liefert nicht sechs Gruppen");
+  assert(Object.values(empty).every(x=>x.revision===0&&!x.exists),"Leere Gruppen haben falschen Anfangsstand");
+  log("Alle sechs Gruppen werden mit Version 0 erkannt");
+  const initial={id:"entry-1",notes:"Nur Testdaten",nested:{b:2,a:1}};
+  const saved=await first.write("entries",initial,0);
+  assert(saved.revision===1,"Neue Version wurde nicht bestätigt");
+  const loaded=await second.read("entries");
+  assert(loaded.revision===1&&loaded.data.notes===initial.notes,"Entschlüsseltes Lesen stimmt nicht");
+  log("AES-GCM-Schreiben und anschließendes Lesen funktionieren");
+  let conflict=false;
+  try{await second.write("entries",{notes:"veralteter Stand"},0)}catch(e){conflict=e.code==="MVA_REVISION_CONFLICT"}
+  assert(conflict,"Veraltete Version wurde nicht als Konflikt erkannt");
+  assert((await first.read("entries")).data.notes===initial.notes,"Konflikt hat vorhandene Daten verändert");
+  log("Zwei Geräte: veralteter Schreibversuch wird sicher abgewiesen");
+  server.timeoutAfterNextCommit();
+  const afterTimeout=await first.write("devices",[{name:"Testgerät"}],0);
+  assert(afterTimeout.revision===1&&afterTimeout.data[0].name==="Testgerät","Read-back nach Timeout hat nicht bestätigt");
+  log("Timeout nach erfolgreichem Commit wird per entschlüsseltem Read-back erkannt");
+  const wrongUser=window.MVAEncryptedData.create({request:server.request,userId:"anderer-testnutzer",key});
+  let rejected=false;
+  try{await wrongUser.read("entries")}catch(e){rejected=true}
+  assert(rejected,"Daten ließen sich mit anderer Nutzerkennung entschlüsseln");
+  log("Nutzerbindung der Verschlüsselung wird geprüft");
+  assert(!!window.MVACloudMigrationCodec,"Migrations-Codec fehlt");
+  const original={entries:[{id:"e1",notes:"Eintrag"}],devices:[{name:"Test",photo:"data:image/png;base64,AA==",manualData:{v:1,storage:"supabase",path:"u/manual.pdf"}}],strains:[{name:"Sorte"}],photos:[{id:"p1",src:"data:image/jpeg;base64,AA=="}],game:{xp:42,coins:7,quests:["q1"],courses:{kurs:{passed:true}}},controlledVaping:{startDate:"2026-01-02",customFlag:true}};
+  const split=window.MVACloudMigrationCodec.split(original);
+  const joined=window.MVACloudMigrationCodec.join(Object.fromEntries(Object.entries(split).map(([type,data])=>[type,{type,revision:1,data,exists:true}])));
+  assert(JSON.stringify(joined)===JSON.stringify(original),"Aufteilung und Wiederherstellung haben Daten verändert");
+  assert(JSON.stringify(original.devices[0].manualData)===JSON.stringify(split.devices[0].manualData),"Medienreferenz wurde verändert");
+  assert(original.controlledVaping.customFlag===true,"Eingabeobjekt wurde verändert");
+  log("Alle sechs Gruppen lassen sich verlustfrei aufteilen und zusammensetzen (inkl. Medienreferenzen)");
+  const partial=window.MVACloudMigrationCodec.join({entries:{data:[{id:"only"}]},devices:{data:null}});
+  assert(partial.entries.length===1&&partial.devices.length===0&&partial.game.xp===0&&Object.keys(partial.controlledVaping).length===0,"Fehlende Gruppen erhalten keine sicheren Standardwerte");
+  log("Fehlende oder noch leere Gruppen erhalten sichere Standardwerte");
+  const legacySample={entries:[{id:"session-2026-11-23-01",date:"2026-11-23",time:"18:45",category:"vaporizer",device:"S&B Venty",duration:"10",puffs:"",strain:"Blue Dream",temp:"180",location:"Zuhause",taste:"fruchtig",notes:"Testnotiz"}],devices:["Altes Gerät",{id:"d1",name:"S&B Venty",category:"vaporizer",description:"Testgerät",photo:"data:image/jpeg;base64,AA==",manualName:"Anleitung.pdf",manualData:{v:1,storage:"supabase",path:"user/manual.pdf",kind:"pdf",size:123}}],strains:[{id:"s1",name:"Blue Dream",manufacturer:"Testzüchter",category:"Hybrid",notes:"Notiz"}],photos:[{id:"p1",date:"2026-11-23",src:"data:image/png;base64,AA==",caption:"Galerie"}],game:{xp:120,coins:35,quests:["q1","q2"],courses:{intro:{passed:true,score:95,date:"2026-11-23"}}},controlledVaping:{startDate:"2026-11-01",customField:"bleibt erhalten"}};
+  const realistic=window.MVACloudMigrationCodec.split(legacySample);
+  const restored=window.MVACloudMigrationCodec.join(realistic);
+  assert(JSON.stringify(restored)===JSON.stringify(legacySample),"Realistischer Altbestand wurde nicht exakt wiederhergestellt");
+  assert(restored.devices[0]==="Altes Gerät"&&restored.devices[1].manualData.path==="user/manual.pdf","Legacy-Geräte oder PDF-Referenz gingen verloren");
+  assert(restored.entries[0].time==="18:45"&&restored.game.courses.intro.score===95,"Tagebuch- oder Lernfortschritt ging verloren");
+  log("Realistischer Altbestand mit Tagebuchfeldern, Legacy-Gerät, PDF-/Foto-Referenzen und Lernfortschritt bleibt erhalten");
+
+  out.textContent+="\nERGEBNIS: Alle simulierten Tests bestanden. Kein Supabase-Test.";
+ }catch(e){
+  out.textContent+="\nFEHLER: "+(e.stack||e.message||e);
+  out.dataset.failed="true";
+ }finally{button.disabled=false}
+}
+button.addEventListener("click",run);
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+name: Cloud data mock tests
+on:
+  push:
+    branches:
+      - fix/cloud-storage-migration-phase1
+  pull_request:
+    branches:
+      - main
+jobs:
+  mock-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      - name: Run PostgreSQL RPC, CAS and RLS tests
+        env:
+          PGPASSWORD: postgres
+        run: psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -f tests/sql/mva-write-data.test.sql
+      - name: Install Playwright
+        run: npm install --no-save playwright
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Start static server
+        run: python3 -m http.server 8080 --directory . >/tmp/server.log 2>&1 &
+      - name: Wait for server
+        run: |
+          for i in {1..20}; do curl -fsS http://127.0.0.1:8080/tests/cloud-data-test.html >/dev/null && break; sleep 1; done
+      - name: Run simulated browser tests
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async()=>{
+            const browser=await chromium.launch({headless:true});
+            const page=await browser.newPage();
+            await page.goto('http://127.0.0.1:8080/tests/cloud-data-test.html');
+            await page.click('#run');
+            await page.waitForFunction(()=>/ERGEBNIS:|FEHLER:/.test(document.querySelector('#out').textContent),{timeout:20000});
+            const result=await page.locator('#out').textContent();
+            console.log('Cloud-Datentests: '+result);
+            if(!result.includes('ERGEBNIS: Alle simulierten Tests bestanden'))throw Error('Cloud-Datentests fehlgeschlagen');
+            const cvPage=await browser.newPage();
+            await cvPage.goto('http://127.0.0.1:8080/tests/controlled-vaping-test.html');
+            const cvResult=await cvPage.locator('#out').textContent();
+            console.log('Kontrolliertes Vapen: '+cvResult);
+            if(!cvResult.includes('ERGEBNIS: Alle 14 Zeitfenster-Tests bestanden'))throw Error('Zeitfenster-Regressionstest fehlgeschlagen');
+            await browser.close();
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE

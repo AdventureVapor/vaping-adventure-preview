@@ -64,6 +64,24 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 **Ziel:** Die größeren noch offenen Funktionspakete nach dem 1.4.1-Release fertigstellen.
 
 - [ ] Bereich „Kontrolliertes Vapen“ funktional entwickeln (Wochenziele, Fortschritt, Auswertung, datensparsame Speicherung und Übersetzungen)
+  - [ ] **Phase 2 – individuelle Wochenziele und Selbstbewertung (Konzept des Nutzers)**
+    - [ ] In „Einstellungen → Kontrolliert vapen“ die Konsumkategorien per Checkbox einzeln aktivieren/einblenden oder ausblenden: Vaporizer, E-Zigarette, Tabakheater, Zigarette, Joint und Bong
+    - [ ] Für jede aktivierte Kategorie eigene Wochenziele konfigurierbar machen:
+      - [ ] Maximale Anzahl Sessions pro Tag (Eingabefeld)
+      - [ ] Maximaler Gesamtkonsum pro Woche (Eingabefeld; Einheit passend zu den erfassten Tagebuchdaten festlegen)
+      - [ ] Ziel für die Anzahl konsumfreier Tage pro Woche (Eingabefeld)
+    - [ ] In der Wochenübersicht je Kategorie eine Tages-Tabelle mit Ist-Werten und Tagesziel anzeigen
+    - [ ] Unter der Tages-Tabelle eine Ampel ausgeben: Grün, wenn das tägliche Session-Limit eingehalten wurde; Rot, wenn es überschritten wurde
+    - [ ] Wochenziele je Kategorie auswerten:
+      - [ ] Anzahl der Tage, an denen das Tageslimit eingehalten wurde, als X/7 anzeigen
+      - [ ] Wochen-Gesamtkonsum mit dem festgelegten Maximalziel vergleichen und Zielerreichung mit Ja-/Nein-Symbol (Smiley) darstellen
+      - [ ] Tatsächliche Anzahl konsumfreier Tage, das festgelegte Tagesziel und dessen Erreichung (Ja/Nein) anzeigen
+    - [ ] Pro Kategorie eine wöchentliche Selbsteinschätzung anbieten: sieben auswählbare Stufen von sehr zufrieden (Smiley 1) bis sehr unzufrieden (Smiley 7)
+    - [ ] Ziele und Selbsteinschätzung je Kategorie und Kalenderwoche speichern; beim Wechsel der Woche frühere Werte unverändert wieder anzeigen
+    - [ ] Auswertung ausschließlich aus den zugehörigen Tagebucheinträgen berechnen; fehlende oder unvollständige Mengenangaben transparent kennzeichnen und nicht als Nullverbrauch ausgeben
+    - [ ] Ausgeblendete Kategorien aus der aktuellen Eingabe/Übersicht ausblenden, aber historische Tagebucheinträge und bisherige Wochenwerte nicht löschen
+    - [ ] Einstellungen, Eingabefelder, Ampeln, Wochenziele und Smiley-Skala in Deutsch, Englisch und Französisch übersetzen
+    - [ ] Bedienung, Speicherung, Wochenwechsel und Berechnung auf Desktop und iPhone testen
   - [x] Wochen-Navigation in „Woche auswählen“: Pfeil links für Vorwoche und Pfeil rechts für Folgewoche; automatische Aktualisierung der Wochenauswertung in Preview umgesetzt
   - [ ] Pfeilnavigation auf iPhone und Desktop praktisch testen; Wochenwechsel und berechnete Tagebuchwerte gegenprüfen
 - [ ] Vape-Akademie mit sieben Lernleveln, Kursquoten, Leveltests und Freischaltlogik umsetzen
@@ -834,3 +852,17 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 
 - [x] Versionsparameter des eingebundenen `app.js` in `index.html` erhöht, damit Browser/CDN nicht weiter eine ältere JavaScript-Datei mit unverändertem Cache-Schlüssel verwenden.
 - [ ] Nach Aktualisierung der Preview prüfen, dass der Klick auf „Änderungen speichern“ unmittelbar „Speichert …“ anzeigt.
+
+
+### Phase 2 – Zielsetzung und kontrollierter Konsum (Preview umgesetzt)
+- [x] Phase 2 parallel zu Phase 1 sichtbar machen; beide Bereiche bleiben geöffnet und Phase 2 ist als aktiv markiert.
+- [x] Sechs Kategorien anbieten: Vaporizer, E-Zigarette, Tabakheater, Zigarette, Joint und Bong.
+- [x] Kategorien einzeln aktivieren/deaktivieren; deaktivierte Kategorien aus der aktuellen Phase-2-Ansicht ausblenden, Tagebucheinträge und historische Daten jedoch erhalten.
+- [x] Pro Kategorie ein Tageslimit, ein Wochenlimit und ein Ziel für konsumfreie Tage speichern.
+- [x] Gesamtkonsum ausdrücklich als Anzahl der Sessions (Tagebucheinträge) zählen – keine Gramm-/Milliliter-Mengen.
+- [x] Vorhandene Bezeichnungsfelder nach Kategorie zuordnen: Vaporizer = Sorte/Material, E-Zigarette = Liquid, Tabakheater = Sticks, Zigarette = Marke, Joint = Mischung, Bong = Sorte/Mischung.
+- [x] Zufriedenheit auf einer Skala von 1 (sehr zufrieden) bis 7 (sehr unzufrieden) je Kategorie und Kalenderwoche speichern; frühere Wochenbewertungen bleiben erhalten.
+- [ ] Noch ergänzen/prüfen: Tagesampel (Limit eingehalten/überschritten), Zielerreichung für konsumfreie Tage und bessere Zusammenfassung der Wochenziele.
+- [ ] Prüfen, dass die Bezeichnungsfelder für Liquid, Sticks, Marke und Mischung im Tagebuch tatsächlich komfortabel gepflegt und aus den passenden Sammlungen auswählbar sind.
+- [ ] Regressionstests für Zielwerte, Wochenwechsel, historische Bewertungen und deaktivierte Kategorien ergänzen.
+- [ ] Preview-Praxistest auf iPhone und Desktop; Neuladen und Cloud-Synchronisierung prüfen.
