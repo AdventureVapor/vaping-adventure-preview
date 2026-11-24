@@ -69,6 +69,19 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Vape-Akademie mit sieben Lernleveln, Kursquoten, Leveltests und Freischaltlogik umsetzen
 - [ ] Bestehende Kursfortschritte bei Einführung der Akademie erhalten und sicher migrieren
 - [ ] Akademie-Fortschritt und Freischaltlogik mit mehreren Testkonten und geräteübergreifender Synchronisierung prüfen
+- [ ] Zentrales Einstellungsfenster mit klar gegliederten Bereichen entwickeln:
+  - [ ] Darstellung: Design/Thema und Anzeigeoptionen an einer zentralen Stelle verwalten
+  - [ ] Sprache: Deutsch, Englisch und Französisch direkt in den Einstellungen auswählen
+  - [ ] Profil: Nickname/Anzeigename und E-Mail-Adresse anzeigen; Nickname bearbeiten und E-Mail-Änderung mit sicherem Bestätigungsablauf ermöglichen
+  - [ ] Profilangaben und Einstellungen zuverlässig im eigenen Benutzerkonto speichern und zwischen Geräten synchronisieren
+- [ ] Tagebuch-Kategorien um „Zigarette“ erweitern – zusätzlich zu Vaporizer, E-Zigarette und Tabakerhitzer
+  - [ ] Kategorie „Zigarette“ für Nutzer anbieten, die Zigarettenkonsum neutral dokumentieren möchten
+  - [ ] In den Einstellungen einen eigenen Bereich „Konsumarten“ vorsehen: Nutzer können angeben, ob sie vapen und/oder rauchen
+  - [ ] Bei aktiviertem Vaping auswählen können, welche Arten genutzt werden (Vaporizer, E-Zigarette und/oder Tabakerhitzer)
+  - [ ] Unabhängig davon das Rauchen von Zigaretten separat aktivieren/deaktivieren können
+  - [ ] Das Zigaretten-Symbol mit Totenkopf (☠️ Zigarette) dauerhaft und gut erkennbar in der Kategorien-/Auswahlansicht anzeigen; die Kategorie bleibt als Option sichtbar, auch wenn sie in den persönlichen Einstellungen nicht aktiviert ist
+  - [ ] Beim Deaktivieren einer Konsumart vorhandene Tagebucheinträge nicht löschen; historische Einträge weiterhin anzeigen und bearbeiten können
+  - [ ] Neue Einstellungen und Kategorie in DE/EN/FR übersetzen und auf Desktop sowie iPhone testen
 - [ ] Englische und französische E-Mail-Vorlagen ergänzen und sprachabhängige Zustellung technisch klären
 - [ ] Impressum und erforderliche rechtliche Anbieterinformationen vor Veröffentlichung vollständig klären und einbauen
 - [ ] Verbliebene ältere Textfragment-Übersetzungen auf das zentrale Übersetzungssystem umstellen
