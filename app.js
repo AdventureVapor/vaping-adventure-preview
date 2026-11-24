@@ -71,6 +71,17 @@ async function cloudFetch(path,options={},retry=true){
  if(!res.ok)throw Error(data?.msg||data?.message||data?.error_description||data?.hint||`Cloud-Fehler (${res.status})`);
  return data;
 }
+// Erstellt einen isolierten Zugriff auf die vorbereiteten Datengruppen.
+// Absichtlich noch nicht mit put()/cloudWrite() verbunden: Legacy-Speicherung bleibt aktiv.
+function createCloudDataAccess(){
+ if(storageMode!=="cloud"||!cloudSession||!cloudKey)throw Error("Bitte zuerst mit einem Cloud-Konto anmelden.");
+ if(!window.MVAEncryptedData?.create)throw Error("Das Modul für getrennte Cloud-Datengruppen wurde nicht geladen.");
+ return window.MVAEncryptedData.create({
+  request:(path,options={})=>cloudFetch(path,options),
+  userId:cloudSession.userId,
+  key:cloudKey
+ });
+}
 // Binärer Storage-Zugriff mit derselben Sitzung wie die übrigen Cloud-Aufrufe.
  // Gibt die rohe Response zurück, damit verschlüsselte Dateien als ArrayBuffer gelesen werden können.
 async function cloudStorageFetch(path,options={},retry=true){
