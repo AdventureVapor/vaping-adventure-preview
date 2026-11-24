@@ -87,11 +87,17 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Vape-Akademie mit sieben Lernleveln, Kursquoten, Leveltests und Freischaltlogik umsetzen
 - [ ] Bestehende Kursfortschritte bei Einführung der Akademie erhalten und sicher migrieren
 - [ ] Akademie-Fortschritt und Freischaltlogik mit mehreren Testkonten und geräteübergreifender Synchronisierung prüfen
-- [ ] Zentrales Einstellungsfenster mit klar gegliederten Bereichen entwickeln:
-  - [ ] Darstellung: Design/Thema und Anzeigeoptionen an einer zentralen Stelle verwalten
-  - [ ] Sprache: Deutsch, Englisch und Französisch direkt in den Einstellungen auswählen
-  - [ ] Profil: Nickname/Anzeigename und E-Mail-Adresse anzeigen; Nickname bearbeiten und E-Mail-Änderung mit sicherem Bestätigungsablauf ermöglichen
-  - [ ] Profilangaben und Einstellungen zuverlässig im eigenen Benutzerkonto speichern und zwischen Geräten synchronisieren
+- [x] Zentrales Einstellungsmenü in Preview als eigene Seite sowie über Desktop-Navigation und „Mehr“ erreichbar umgesetzt
+  - [x] Vaping-Konfiguration mit sechs Kategorien: Vaporizer, E-Zigarette, Tabakheater, Zigarette, Joint und Bong
+  - [x] Deaktivierte Kategorien aus neuen Tagebucheinträgen und der Kontrolliert-Vapen-Auswertung ausblenden; bestehende und historische Einträge bleiben erhalten
+  - [x] Sprache Deutsch/Englisch/Französisch direkt in den Einstellungen auswählbar
+  - [x] Design-Auswahl über den vorhandenen Theme-Picker zentral erreichbar
+  - [x] Startanimation per Einstellung ein- und ausschaltbar; Betriebssystem-Einstellung „Bewegung reduzieren“ wird zusätzlich berücksichtigt
+  - [x] Anmeldung/Konto und Profil-/Datenübersicht mit Status, E-Mail-Adresse, Datensatzanzahlen und direktem Weg zu „Speicher & Backup“
+  - [x] Vaping-Kategorie-Einstellungen werden als kleine Konfiguration im Spielstand gespeichert und mit dem verschlüsselten Cloud-Spielstand synchronisiert
+  - [ ] Desktop-/iPhone-Praxistest für alle Einstellungen, Neuladen, Sprachwechsel und Cloud-Synchronisierung
+  - [ ] Profil: Nickname/Anzeigename bearbeiten und E-Mail-Änderung mit sicherem Bestätigungsablauf direkt im Einstellungsbereich ermöglichen; bestehende Kontoverwaltung ist derzeit über „Speicher & Backup“ erreichbar
+  - [ ] Prüfen, ob Sprache, Design und Animationspräferenz optional geräteübergreifend synchronisiert werden sollen; derzeit sind diese Anzeigepräferenzen lokal auf dem jeweiligen Gerät gespeichert
 - [ ] Tagebuch-Kategorien um „Zigarette“ erweitern – zusätzlich zu Vaporizer, E-Zigarette und Tabakerhitzer
   - [ ] Kategorie „Zigarette“ ausschließlich Nutzern anzeigen, die das Zigarettenrauchen in den Einstellungen ausdrücklich aktiviert haben
   - [ ] Wenn „Zigaretten rauchen“ in den Einstellungen nicht aktiviert ist, darf „☠️ Zigarette“ weder in der Kategorienauswahl noch an anderen Stellen der Tagebuch-Erfassung auftauchen
@@ -108,6 +114,18 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Verbliebene ältere Textfragment-Übersetzungen auf das zentrale Übersetzungssystem umstellen
 - [ ] Vollständige Sprachprüfung DE/EN/FR nach Abschluss der neuen Funktionen wiederholen
 - [ ] Installierbare PWA für Windows-PC und iPhone umsetzen und auf beiden Plattformen testen
+
+### Kommunikations- und Sichtbarkeitsstrategie – 1.4.2 (Konzept, noch keine Konten angelegt)
+- [ ] Positionierung von My Vaping Adventure als privates, datenschutzorientiertes Tagebuch-/Dokumentationsprojekt klar definieren; keine Aufforderung zum Konsum und keine Verkaufsvermittlung
+- [ ] Vor öffentlicher Bewerbung rechtlich prüfen lassen, ob und in welcher Form die App-Kommunikation wegen des Themenfelds E-Zigaretten/Tabak unter das Werbeverbot des TabakerzG (§§ 19–21) fallen könnte
+- [ ] Plattformregeln von Instagram/Facebook prüfen: Werbeanzeigen für Tabak-/Nikotinprodukte und Vaping-Geräte sind untersagt; Inhalte, die deren Nutzung fördern, können von Empfehlungen ausgeschlossen werden
+- [ ] Organische Social-Media-Strategie nur nach Rechts- und Plattformprüfung festlegen; keine bezahlten Anzeigen, Produktwerbung, Rabatt-/Affiliate-Angebote, Konsumdarstellungen oder bezahlten Markenkooperationen ohne ausdrückliche rechtliche Freigabe
+- [ ] Neutrale Themenfelder prüfen: App-Funktionen und Bedienoberfläche, Datenschutz/Verschlüsselung, Tagebuch- und Backup-Funktionen, technische Entwicklung, Updates und sachliche Gerätepflege
+- [ ] Zielgruppe, Altersansprache, Moderationsregeln, Impressum/Datenschutz, Kommentarregeln und Umgang mit gesundheitsbezogenen Aussagen festlegen
+- [ ] Instagram- und Facebook-Profil als mögliche Kanäle vergleichen; Reichweiten- und Empfehlungsbeschränkungen für Vaping-Inhalte berücksichtigen
+- [ ] Redaktionsplan und wiederverwendbare Bild-/Textvorlagen für einen rechtlich geprüften, sachlichen App-Entwicklungsbericht entwerfen
+- [ ] Erst nach abgeschlossener Prüfung entscheiden, ob ein offizieller Account angelegt wird
+
 - [ ] Abschließende Gesamt-QA für 1.4.2 und ausdrückliche Produktionsfreigabe einholen
 
 **Release-Regel:** Ein erledigter Entwicklungspunkt ist nicht automatisch produktionsreif. Jede Version erhält eine eigene QA-Runde, einen geprüften Preview-Stand und eine separate ausdrückliche Freigabe. Die Produktion bleibt bis dahin unverändert.
