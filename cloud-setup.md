@@ -232,7 +232,7 @@ begin
 end;
 $$;
 
-grant execute on function public.mva_write_data(text, jsonb, bigint) to authenticated;
+revoke all on function public.mva_write_data(text, jsonb, bigint) from public, anon;\ngrant execute on function public.mva_write_data(text, jsonb, bigint) to authenticated;
 ```
 
 Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`) und unterliegt damit weiterhin der RLS-Policy der Tabelle. Der Browser darf nur über die angemeldete Sitzung aufrufen. Der Adapter für `cloud-data.js` muss dieselbe token-aktualisierende Request-Funktion wie die bestehende Cloud-Anmeldung verwenden.
