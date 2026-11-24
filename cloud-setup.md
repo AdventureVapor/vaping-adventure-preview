@@ -246,3 +246,10 @@ Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`
 `cloud-migration.js` provides `window.MVACloudMigration.audit(db)`. It scans a supplied in-memory game state for inline data URLs and existing encrypted Storage references. For inline media it records the object path, MIME type, inferred media kind, byte size and SHA-256 hash; identical files are grouped by hash. Invalid data URLs are counted and reported.
 
 This audit is deliberately read-only: it performs no network requests, uploads, database writes, reference replacements or deletions. It does not make a migration safe or activate the new storage. It is a preparation and diagnostic building block only. The module is loaded but is not called by the running app.
+
+
+## 12. Einheitliche Medienauflösung (Vorbereitung – noch nicht aktiviert)
+
+`cloud-media-resolver.js` ergänzt die Mediengrundlage um einen Resolver. Inline-Data-URLs werden unverändert zurückgegeben; verschlüsselte Storage-Referenzen werden über einen ausdrücklich übergebenen Downloadadapter geladen, als Blob-URL bereitgestellt und begrenzt zwischengespeichert. Beim Freigeben des Resolvers werden erzeugte Blob-URLs widerrufen.
+
+Das Modul wird geladen, aber noch nicht von `app.js` verwendet. Vor der Oberflächenintegration muss der Downloadadapter an die token-aktualisierende Cloud-Sitzung angebunden werden. Insbesondere dürfen abgelaufene Sitzungstoken nicht zu dauerhaften Bild-/PDF-Fehlern führen. JSON-Export und -Import müssen weiterhin vollständige, portable Medieninhalte enthalten. Bis dahin bleiben alle bestehenden Medienfelder unverändert.
