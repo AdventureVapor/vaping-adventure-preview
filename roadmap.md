@@ -772,3 +772,14 @@ Die verschlüsselte Nutzlastgröße ist eine Näherung aus UTF-8-Datenlänge, AE
 - [ ] Erst nach erfolgreichem Backup-/Restore- und Mehrkontentest eine optionale Migration vorhandener Medien freigeben.
 
 Die Architektur ist dokumentiert, aber noch nicht aktiviert. Es wurden keine Supabase-Tabellen, Buckets oder Policies verändert und keine bestehenden Nutzerdaten migriert. Die App verwendet weiterhin das bisherige eingebettete Medienformat.
+
+
+## Tagebucheinträge: Bearbeiten und Speichern absichern (Preview)
+
+- [x] Dialog-Schaltflächen ausdrücklich als Buttons definieren, damit ein umgebendes Formular keinen unbeabsichtigten Submit auslöst.
+- [x] Speichern gegen Doppelklick schützen und Fehler im Dialog abfangen, ohne die Cloud-Anmeldung zu beenden.
+- [x] Geändertes Datum vor der Übernahme auf ein gültiges Kalenderdatum prüfen.
+- [ ] Den konkreten Fehler beim Bearbeiten des Dr.-Dabber-Switch²-Eintrags (24.11. → 23.11.) auf PC und iPhone reproduzieren und erfolgreich speichern.
+- [ ] Prüfen, dass die Änderung nach Neuladen und erneutem Anmelden erhalten bleibt und die Cloud-Synchronisierung abgeschlossen ist.
+
+Hinweis: Die Änderung ist eine defensive Absicherung des Dialogs. Sie beweist noch nicht, dass die vom Nutzer beobachtete Abmeldung vollständig behoben ist; dafür ist der beschriebene Praxistest erforderlich.
