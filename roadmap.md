@@ -570,3 +570,62 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Installation und Start auf Windows-PC (mindestens aktuelle Browser mit PWA-Unterstützung) sowie iPhone/Safari prüfen; zusätzlich Anmeldung, Abmeldung, Cloud-Synchronisation, Tagebuch, Fotos, Navigation und Darstellung in beiden Umgebungen testen
 - [ ] Installationshinweise innerhalb der App bereitstellen, die je nach Gerät und Browser die passenden Schritte erklären
 - [ ] PWA-Funktion in Deutsch, Englisch und Französisch anbieten und auf Desktop sowie iPhone responsiv prüfen
+
+
+
+### PDF-Bedienungsanleitungen – Seitennavigation (Preview)
+- [x] PDF-Seiten einzeln im integrierten Viewer rendern
+- [x] Schaltflächen „Zurück“ und „Weiter“ mit Seitenzähler ergänzen
+- [x] Tastatur-Navigation mit Pfeiltasten links/rechts ergänzen
+- [x] PDF-Ansicht und Seitennavigation mit echten Anleitungen erfolgreich vom Nutzer getestet
+
+
+### PDF-Bedienungsanleitungen – Zoomsteuerung (Preview)
+- [x] Vergrößern und Verkleinern im integrierten PDF-Viewer ergänzen
+- [x] Zoomstufen von 50 % bis 300 % mit Rücksetzen auf 100 % anbieten
+- [x] Zoomsteuerung responsiv und mehrsprachig (DE/EN/FR) gestalten
+- [x] Zoom und Seitennavigation vom Nutzer erfolgreich getestet
+
+
+### Cloud-Speicherung – Zuverlässigkeit nach CSV-Import (Preview)
+- [x] Cloud-Schreibvorgänge serialisieren und gleichzeitige Uploads zusammenführen, damit keine älteren Datenstände neuere Änderungen überschreiben
+- [x] Änderungen während eines laufenden Uploads erkennen und den neuesten Spielstand anschließend automatisch nachspeichern
+- [x] Fehlgeschlagene Cloud-Uploads mit begrenzten Wiederholungen (1, 3 und 8 Sekunden) erneut versuchen
+- [x] Fehlerantworten der Cloud robuster auswerten, auch wenn der Server keine gültige JSON-Antwort liefert
+- [x] Letzten Upload-Stand zusätzlich als lokal gespeicherte, clientseitig verschlüsselte Wiederherstellungskopie ablegen
+- [x] CSV-Import meldet die Übernahme getrennt von der noch laufenden Cloud-Synchronisierung
+- [ ] Praxistest: CSV-Import mit mehreren Einträgen, Cloud-Status und erneutes Laden nach erfolgreicher Synchronisierung prüfen
+- [ ] Praxistest: Cloud-Speicherung bei kurzzeitig unterbrochener Verbindung und automatischen Wiederholungen prüfen
+- [ ] Prüfen, dass lokale verschlüsselte Wiederherstellungskopie bei knappem Gerätespeicher keine Datenänderung verhindert
+
+## Version 1.4.1 – Kontrolliertes Vapen
+
+### Phase 1: Bestandsaufnahme – in Preview umgesetzt, Praxistest offen
+- [x] Eigenen Bereich „Kontrolliertes Vapen“ in der Navigation freigeschaltet
+- [x] Phase 1 als reine Bestandsaufnahme angelegt – ohne vorgegebene Reduktionsziele
+- [x] Wochenübersicht nach Montag bis Sonntag und vier Zeitfenstern (0–6, 6–12, 12–18, 18–24 Uhr) umgesetzt
+- [x] Sessions automatisch aus den vorhandenen Tagebucheinträgen ermittelt (ein Tagebucheintrag = eine Session)
+- [x] Kategorien Vaporizer, E-Zigarette und Tabakheater getrennt ausgewiesen
+- [x] Tageswerte, Wochensummen, durchschnittliche Sessions pro Kalendertag und konsumfreie Tage automatisch berechnet
+- [x] Startdatum der Bestandsaufnahme speicherbar; 30-Tage-Zeitraum mit Fortschrittsanzeige
+- [x] Einträge ohne Uhrzeit werden in Tages- und Wochensummen berücksichtigt und separat ausgewiesen
+- [ ] Preview-Praxistest: Woche mit Tagebucheinträgen, Kategorien, Zeitfenstern und konsumfreien Tagen gegenrechnen
+- [ ] Startdatum speichern, Neuladen und Synchronisierung zwischen Geräten prüfen
+- [ ] Darstellung und Bedienung auf iPhone und Desktop prüfen
+
+### Phase 2: Zielsetzung – noch nicht Bestandteil von 1.4.1
+- [ ] Nach etwa einem Monat Bestandsaufnahme die Daten auswerten
+- [ ] Individuelle und realistische Ziele gemeinsam festlegen
+- [ ] Zielverlauf und Fortschritt auf Grundlage der dokumentierten Sessions abbilden
+
+### Login-Startanimation – in Preview umgesetzt, Praxistest offen
+- [x] Die Startanimation `Bilder/vaanimat.gif` aus dem Projekt-Repository auch im Preview-Repository bereitstellen
+- [x] Nach erfolgreicher Cloud-Anmeldung ein eigenes bildschirmfüllendes Startfenster über der App öffnen
+- [x] GIF automatisch abspielen und die Gesamtdauer anhand der Bildframe-Zeiten ermitteln
+- [x] Startfenster nach dem vollständigen Animationsdurchlauf automatisch schließen
+- [x] Animation auch nach der erstmaligen Kontoanmeldung nach dem Bestätigen des Wiederherstellungscodes anzeigen
+- [x] Animation nicht bei gewöhnlichen Seitenwechseln oder beim Neuladen einer bereits angemeldeten Sitzung erneut starten
+- [ ] Anmeldung mit vorhandenem Cloud-Konto und Auswahl des Cloud-Spielstands testen
+- [ ] Erstmalige Kontoanmeldung einschließlich Wiederherstellungscode testen
+- [ ] Vollständigen Animationsdurchlauf und automatisches Schließen auf iPhone und Desktop prüfen
+- [ ] Prüfen, dass die App nach dem Schließen bedienbar bleibt und die Anmeldung/Cloud-Synchronisierung unverändert funktionieren
