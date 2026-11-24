@@ -541,7 +541,7 @@ function importJson(e){
    if(!validBackup(x))throw Error('Ungültige Backup-Struktur');
    if(!confirm(localeText('confirm.backupReplace')))return;
    const base=emptyDb();
-   const next={...base,...x,entries:x.entries,devices:x.devices.map(d=>typeof d==='string'?{name:d,category:'vaporizer'}:d),strains:x.strains||[],photos:x.photos||[],game:{...base.game,...(x.game||{})}};
+   const next={...base,...x,entries:x.entries,devices:x.devices.map(d=>typeof d==='string'?{name:d,category:'vaporizer'}:{...d,category:names[d.category]?d.category:'vaporizer'}),strains:x.strains||[],photos:x.photos||[],game:{...base.game,...(x.game||{})}};
    jsonExport();
    db=next;if(storageMode==='local')localDb=db;
    put();render();toast('Backup geprüft und wiederhergestellt');
