@@ -2,7 +2,7 @@
 function localeText(key, params){return window.MVA_LOCALES?.t(key,params) ?? key;}
 const KEY="mva_alpha12", OLD={entries:"pvd_entries",devices:"pvd_devices",game:"pvd_game"};
 const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
-const localDb=get(KEY,{entries:get(OLD.entries,[]),devices:get(OLD.devices,[]),strains:[],photos:[],game:get(OLD.game,{xp:0,coins:0,quests:[],courses:{}})});
+let localDb=get(KEY,{entries:get(OLD.entries,[]),devices:get(OLD.devices,[]),strains:[],photos:[],game:get(OLD.game,{xp:0,coins:0,quests:[],courses:{}})});
 let db=localDb, storageMode="local", cloudSession=null, cloudKey=null, cloudSalt=null, cloudEnvelope=null, cloudTimer=null, cloudWritePromise=null, cloudSaveRevision=0, cloudSavedRevision=0;
 const cloudRecoveryKey=()=>`mva_cloud_recovery_${cloudSession?.userId||"unknown"}`;
 const put=()=>{if(storageMode==="local"){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast("Speicher fast voll. Exportiere ein Backup und verkleinere Fotos.")}}else scheduleCloudSave()};
@@ -228,8 +228,23 @@ async function switchLocal(){
  if(storageMode==='local')return true;
  const saved=await flushCloudSave();
  if(!saved)return false;
- storageMode='local';db=localDb;cloudSession=null;cloudKey=null;cloudSalt=null;cloudPassword='';
- setCloudStatus('Nur auf diesem Gerät');render();toast('Lokaler Spielstand aktiviert');
+ // Keep the currently loaded cloud data when switching to local mode.
+ // The previous implementation restored the stale localDb object here,
+ // which could make newer cloud entries disappear from the active session.
+ let localSnapshot;
+ try{
+  localSnapshot=JSON.parse(JSON.stringify(db));
+  localStorage.setItem(KEY,JSON.stringify(localSnapshot));
+ }catch(error){
+  console.error('Lokaler Spielstand konnte vor dem Speicherwechsel nicht gesichert werden:',error);
+  toast('Wechsel zum lokalen Speicher abgebrochen: Der aktuelle Spielstand konnte lokal nicht gesichert werden. Du bleibst angemeldet und deine Cloud-Daten bleiben erhalten.');
+  return false;
+ }
+ localDb=localSnapshot;
+ db=localDb;
+ storageMode='local';
+ cloudSession=null;cloudKey=null;cloudSalt=null;cloudEnvelope=null;cloudPassword='';
+ setCloudStatus('Nur auf diesem Gerät');render();toast('Cloud-Spielstand lokal gesichert und aktiviert');
  return true;
 }
 function updateNav(){document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));document.querySelector('#diary-count').textContent=db.entries.length;setCloudStatus(storageMode==='cloud'?`Verschlüsselte Cloud · ${cloudSession?.email||''}`:'Nur auf diesem Gerät');updateProfile()}
