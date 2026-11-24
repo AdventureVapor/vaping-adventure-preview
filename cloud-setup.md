@@ -213,7 +213,12 @@ begin
      or p_payload->>'v' <> '1'
      or p_payload->>'algorithm' <> 'A256GCM'
      or p_payload->>'revision' is null
-     or p_payload->>'revision' !~ '^[0-9]+
+     or p_payload->>'revision' !~ '^[0-9]+$'
+     or (p_payload->>'revision')::numeric <> p_expected_revision::numeric + 1
+     or coalesce(p_payload->>'iv', '') = ''
+     or coalesce(p_payload->>'ciphertext', '') = '' then
+    raise exception 'Invalid encrypted payload or revision' using errcode = '22023';
+  end if;
 
   if p_expected_revision = 0 then
     insert into public.mva_data (user_id, data_type, payload, revision, updated_at)
