@@ -724,3 +724,14 @@ Hinweis: Das Zeitlimit verhindert endlos wartende Netzwerkanfragen. Es ersetzt k
 - [x] Sorteneinträge ohne Namen und Fotoeinträge ohne Bildquelle ablehnen.
 - [x] Unbekannte Geräte-Kategorien beim Import auf eine gültige Standardkategorie zurücksetzen.
 - [ ] Praxistest mit absichtlich fehlerhaften Geräte-, Sorten- und Fotodatensätzen sowie mit älteren gültigen Backups.
+
+
+## Speicher- und Medienübersicht (Preview)
+
+- [x] In „Speicher & Backup“ die geschätzte Gesamtgröße des aktiven Spielstands anzeigen.
+- [x] Größe der eingebetteten Fotos und PDF-Bedienungsanleitungen sowie Anzahl der Mediendateien separat ausweisen.
+- [x] Hinweise in Deutsch, Englisch und Französisch ergänzen.
+- [ ] Mit realen Spielständen auf PC und iPhone gegen Dateigröße des JSON-Backups vergleichen.
+- [ ] Große Foto- und PDF-Sammlungen sowie Cloud-Synchronisierung mit größeren Datenmengen praktisch testen.
+
+Hinweis: Die Anzeige ist eine Näherung anhand der serialisierten Daten und eingebetteten Base64-Medien. Sie misst nicht den tatsächlich belegten Browser- oder Cloud-Speicher.
