@@ -171,3 +171,70 @@ Die sechs Gruppen müssen vollständig übernommen werden. Unbekannte zusätzlic
 7. Legacy-Spielstand und ursprüngliche Medien erst nach ausdrücklicher Freigabe und erfolgreicher Wiederherstellungsprobe außer Betrieb nehmen.
 
 Ein fehlgeschlagener Schritt bricht die Migration ab. Bereits hochgeladene neue Objekte dürfen dabei höchstens als unreferenzierte Dateien zurückbleiben; vorhandene Legacy-Daten und Medien werden niemals als Teil eines automatischen Rollbacks gelöscht.
+
+
+## 10. Atomare Versionsprüfung für getrennte Datengruppen
+
+Die Datei `cloud-data.js` ist ein isoliertes Vorbereitungsmodul. Sie ist noch nicht in `index.html` eingebunden und wird von der laufenden App nicht verwendet. Sie verschlüsselt jede Gruppe separat mit AES-GCM. Nutzerkennung, Gruppentyp und Versionsnummer sind zusätzlich als authentifizierte Zusatzdaten gebunden. Eine Änderung kann daher nicht einfach als andere Gruppe oder Version ausgegeben werden.
+
+Damit gleichzeitige Änderungen auf zwei Geräten nicht unbemerkt überschrieben werden, benötigt die neue Tabelle zusätzlich diese atomare Datenbankfunktion. Sie schreibt nur, wenn die vom Gerät gelesene Version noch aktuell ist. Bei Abweichung meldet sie `MVA_REVISION_CONFLICT` und ändert keinen Datensatz.
+
+Nach Prüfung der bestehenden Funktionen gleichen Namens im SQL Editor ausführen:
+
+```sql
+create or replace function public.mva_write_data(
+  p_data_type text,
+  p_payload jsonb,
+  p_expected_revision bigint
+)
+returns bigint
+language plpgsql
+security invoker
+set search_path = public
+as $$
+declare
+  v_revision bigint;
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication required' using errcode = '42501';
+  end if;
+
+  if p_data_type not in ('entries','devices','strains','photos','game','controlledVaping')
+     or p_expected_revision < 0 then
+    raise exception 'Invalid data type or expected revision' using errcode = '22023';
+  end if;
+
+  if p_expected_revision = 0 then
+    insert into public.mva_data (user_id, data_type, payload, revision, updated_at)
+    values (auth.uid(), p_data_type, p_payload, 1, now())
+    on conflict (user_id, data_type) do nothing
+    returning revision into v_revision;
+
+    if found then
+      return v_revision;
+    end if;
+  else
+    update public.mva_data
+       set payload = p_payload,
+           revision = revision + 1,
+           updated_at = now()
+     where user_id = auth.uid()
+       and data_type = p_data_type
+       and revision = p_expected_revision
+    returning revision into v_revision;
+
+    if found then
+      return v_revision;
+    end if;
+  end if;
+
+  raise exception 'MVA_REVISION_CONFLICT' using errcode = 'P0001';
+end;
+$$;
+
+grant execute on function public.mva_write_data(text, jsonb, bigint) to authenticated;
+```
+
+Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`) und unterliegt damit weiterhin der RLS-Policy der Tabelle. Der Browser darf nur über die angemeldete Sitzung aufrufen. Der Adapter für `cloud-data.js` muss dieselbe token-aktualisierende Request-Funktion wie die bestehende Cloud-Anmeldung verwenden.
+
+**Wichtig:** Das Modul ist noch nicht mit dem Tagebuch verbunden. Die bestehende Speicherung über `mva_saves` bleibt unverändert. Vor einer Aktivierung müssen zusätzlich Konfliktfälle, zwei gleichzeitig angemeldete Geräte, Wiederherstellung und vollständiger Medienimport getestet werden.
