@@ -735,3 +735,14 @@ Hinweis: Das Zeitlimit verhindert endlos wartende Netzwerkanfragen. Es ersetzt k
 - [ ] Große Foto- und PDF-Sammlungen sowie Cloud-Synchronisierung mit größeren Datenmengen praktisch testen.
 
 Hinweis: Die Anzeige ist eine Näherung anhand der serialisierten Daten und eingebetteten Base64-Medien. Sie misst nicht den tatsächlich belegten Browser- oder Cloud-Speicher.
+
+
+## Cloud-Medienübertragung und lokale Notfallkopie (Preview)
+
+- [x] Geschätzte Größe der verschlüsselten Cloud-Nutzlast zusätzlich zur lokalen Datengröße anzeigen.
+- [x] Wenn die lokale verschlüsselte Notfallkopie wegen Browser-Speicherlimits nicht geschrieben werden kann, einmalig deutlich warnen und auf ein zusätzliches JSON-Backup hinweisen.
+- [x] Warnung nach erfolgreichem Schreiben einer Notfallkopie zurücksetzen.
+- [ ] Cloud-Synchronisierung mit großen Foto- und PDF-Beständen auf PC und iPhone praktisch messen.
+- [ ] Supabase-Fehler bei großen Nutzlasten mit vollständigem HTTP-Fehlertext und realen Datenmengen untersuchen.
+
+Die verschlüsselte Nutzlastgröße ist eine Näherung aus UTF-8-Datenlänge, AES-GCM-Tag und Base64-/JSON-Overhead. Sie ist keine Messung des tatsächlichen HTTP-Transfers oder einer Supabase-Grenze.
