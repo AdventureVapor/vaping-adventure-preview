@@ -19,7 +19,8 @@
     async function request(path,options={}){
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
       try{
-        const requestOptions={...options,signal:controller.signal,headers:{...headers,...(options.headers||{})}};\n        const res=typeof requestOverride==="function"?await requestOverride(path,requestOptions):await fetch(base+"/"+safeSegment(path),requestOptions);
+        const requestOptions={...options,signal:controller.signal,headers:{...headers,...(options.headers||{})}};
+        const res=typeof requestOverride==="function"?await requestOverride(path,requestOptions):await fetch(base+"/"+safeSegment(path),requestOptions);
         if(!res.ok){const body=await res.text().catch(()=>"");let detail=body;try{const parsed=JSON.parse(body);detail=parsed.message||parsed.error||body}catch{}throw Error("Medien-Cloud ("+res.status+"): "+String(detail||"Anfrage fehlgeschlagen").slice(0,240))}
         return res;
       }catch(error){
