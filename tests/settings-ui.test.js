@@ -48,7 +48,7 @@ const { chromium } = require('playwright');
       throw new Error('Animation off preference was not saved.');
     }
 
-    await page.locator('[data-theme-picker]').click();
+    await page.locator('.settings-card [data-theme-picker]').click();
     await page.waitForSelector('#theme-picker');
     await page.locator('[data-theme-choice="midnight"]').click();
     if (await page.locator('body').getAttribute('data-theme') !== 'midnight') {
