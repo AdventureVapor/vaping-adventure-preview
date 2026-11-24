@@ -798,3 +798,13 @@ Hinweis: Die Änderung ist eine defensive Absicherung des Dialogs. Sie beweist n
 - [ ] Erst nach erfolgreicher Prüfung freiwillige Einzelmigration bestehender Medien ermöglichen.
 
 Wichtig: Diese Stufe ändert keine vorhandenen Medien oder Cloud-Datensätze. Der bisherige Speicherweg bleibt aktiv, bis Backend-Einrichtung und vollständige Integration getestet sind.
+
+
+## Tagebucheinträge: Cloud-Speicherung beim Bearbeiten abwarten (Preview)
+
+- [x] Beim Speichern eines Tagebucheintrags im Cloud-Modus den laufenden Timer abbrechen und den verschlüsselten Cloud-Schreibvorgang unmittelbar abwarten.
+- [x] Dialog erst nach bestätigtem Cloud-Speichern schließen; bei Uploadfehler bleibt der Dialog geöffnet und die Anmeldung bestehen, sodass erneut gespeichert werden kann.
+- [ ] Switch²-Eintrag konkret von 24.11. auf 23.11. ändern und prüfen, dass der Dialog erst nach erfolgreichem Cloud-Upload schließt.
+- [ ] Nach Neuladen und erneutem Anmelden kontrollieren, dass Datum und Eintrag dauerhaft erhalten sind.
+
+Hinweis: Die Änderung verhindert eine voreilige Erfolgsmeldung beim Bearbeiten. Sie garantiert nicht, dass ein übergroßer Cloud-Spielstand oder ein Backend-Fehler automatisch behoben ist; der konkrete Test mit dem vorhandenen Spielstand bleibt erforderlich.
