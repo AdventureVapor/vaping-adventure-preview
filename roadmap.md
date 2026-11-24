@@ -686,3 +686,15 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Jede Phase separat in Preview prüfen; Produktionsübernahme ausschließlich nach vollständiger QA und ausdrücklicher Freigabe
 
 **Arbeitsreihenfolge:** Zuerst den bestätigten Fehler beim Cloud-zu-lokal-Wechsel beheben. Danach Cloud-Speicherwarteschlange und Abmeldeablauf testen. Erst anschließend Import/Backups, Medienoptimierung und größere Strukturänderungen angehen.
+
+
+## Ergänzung: JSON-Backup-Import absichern (Preview)
+
+- [x] Backup-Datei vor dem Ersetzen der vorhandenen Daten strukturell prüfen.
+- [x] Beschädigte oder unvollständige Dateien ablehnen, ohne den aktuellen Datenbestand zu ersetzen.
+- [x] Fehlende optionale Bereiche älterer Backups (strains, photos, game) mit sicheren Standardwerten ergänzen.
+- [x] Legacy-Geräte-Textwerte beim Import in das aktuelle Geräteformat überführen.
+- [ ] Praxistest mit gültigem Backup, älterem Backup, absichtlich beschädigter JSON-Datei und großem Foto-Backup.
+- [ ] Cloud-Synchronisierung nach Wiederherstellung auf Erfolg prüfen; Fehlermeldungen und lokale Wiederherstellungskopie kontrollieren.
+
+Die Änderung schützt vor allem vor einem unvollständigen oder fehlerhaften Import, der bisher den laufenden Datenbestand überschreiben konnte. Ein erfolgreicher Import ist noch kein Beleg dafür, dass die Cloud-Synchronisierung abgeschlossen ist; das muss separat getestet werden.
