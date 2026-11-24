@@ -115,6 +115,20 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Vollständige Sprachprüfung DE/EN/FR nach Abschluss der neuen Funktionen wiederholen
 - [ ] Installierbare PWA für Windows-PC und iPhone umsetzen und auf beiden Plattformen testen
 
+### Datenmenge und Cloud-Speicherung – 1.4.2
+- [x] Datenmodell geprüft: Eine gemeinsame Material-Sammlung mit Kategorie statt sechs getrennten Sammlungen verwenden
+- [x] Tagebucheinträge um eine kompakte Material-ID-Referenz ergänzen; der Materialname bleibt als kleine historische Momentaufnahme erhalten
+- [x] Vorhandene Einträge ohne Material-ID beim Start nur dann verknüpfen, wenn ein passender Eintrag in der bestehenden Sammlung existiert; keine Materialdatensätze automatisch vervielfachen
+- [x] Ursache für große Cloud-Nutzlast eingegrenzt: Der aktuelle Speicherweg verschlüsselt und überträgt weiterhin den vollständigen Spielstand; eingebettete Fotos, Gerätebilder und PDF-Anleitungen vergrößern diesen Datensatz
+- [ ] Tatsächliche Größen von Tagebuchdaten, Fotos, Gerätebildern und PDF-Anleitungen mit einem realen Testkonto messen
+- [ ] Supabase-Timeout anhand der konkreten Logs untersuchen; Payload-Größe nicht ohne Messung als alleinige Ursache annehmen
+- [ ] Private Storage-Bucket-/RLS-Einrichtung zunächst in einem separaten Testprojekt prüfen
+- [ ] Vorhandene Module für clientseitig verschlüsselte Einzelmedien mit Galerie, Gerätebildern und PDF-Viewer verbinden; erst nach Upload-/Download-, Kontentrennungs- und Backup-Tests aktivieren
+- [ ] Alte Data-URL-Medien rückwärtskompatibel weiter unterstützen und eine sichere, freiwillige Einzelmigration vorsehen
+- [ ] Prüfen, ob strukturierte Datengruppen über die vorbereitete mva_data-Architektur schrittweise statt als vollständiger Gesamtdatensatz gespeichert werden können; Backend-Migration und Versionskonflikte zuerst in Preview testen
+- [ ] JSON-Backup muss weiterhin alle Medien portabel enthalten oder vollständig und überprüfbar referenzieren
+- [ ] PC-/iPhone-Synchronisierung, zwei getrennte Benutzerkonten und Wiederherstellung nach Medienmigration vollständig testen
+
 ### Kommunikations- und Sichtbarkeitsstrategie – 1.4.2 (Konzept, noch keine Konten angelegt)
 - [ ] Positionierung von My Vaping Adventure als privates, datenschutzorientiertes Tagebuch-/Dokumentationsprojekt klar definieren; keine Aufforderung zum Konsum und keine Verkaufsvermittlung
 - [ ] Vor öffentlicher Bewerbung rechtlich prüfen lassen, ob und in welcher Form die App-Kommunikation wegen des Themenfelds E-Zigaretten/Tabak unter das Werbeverbot des TabakerzG (§§ 19–21) fallen könnte
