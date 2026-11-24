@@ -338,7 +338,7 @@ async function switchLocal(){
  // which could make newer cloud entries disappear from the active session.
  let localSnapshot;
  try{
-  localSnapshot=JSON.parse(JSON.stringify(db));
+  localSnapshot=await createPortableBackupSnapshot();
   localStorage.setItem(KEY,JSON.stringify(localSnapshot));
  }catch(error){
   console.error('Lokaler Spielstand konnte vor dem Speicherwechsel nicht gesichert werden:',error);
