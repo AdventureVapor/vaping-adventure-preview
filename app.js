@@ -374,8 +374,8 @@ function updateProfile(){
  initial.textContent=active?String(name).trim().charAt(0).toUpperCase()||'P':'G';
  trigger.setAttribute('aria-label',active?'Profil von '+name+' öffnen':'Profilmenü öffnen');
  menu.innerHTML=active
-  ? `<h3 class="profile-title">Dein Profil</h3><div class="profile-name">${esc(name)}</div><div class="profile-email">${esc(email)}</div><div class="profile-state"><i></i> Verschlüsselte Cloud aktiv</div><div class="profile-actions"><button class="btn soft" data-profile-action="backup">Speicher & Backup öffnen →</button><button class="btn" data-profile-action="logout">Abmelden</button></div>`
-  : `<h3 class="profile-title">Dein Profil</h3><div class="profile-name">Gastmodus</div><div class="profile-email">Du bist aktuell nicht mit einem Cloud-Konto angemeldet.</div><div class="profile-state"><i></i> Nur auf diesem Gerät gespeichert</div><div class="profile-actions"><button class="btn primary" data-profile-action="backup">Cloud-Konto verbinden →</button></div>`;
+  ? `<h3 class="profile-title">Dein Profil</h3><div class="profile-name">${esc(name)}</div><div class="profile-email">${esc(email)}</div><div class="profile-state"><i></i> Verschlüsselte Cloud aktiv</div><div class="profile-actions"><button class="btn primary" data-profile-action="settings">⚙ Einstellungen öffnen</button><button class="btn soft" data-profile-action="backup">Speicher & Backup öffnen →</button><button class="btn" data-profile-action="logout">Abmelden</button></div>`
+  : `<h3 class="profile-title">Dein Profil</h3><div class="profile-name">Gastmodus</div><div class="profile-email">Du bist aktuell nicht mit einem Cloud-Konto angemeldet.</div><div class="profile-state"><i></i> Nur auf diesem Gerät gespeichert</div><div class="profile-actions"><button class="btn primary" data-profile-action="settings">⚙ Einstellungen öffnen</button><button class="btn soft" data-profile-action="backup">Cloud-Konto verbinden →</button></div>`;
 }
 async function logoutProfile(){
  if(storageMode==='cloud'){await switchLocal();if(storageMode==='cloud')return}
@@ -442,6 +442,7 @@ document.addEventListener('click',e=>{
  if(action){
   if(menu)menu.hidden=true;
   $('#profile-trigger')?.setAttribute('aria-expanded','false');
+  if(action.dataset.profileAction==='settings')go('settings');
   if(action.dataset.profileAction==='backup')go('backup');
   if(action.dataset.profileAction==='logout')logoutProfile();
   return;
