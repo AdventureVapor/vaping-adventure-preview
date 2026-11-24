@@ -808,3 +808,15 @@ Wichtig: Diese Stufe ändert keine vorhandenen Medien oder Cloud-Datensätze. De
 - [ ] Nach Neuladen und erneutem Anmelden kontrollieren, dass Datum und Eintrag dauerhaft erhalten sind.
 
 Hinweis: Die Änderung verhindert eine voreilige Erfolgsmeldung beim Bearbeiten. Sie garantiert nicht, dass ein übergroßer Cloud-Spielstand oder ein Backend-Fehler automatisch behoben ist; der konkrete Test mit dem vorhandenen Spielstand bleibt erforderlich.
+
+
+## Lokale verschlüsselte Notfallkopie: IndexedDB statt localStorage (Preview)
+
+- [x] Große verschlüsselte Notfallkopien werden nicht mehr in den stark begrenzten localStorage geschrieben.
+- [x] Separate IndexedDB-Datenbank `mva_secure_recovery` mit eigenem Speicherbereich für die Wiederherstellungskopien ergänzt.
+- [x] Pro angemeldetem Cloud-Benutzer wird die verschlüsselte Nutzlast separat gespeichert; der Cloud-Spielstand und seine Verschlüsselung bleiben unverändert.
+- [x] Fehler beim lokalen Backup werden weiterhin abgefangen und beeinträchtigen nicht den eigentlichen Cloud-Upload.
+- [ ] Im Browser mit dem vorhandenen großen Spielstand prüfen, dass Cloud-Speicherung und lokale Notfallkopie erfolgreich abgeschlossen werden.
+- [ ] Prüfen, dass mehrere Konten getrennte Wiederherstellungskopien erhalten und die IndexedDB-Daten nach Neuladen erhalten bleiben.
+
+Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem Browser/Gerät. Sie ist nicht mit einem geräteübergreifenden Backup gleichzusetzen. Die bestehenden Cloud-Daten und vorhandenen Medien werden durch diese Änderung nicht migriert oder gelöscht.

@@ -5,6 +5,29 @@ const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return
 let localDb=get(KEY,{entries:get(OLD.entries,[]),devices:get(OLD.devices,[]),strains:[],photos:[],game:get(OLD.game,{xp:0,coins:0,quests:[],courses:{}})});
 let db=localDb, storageMode="local", cloudSession=null, cloudKey=null, cloudSalt=null, cloudEnvelope=null, cloudTimer=null, cloudWritePromise=null, cloudSaveRevision=0, cloudSavedRevision=0, cloudRecoveryWarningShown=false;
 const cloudRecoveryKey=()=>`mva_cloud_recovery_${cloudSession?.userId||"unknown"}`;
+const cloudRecoveryDbName="mva_secure_recovery";
+function openCloudRecoveryDb(){
+ return new Promise((resolve,reject)=>{
+  if(!("indexedDB" in window))return reject(Error("IndexedDB wird von diesem Browser nicht unterstützt."));
+  const request=indexedDB.open(cloudRecoveryDbName,1);
+  request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains("copies"))db.createObjectStore("copies")};
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error||Error("Lokale Sicherungsdatenbank konnte nicht geöffnet werden."));
+  request.onblocked=()=>reject(Error("Die lokale Sicherungsdatenbank ist noch durch einen anderen Tab blockiert."));
+ });
+}
+async function saveCloudRecoveryCopy(payload){
+ const recoveryDb=await openCloudRecoveryDb();
+ try{
+  await new Promise((resolve,reject)=>{
+   const tx=recoveryDb.transaction("copies","readwrite");
+   tx.objectStore("copies").put({savedAt:new Date().toISOString(),payload},cloudSession.userId);
+   tx.oncomplete=resolve;
+   tx.onerror=()=>reject(tx.error||Error("Notfallkopie konnte nicht gespeichert werden."));
+   tx.onabort=()=>reject(tx.error||Error("Speichern der Notfallkopie wurde abgebrochen."));
+  });
+ }finally{recoveryDb.close()}
+}
 const put=()=>{if(storageMode==="local"){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast("Speicher fast voll. Exportiere ein Backup und verkleinere Fotos.")}}else scheduleCloudSave()};
 for(const k of ["entries","devices","strains","photos"])if(!Array.isArray(db[k]))db[k]=[];
 db.game ||= {xp:0,coins:0,quests:[],courses:{}}; db.game.quests ||= []; db.game.courses ||= {};
@@ -64,7 +87,7 @@ async function cloudWrite(){
    for(let attempt=0;attempt<4;attempt++){
     try{
      const payload=await encryptCloud(snapshot);
-     try{localStorage.setItem(cloudRecoveryKey(),JSON.stringify({savedAt:new Date().toISOString(),payload}));cloudRecoveryWarningShown=false}catch(storageError){console.warn('Lokale verschlüsselte Wiederherstellungskopie konnte nicht aktualisiert werden:',storageError);if(!cloudRecoveryWarningShown){cloudRecoveryWarningShown=true;toast('Cloud-Speicherung läuft, aber die lokale verschlüsselte Notfallkopie konnte nicht gespeichert werden. Bitte zusätzlich ein JSON-Backup herunterladen.')}}
+     try{await saveCloudRecoveryCopy(payload);cloudRecoveryWarningShown=false}catch(storageError){console.warn('Lokale verschlüsselte Wiederherstellungskopie konnte nicht aktualisiert werden:',storageError);if(!cloudRecoveryWarningShown){cloudRecoveryWarningShown=true;toast('Cloud-Speicherung läuft, aber die lokale verschlüsselte Notfallkopie konnte nicht gespeichert werden. Bitte zusätzlich ein JSON-Backup herunterladen.')}}
      await cloudFetch('/rest/v1/mva_saves?on_conflict=user_id',{method:'POST',headers:{Authorization:`Bearer ${cloudSession.token}`,Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({user_id:cloudSession.userId,payload,updated_at:new Date().toISOString()})});
      cloudSavedRevision=revision;
      lastError=null;
