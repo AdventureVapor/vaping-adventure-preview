@@ -522,7 +522,7 @@ function importJson(e){
    const base=emptyDb();
    const next={...base,...x,entries:x.entries,devices:x.devices.map(d=>typeof d==='string'?{name:d,category:'vaporizer'}:d),strains:x.strains||[],photos:x.photos||[],game:{...base.game,...(x.game||{})}};
    jsonExport();
-   Object.assign(db,next);
+   db=next;if(storageMode==='local')localDb=db;
    put();render();toast('Backup geprüft und wiederhergestellt');
   }catch(error){
    console.error('JSON-Backup konnte nicht importiert werden:',error);
