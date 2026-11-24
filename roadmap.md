@@ -898,3 +898,12 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [ ] Prüfen, dass die Bezeichnungsfelder für Liquid, Sticks, Marke und Mischung im Tagebuch tatsächlich komfortabel gepflegt und aus den passenden Sammlungen auswählbar sind.
 - [ ] Regressionstests für Zielwerte, Wochenwechsel, historische Bewertungen und deaktivierte Kategorien ergänzen.
 - [ ] Preview-Praxistest auf iPhone und Desktop; Neuladen und Cloud-Synchronisierung prüfen.
+
+
+## Strain Collection: Kategorie zuerst auswählen (Preview)
+
+- [x] Freie Kategorie-Texteingabe durch Auswahl der sechs vorhandenen Konsumkategorien ersetzt.
+- [x] Kategorieauswahl im Formular an den Anfang gestellt.
+- [x] Vorhandene unbekannte Kategorieangaben beim Bearbeiten als übernommene Altangabe erhalten, bis eine neue Kategorie gewählt wird.
+- [ ] Kategorienabhängige Formularfelder und Sammlungs-/Materialtypen im nächsten Schritt ergänzen.
+- [ ] Bestehende Einträge prüfen und Kategoriezuordnung auf PC und iPhone testen.
