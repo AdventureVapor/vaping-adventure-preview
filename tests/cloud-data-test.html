@@ -88,6 +88,14 @@ async function run(){
   const partial=window.MVACloudMigrationCodec.join({entries:{data:[{id:"only"}]},devices:{data:null}});
   assert(partial.entries.length===1&&partial.devices.length===0&&partial.game.xp===0&&Object.keys(partial.controlledVaping).length===0,"Fehlende Gruppen erhalten keine sicheren Standardwerte");
   log("Fehlende oder noch leere Gruppen erhalten sichere Standardwerte");
+  const legacySample={entries:[{id:"session-2026-11-23-01",date:"2026-11-23",time:"18:45",category:"vaporizer",device:"S&B Venty",duration:"10",puffs:"",strain:"Blue Dream",temp:"180",location:"Zuhause",taste:"fruchtig",notes:"Testnotiz"}],devices:["Altes Gerät",{id:"d1",name:"S&B Venty",category:"vaporizer",description:"Testgerät",photo:"data:image/jpeg;base64,AA==",manualName:"Anleitung.pdf",manualData:{v:1,storage:"supabase",path:"user/manual.pdf",kind:"pdf",size:123}}],strains:[{id:"s1",name:"Blue Dream",manufacturer:"Testzüchter",category:"Hybrid",notes:"Notiz"}],photos:[{id:"p1",date:"2026-11-23",src:"data:image/png;base64,AA==",caption:"Galerie"}],game:{xp:120,coins:35,quests:["q1","q2"],courses:{intro:{passed:true,score:95,date:"2026-11-23"}}},controlledVaping:{startDate:"2026-11-01",customField:"bleibt erhalten"}};
+  const realistic=window.MVACloudMigrationCodec.split(legacySample);
+  const restored=window.MVACloudMigrationCodec.join(realistic);
+  assert(JSON.stringify(restored)===JSON.stringify(legacySample),"Realistischer Altbestand wurde nicht exakt wiederhergestellt");
+  assert(restored.devices[0]==="Altes Gerät"&&restored.devices[1].manualData.path==="user/manual.pdf","Legacy-Geräte oder PDF-Referenz gingen verloren");
+  assert(restored.entries[0].time==="18:45"&&restored.game.courses.intro.score===95,"Tagebuch- oder Lernfortschritt ging verloren");
+  log("Realistischer Altbestand mit Tagebuchfeldern, Legacy-Gerät, PDF-/Foto-Referenzen und Lernfortschritt bleibt erhalten");
+
   out.textContent+="\nERGEBNIS: Alle simulierten Tests bestanden. Kein Supabase-Test.";
  }catch(e){
   out.textContent+="\nFEHLER: "+(e.stack||e.message||e);
