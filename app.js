@@ -529,6 +529,9 @@ function validBackup(x){
   if(!Array.isArray(x[k]))continue;
   if(x[k].some(v=>!v||(typeof v!=='object'&&!(k==='devices'&&typeof v==='string'))||Array.isArray(v)))return false;
  }
+ if(x.devices.some(d=>typeof d==='string'?!d.trim():typeof d.name!=='string'||!d.name.trim()))return false;
+ if((x.strains||[]).some(s=>typeof s.name!=='string'||!s.name.trim()))return false;
+ if((x.photos||[]).some(p=>typeof p.src!=='string'||!p.src.trim()))return false;
  if(x.game!==undefined&&(!x.game||typeof x.game!=='object'||Array.isArray(x.game)))return false;
  return true;
 }
