@@ -642,6 +642,9 @@ function backup(v){const t=localeText,counts={entries:db.entries.length,devices:
 function csvExport(){let cols=['date','time','category','device','duration','puffs','strain','temp','location','taste','notes'],labels=['Datum','Uhrzeit','Kategorie','Gerät','Dauer','Puffs','Sorte','Temperatur','Ort','Geschmack','Notizen'],csv=[labels,...db.entries.map(e=>cols.map(k=>e[k]||''))].map(r=>r.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(';')).join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'my-vaping-diary.csv')}
 function download(blob,name){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 async function jsonExport(){try{const snapshot=await createPortableBackupSnapshot();download(new Blob([JSON.stringify(snapshot,null,2)],{type:'application/json'}),'my-vaping-adventure-backup.json')}catch(error){console.error('JSON-Export fehlgeschlagen:',error);toast('JSON-Backup konnte nicht vollständig erstellt werden: '+(error?.message||'Medienabruf fehlgeschlagen'))}}
+function validOptionalMediaValue(value){
+ return value===undefined||value===null||value===''||typeof value==='string'||isCloudMediaReference(value);
+}
 function validBackup(x){
  if(!x||typeof x!=='object'||Array.isArray(x))return false;
  if(['__proto__','prototype','constructor'].some(k=>Object.hasOwn(x,k)))return false;
@@ -652,6 +655,7 @@ function validBackup(x){
   if(x[k].some(v=>!v||(typeof v!=='object'&&!(k==='devices'&&typeof v==='string'))||Array.isArray(v)))return false;
  }
  if(x.devices.some(d=>typeof d==='string'?!d.trim():typeof d.name!=='string'||!d.name.trim()))return false;
+ if(x.devices.some(d=>typeof d==='object'&&(!validOptionalMediaValue(d.photo)||!validOptionalMediaValue(d.manualData))))return false;
  if((x.strains||[]).some(s=>typeof s.name!=='string'||!s.name.trim()))return false;
  if((x.photos||[]).some(p=>!(typeof p.src==='string'&&p.src.trim())&&!isCloudMediaReference(p.src)))return false;
  if(x.game!==undefined&&(!x.game||typeof x.game!=='object'||Array.isArray(x.game)))return false;
