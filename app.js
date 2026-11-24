@@ -12,7 +12,7 @@ const defaults=[...["Venty","Mighty","Volcano","Dr. Dabber Switch2","TerpTorch",
 const names={vaporizer:"Vaporizer",ecig:"E-Zigarette",heater:"Tabakerhitzer"};
 db.devices=db.devices.map(d=>typeof d==="string"?{name:d,category:"vaporizer"}:d);if(!db.devices.length)db.devices=defaults;else defaults.forEach(d=>{if(!db.devices.some(x=>x.name.toLowerCase()===d.name.toLowerCase()))db.devices.push(d)});
 const $=s=>document.querySelector(s), esc=s=>String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const now=()=>new Date().toISOString().slice(0,10), id=()=>crypto.randomUUID?.()||String(Date.now()+Math.random());
+const now=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}, id=()=>crypto.randomUUID?.()||String(Date.now()+Math.random());
 let page="home", pendingPhoto=null, csvPending=[], sortMode='desc', galleryIndex=0;
 function toast(s){let t=document.createElement('div');t.className='toast';t.textContent=s;document.body.append(t);setTimeout(()=>t.remove(),2600)}
 const cloudConfig=()=>window.MVA_CLOUD||{};
