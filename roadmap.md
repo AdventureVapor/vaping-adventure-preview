@@ -716,3 +716,11 @@ Hinweis: Das Zeitlimit verhindert endlos wartende Netzwerkanfragen. Es ersetzt k
 - [x] Datums-Hilfsfunktion auf lokale Kalenderwerte umgestellt, statt das UTC-Datum aus `toISOString()` zu verwenden.
 - [x] Verhindert, dass neue Tagebucheinträge rund um Mitternacht in Zeitzonen östlich von UTC versehentlich dem Vortag zugeordnet werden.
 - [ ] Praxistest auf PC und iPhone nahe Mitternacht sowie nach Zeitzonenwechsel.
+
+
+## JSON-Backup-Import: Datensätze einzeln absichern (Preview)
+
+- [x] Geräteobjekte ohne gültigen Namen vor dem Import ablehnen, damit sie die Geräteansicht und Namensvergleiche nicht zum Absturz bringen.
+- [x] Sorteneinträge ohne Namen und Fotoeinträge ohne Bildquelle ablehnen.
+- [x] Unbekannte Geräte-Kategorien beim Import auf eine gültige Standardkategorie zurücksetzen.
+- [ ] Praxistest mit absichtlich fehlerhaften Geräte-, Sorten- und Fotodatensätzen sowie mit älteren gültigen Backups.
