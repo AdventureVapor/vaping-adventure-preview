@@ -852,3 +852,17 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 
 - [x] Versionsparameter des eingebundenen `app.js` in `index.html` erhöht, damit Browser/CDN nicht weiter eine ältere JavaScript-Datei mit unverändertem Cache-Schlüssel verwenden.
 - [ ] Nach Aktualisierung der Preview prüfen, dass der Klick auf „Änderungen speichern“ unmittelbar „Speichert …“ anzeigt.
+
+
+### Phase 2 – Zielsetzung und kontrollierter Konsum (Preview umgesetzt)
+- [x] Phase 2 parallel zu Phase 1 sichtbar machen; beide Bereiche bleiben geöffnet und Phase 2 ist als aktiv markiert.
+- [x] Sechs Kategorien anbieten: Vaporizer, E-Zigarette, Tabakheater, Zigarette, Joint und Bong.
+- [x] Kategorien einzeln aktivieren/deaktivieren; deaktivierte Kategorien aus der aktuellen Phase-2-Ansicht ausblenden, Tagebucheinträge und historische Daten jedoch erhalten.
+- [x] Pro Kategorie ein Tageslimit, ein Wochenlimit und ein Ziel für konsumfreie Tage speichern.
+- [x] Gesamtkonsum ausdrücklich als Anzahl der Sessions (Tagebucheinträge) zählen – keine Gramm-/Milliliter-Mengen.
+- [x] Vorhandene Bezeichnungsfelder nach Kategorie zuordnen: Vaporizer = Sorte/Material, E-Zigarette = Liquid, Tabakheater = Sticks, Zigarette = Marke, Joint = Mischung, Bong = Sorte/Mischung.
+- [x] Zufriedenheit auf einer Skala von 1 (sehr zufrieden) bis 7 (sehr unzufrieden) je Kategorie und Kalenderwoche speichern; frühere Wochenbewertungen bleiben erhalten.
+- [ ] Noch ergänzen/prüfen: Tagesampel (Limit eingehalten/überschritten), Zielerreichung für konsumfreie Tage und bessere Zusammenfassung der Wochenziele.
+- [ ] Prüfen, dass die Bezeichnungsfelder für Liquid, Sticks, Marke und Mischung im Tagebuch tatsächlich komfortabel gepflegt und aus den passenden Sammlungen auswählbar sind.
+- [ ] Regressionstests für Zielwerte, Wochenwechsel, historische Bewertungen und deaktivierte Kategorien ergänzen.
+- [ ] Preview-Praxistest auf iPhone und Desktop; Neuladen und Cloud-Synchronisierung prüfen.
