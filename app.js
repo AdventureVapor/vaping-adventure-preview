@@ -653,26 +653,44 @@ function validBackup(x){
  if(x.game!==undefined&&(!x.game||typeof x.game!=='object'||Array.isArray(x.game)))return false;
  return true;
 }
+async function materializeBackupMedia(snapshot){
+ const next=JSON.parse(JSON.stringify(snapshot));
+ const convert=async value=>isCloudMediaReference(value)?await mediaToPortableDataUrl(value):value;
+ const tasks=[];
+ for(const photo of next.photos||[])if(photo?.src)tasks.push((async()=>{photo.src=await convert(photo.src)})());
+ for(const device of next.devices||[])if(device&&typeof device==='object'){
+  if(device.photo)tasks.push((async()=>{device.photo=await convert(device.photo)})());
+  if(device.manualData)tasks.push((async()=>{device.manualData=await convert(device.manualData)})());
+ }
+ await Promise.all(tasks);
+ return next;
+}
 function importJson(e){
- const f=e.target.files?.[0];if(!f)return;
+ const file=e.target.files?.[0];if(!file)return;
  const reader=new FileReader();
- reader.onload=()=>{
+ reader.onload=async()=>{
   try{
-   const x=JSON.parse(reader.result);
-   if(!validBackup(x))throw Error('Ungültige Backup-Struktur');
+   const parsed=JSON.parse(reader.result);
+   if(!validBackup(parsed))throw Error('Ungültige Backup-Struktur');
    if(!confirm(localeText('confirm.backupReplace')))return;
+   // Resolve every cloud reference before changing the active save. If even one
+   // download/decryption fails, the current diary remains completely untouched.
+   const x=await materializeBackupMedia(parsed);
+   if(!validBackup(x))throw Error('Backup-Medien konnten nicht vollständig wiederhergestellt werden.');
+   // Keep a portable safety copy of the current save before replacing it.
+   const safetySnapshot=await createPortableBackupSnapshot();
+   download(new Blob([JSON.stringify(safetySnapshot,null,2)],{type:'application/json'}),'my-vaping-adventure-before-restore.json');
    const base=emptyDb();
    const next={...base,...x,entries:x.entries,devices:x.devices.map(d=>typeof d==='string'?{name:d,category:'vaporizer'}:{...d,category:names[d.category]?d.category:'vaporizer'}),strains:x.strains||[],photos:x.photos||[],game:{...base.game,...(x.game||{})}};
-   jsonExport();
    db=next;if(storageMode==='local')localDb=db;
    put();render();toast('Backup geprüft und wiederhergestellt');
   }catch(error){
    console.error('JSON-Backup konnte nicht importiert werden:',error);
-   toast('Backup ungültig oder beschädigt. Deine bisherigen Daten wurden nicht ersetzt.');
+   toast('Backup konnte nicht vollständig wiederhergestellt werden: '+(error?.message||'Datei ungültig')+'. Deine bisherigen Daten wurden nicht ersetzt.');
   }finally{e.target.value=''}
  };
- reader.onerror=()=>toast('Backup-Datei konnte nicht gelesen werden');
- reader.readAsText(f);
+ reader.onerror=()=>{toast('Backup-Datei konnte nicht gelesen werden');e.target.value=''};
+ reader.readAsText(file);
 }
 function parseCsv(t){let delim=(t.split(/\r?\n/)[0].match(/;/g)||[]).length>=(t.split(/\r?\n/)[0].match(/,/g)||[]).length?';':',',rows=[],r=[],s='',q=false;t=t.replace(/^\uFEFF/,'');for(let i=0;i<t.length;i++){let c=t[i];if(c==='"'&&q&&t[i+1]==='"'){s+='"';i++}else if(c==='"')q=!q;else if(c===delim&&!q){r.push(s);s=''}else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&t[i+1]==='\n')i++;r.push(s);s='';if(r.some(x=>x.trim()))rows.push(r);r=[]}else s+=c}r.push(s);if(r.some(x=>x.trim()))rows.push(r);return rows}
 function importCsv(e){let f=e.target.files[0];if(!f)return;f.text().then(t=>{let rows=parseCsv(t),h=rows.shift().map(x=>x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z]/g,''));csvPending=rows.map(r=>{let o={};h.forEach((k,i)=>o[k]=r[i]||'');let pick=(...keys)=>keys.map(k=>o[k]).find(Boolean)||'';let notes=pick('notizen','notes','bemerkungen'),puffs=pick('puffs','zuege','anzahlzuege')||((notes.match(/(?:züge|zuege|puffs?)\s*[:=]?\s*(\d+)/i)||[])[1]||'');return {id:id(),date:pick('datum','date'),time:pick('uhrzeit','zeit','time'),category:pick('kategorie','category')||'vaporizer',device:pick('geraet','gerat','device'),strain:pick('sorte','strain','material'),duration:pick('dauer','duration'),puffs,notes,temp:pick('temperatur','temp'),location:pick('ort','location'),taste:pick('geschmack','taste')}}).filter(x=>x.device||x.date||x.notes);const normCsvValue=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/\s+/g,' ').toLowerCase();let csvFields=['date','time','category','device','duration','puffs','strain','temp','location','taste','notes'];let fingerprint=x=>csvFields.map(k=>normCsvValue(k==='category'?(x[k]||'vaporizer'):x[k])).join('¦');let dup=x=>db.entries.some(y=>fingerprint(y)===fingerprint(x));$('#csv-preview').innerHTML=`<p class="subheading">${csvPending.length} erkannt · ${csvPending.filter(x=>!dup(x)).length} neu · ${csvPending.filter(dup).length} mögliche Duplikate. ${csvPending.slice(0,10).map(x=>`<br>${esc(x.date)} · ${esc(x.device)} ${dup(x)?'· Duplikat':''}`).join('')}</p><button class="btn primary" id="csv-commit" ${csvPending.filter(x=>!dup(x)).length?'':'disabled'}>Neue Einträge übernehmen</button>`;$('#csv-commit').onclick=()=>{const imported=csvPending.filter(x=>!dup(x));imported.forEach(x=>{db.entries.push(x);if(x.device&&!db.devices.some(d=>d.name.toLowerCase()===x.device.toLowerCase()))db.devices.push({name:x.device,category:x.category})});put();render();toast(imported.length+' CSV-Einträge übernommen'+(storageMode==='cloud'?' – Cloud-Synchronisierung läuft mit automatischen Wiederholungen.':''))}}).catch(()=>toast('CSV konnte nicht gelesen werden'))}
