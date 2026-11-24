@@ -828,3 +828,9 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [x] Im Cloud-Modus wird der Speicherstatus beim manuellen Speichern eines Tagebucheintrags sichtbar auf „Tagebucheintrag wird in der Cloud gespeichert …“ gesetzt.
 - [x] Nach Abschluss wird die ursprüngliche Button-Beschriftung wiederhergestellt; Fehler bleiben sichtbar und der Dialog bleibt zur erneuten Speicherung geöffnet.
 - [ ] Im Browser mit dem Switch²-Eintrag testen: Button-Rückmeldung, Statuswechsel und erfolgreiche Änderung des Datums.
+
+
+## Cache-Aktualisierung für die Speichern-Rückmeldung (Preview)
+
+- [x] Versionsparameter des eingebundenen `app.js` in `index.html` erhöht, damit Browser/CDN nicht weiter eine ältere JavaScript-Datei mit unverändertem Cache-Schlüssel verwenden.
+- [ ] Nach Aktualisierung der Preview prüfen, dass der Klick auf „Änderungen speichern“ unmittelbar „Speichert …“ anzeigt.
