@@ -1,6 +1,6 @@
 # Vaping Adventure – Roadmap
 
-**Arbeitsstand:** Alpha 1.3  
+**Arbeitsstand:** Preview – Entwicklung 1.4.1/1.4.2 und technische Stabilisierung  
 **Aktive Entwicklungsumgebung:** Preview  
 **Produktivversion:** bleibt bis zur abgeschlossenen Qualitätssicherung unverändert.
 
@@ -632,3 +632,57 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [ ] Erstmalige Kontoanmeldung einschließlich Wiederherstellungscode testen
 - [ ] Vollständigen Animationsdurchlauf und automatisches Schließen auf iPhone und Desktop prüfen
 - [ ] Prüfen, dass die App nach dem Schließen bedienbar bleibt und die Anmeldung/Cloud-Synchronisierung unverändert funktionieren
+
+
+## Technische Stabilisierung – Datensicherheit, Fehlerbereinigung und Wartbarkeit (Preview)
+
+**Ziel:** Bestehende Daten und Konten schützen, reproduzierbare Fehler vor neuen Funktionen beheben und die Anwendung schrittweise robuster sowie leichter wartbar machen. Alle Änderungen erfolgen zunächst ausschließlich in Preview. Bestehende Cloud-Daten, lokale Daten und Produktionsbetrieb bleiben unangetastet, soweit ein ausdrücklich getesteter Migrationsschritt nichts anderes erfordert.
+
+### Phase 1 – Kritische Speicher- und Kontenabläufe
+
+- [x] Codeprüfung von Cloud-Speicherung, Abmeldung, Speicherwechsel, JSON-/CSV-Import und lokaler Wiederherstellung durchführen
+- [x] Fehler gefunden: Beim Wechsel vom Cloud- zum lokalen Modus wurde nach erfolgreicher Cloud-Speicherung der alte lokale Spielstand (localDb) wieder eingesetzt; die aktuell geladenen Cloud-Daten konnten dadurch im aktiven Bildschirm verschwinden
+- [x] Fehlerbehebung in Preview umgesetzt: aktuellen Cloud-Spielstand vor dem Wechsel in den lokalen Modus in localStorage übernehmen; bei fehlgeschlagener lokaler Sicherung angemeldet bleiben und den Cloud-Modus nicht verlassen (Praxistest noch offen)
+- [ ] Cloud-Schreibwarteschlange und Revisionszähler auf parallele Änderungen, laufende Uploads, Wiederholungen und Fehlerzustände prüfen und gegebenenfalls vereinfachen
+- [ ] Speichern, Abmelden, Wechsel Cloud → lokal und erneutes Anmelden mit Testkonten reproduzierbar testen
+- [ ] Kurzzeitige Netzwerkunterbrechung, Token-Erneuerung, mehrfaches Speichern und erneute Synchronisierung testen
+- [ ] Sicherstellen, dass ein fehlgeschlagener Upload niemals als „Cloud gespeichert“ angezeigt wird und die letzte bestätigte Wiederherstellungskopie erhalten bleibt
+- [ ] Lokale Wiederherstellungskopie und Speicherplatzfehler verständlich behandeln; keine Daten stillschweigend verwerfen
+
+### Phase 2 – Datenintegrität und Backups
+
+- [ ] JSON-Import vor dem Ersetzen vollständig validieren (Schema, Pflichtfelder, Datentypen und Größen); ungültige Backups dürfen den vorhandenen Spielstand nicht verändern
+- [ ] Vor jeder Wiederherstellung eine Sicherung des aktuellen Datenbestands erstellen und den Wiederherstellungsvorgang erst nach erfolgreicher Prüfung übernehmen
+- [ ] CSV-Import mit leeren Feldern, Umlauten, Anführungszeichen, Zeilenumbrüchen, verschiedenen Trennzeichen und Duplikaten testen
+- [ ] Datenmodell für Einträge, Geräte, Fotos, PDFs und Lernfortschritt dokumentieren; ältere Datenformate rückwärtskompatibel behandeln
+- [ ] Automatische Integritätsprüfung für fehlende IDs, ungültige Datumswerte, unbekannte Kategorien und unvollständige Datensätze konzipieren
+- [ ] Sicherstellen, dass Import, Export, Cloud-Sync und Wiederherstellung dieselben Datenfelder erhalten
+
+### Phase 3 – Speicher- und Medienoptimierung
+
+- [ ] Speicherverbrauch von Tagebuchdaten, Gerätebildern, Galerie-Fotos und PDF-Anleitungen messen
+- [ ] Foto- und PDF-Daten von häufig synchronisierten Tagebuch-Metadaten konzeptionell trennen
+- [ ] Bildgrößen, Formate und Komprimierung optimieren, ohne Originale ungefragt zu überschreiben
+- [ ] Grenzen für Dateigröße, Gesamtgröße und Upload-Zeit definieren; verständliche Rückmeldungen bei Überschreitung bereitstellen
+- [ ] Prüfen, ob große Medien schrittweise bzw. separat synchronisiert werden können, ohne bestehende verschlüsselte Cloud-Daten zu gefährden
+- [ ] JSON-Backup so gestalten, dass alle zugehörigen Medien entweder vollständig enthalten oder klar und überprüfbar referenziert sind
+
+### Phase 4 – Fehlerdiagnose, Übersetzungen und Dokumentation
+
+- [ ] Einheitliche Fehlerbehandlung für Netzwerk, Authentifizierung, Speicherplatz, Dateiverarbeitung und Import/Export einführen
+- [ ] Technische Diagnoseinformationen ohne Passwörter, Wiederherstellungscodes, Tokens oder Tagebuchinhalte erfassen
+- [ ] Nutzerfreundliche Fehlermeldungen in Deutsch, Englisch und Französisch sicherstellen
+- [ ] Veraltete oder fest in der Oberfläche hinterlegte Texte finden und schrittweise in das zentrale Übersetzungssystem überführen
+- [ ] Hilfebibliothek mit den aktuellen Funktionen, Einstellungen, Cloud-Abläufen und Wiederherstellungswegen abgleichen
+- [ ] README, Versionshinweise und Roadmap mit dem tatsächlichen Preview- und Produktionsstand synchronisieren
+
+### Phase 5 – Wartbarkeit und automatisierte Qualitätssicherung
+
+- [ ] Bestehende Programmstruktur und Abhängigkeiten vollständig erfassen, bevor Dateien aufgeteilt werden
+- [ ] app.js schrittweise und ohne Funktionsänderung in klar abgegrenzte Module (Speicher, Tagebuch, Geräte, Galerie, Backups, Einstellungen, Education) aufteilen
+- [ ] Automatisierte Tests für Datenmodell, Import/Export, Speicherwarteschlange und Authentifizierungsabläufe ergänzen
+- [ ] Regressionstest-Suite für PC und iPhone aufbauen; bestehende Funktionen nach jeder Änderung prüfen
+- [ ] Sicherheitsprüfung von Authentifizierung, RLS, Verschlüsselung, lokaler Speicherung, Deployment-Konfiguration und Git-Verlauf wiederholen
+- [ ] Jede Phase separat in Preview prüfen; Produktionsübernahme ausschließlich nach vollständiger QA und ausdrücklicher Freigabe
+
+**Arbeitsreihenfolge:** Zuerst den bestätigten Fehler beim Cloud-zu-lokal-Wechsel beheben. Danach Cloud-Speicherwarteschlange und Abmeldeablauf testen. Erst anschließend Import/Backups, Medienoptimierung und größere Strukturänderungen angehen.
