@@ -54,7 +54,7 @@ const { chromium } = require('playwright');
     if (await page.locator('body').getAttribute('data-theme') !== 'midnight') {
       throw new Error('Theme selection was not applied.');
     }
-    await page.locator('[data-theme-close]').first().click();
+    await page.keyboard.press('Escape');
 
     await page.reload();
     await page.locator('.settings-switch').click();
