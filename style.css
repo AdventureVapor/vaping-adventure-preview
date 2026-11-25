@@ -272,3 +272,63 @@ body[data-theme="midnight"] .field::placeholder{color:#b1bfd2}
 .theme-picker-note{margin-top:17px}
 body[data-theme="forest"] .theme-picker-dialog,body[data-theme="ocean"] .theme-picker-dialog,body[data-theme="sunset"] .theme-picker-dialog,body[data-theme="midnight"] .theme-picker-dialog{background:#fff;color:#202b28}
 @media(max-width:600px){.theme-picker{padding:10px}.theme-picker-dialog{padding:18px;max-height:94vh}.theme-choice-grid{grid-template-columns:1fr}.theme-choice{grid-template-columns:68px 1fr auto;gap:9px;padding:10px}.theme-choice.selected{padding:9px}.theme-mini{height:50px}.theme-picker-head h2{font-size:22px}}
+
+
+/* My Vaping Adventure – einheitliches, überarbeitetes Theme-System (10 Designs)
+   Alle Oberflächen nutzen dieselben semantischen Farbvariablen. */
+body[data-theme="classic"]{--ink:#202b28;--muted:#66736c;--line:#dfe6df;--paper:#fff;--bg:#f2f5ef;--green:#315b4a;--lime:#e6eee2;--blue:#eaf0e9;--orange:#c77c4d;--shadow:0 12px 36px #263b3010;background:linear-gradient(145deg,#f2f5ef,#e9eee8)}
+body[data-theme="forest"]{--ink:#20372b;--muted:#5f7566;--line:#d1e0d2;--paper:#f8fbf6;--bg:#e8f1e7;--green:#286443;--lime:#dcebd8;--blue:#e5efe5;--orange:#bd8754;--shadow:0 12px 36px #1e3c2814;background:linear-gradient(145deg,#e7f0e5,#dce9dc)}
+body[data-theme="ocean"]{--ink:#183943;--muted:#587680;--line:#c9dfe3;--paper:#f8fcfd;--bg:#e7f3f5;--green:#176477;--lime:#d7edf0;--blue:#dceff1;--orange:#c27c56;--shadow:0 12px 36px #17495712;background:linear-gradient(145deg,#e5f1f4,#dcebed)}
+body[data-theme="sunset"]{--ink:#4b302b;--muted:#80675d;--line:#ead7c9;--paper:#fffaf5;--bg:#fbefe5;--green:#a94f37;--lime:#f6e2d3;--blue:#f8e9df;--orange:#c66d42;--shadow:0 12px 36px #663b2812;background:linear-gradient(145deg,#fbefe5,#f4e3d5)}
+body[data-theme="midnight"]{--ink:#edf3fb;--muted:#b1c0d2;--line:#3c4c63;--paper:#26344b;--bg:#172235;--green:#83bfff;--lime:#34465f;--blue:#2d4058;--orange:#e5a477;--shadow:0 12px 36px #0005;background:linear-gradient(145deg,#172235,#202e44)}
+body[data-theme="sakura"]{--ink:#49303b;--muted:#806875;--line:#ead5df;--paper:#fff9fb;--bg:#f8edf2;--green:#a64f75;--lime:#f3dce7;--blue:#f5e6ed;--orange:#c47b70;--shadow:0 12px 36px #65364b12;background:linear-gradient(145deg,#f8edf2,#f1e4ec)}
+body[data-theme="graphite"]{--ink:#263342;--muted:#657487;--line:#d6dde5;--paper:#f8fafc;--bg:#e9edf1;--green:#46586d;--lime:#dce3eb;--blue:#e1e7ee;--orange:#a36d4f;--shadow:0 12px 36px #26334212;background:linear-gradient(145deg,#e9edf1,#dfe5eb)}
+body[data-theme="lavender"]{--ink:#342e4d;--muted:#716b8c;--line:#ddd8ef;--paper:#fbfaff;--bg:#f0edfa;--green:#6654a3;--lime:#e5e0f5;--blue:#eae6f7;--orange:#b27b91;--shadow:0 12px 36px #40346c12;background:linear-gradient(145deg,#f0edfa,#e8e4f5)}
+body[data-theme="desert"]{--ink:#493a2b;--muted:#806e59;--line:#e5d8c4;--paper:#fffaf0;--bg:#f4eee2;--green:#8c6035;--lime:#eee2cb;--blue:#f0e7d8;--orange:#b36d42;--shadow:0 12px 36px #60462a12;background:linear-gradient(145deg,#f4eee2,#eee4d3)}
+body[data-theme="aurora"]{--ink:#203b38;--muted:#5f7c77;--line:#cfe2dc;--paper:#f8fcfa;--bg:#e8f3f0;--green:#176b61;--lime:#d8ebe4;--blue:#dfefea;--orange:#b57d55;--shadow:0 12px 36px #1c514812;background:linear-gradient(145deg,#e8f3f0,#dcece7)}
+
+/* Gemeinsame Komponenten: konsistente Flächen, klare Hierarchie und gut erkennbare Aktionen */
+body[data-theme] .topbar,body[data-theme] .sidebar,body[data-theme] .mobile-nav{background:var(--paper);border-color:var(--line)}
+body[data-theme] .card,body[data-theme] .item,body[data-theme] .field,body[data-theme] .modal,body[data-theme] .help-topic,body[data-theme] .profile-menu{background:var(--paper);border-color:var(--line);color:var(--ink)}
+body[data-theme] .card,body[data-theme] .item{box-shadow:var(--shadow)}
+body[data-theme] .nav,body[data-theme] .mobile-nav button{color:var(--muted)}
+body[data-theme] .nav.active,body[data-theme] .mobile-nav button.active{background:var(--lime);color:var(--green)}
+body[data-theme] .sidebar-note{background:var(--lime);color:var(--green)}
+body[data-theme] .sidebar-note p,body[data-theme] .subheading,body[data-theme] .stat-label,body[data-theme] .stat-caption,body[data-theme] .item-content small,body[data-theme] .tagline{color:var(--muted)}
+body[data-theme] .nav em,body[data-theme] .item-icon,body[data-theme] .pill,body[data-theme] .more-icon{background:var(--lime);color:var(--green)}
+body[data-theme] .btn,body[data-theme] .language-switch,body[data-theme] .help-trigger,body[data-theme] .theme-switch{background:var(--paper);color:var(--green);border-color:var(--line)}
+body[data-theme] .btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+body[data-theme] .btn.soft{background:var(--lime);color:var(--green);border-color:transparent}
+body[data-theme] .hero{background:linear-gradient(120deg,var(--green),color-mix(in srgb,var(--green) 72%,#172235));color:#fff}
+body[data-theme] .hero .eyebrow{color:#e1eee7}
+body[data-theme] .hero p,body[data-theme] .hero-stat small{color:#f0f5f1}
+body[data-theme] .hero .btn{background:#fff;color:var(--green);border-color:#fff}
+body[data-theme] .field{color:var(--ink);border-color:var(--line)}
+body[data-theme] .field::placeholder{color:var(--muted);opacity:1}
+body[data-theme] .field:focus,body[data-theme] button:focus-visible,body[data-theme] a:focus-visible{outline:3px solid color-mix(in srgb,var(--green) 35%,transparent);outline-offset:2px;box-shadow:none}
+body[data-theme] .photo,body[data-theme] .gallery-thumb,body[data-theme] .progress{background:var(--lime)}
+body[data-theme] .progress i{background:var(--green)}
+body[data-theme] .profile-trigger{background:var(--lime);color:var(--green)}
+body[data-theme] .profile-menu .profile-state{background:var(--lime);color:var(--green)}
+body[data-theme] .theme-switch{background:var(--lime);color:var(--green)}
+body[data-theme="midnight"] .btn.primary{background:#4d83ba;border-color:#4d83ba;color:#fff}
+body[data-theme="midnight"] .hero .btn{background:#f4f8ff;color:#203a58}
+body[data-theme="midnight"] .field{color:var(--ink);color-scheme:dark}
+body[data-theme="midnight"] .theme-picker-dialog{background:#f8fafc;color:#202b28}
+body[data-theme="midnight"] .theme-picker-dialog p{color:#66736c}
+.theme-picker-dialog{color:#202b28}
+.theme-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.theme-choice{min-width:0;grid-template-columns:76px minmax(0,1fr) auto;transition:border-color .16s,transform .16s,box-shadow .16s}
+.theme-choice:hover{transform:translateY(-1px);box-shadow:0 7px 20px #17223512}
+.theme-choice.selected{border:2px solid var(--choice-accent,#315b4a);background:#f7faf6;padding:11px}
+.theme-mini{background:var(--mini-bg)!important}
+.theme-mini i{background:var(--mini-accent)!important}
+.theme-mini i:nth-child(2){background:var(--mini-paper)!important}
+.theme-mini i:nth-child(3){background:var(--mini-accent)!important;opacity:.72}
+.theme-choice-status{color:#315b4a}
+.theme-choice-copy small{color:#68756e}
+.theme-picker-note{line-height:1.5}
+body[data-theme="midnight"] .theme-choice.selected{background:#edf4fc}
+@media(max-width:700px){.theme-choice-grid{grid-template-columns:1fr}.theme-picker-dialog{width:min(560px,100%);padding:18px}.theme-choice{grid-template-columns:68px minmax(0,1fr) auto}.theme-mini{height:48px}}
+@media(prefers-contrast:more){body[data-theme] .card,body[data-theme] .item,body[data-theme] .field,body[data-theme] button{border-width:2px}body[data-theme] .muted,body[data-theme] .subheading{color:var(--ink)}}
+@media(prefers-reduced-motion:reduce){.theme-choice{transition:none!important}.theme-choice:hover{transform:none}}
