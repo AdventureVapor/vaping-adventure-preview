@@ -394,11 +394,16 @@ function isCategoryEnabled(category){return getAppSettings().vapingCategories[ca
 
 const THEME_KEY="mva_theme";
 const THEME_OPTIONS=[
- {id:"classic",name:"Original",desc:"Das bisherige vertraute Design"},
- {id:"forest",name:"Forest & Nature",desc:"Sattes Hanfgrün und helles Blattgrün"},
- {id:"ocean",name:"Ocean Blue",desc:"Meeresblau, Türkis und klare Flächen"},
- {id:"sunset",name:"Sunset",desc:"Warme Orange-, Korall- und Cremetöne"},
- {id:"midnight",name:"Midnight",desc:"Dunkles Nachtblau mit leuchtendem Akzent"}
+ {id:"classic",name:"Original",desc:"Klares, ruhiges Grün – jetzt harmonischer und kontrastreicher",swatches:["#f4f6f1","#ffffff","#315b4a"]},
+ {id:"forest",name:"Forest & Nature",desc:"Tiefes Waldgrün, Salbei und frisches Blattgrün",swatches:["#eaf2e7","#f8fbf6","#286443"]},
+ {id:"ocean",name:"Ocean Blue",desc:"Kühles Meeresblau mit hellem Aqua und Türkis",swatches:["#e7f3f5","#f8fcfd","#176477"]},
+ {id:"sunset",name:"Sunset",desc:"Warmer Terrakotta-Akzent auf sanftem Sand",swatches:["#fbefe5","#fffaf5","#a94f37"]},
+ {id:"midnight",name:"Midnight",desc:"Elegantes dunkles Navy mit eisblauem Fokus",swatches:["#172235","#26344b","#83bfff"]},
+ {id:"sakura",name:"Sakura",desc:"Zartes Kirschblütenrosa mit Beerenton",swatches:["#f8edf2","#fff9fb","#a64f75"]},
+ {id:"graphite",name:"Graphite",desc:"Reduziertes Graphit, Stahlgrau und klares Silber",swatches:["#e9edf1","#f8fafc","#46586d"]},
+ {id:"lavender",name:"Lavender",desc:"Sanftes Flieder mit dunklem Violett",swatches:["#f0edfa","#fbfaff","#6654a3"]},
+ {id:"desert",name:"Desert",desc:"Natürliches Sandbeige, Lehm und dunkles Ocker",swatches:["#f4eee2","#fffaf0","#8c6035"]},
+ {id:"aurora",name:"Aurora",desc:"Nordlicht-inspiriertes Petrol mit Mint-Akzent",swatches:["#e8f3f0","#f8fcfa","#176b61"]}
 ];
 function applyTheme(){
  const saved=localStorage.getItem(THEME_KEY)||"classic";
@@ -416,7 +421,7 @@ function openThemePicker(){
  let picker=$("#theme-picker");
  if(!picker){
   picker=document.createElement("div");picker.id="theme-picker";picker.className="theme-picker";
-  picker.innerHTML=`<div class="theme-picker-backdrop" data-theme-close></div><section class="theme-picker-dialog" role="dialog" aria-modal="true" aria-labelledby="theme-picker-title"><div class="theme-picker-head"><div><span class="eyebrow">PERSONALISIERE DEIN ABENTEUER</span><h2 id="theme-picker-title">Design auswählen</h2><p>Wähle das Aussehen deiner persönlichen Vaping-Seite.</p></div><button class="theme-picker-close" type="button" data-theme-close aria-label="Schließen">×</button></div><div class="theme-choice-grid"><button type="button" class="theme-choice" data-theme-choice="classic"><span class="theme-mini" data-mini-theme="classic"><i></i><i></i><i></i></span><span class="theme-choice-copy"><b>Original</b><small>Das bisherige vertraute Design</small></span><span class="theme-choice-status">Auswählen</span></button><button type="button" class="theme-choice" data-theme-choice="forest"><span class="theme-mini" data-mini-theme="forest"><i></i><i></i><i></i></span><span class="theme-choice-copy"><b>Forest & Nature</b><small>Sattes Hanfgrün und helles Blattgrün</small></span><span class="theme-choice-status">Auswählen</span></button><button type="button" class="theme-choice" data-theme-choice="ocean"><span class="theme-mini" data-mini-theme="ocean"><i></i><i></i><i></i></span><span class="theme-choice-copy"><b>Ocean Blue</b><small>Meeresblau, Türkis und klare Flächen</small></span><span class="theme-choice-status">Auswählen</span></button><button type="button" class="theme-choice" data-theme-choice="sunset"><span class="theme-mini" data-mini-theme="sunset"><i></i><i></i><i></i></span><span class="theme-choice-copy"><b>Sunset</b><small>Warme Orange-, Korall- und Cremetöne</small></span><span class="theme-choice-status">Auswählen</span></button><button type="button" class="theme-choice" data-theme-choice="midnight"><span class="theme-mini" data-mini-theme="midnight"><i></i><i></i><i></i></span><span class="theme-choice-copy"><b>Midnight</b><small>Dunkles Nachtblau mit leuchtendem Akzent</small></span><span class="theme-choice-status">Auswählen</span></button></div><p class="theme-picker-note">Deine Auswahl wird auf diesem Gerät gespeichert.</p></section>`;
+  picker.innerHTML=`<div class="theme-picker-backdrop" data-theme-close></div><section class="theme-picker-dialog" role="dialog" aria-modal="true" aria-labelledby="theme-picker-title"><div class="theme-picker-head"><div><span class="eyebrow">PERSONALISIERE DEIN ABENTEUER</span><h2 id="theme-picker-title">Design auswählen</h2><p>Wähle das Aussehen deiner persönlichen Vaping-Seite.</p></div><button class="theme-picker-close" type="button" data-theme-close aria-label="Schließen">×</button></div><div class="theme-choice-grid">${THEME_OPTIONS.map(t=>`<button type="button" class="theme-choice" data-theme-choice="${t.id}" style="--choice-accent:${t.swatches[2]}" aria-pressed="false"><span class="theme-mini" data-mini-theme="${t.id}" style="--mini-bg:${t.swatches[0]};--mini-paper:${t.swatches[1]};--mini-accent:${t.swatches[2]}"><i></i><i></i><i></i></span><span class="theme-choice-copy"><b>${t.name}</b><small>${t.desc}</small></span><span class="theme-choice-status">Auswählen</span></button>`).join("")}</div><p class="theme-picker-note">Deine Auswahl wird auf diesem Gerät gespeichert.</p></section>`;
   document.body.appendChild(picker);
  }
  picker.classList.add("open");applyTheme();
