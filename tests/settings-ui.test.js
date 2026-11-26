@@ -35,7 +35,7 @@ const { chromium } = require('playwright');
   try {
     await page.goto('http://127.0.0.1:8080/index.html');
     await page.waitForSelector('#view');
-    await page.locator('.settings-switch').click();
+    await page.locator('button.nav[data-page="settings"]').click();
     await page.waitForSelector('.settings-layout');
 
     const categories = await page.locator('[data-vaping-category]').count();
@@ -56,8 +56,25 @@ const { chromium } = require('playwright');
     }
     await page.keyboard.press('Escape');
 
+    // Wait until the asynchronous IndexedDB save has committed before reloading.
+    await page.waitForFunction(async () => {
+      const database = await new Promise((resolve, reject) => {
+        const request = indexedDB.open('mva_local_store', 1);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      try {
+        return await new Promise((resolve, reject) => {
+          const tx = database.transaction('snapshots', 'readonly');
+          const request = tx.objectStore('snapshots').get('current');
+          request.onsuccess = () => resolve(JSON.parse(request.result)?.settings?.vapingCategories?.bong === false);
+          request.onerror = () => reject(request.error);
+        });
+      } finally { database.close(); }
+    });
+
     await page.reload();
-    await page.locator('.settings-switch').click();
+    await page.locator('button.nav[data-page="settings"]').click();
     await page.waitForSelector('.settings-layout');
     if (await page.locator('[data-vaping-category="bong"]').isChecked()) {
       throw new Error('Category preference did not survive reload.');
@@ -79,6 +96,45 @@ const { chromium } = require('playwright');
       throw new Error('Editing a historical entry must retain its disabled category option.');
     }
     await page.locator('[data-close]').first().click();
+
+    // The migrated save and settings must live in IndexedDB, not only localStorage.
+    const indexedState = await page.evaluate(async () => {
+      const database = await new Promise((resolve, reject) => {
+        const request = indexedDB.open('mva_local_store', 1);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      try {
+        return await new Promise((resolve, reject) => {
+          const tx = database.transaction('snapshots', 'readonly');
+          const request = tx.objectStore('snapshots').get('current');
+          request.onsuccess = () => resolve(JSON.parse(request.result));
+          request.onerror = () => reject(request.error);
+        });
+      } finally { database.close(); }
+    });
+    if (!indexedState.entries.some(entry => entry.id === 'historic-bong-entry')) {
+      throw new Error('Migrated IndexedDB save lost the historical diary entry.');
+    }
+    if (indexedState.settings?.vapingCategories?.bong !== false) {
+      throw new Error('Settings were not persisted in the IndexedDB save.');
+    }
+
+    // Exercise a payload larger than the usual localStorage quota.
+    const largeSaveCheck = await page.evaluate(async () => {
+      const payload = {
+        entries: [],
+        devices: [{ name: 'IndexedDB capacity check', category: 'vaporizer',
+          manualData: 'data:application/pdf;base64,' + 'A'.repeat(5 * 1024 * 1024) }],
+        strains: [], photos: [], game: { xp: 0, coins: 0, quests: [], courses: {} }
+      };
+      await saveLocalSnapshot(payload);
+      const restored = await loadLocalSnapshot();
+      return restored.devices[0].manualData.length;
+    });
+    if (largeSaveCheck < 5 * 1024 * 1024) {
+      throw new Error('IndexedDB did not preserve the large PDF-like payload.');
+    }
 
     if (pageErrors.length) throw new Error('Browser errors: ' + pageErrors.join(' | '));
     console.log('Settings UI tests: all checks passed.');
