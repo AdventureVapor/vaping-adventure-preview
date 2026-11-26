@@ -15,7 +15,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 
 **Ziel:** Die bereits weitgehend umgesetzten Funktionen bündeln, die wichtigsten offenen Praxistests abschließen und einen überschaubaren ersten 1.4-Release veröffentlichungsfähig machen.
 
-- [x] Fünf Designs, responsive Oberflächenverbesserungen und französische App-Sprache in Preview umgesetzt
+- [x] Zehn Designs (Original, Forest & Nature, Ocean Blue, Sunset, Midnight, Sakura, Graphite, Lavender, Desert und Aurora), responsive Oberflächenverbesserungen und französische App-Sprache in Preview umgesetzt
 - [x] Gästebuch mit Einreichung und Moderationsablauf in Preview umgesetzt
 - [x] Lernkurse und mehrsprachige Kursinhalte in Preview ergänzt
 - [x] Originalfassung „My Vaping Education – Grundlagen“ mit sieben ausführlichen Lektionen, technischen SVG-Illustrationen, Tabellen und zehn Quizfragen in Preview integriert; bestehende Kurs-ID und gespeicherte Fortschritte bleiben erhalten
@@ -33,7 +33,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Gästebuch einschließlich Moderations- und Löschablauf abschließend testen
 - [ ] Vollständige Sprachprüfung und Regressionstests für die in 1.4.1 enthaltenen Änderungen durchführen
 - [ ] Vollständigen automatisierten Secret-Scan des gesamten Git-Verlaufs und Prüfung externer Deployment-Einstellungen durchführen
-- [ ] Startanimation „The First Puff“ entwickeln und in Preview integrieren:
+- [x] Bestehende GIF-Startanimation in Preview eingebunden und an den Login-Ablauf gekoppelt (vollständiger Praxistest noch offen)
+- [ ] „The First Puff“ als flüssige, hochwertige Video-/WebM-Animation weiterentwickeln; ursprüngliche Bildfolge, Logo, Landschaft und Dramaturgie unverändert beibehalten – kein neues Design und keine GIF-Ausgabe:
   - [ ] Offizielles Logo wird auf schwarzem Hintergrund eingeblendet
   - [ ] Kamera zoomt in die Landschaft innerhalb des Logos
   - [ ] In der Landschaft sieht man eine Person, die am Vaporizer zieht und sichtbar ausatmet
@@ -41,7 +42,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
   - [ ] Der Dampf verwirbelt sich und formt den Schriftzug „Your Sessions, Your Devices, Your Adventure“
   - [ ] Der Schriftzug löst sich wieder in Dampf auf; daraus entsteht „My Vaping Adventure“
   - [ ] Übergang von der Animation zur App-Startseite
-  - [ ] Drei unterschiedliche GIF-/Animationsentwürfe als Stilvorlagen erstellen und gemeinsam auswählen
+  - [ ] Bewegungsablauf anhand der eingesendeten Originalanimation abstimmen und die vorhandene Szene flüssiger ausarbeiten; keine abweichenden Stilvarianten erfinden
   - [ ] Für Windows-PC und iPhone optimieren; Animation überspringbar machen
   - [ ] Betriebssystemeinstellung „Bewegung reduzieren“ berücksichtigen und eine reduzierte Alternative anbieten
   - [ ] Logo-Datei mit transparentem Hintergrund/Alpha-Kanal vorbereiten
@@ -58,6 +59,15 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] PDF-Anleitungen in lokalem Spielstand, verschlüsselter Cloud-Synchronisierung sowie JSON-Backup berücksichtigen und Größen-/Speichergrenzen testen
 - [ ] Abschließende 1.4.1-Regression: Login, Tagebuch, Geräte, Galerie, Cloud-Synchronisierung, Backups und Sprachwechsel prüfen
 - [ ] Produktionsübernahme von 1.4.1 erst nach abgeschlossener QA und ausdrücklicher Freigabe
+
+### Release-Stabilisierung – zuletzt in Preview auf `main` integriert
+
+- [x] Zehn Theme-Optionen einschließlich dynamischer Auswahl und einheitlicher Farb-/Komponentenstile integriert (PR #94); iPhone-/Desktop-Praxistest bleibt offen
+- [x] Fehler- und Warnmeldungen bleiben bis zum manuellen Schließen sichtbar; Erfolgsmeldungen schließen weiterhin automatisch (PR #95)
+- [x] Diagnose beim Wechsel von Cloud- zu lokalem Speicher um konkrete Fehlerstufe, Browserfehler und – soweit verfügbar – Sicherungsgröße ergänzt (PR #96)
+- [ ] Nach Deployment prüfen, dass Preview die aktuellen Änderungen aus `main` lädt und keine veralteten Assets aus dem Cache verwendet
+- [ ] Neue Fehlerdiagnose mit dem vorhandenen großen Cloud-Spielstand praktisch prüfen; keine Daten löschen und keinen Speicherwechsel erzwingen
+- [ ] Die letzten Änderungen automatisiert und manuell auf iPhone und Desktop regressionsprüfen
 
 ### Version 1.4.2 – weitere Funktionen und Ausbau
 
