@@ -28,7 +28,67 @@ async function saveCloudRecoveryCopy(payload){
   });
  }finally{recoveryDb.close()}
 }
-const put=()=>{if(storageMode==="local"){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){toast("Speicher fast voll. Exportiere ein Backup und verkleinere Fotos.")}}else scheduleCloudSave()};
+
+/* Größere lokale Spielstände liegen in IndexedDB statt im kleinen localStorage-Kontingent. */
+const localStoreDbName="mva_local_store";
+function openLocalStoreDb(){
+ return new Promise((resolve,reject)=>{
+  if(!("indexedDB" in window))return reject(Error("IndexedDB wird von diesem Browser nicht unterstützt."));
+  const request=indexedDB.open(localStoreDbName,1);
+  request.onupgradeneeded=()=>{const database=request.result;if(!database.objectStoreNames.contains("snapshots"))database.createObjectStore("snapshots")};
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error||Error("Lokale Datenbank konnte nicht geöffnet werden."));
+  request.onblocked=()=>reject(Error("Die lokale Datenbank ist noch durch einen anderen Tab blockiert."));
+ });
+}
+async function saveLocalSnapshot(snapshotOrSerialized){
+ const serialized=typeof snapshotOrSerialized==="string"?snapshotOrSerialized:JSON.stringify(snapshotOrSerialized);
+ if(typeof serialized!=="string")throw Error("Der Spielstand konnte nicht serialisiert werden.");
+ const database=await openLocalStoreDb();
+ try{
+  await new Promise((resolve,reject)=>{
+   const tx=database.transaction("snapshots","readwrite");
+   tx.objectStore("snapshots").put(serialized,"current");
+   tx.oncomplete=resolve;
+   tx.onerror=()=>reject(tx.error||Error("Lokaler Spielstand konnte nicht geschrieben werden."));
+   tx.onabort=()=>reject(tx.error||Error("Schreiben des lokalen Spielstands wurde abgebrochen."));
+  });
+  const verified=await new Promise((resolve,reject)=>{
+   const tx=database.transaction("snapshots","readonly");
+   const request=tx.objectStore("snapshots").get("current");
+   request.onsuccess=()=>resolve(request.result);
+   request.onerror=()=>reject(request.error||Error("Lokale Sicherung konnte nicht überprüft werden."));
+   tx.onabort=()=>reject(tx.error||Error("Überprüfung der lokalen Sicherung wurde abgebrochen."));
+  });
+  if(verified!==serialized)throw Error("Die lokale Sicherung konnte nach dem Schreiben nicht vollständig bestätigt werden.");
+ }finally{database.close()}
+}
+async function loadLocalSnapshot(){
+ const database=await openLocalStoreDb();
+ try{
+  const stored=await new Promise((resolve,reject)=>{
+   const tx=database.transaction("snapshots","readonly");
+   const request=tx.objectStore("snapshots").get("current");
+   request.onsuccess=()=>resolve(request.result);
+   request.onerror=()=>reject(request.error||Error("Lokaler Spielstand konnte nicht gelesen werden."));
+   tx.onabort=()=>reject(tx.error||Error("Lesen des lokalen Spielstands wurde abgebrochen."));
+  });
+  if(stored===undefined)return null;
+  const snapshot=typeof stored==="string"?JSON.parse(stored):stored;
+  if(!snapshot||typeof snapshot!=="object"||!Array.isArray(snapshot.entries)||!Array.isArray(snapshot.devices))throw Error("Der lokale Spielstand in IndexedDB ist ungültig.");
+  return snapshot;
+ }finally{database.close()}
+}
+let localSaveQueue=Promise.resolve();
+const put=()=>{
+ if(storageMode!=="local"){scheduleCloudSave();return}
+ let serialized;
+ try{serialized=JSON.stringify(db)}catch(error){toast("Lokaler Spielstand konnte nicht vorbereitet werden: "+(error?.message||error));return}
+ localSaveQueue=localSaveQueue.catch(()=>{}).then(()=>saveLocalSnapshot(serialized)).then(()=>{localDb=db}).catch(error=>{
+  console.error("Lokale IndexedDB-Sicherung fehlgeschlagen:",error);
+  toast("Lokale Speicherung fehlgeschlagen. Bitte jetzt ein JSON-Backup herunterladen. "+(error?.message||""));
+ });
+};
 for(const k of ["entries","devices","strains","photos"])if(!Array.isArray(db[k]))db[k]=[];
 db.game ||= {xp:0,coins:0,quests:[],courses:{}}; db.game.quests ||= []; db.game.courses ||= {};
 const defaults=[...["Venty","Mighty","Volcano","Dr. Dabber Switch2","TerpTorch","TerpHammer","Dynavap M7","Dynavap G3","Dynavap B2","The B","XMAX Qomo","Pax Flow","Cuboo Stick","Smono"].map(name=>({name,category:"vaporizer"})),...["GeekVape Legend 5","ELFX Mega"].map(name=>({name,category:"ecig"})),... ["IQOS","glo"].map(name=>({name,category:"heater"}))];
@@ -375,8 +435,8 @@ async function switchLocal(){
   localSaveStage='Umwandeln des Spielstands in das lokale Speicherformat';
   serializedSnapshot=JSON.stringify(localSnapshot);
   if(typeof serializedSnapshot!=='string')throw Error('Der Spielstand konnte nicht in ein speicherbares Format umgewandelt werden.');
-  localSaveStage='Schreiben in den iPhone-/Browser-Speicher';
-  localStorage.setItem(KEY,serializedSnapshot);
+  localSaveStage='Schreiben und Überprüfen in der lokalen IndexedDB';
+  await saveLocalSnapshot(serializedSnapshot);
  }catch(error){
   console.error('Lokaler Spielstand konnte vor dem Speicherwechsel nicht gesichert werden:',{stage:localSaveStage,error});
   const errorName=String(error?.name||'Unbekannter Fehler');
@@ -928,8 +988,8 @@ function importJson(e){
      throw Error('Cloud-Import fehlgeschlagen. Der vorherige Cloud-Spielstand wurde erneut gespeichert. '+(writeError?.message||''));
     }
    }else{
-    // Write to localStorage first: quota/security errors must not be hidden by put().
-    localStorage.setItem(KEY,JSON.stringify(next));
+    // Commit and verify the complete imported save before changing the active in-memory state.
+    await saveLocalSnapshot(next);
     db=next;
     localDb=next;
    }
@@ -946,6 +1006,20 @@ function parseCsv(t){let delim=(t.split(/\r?\n/)[0].match(/;/g)||[]).length>=(t.
 function importCsv(e){let f=e.target.files[0];if(!f)return;f.text().then(t=>{let rows=parseCsv(t),h=rows.shift().map(x=>x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z]/g,''));csvPending=rows.map(r=>{let o={};h.forEach((k,i)=>o[k]=r[i]||'');let pick=(...keys)=>keys.map(k=>o[k]).find(Boolean)||'';let notes=pick('notizen','notes','bemerkungen'),puffs=pick('puffs','zuege','anzahlzuege')||((notes.match(/(?:züge|zuege|puffs?)\s*[:=]?\s*(\d+)/i)||[])[1]||'');return {id:id(),date:pick('datum','date'),time:pick('uhrzeit','zeit','time'),category:pick('kategorie','category')||'vaporizer',device:pick('geraet','gerat','device'),strain:pick('sorte','strain','material'),duration:pick('dauer','duration'),puffs,notes,temp:pick('temperatur','temp'),location:pick('ort','location'),taste:pick('geschmack','taste')}}).filter(x=>x.device||x.date||x.notes);const normCsvValue=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/\s+/g,' ').toLowerCase();let csvFields=['date','time','category','device','duration','puffs','strain','temp','location','taste','notes'];let fingerprint=x=>csvFields.map(k=>normCsvValue(k==='category'?(x[k]||'vaporizer'):x[k])).join('¦');let dup=x=>db.entries.some(y=>fingerprint(y)===fingerprint(x));$('#csv-preview').innerHTML=`<p class="subheading">${csvPending.length} erkannt · ${csvPending.filter(x=>!dup(x)).length} neu · ${csvPending.filter(dup).length} mögliche Duplikate. ${csvPending.slice(0,10).map(x=>`<br>${esc(x.date)} · ${esc(x.device)} ${dup(x)?'· Duplikat':''}`).join('')}</p><button class="btn primary" id="csv-commit" ${csvPending.filter(x=>!dup(x)).length?'':'disabled'}>Neue Einträge übernehmen</button>`;$('#csv-commit').onclick=()=>{const imported=csvPending.filter(x=>!dup(x));imported.forEach(x=>{db.entries.push(x);if(x.device&&!db.devices.some(d=>d.name.toLowerCase()===x.device.toLowerCase()))db.devices.push({name:x.device,category:x.category})});put();render();toast(imported.length+' CSV-Einträge übernommen'+(storageMode==='cloud'?' – Cloud-Synchronisierung läuft mit automatischen Wiederholungen.':''))}}).catch(()=>toast('CSV konnte nicht gelesen werden'))}
 function bindGlobal(){document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>{switch(b.dataset.action){case'new':entryForm();break;case'new-strain':strainForm();break;case'new-device':deviceForm();break;case'new-photo':photoForm();break;case'export-json':jsonExport();break;case'export-csv':csvExport();break;case'import-json':$('#json-file').click();break;case'cloud-login':cloudLogin(false);break;case'cloud-signup':cloudLogin(true);break;case'cloud-reset':sendPasswordReset();break;case'cloud-change-email':changeCloudEmail();break;case'cloud-change-password':changeCloudPassword();break;case'switch-local':switchLocal();break;case'settings-logout':logoutProfile();break}});document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>entryForm(db.entries.find(x=>x.id===b.dataset.edit)));document.querySelectorAll('[data-delete-entry]').forEach(b=>b.onclick=()=>{if(confirm(localeText('confirm.deleteEntry'))){db.entries=db.entries.filter(x=>x.id!==b.dataset.deleteEntry);put();render()}});document.querySelectorAll('[data-edit-strain]').forEach(b=>b.onclick=()=>strainForm(db.strains.find(x=>x.id===b.dataset.editStrain)));document.querySelectorAll('[data-del-strain]').forEach(b=>b.onclick=()=>{db.strains=db.strains.filter(x=>x.id!==b.dataset.delStrain);put();render()});document.querySelectorAll('[data-open-manual]').forEach(b=>b.onclick=()=>openDeviceManual(b.dataset.openManual));document.querySelectorAll('[data-edit-device]').forEach(b=>b.onclick=()=>deviceForm(db.devices.find(x=>x.name===b.dataset.editDevice)));document.querySelectorAll('[data-del-device]').forEach(b=>b.onclick=()=>{if(db.entries.some(x=>x.device===b.dataset.delDevice))return toast('Gerät wird noch verwendet');db.devices=db.devices.filter(x=>x.name!==b.dataset.delDevice);put();render()});document.querySelectorAll('[data-del-photo]').forEach(b=>b.onclick=()=>{db.photos=db.photos.filter(x=>x.id!==b.dataset.delPhoto);put();render()});document.querySelectorAll('[data-course]').forEach(b=>b.onclick=()=>courseView(courses.find(c=>c.id===b.dataset.course)));document.querySelectorAll('[data-claim]').forEach(b=>b.onclick=()=>{let q=questData.find(q=>q.id===b.dataset.claim);if(!q||db.game.quests.includes(q.id)||!q.check())return;db.game.quests.push(q.id);db.game.xp=(db.game.xp||0)+q.xp;db.game.coins=(db.game.coins||0)+q.coins;put();render()})}
 function newBoot(){db.entries=db.entries.map(e=>{let m=String(e.notes||'').match(/(?:anzahl\s*)?(?:züge|zuege|puffs?)\s*[:=]?\s*(\d+)/i);if(!e.puffs&&m)e.puffs=m[1];if(!e.materialId&&e.strain){const name=String(e.strain).trim().toLocaleLowerCase();const material=db.strains.find(s=>String(s.name||'').trim().toLocaleLowerCase()===name&&(!s.category||s.category===e.category));if(material)e.materialId=material.id}return e});put();render()}
-applyTheme();
-newBoot();
-handlePasswordRecovery();
+async function initializeLocalApp(){
+ try{
+  const indexedSnapshot=await loadLocalSnapshot();
+  if(indexedSnapshot){localDb=indexedSnapshot;db=indexedSnapshot}
+  else{
+   // Migrate the existing localStorage save once; leave the original copy untouched as a fallback.
+   await saveLocalSnapshot(localDb);
+  }
+ }catch(error){
+  console.error("IndexedDB-Initialisierung fehlgeschlagen; vorhandener lokaler Spielstand bleibt aktiv:",error);
+  toast("Der vorhandene Spielstand wurde geladen, aber der größere lokale Speicher konnte nicht aktiviert werden. Bitte vor Änderungen ein JSON-Backup herunterladen. "+(error?.message||""));
+ }
+ applyTheme();
+ newBoot();
+ handlePasswordRecovery();
+}
+initializeLocalApp();
