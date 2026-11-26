@@ -56,6 +56,23 @@ const { chromium } = require('playwright');
     }
     await page.keyboard.press('Escape');
 
+    // Wait until the asynchronous IndexedDB save has committed before reloading.
+    await page.waitForFunction(async () => {
+      const database = await new Promise((resolve, reject) => {
+        const request = indexedDB.open('mva_local_store', 1);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      try {
+        return await new Promise((resolve, reject) => {
+          const tx = database.transaction('snapshots', 'readonly');
+          const request = tx.objectStore('snapshots').get('current');
+          request.onsuccess = () => resolve(JSON.parse(request.result)?.settings?.vapingCategories?.bong === false);
+          request.onerror = () => reject(request.error);
+        });
+      } finally { database.close(); }
+    });
+
     await page.reload();
     await page.locator('.settings-switch').click();
     await page.waitForSelector('.settings-layout');
