@@ -35,7 +35,7 @@ const { chromium } = require('playwright');
   try {
     await page.goto('http://127.0.0.1:8080/index.html');
     await page.waitForSelector('#view');
-    await page.locator('.settings-switch').click();
+    await page.locator('button.nav[data-page="settings"]').click();
     await page.waitForSelector('.settings-layout');
 
     const categories = await page.locator('[data-vaping-category]').count();
@@ -74,7 +74,7 @@ const { chromium } = require('playwright');
     });
 
     await page.reload();
-    await page.locator('.settings-switch').click();
+    await page.locator('button.nav[data-page="settings"]').click();
     await page.waitForSelector('.settings-layout');
     if (await page.locator('[data-vaping-category="bong"]').isChecked()) {
       throw new Error('Category preference did not survive reload.');
