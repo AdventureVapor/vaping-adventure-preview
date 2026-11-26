@@ -368,13 +368,27 @@ async function switchLocal(){
  // Keep the currently loaded cloud data when switching to local mode.
  // The previous implementation restored the stale localDb object here,
  // which could make newer cloud entries disappear from the active session.
- let localSnapshot;
+ let localSnapshot, serializedSnapshot, localSaveStage='Vorbereitung der lokalen Sicherung';
  try{
+  localSaveStage='Übertragen von Fotos und PDF-Anleitungen in die lokale Sicherung';
   localSnapshot=await createPortableBackupSnapshot();
-  localStorage.setItem(KEY,JSON.stringify(localSnapshot));
+  localSaveStage='Umwandeln des Spielstands in das lokale Speicherformat';
+  serializedSnapshot=JSON.stringify(localSnapshot);
+  if(typeof serializedSnapshot!=='string')throw Error('Der Spielstand konnte nicht in ein speicherbares Format umgewandelt werden.');
+  localSaveStage='Schreiben in den iPhone-/Browser-Speicher';
+  localStorage.setItem(KEY,serializedSnapshot);
  }catch(error){
-  console.error('Lokaler Spielstand konnte vor dem Speicherwechsel nicht gesichert werden:',error);
-  toast('Wechsel zum lokalen Speicher abgebrochen: Der aktuelle Spielstand konnte lokal nicht gesichert werden. Du bleibst angemeldet und deine Cloud-Daten bleiben erhalten.');
+  console.error('Lokaler Spielstand konnte vor dem Speicherwechsel nicht gesichert werden:',{stage:localSaveStage,error});
+  const errorName=String(error?.name||'Unbekannter Fehler');
+  const errorMessage=String(error?.message||error||'Keine technischen Details verfügbar.');
+  const isQuotaError=errorName==='QuotaExceededError'||/quota|storage full|disk full|speicher.*voll/i.test(errorMessage);
+  const sizeInfo=typeof serializedSnapshot==='string'
+   ? ' Größe der lokalen Sicherung: ca. '+(new Blob([serializedSnapshot]).size/1024/1024).toFixed(2)+' MB.'
+   : '';
+  const reason=isQuotaError
+   ? 'Der verfügbare Speicher dieser Website auf deinem iPhone reicht wahrscheinlich nicht aus. Bitte nichts löschen, bevor ein zusätzliches JSON-Backup vorhanden ist.'
+   : 'Technischer Fehler ('+errorName+'): '+errorMessage;
+  toast('Wechsel zum lokalen Speicher abgebrochen. Schritt: '+localSaveStage+'. '+reason+sizeInfo+' Du bleibst angemeldet; deine Cloud-Daten bleiben erhalten.');
   return false;
  }
  localDb=localSnapshot;
