@@ -80,6 +80,45 @@ const { chromium } = require('playwright');
     }
     await page.locator('[data-close]').first().click();
 
+    // The migrated save and settings must live in IndexedDB, not only localStorage.
+    const indexedState = await page.evaluate(async () => {
+      const database = await new Promise((resolve, reject) => {
+        const request = indexedDB.open('mva_local_store', 1);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+      try {
+        return await new Promise((resolve, reject) => {
+          const tx = database.transaction('snapshots', 'readonly');
+          const request = tx.objectStore('snapshots').get('current');
+          request.onsuccess = () => resolve(JSON.parse(request.result));
+          request.onerror = () => reject(request.error);
+        });
+      } finally { database.close(); }
+    });
+    if (!indexedState.entries.some(entry => entry.id === 'historic-bong-entry')) {
+      throw new Error('Migrated IndexedDB save lost the historical diary entry.');
+    }
+    if (indexedState.settings?.vapingCategories?.bong !== false) {
+      throw new Error('Settings were not persisted in the IndexedDB save.');
+    }
+
+    // Exercise a payload larger than the usual localStorage quota.
+    const largeSaveCheck = await page.evaluate(async () => {
+      const payload = {
+        entries: [],
+        devices: [{ name: 'IndexedDB capacity check', category: 'vaporizer',
+          manualData: 'data:application/pdf;base64,' + 'A'.repeat(5 * 1024 * 1024) }],
+        strains: [], photos: [], game: { xp: 0, coins: 0, quests: [], courses: {} }
+      };
+      await saveLocalSnapshot(payload);
+      const restored = await loadLocalSnapshot();
+      return restored.devices[0].manualData.length;
+    });
+    if (largeSaveCheck < 5 * 1024 * 1024) {
+      throw new Error('IndexedDB did not preserve the large PDF-like payload.');
+    }
+
     if (pageErrors.length) throw new Error('Browser errors: ' + pageErrors.join(' | '));
     console.log('Settings UI tests: all checks passed.');
   } finally {
