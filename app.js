@@ -98,13 +98,13 @@ const $=s=>document.querySelector(s), esc=s=>String(s??"").replace(/[&<>"']/g,c=
 const now=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}, id=()=>crypto.randomUUID?.()||String(Date.now()+Math.random());
 function entryDateTimeValue(entry){
  const raw=String(entry?.date||'').trim();
- let year,month,day,match=raw.match(/^(\\d{4})-(\\d{1,2})-(\\d{1,2})$/);
+ let year,month,day,match=raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
  if(match){year=+match[1];month=+match[2];day=+match[3]}
- else if((match=raw.match(/^(\\d{1,2})[.\\/-](\\d{1,2})[.\\/-](\\d{4})$/))){day=+match[1];month=+match[2];year=+match[3]}
+ else if((match=raw.match(/^(\d{1,2})[.\\/-](\d{1,2})[.\\/-](\d{4})$/))){day=+match[1];month=+match[2];year=+match[3]}
  else {const parsed=Date.parse(raw);if(Number.isFinite(parsed)){const d=new Date(parsed);year=d.getFullYear();month=d.getMonth()+1;day=d.getDate()}}
  if(!year||month<1||month>12||day<1||day>31)return Number.NEGATIVE_INFINITY;
  const time=String(entry?.time||'').trim();
- const tm=time.match(/^(\\d{1,2}):(\\d{2})(?::(\\d{2}))?$/);
+ const tm=time.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
  const hour=tm?Math.min(23,+tm[1]):0,minute=tm?Math.min(59,+tm[2]):0,second=tm?Math.min(59,+(tm[3]||0)):0;
  return Date.UTC(year,month-1,day,hour,minute,second);
 }
