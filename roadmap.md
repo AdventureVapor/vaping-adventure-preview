@@ -987,6 +987,7 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [x] Zweistufiger Ablauf ergänzt: vollständiges JSON-Backup aus dem entschlüsselten bisherigen Cloud-Spielstand erstellen, danach separate ausdrückliche Bestätigung vor dem Migrationsstart
 - [x] Vor jeder Übertragung alle sieben Gruppen lesen und vergleichen; bereits identische Gruppen werden übersprungen
 - [x] Vorhandene, aber abweichende Gruppen lösen einen vollständigen Sicherheitsstopp aus und werden nicht automatisch überschrieben
+- [x] Zusätzlicher atomarer Schutz: neu anzulegende Gruppen werden mit erwarteter Revision 0 geschrieben; wird zwischen Vorprüfung und Schreibvorgang ein Datensatz angelegt, verhindert der Versionskonflikt ein Überschreiben
 - [x] Fehlende Gruppen einzeln clientseitig mit AES-GCM verschlüsseln, schreiben und durch erneutes Lesen/Entschlüsseln verifizieren
 - [x] Abschließenden Vergleich aller sieben Gruppen nach der Übertragung ergänzen
 - [x] Legacy-Spielstand bleibt unangetastet; keine automatische Löschung, Umschaltung oder Migration von Produktionsdaten
