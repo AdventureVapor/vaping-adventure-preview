@@ -861,8 +861,22 @@ function controlledVapingStep(v,n){
  };
  const t=(titles[lang]||titles.de)[n-1];
  const nav=lang==='en'?{back:'← Programme overview',prev:'← Previous',next:'Next →'}:lang==='fr'?{back:'← Aperçu du programme',prev:'← Précédent',next:'Suivant →'}:{back:'← Programmübersicht',prev:'← Zurück',next:'Weiter →'};
- v.innerHTML=header('KONTROLLIERT VAPEN','Schritt '+n+': '+t,'12-Schritte-Programm','')+
+ const fourLang=lang==='en'?{left:'Continue consuming as before',right:'Change consumption',adv:'Advantage',dis:'Disadvantage',save:'Save answers',saved:'Your answers have been saved.',hint:'You can edit your answers at any time and save them again.'}:lang==='fr'?{left:'Continuer comme avant',right:'Changer sa consommation',adv:'Avantage',dis:'Inconvénient',save:'Enregistrer les réponses',saved:'Vos réponses ont été enregistrées.',hint:'Vous pouvez modifier vos réponses à tout moment et les enregistrer à nouveau.'}:{left:'Weiter konsumieren wie bisher',right:'Konsum ändern',adv:'Vorteil',dis:'Nachteil',save:'Antworten speichern',saved:'Deine Antworten wurden gespeichert.',hint:'Du kannst deine Antworten jederzeit ändern und erneut speichern.'};
+ const saved=db.controlledVaping?.step2FourField||{};
+ const fields=[['continueAdv',fourLang.left,fourLang.adv],['changeAdv',fourLang.right,fourLang.adv],['continueDis',fourLang.left,fourLang.dis],['changeDis',fourLang.right,fourLang.dis]];
+ const table=n===2?'<section class="card" style="max-width:1000px;margin:24px auto"><h2 style="margin-top:0">'+(lang==='en'?'Pros and cons of change':lang==='fr'?'Avantages et inconvénients du changement':'Pro / Kontra Veränderung')+'</h2><p class="muted">'+fourLang.hint+'</p><div class="cv-four-grid">'+fields.map(([key,col,row])=>'<label class="cv-four-cell"><span class="cv-four-col">'+col+'</span><strong>'+row+'</strong><textarea class="field" rows="5" maxlength="5000" data-cv-four="'+key+'" placeholder="'+(lang==='en'?'Write your thoughts here…':lang==='fr'?'Écrivez vos réflexions ici…':'Hier deine Gedanken eintragen …')+'">'+esc(saved[key]||'')+'</textarea></label>').join('')+'</div><div class="row" style="justify-content:flex-end;margin-top:16px"><button type="button" class="btn primary" id="cv-four-save">'+fourLang.save+'</button></div></section>' : '';
+ v.innerHTML=header('KONTROLLIERT VAPEN','Schritt '+n+': '+t,'12-Schritte-Programm','')+table+
  '<div class="row mobile-stack" style="max-width:900px;margin:24px auto;justify-content:space-between;gap:10px"><button class="btn soft" data-page="controlledVaping">'+nav.back+'</button><div class="row" style="gap:8px">'+(n>1?'<button class="btn" data-page="cvStep'+(n-1)+'">'+nav.prev+'</button>':'')+(n<12?'<button class="btn primary" data-page="cvStep'+(n+1)+'">'+nav.next+'</button>':'')+'</div></div>';
+ if(n===2){
+  const saveButton=v.querySelector('#cv-four-save');
+  saveButton?.addEventListener('click',()=>{
+   db.controlledVaping ||= {};
+   db.controlledVaping.step2FourField={};
+   v.querySelectorAll('[data-cv-four]').forEach(field=>{db.controlledVaping.step2FourField[field.dataset.cvFour]=field.value.trim()});
+   put();
+   toast(fourLang.saved);
+  });
+ }
 }
 function controlledVaping(v){
  const lang=window.MVA_I18N?.getLanguage?.()||'de';
