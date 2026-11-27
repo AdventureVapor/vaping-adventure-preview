@@ -7,6 +7,18 @@
 Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowie noch offene Prüfungen. Ein Häkchen bedeutet, dass die Funktion umgesetzt und – soweit sinnvoll – erfolgreich geprüft wurde.
 
 
+## Version 1.6 – My Vaping Adventure Forum
+
+**Ziel:** Das Forum beginnt bewusst klein und wird in überschaubaren Schritten erweitert.
+
+- [x] Erste Forum-Oberfläche in Preview vorbereitet: drei Startbereiche, öffentliche Themenübersicht und Formular für angemeldete Cloud-Mitglieder
+- [x] Neue Themen werden mit Status „pending“ eingereicht und erst nach Moderationsfreigabe veröffentlicht
+- [x] Deutsch, Englisch und Französisch sowie responsive Grundgestaltung ergänzt
+- [ ] Supabase-Datenbankschema und Row Level Security mit der SQL-Migration einrichten
+- [ ] Moderation und Sichtbarkeit nach Freigabe praktisch testen
+- [ ] Antworten, Themen-Detailansicht, Nickname-/Profilbild-Anbindung und Moderationsoberfläche ergänzen
+- [ ] Eigene Beiträge bearbeiten/löschen, Suche, Reaktionen, Benachrichtigungen und private Nachrichten erst in späteren Ausbaustufen prüfen
+
 ## Releaseplanung Version 1.4
 
 Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases werden ausschließlich in Preview vorbereitet, getestet und erst nach ausdrücklicher Freigabe in Produktion übernommen.
