@@ -980,3 +980,19 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [x] Ursache des fehlgeschlagenen Nur-Lese-Abgleichs gefunden: Das Login löscht das Kennwort nach erfolgreicher Anmeldung, während der spätere Audit erneut eine Schlüsselableitung aus diesem leeren Kennwort versuchte.
 - [x] Entschlüsselung für Legacy-Spielstände und verschlüsselte Umschläge so angepasst, dass ein bereits für denselben Salt/Umschlag abgeleiteter Sitzungsschlüssel wiederverwendet wird; das Kennwort muss nicht im Speicher verbleiben.
 - [ ] Regressionstest im Preview: Datengruppenabgleich nach regulärer Anmeldung für Legacy- und Umschlag-Format.
+
+
+## 11. Sichere Übernahme der sieben Cloud-Datengruppen – Preview
+
+- [x] Zweistufiger Ablauf ergänzt: vollständiges JSON-Backup aus dem entschlüsselten bisherigen Cloud-Spielstand erstellen, danach separate ausdrückliche Bestätigung vor dem Migrationsstart
+- [x] Vor jeder Übertragung alle sieben Gruppen lesen und vergleichen; bereits identische Gruppen werden übersprungen
+- [x] Vorhandene, aber abweichende Gruppen lösen einen vollständigen Sicherheitsstopp aus und werden nicht automatisch überschrieben
+- [x] Zusätzlicher atomarer Schutz: neu anzulegende Gruppen werden mit erwarteter Revision 0 geschrieben; wird zwischen Vorprüfung und Schreibvorgang ein Datensatz angelegt, verhindert der Versionskonflikt ein Überschreiben
+- [x] Fehlende Gruppen einzeln clientseitig mit AES-GCM verschlüsseln, schreiben und durch erneutes Lesen/Entschlüsseln verifizieren
+- [x] Abschließenden Vergleich aller sieben Gruppen nach der Übertragung ergänzen
+- [x] Legacy-Spielstand bleibt unangetastet; keine automatische Löschung, Umschaltung oder Migration von Produktionsdaten
+- [x] Migration wird blockiert, solange eingebettete Foto-/PDF-Dateien oder ungültige Medienangaben im Spielstand gefunden werden; Medien müssen zuerst separat verifiziert migriert werden
+- [ ] Preview-Praxistest mit dem bestehenden Benutzerkonto und vollständigem JSON-Backup durchführen
+- [ ] Medienmigration separat implementieren und testen, bevor die sieben Gruppen mit eingebetteten Medien migriert werden
+- [ ] Konfliktfall, Abbruch während einer Gruppe, Read-back und erneuter Start testen
+- [ ] Erst nach vollständiger QA und ausdrücklicher Nutzerfreigabe die neue Datengruppen-Speicherung aktivieren; Legacy bleibt bis dahin Rückfallquelle
