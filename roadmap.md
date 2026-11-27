@@ -955,3 +955,5 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 
 - Zusätzliche Sicherung: Der Migrations-Codec weist unbekannte Top-Level-Felder jetzt ausdrücklich zurück, statt sie beim Aufteilen stillschweigend zu verlieren. Ein entsprechender Negativtest wurde ergänzt.
 - Die SQL-Anleitung enthält nun auch die Aktualisierung der `data_type`-Constraint für bereits zuvor angelegte `mva_data`-Tabellen, damit `settings` dort zulässig ist.
+
+- Der Adapter für Datengruppen sendet jetzt bei jedem Lese- und Schreibaufruf explizit das Bearer-Token der angemeldeten Sitzung mit; Token-Erneuerung bleibt über `cloudFetch()` erhalten.
