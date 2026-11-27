@@ -111,6 +111,28 @@ async function run(){
   assert(unknownRejected,"Unbekanntes Zusatzfeld wurde stillschweigend verworfen");
   log("Unbekannte Zusatzfelder brechen die Migration sicher ab statt Daten zu verlieren");
 
+  assert(!!window.MVAEncryptedMedia,"Modul MVAEncryptedMedia fehlt");
+  const mediaObjects=new Map();let mediaUploads=0;
+  async function mediaRequest(path,options={}){
+   const method=String(options.method||"GET").toUpperCase();
+   if(method==="POST"){mediaUploads++;mediaObjects.set(path,options.body.slice(0));return new Response(null,{status:200})}
+   if(method==="GET"){if(!mediaObjects.has(path))return new Response("Nicht gefunden",{status:404});return new Response(mediaObjects.get(path),{status:200})}
+   if(method==="DELETE"){mediaObjects.delete(path);return new Response(null,{status:200})}
+   return new Response("Methode nicht erlaubt",{status:405});
+  }
+  const media=window.MVAEncryptedMedia.create({url:"https://mock.invalid",apiKey:"test-api-key",userId,key,request:mediaRequest});
+  const pdfOriginal=new Blob(["PDF-Testinhalt – Anleitung"],{type:"application/pdf"});
+  const pdfRef=await media.uploadVerified(pdfOriginal,{kind:"pdf",name:"Anleitung.pdf",mime:"application/pdf"});
+  assert(mediaUploads===1&&pdfRef.kind==="pdf","PDF wurde nicht genau einmal hochgeladen");
+  const samePdfRef=await media.sync(new Blob(["PDF-Testinhalt – Anleitung"],{type:"application/pdf"}),pdfRef,{kind:"pdf",name:"Anleitung.pdf",mime:"application/pdf"});
+  assert(samePdfRef.path===pdfRef.path&&mediaUploads===1,"Identische PDF wurde erneut hochgeladen statt wiederverwendet");
+  log("Identische PDF-Anleitung wird bytegenau wiederverwendet – kein zweiter Upload");
+  const changedPdfRef=await media.sync(new Blob(["Geänderte PDF-Anleitung"],{type:"application/pdf"}),pdfRef,{kind:"pdf",name:"Anleitung.pdf",mime:"application/pdf"});
+  assert(changedPdfRef.path!==pdfRef.path&&mediaUploads===2,"Geänderte PDF hat keinen neuen Upload ausgelöst");
+  const checkedPdf=await media.download(changedPdfRef);
+  assert(await checkedPdf.text()==="Geänderte PDF-Anleitung","Geänderte PDF konnte nach Upload nicht bytegenau zurückgelesen werden");
+  log("Geänderte PDF erhält neue Medienreferenz und wird nach Upload bytegenau verifiziert");
+
   out.textContent+="\nERGEBNIS: Alle simulierten Tests bestanden. Kein Supabase-Test.";
  }catch(e){
   out.textContent+="\nFEHLER: "+(e.stack||e.message||e);
