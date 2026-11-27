@@ -17,6 +17,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 
 - [x] Zehn Designs (Original, Forest & Nature, Ocean Blue, Sunset, Midnight, Sakura, Graphite, Lavender, Desert und Aurora), responsive Oberflächenverbesserungen und französische App-Sprache in Preview umgesetzt
 - [x] Gästebuch mit Einreichung und Moderationsablauf in Preview umgesetzt
+- [x] Mehrsprachigen festen Willkommenstext für das Gästebuch (Deutsch, Englisch und Französisch) ergänzt und in Preview `main` gemergt (PR #108); vorhandene Gästebucheinträge bleiben unverändert
 - [x] Lernkurse und mehrsprachige Kursinhalte in Preview ergänzt
 - [x] Originalfassung „My Vaping Education – Grundlagen“ mit sieben ausführlichen Lektionen, technischen SVG-Illustrationen, Tabellen und zehn Quizfragen in Preview integriert; bestehende Kurs-ID und gespeicherte Fortschritte bleiben erhalten
 - [x] Kontaktbereich und mehrsprachiges Kontaktformular als `mailto:`-Basisversion umgesetzt
@@ -372,6 +373,8 @@ Die Entwicklung von Version 1.4 erfolgt ausschließlich im Preview-Projekt. Die 
 - [x] Neue Einträge werden zunächst zurückgehalten und müssen moderiert/freigegeben werden
 - [x] Moderation und Löschen über das Supabase-Dashboard möglich
 - [x] Öffentliche Ansicht und Einreichungsablauf vom Nutzer praktisch geprüft
+- [x] Begrüßungs-/Einführungstext oberhalb der Gästebucheinträge ergänzt; Übersetzungen für Deutsch, Englisch und Französisch hinterlegt (PR #108)
+- [ ] Neuen Willkommenstext nach Aktualisierung der Preview auf iPhone und Desktop auf Darstellung und Sprachwechsel prüfen
 
 ### 3. Französische Sprache – umgesetzt
 
