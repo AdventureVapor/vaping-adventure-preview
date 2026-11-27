@@ -131,6 +131,27 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Vollständige Sprachprüfung DE/EN/FR nach Abschluss der neuen Funktionen wiederholen
 - [ ] Installierbare PWA für Windows-PC und iPhone umsetzen und auf beiden Plattformen testen
 
+### Intelligente Cloud-Synchronisierung – 1.4.2 (in Entwicklung)
+
+**Ziel:** Nur tatsächlich neue oder geänderte Daten übertragen. Unveränderte Datengruppen und identische große Dateien sollen nicht erneut hochgeladen werden. Bestehende Daten bleiben während Entwicklung und Migration unangetastet.
+
+- [x] Konzept festgelegt: vor dem Speichern lokalen und entschlüsselten Cloud-Stand vergleichen; nur Unterschiede übertragen
+- [x] PR #100 angelegt: vollständigen verschlüsselten Spielstand vor Upload vergleichen und identische Stände ohne erneuten Upload überspringen
+- [x] PR #100 ergänzt: Medienmodul kann eine bestehende Medienreferenz bytegenau vergleichen und bei Gleichheit wiederverwenden
+- [x] Getrenntes Datengruppen-Modul um `sync(type, value)` erweitert: zuerst entschlüsselt lesen und vergleichen, bei identischem Inhalt keine neue Revision schreiben
+- [x] Isolierten Browser-Test um Fälle „unverändert“ (kein Schreibaufruf) und „geändert“ (neue Revision) ergänzt
+- [ ] Browser-Testseite `tests/cloud-data-test.html` ausführen und alle Tests praktisch bestätigen
+- [ ] Medienvergleich mit simulierten identischen und geänderten Dateien testen; Upload-Zähler und Byte-Prüfung kontrollieren
+- [ ] Datengruppen-Synchronisierung gegen Backend-RPC `mva_write_data` im separaten Testprojekt prüfen; Versionskonflikte und Timeout nach Commit testen
+- [ ] Bestehenden vollständigen Cloud-Spielstand zunächst nur lesend analysieren; keine automatische Migration und kein Löschen
+- [ ] Medien- und Datengruppen-Synchronisierung in Galerie, Geräte, PDF-Anleitungen und Tagebuch schrittweise integrieren
+- [ ] Rückwärtskompatibilität für bestehende Data-URLs und bisherige `mva_saves`-Spielstände sicherstellen
+- [ ] JSON-Backup/Import einschließlich aller Medien bytegenau testen
+- [ ] Zwei-Konten-Isolation sowie Synchronisierung zwischen iPhone und Desktop prüfen
+- [ ] Erst nach erfolgreicher QA und ausdrücklicher Freigabe den neuen Speicherweg aktivieren
+
+**Sicherheitsregel:** Ein fehlgeschlagener Cloud-Lesevorgang darf niemals als „keine Daten vorhanden“ behandelt werden. Bei unklarem Cloud-Stand wird abgebrochen statt überschrieben. Die neue Datengruppen-API ist weiterhin nicht mit dem App-Speicherablauf verbunden; die bestehende Speicherung bleibt aktiv.
+
 ### Datenmenge und Cloud-Speicherung – 1.4.2
 - [x] Datenmodell geprüft: Eine gemeinsame Material-Sammlung mit Kategorie statt sechs getrennten Sammlungen verwenden
 - [x] Tagebucheinträge um eine kompakte Material-ID-Referenz ergänzen; der Materialname bleibt als kleine historische Momentaufnahme erhalten
