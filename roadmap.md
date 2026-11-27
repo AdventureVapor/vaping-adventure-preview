@@ -957,3 +957,5 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - Die SQL-Anleitung enthält nun auch die Aktualisierung der `data_type`-Constraint für bereits zuvor angelegte `mva_data`-Tabellen, damit `settings` dort zulässig ist.
 
 - Der Adapter für Datengruppen sendet jetzt bei jedem Lese- und Schreibaufruf explizit das Bearer-Token der angemeldeten Sitzung mit; Token-Erneuerung bleibt über `cloudFetch()` erhalten.
+
+- CI-Erstlauf: PostgreSQL-RPC-, Compare-and-Swap- und RLS-Tests erfolgreich. Browserlauf stoppte an einer fehlerhaften Test-Erwartung (der Konflikttest verglich mit dem ursprünglichen statt dem zuletzt gespeicherten Inhalt); diese Erwartung wurde korrigiert. Ein erneuter Lauf auf dem korrigierten Commit steht noch aus.
