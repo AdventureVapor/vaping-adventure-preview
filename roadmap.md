@@ -1022,3 +1022,15 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [ ] Erst nach erfolgreichem Preview-Test und ausdrücklicher Freigabe den PR mergen. Production bleibt unberührt.
 
 Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielstand noch die sieben Datengruppen. Die Gruppen werden erst danach und weiterhin mit Revision-0-Schutz angelegt. Ein Abbruch nach einzelnen erfolgreichen Uploads kann nicht referenzierte, verschlüsselte Objekte im privaten Bucket hinterlassen; diese werden aus Sicherheitsgründen nicht automatisch gelöscht.
+
+
+## Kontrolliert Vapen – Schritt 3: Bilanz ziehen
+
+- [x] Schritt 3 um eine kategoriespezifische Checkliste zur Bilanz des Vapingkonsums ergänzt.
+- [x] Fragen (a) und (b): Anzahl der Sessions der vergangenen Woche und Sessions am stärksten Konsumtag als Zahlenfelder.
+- [x] Fragen (c) und (d): Ja-/Nein-Kästchen; bei (c) zusätzlich Anzahl vapingfreier Tage sowie ein Textfeld zur Erklärung, bei (d) ein Textfeld zu den Gründen.
+- [x] Fragen (e), (f) und (g): eigene mehrzeilige Antwortfelder.
+- [x] Fragen und Antworten werden je aktiver Konsumkategorie getrennt angezeigt und gespeichert; Antworten können später bearbeitet und erneut gespeichert werden.
+- [x] Speicherung über den bestehenden Spielstand und die vorhandene lokale-/Cloud-Speicherlogik; Übersetzungen für Deutsch, Englisch und Französisch ergänzt.
+- [ ] Praxistest im Preview: alle Felder ausfüllen, speichern, Schritt verlassen, erneut öffnen und Werte kontrollieren; zusätzlich Ja/Nein-Auswahl und Cloud-Synchronisierung prüfen.
+
