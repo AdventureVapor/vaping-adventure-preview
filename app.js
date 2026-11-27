@@ -841,7 +841,8 @@ function photoForm(){const t=localeText;openModal(t('photo.add'),`<div class="fo
 
 
 function plantCatalog(v){
- const rows=window.MVA_PLANT_CATALOG||[];
+ // Die Tabelle wird nach dem deutschen Pflanzennamen (erste Spalte) sortiert – nicht nach botanischer Bezeichnung oder Temperatur.
+ const rows=[...(window.MVA_PLANT_CATALOG||[])].sort((a,b)=>String(a[0]||'').localeCompare(String(b[0]||''),'de',{sensitivity:'base'}));
  v.innerHTML=`${header('PFLANZENWISSEN','Pflanzen & Kräuter','Temperaturübersicht aus der bereitgestellten PDF – vollständig als durchsuchbare Tabelle übertragen.','')}
  <div class="card plant-intro"><span class="pill">QUELLENÜBERTRAGUNG</span><p>${esc(window.MVA_PLANT_CATALOG_NOTICE||'')}</p><p class="tagline">Hinweis: Die nachfolgenden Angaben geben den Inhalt der bereitgestellten Vorlage wieder und sind keine medizinische Empfehlung oder Anleitung zur Anwendung.</p></div>
  <div class="row mobile-stack plant-tools"><div><h3>Vaporisierbare Pflanzen</h3><p class="subheading">${rows.length} Einträge · Originalspalten beibehalten</p></div><input class="field" id="plant-search" type="search" placeholder="Pflanze, botanischer Name oder Wirkung suchen…" aria-label="Pflanzentabelle durchsuchen"></div>
