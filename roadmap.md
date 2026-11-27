@@ -1051,3 +1051,11 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Speicherung über den bestehenden Spielstand und die vorhandene lokale-/Cloud-Speicherlogik; Übersetzungen für Deutsch, Englisch und Französisch ergänzt.
 - [ ] Praxistest im Preview: alle Felder ausfüllen, speichern, Schritt verlassen, erneut öffnen und Werte kontrollieren; zusätzlich Ja/Nein-Auswahl und Cloud-Synchronisierung prüfen.
 
+
+
+### 1.4.2 – Ursachenanalyse der abweichenden Datengruppen
+- [x] Nur-Lese-Abgleich um eine datensparsame Detaildiagnose erweitert: Gruppengrößen und erste abweichende Feldpfade werden angezeigt, ohne Dateninhalte offenzulegen.
+- [x] Diagnose verändert weder Legacy-Spielstand noch getrennte Datengruppen; keine Upload-, Schreib- oder Löschoperationen.
+- [x] App-Cachekennung aktualisiert; JavaScript-Syntax lokal geprüft.
+- [ ] Detailergebnis mit dem bestehenden Benutzerkonto in der Preview ausführen und die Abweichungspfade auswerten.
+- [ ] Erst danach konkrete Ursache beheben und den Nur-Lese-Abgleich erneut ausführen.
