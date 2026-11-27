@@ -1038,7 +1038,12 @@ async function runCloudGroupsAudit(){
  try{
   const legacyPayload=await cloudRead();
   if(!legacyPayload)throw Error('Kein bisheriger Cloud-Spielstand gefunden.');
-  const legacySnapshot=await decryptCloud(legacyPayload);
+  let legacySnapshot;
+  try{
+   legacySnapshot=await decryptCloud(legacyPayload);
+  }catch(error){
+   throw Error('Entschlüsselung des bisherigen Cloud-Spielstands fehlgeschlagen: '+(error?.message||'Unbekannter Fehler'));
+  }
   const records=await createCloudDataAccess().readAll();
   const report=window.MVACloudMigrationCodec.compare(legacySnapshot,records);
   if(report.existingCount===0){
