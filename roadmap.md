@@ -945,3 +945,10 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [x] Vorhandene unbekannte Kategorieangaben beim Bearbeiten als übernommene Altangabe erhalten, bis eine neue Kategorie gewählt wird.
 - [ ] Kategorienabhängige Formularfelder und Sammlungs-/Materialtypen im nächsten Schritt ergänzen.
 - [ ] Bestehende Einträge prüfen und Kategoriezuordnung auf PC und iPhone testen.
+
+
+### Ergänzung: App-Einstellungen als eigene Datengruppe
+- Bei der Prüfung der tatsächlichen `app.js`-Nutzung wurde zusätzlich `db.settings` gefunden (u. a. benutzerdefinierte Vaping-Kategorien).
+- Die neue Gruppenstruktur wurde deshalb von sechs auf sieben Gruppen erweitert: `settings` wird separat verschlüsselt und synchronisiert.
+- Codec, Datengruppen-Modul, SQL-Einrichtungsanleitung und isolierte Tests wurden entsprechend angepasst.
+- Die Live-App bleibt weiterhin auf dem bisherigen Legacy-Speicher; Migration und Aktivierung sind nicht erfolgt.
