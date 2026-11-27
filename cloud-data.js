@@ -4,7 +4,7 @@
  */
 (function(){
   "use strict";
-  const TYPES=Object.freeze(["entries","devices","strains","photos","game","controlledVaping"]);
+  const TYPES=Object.freeze(["entries","devices","strains","photos","game","controlledVaping","settings"]);
   const enc=new TextEncoder(), dec=new TextDecoder();
   const b64=bytes=>{let s="";const a=new Uint8Array(bytes);for(let i=0;i<a.length;i+=0x8000)s+=String.fromCharCode(...a.subarray(i,i+0x8000));return btoa(s)};
   const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
