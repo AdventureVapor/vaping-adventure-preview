@@ -952,3 +952,6 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - Die neue Gruppenstruktur wurde deshalb von sechs auf sieben Gruppen erweitert: `settings` wird separat verschlüsselt und synchronisiert.
 - Codec, Datengruppen-Modul, SQL-Einrichtungsanleitung und isolierte Tests wurden entsprechend angepasst.
 - Die Live-App bleibt weiterhin auf dem bisherigen Legacy-Speicher; Migration und Aktivierung sind nicht erfolgt.
+
+- Zusätzliche Sicherung: Der Migrations-Codec weist unbekannte Top-Level-Felder jetzt ausdrücklich zurück, statt sie beim Aufteilen stillschweigend zu verlieren. Ein entsprechender Negativtest wurde ergänzt.
+- Die SQL-Anleitung enthält nun auch die Aktualisierung der `data_type`-Constraint für bereits zuvor angelegte `mva_data`-Tabellen, damit `settings` dort zulässig ist.
