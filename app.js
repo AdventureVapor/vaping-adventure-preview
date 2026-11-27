@@ -1091,10 +1091,19 @@ async function runCloudGroupsMigration(){
    cloudMigrationBackupReady=false;cloudMigrationBackupLegacySnapshot=null;
    throw Error('Der bisherige Cloud-Spielstand hat sich seit dem Backup geändert. Bitte zuerst ein neues Backup erstellen.');
   }
-  const expected=window.MVACloudMigrationCodec.split(legacy);
-  const media=await window.MVACloudMigration.audit(legacy);
+  let media=await window.MVACloudMigration.audit(legacy);
   if(media.invalidMediaCount>0)throw Error('Das Backup enthält '+media.invalidMediaCount+' ungültige Medienangabe(n). Bitte zuerst den Medienbestand prüfen.');
-  if(media.inlineMediaCount>0)throw Error('Der Spielstand enthält noch '+media.inlineMediaCount+' eingebettete Foto-/PDF-Datei(en). Diese müssen zuerst separat verschlüsselt in den Medienspeicher übertragen und verifiziert werden. Es wurde noch keine Datengruppe geschrieben.');
+  if(media.inlineMediaCount>0){
+   if(!window.MVACloudMediaMigration?.migrate)throw Error('Das Medienmigrationsmodul wurde nicht geladen. Es wurde noch nichts übertragen.');
+   result.textContent=media.inlineMediaCount+' eingebettete Foto-/PDF-Datei(en) werden jetzt einzeln clientseitig verschlüsselt hochgeladen und durch entschlüsseltes Zurücklesen geprüft …';
+   const mediaAccess=createCloudMediaResolver();
+   const migrated=await window.MVACloudMediaMigration.migrate(legacy,(blob,options)=>mediaAccess.media.uploadVerified(blob,options));
+   legacy=migrated.snapshot;
+   media=await window.MVACloudMigration.audit(legacy);
+   if(media.invalidMediaCount>0||media.inlineMediaCount>0)throw Error('Nach dem Medienupload sind noch '+media.inlineMediaCount+' eingebettete und '+media.invalidMediaCount+' ungültige Medienangabe(n) vorhanden. Datengruppen werden nicht geschrieben.');
+   result.textContent=migrated.stats.uploadedCount+' Mediendatei(en) verschlüsselt hochgeladen und verifiziert; '+migrated.stats.reusedCount+' byteidentische Datei(en) wiederverwendet. Die Datengruppen werden jetzt geprüft …';
+  }
+  const expected=window.MVACloudMigrationCodec.split(legacy);
   const access=createCloudDataAccess();
   const before=await access.readAll();
   const comparison=window.MVACloudMigrationCodec.compare(legacy,before);
