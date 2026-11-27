@@ -3,7 +3,7 @@
  */
 (function(){
 "use strict";
-const TYPES=Object.freeze(["entries","devices","strains","photos","game","controlledVaping"]);
+const TYPES=Object.freeze(["entries","devices","strains","photos","game","controlledVaping","settings"]);
 const clone=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
 function split(db){
  if(!db||typeof db!=="object"||Array.isArray(db))throw Error("Ungültiger Spielstand für die Cloud-Aufteilung.");
@@ -16,9 +16,9 @@ function split(db){
   }else if(type==="game"){
    if(value!==undefined&&(!value||typeof value!=="object"||Array.isArray(value)))throw Error("Ungültige Datengruppe: game");
    result.game=clone(value===undefined?{xp:0,coins:0,quests:[],courses:{}}:value);
-  }else{
-   if(value!==undefined&&(!value||typeof value!=="object"||Array.isArray(value)))throw Error("Ungültige Datengruppe: controlledVaping");
-   result.controlledVaping=clone(value===undefined?{}:value);
+  }else if(type==="controlledVaping"||type==="settings"){
+   if(value!==undefined&&(!value||typeof value!=="object"||Array.isArray(value)))throw Error("Ungültige Datengruppe: "+type);
+   result[type]=clone(value===undefined?{}:value);
   }
  }
  return result;
@@ -32,7 +32,7 @@ function join(groups){
   if(value===null||value===undefined){
    if(type==="entries"||type==="devices"||type==="strains"||type==="photos")result[type]=[];
    else if(type==="game")result.game={xp:0,coins:0,quests:[],courses:{}};
-   else result.controlledVaping={};
+   else result[type]={};
    continue;
   }
   if(type==="entries"||type==="devices"||type==="strains"||type==="photos"){
