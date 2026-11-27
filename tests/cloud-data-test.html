@@ -18,7 +18,7 @@ pre{white-space:pre-wrap;background:#080d0a;padding:16px;border-radius:10px;min-
 <p>Getestet werden Verschlüsselung, Lesen/Schreiben, parallele Änderungen, mehrdeutige Netzwerkfehler und die Bindung an Nutzerkennung.</p>
 <button id="run">Tests starten</button>
 <pre id="out">Bereit. Bitte „Tests starten“ wählen.</pre>
-<script src="../cloud-data.js"></script><script src="../cloud-migration-codec.js"></script><script src="../cloud-media.js"></script>
+<script src="../cloud-data.js"></script><script src="../cloud-migration-codec.js"></script><script src="../cloud-media.js"></script><script src="../cloud-migration.js"></script>
 <script>
 "use strict";
 const out=document.getElementById("out"),button=document.getElementById("run");
@@ -132,6 +132,19 @@ async function run(){
   const checkedPdf=await media.download(changedPdfRef);
   assert(await checkedPdf.text()==="Geänderte PDF-Anleitung","Geänderte PDF konnte nach Upload nicht bytegenau zurückgelesen werden");
   log("Geänderte PDF erhält neue Medienreferenz und wird nach Upload bytegenau verifiziert");
+
+  assert(!!window.MVACloudMigration?.audit,"Read-only-Migrationsprüfung fehlt");
+  const auditSample={photos:[{src:"data:image/png;base64,AQID"},{src:"data:image/png;base64,AQID"}],devices:[{photo:"data:image/png;base64,AQID",manualData:{v:1,storage:"supabase",path:"audit-user/manual.pdf",kind:"pdf",size:12}}]};
+  const audit=await window.MVACloudMigration.audit(auditSample);
+  assert(audit.readOnly===true&&audit.safeToMigrate===false,"Audit darf keine Migration freigeben");
+  assert(audit.inlineMediaCount===3&&audit.totalInlineBytes===9,"Data-URLs wurden nicht korrekt eingelesen oder vermessen");
+  assert(audit.existingCloudReferenceCount===1,"Vorhandene Cloud-Referenz wurde nicht erkannt");
+  assert(audit.duplicateGroups.length===1&&audit.duplicateGroups[0].count===3,"Identische Medien wurden nicht anhand des SHA-256-Hashes gruppiert");
+  assert(audit.invalidMediaCount===0,"Gültige Base64-Data-URLs wurden fälschlich als ungültig erkannt");
+  log("Read-only-Bestandsprüfung erkennt Data-URLs, Dateigrößen, Cloud-Referenzen und byteidentische Duplikate");
+  const invalidAudit=await window.MVACloudMigration.audit({photos:[{src:"data:image/png;base64,%%%"}]});
+  assert(invalidAudit.invalidMediaCount===1,"Ungültige Data-URL wurde nicht gemeldet");
+  log("Ungültige Medienangaben werden gemeldet statt stillschweigend ignoriert");
 
   out.textContent+="\nERGEBNIS: Alle simulierten Tests bestanden. Kein Supabase-Test.";
  }catch(e){
