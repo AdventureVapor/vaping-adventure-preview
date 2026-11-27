@@ -917,17 +917,79 @@ function controlledVapingStep(v,n){
  const fourLang=lang==='en'?{left:'Continue consuming as before',right:'Change consumption',adv:'Advantage',dis:'Disadvantage',save:'Save answers',saved:'Your answers have been saved.',hint:'You can edit your answers at any time and save them again.'}:lang==='fr'?{left:'Continuer comme avant',right:'Changer sa consommation',adv:'Avantage',dis:'Inconvénient',save:'Enregistrer les réponses',saved:'Vos réponses ont été enregistrées.',hint:'Vous pouvez modifier vos réponses à tout moment et les enregistrer à nouveau.'}:{left:'Weiter konsumieren wie bisher',right:'Konsum ändern',adv:'Vorteil',dis:'Nachteil',save:'Antworten speichern',saved:'Deine Antworten wurden gespeichert.',hint:'Du kannst deine Antworten jederzeit ändern und erneut speichern.'};
  const saved=db.controlledVaping?.step2FourField||{};
  const fields=[['continueAdv',fourLang.left,fourLang.adv],['changeAdv',fourLang.right,fourLang.adv],['continueDis',fourLang.left,fourLang.dis],['changeDis',fourLang.right,fourLang.dis]];
- const table=n===2?'<section class="card" style="max-width:1000px;margin:24px auto"><h2 style="margin-top:0">'+(lang==='en'?'Pros and cons of change':lang==='fr'?'Avantages et inconvénients du changement':'Pro / Kontra Veränderung')+'</h2><p class="muted">'+fourLang.hint+'</p><div class="cv-four-grid">'+fields.map(([key,col,row])=>'<label class="cv-four-cell"><span class="cv-four-col">'+col+'</span><strong>'+row+'</strong><textarea class="field" rows="5" maxlength="5000" data-cv-four="'+key+'" placeholder="'+(lang==='en'?'Write your thoughts here…':lang==='fr'?'Écrivez vos réflexions ici…':'Hier deine Gedanken eintragen …')+'">'+esc(saved[key]||'')+'</textarea></label>').join('')+'</div><div class="row" style="justify-content:flex-end;margin-top:16px"><button type="button" class="btn primary" id="cv-four-save">'+fourLang.save+'</button></div></section>' : '';
- v.innerHTML=header('KONTROLLIERT VAPEN','Schritt '+n+': '+t,'12-Schritte-Programm','')+table+
+ const table=n===2?'<section class="card cv-step-card"><h2>'+(lang==='en'?'Pros and cons of change':lang==='fr'?'Avantages et inconvénients du changement':'Pro / Kontra Veränderung')+'</h2><p class="muted">'+fourLang.hint+'</p><div class="cv-four-grid">'+fields.map(([key,col,row])=>'<label class="cv-four-cell"><span class="cv-four-col">'+col+'</span><strong>'+row+'</strong><textarea class="field" rows="5" maxlength="5000" data-cv-four="'+key+'" placeholder="'+(lang==='en'?'Write your thoughts here…':lang==='fr'?'Écrivez vos réflexions ici…':'Hier deine Gedanken eintragen …')+'">'+esc(saved[key]||'')+'</textarea></label>').join('')+'</div><div class="row" style="justify-content:flex-end;margin-top:16px"><button type="button" class="btn primary" id="cv-four-save">'+fourLang.save+'</button></div></section>' : '';
+ let balance='';
+ if(n===3){
+  const copy=lang==='en'?{
+   intro:'You have now recorded your current vaping consumption in your vaping diary. If you have documented your sessions for at least seven days, you can take stock for the first time. The following questions will help you.',
+   checklist:'Checklist: Review of my category consumption',save:'Save answers',saved:'Your balance sheet has been saved.',hint:'Complete the questions separately for each active category. You can edit and save your answers again at any time.',
+   a:'How many vaping sessions in this category did you have in total last week?',b:'How many sessions did you have on the day with the most sessions?',c:'Were there any days when you did not vape?',d:'Were there days when you vaped noticeably less?',e:'Were there times of day when you vaped particularly much or particularly little?',f:'Were there recurring triggers for vaping (e.g. certain people, withdrawal symptoms, low mood)?',g:'What experiences did you have while keeping the vaping diary? When did it go well? What made it easier?',
+   yes:'Yes',no:'No',days:'If yes: on how many days?',cwhy:'If yes, how did you manage not to vape every day? If no, what was the reason there were no vape-free days?',
+   dwhy:'If yes, what were the reasons?',number:'Number of sessions',placeholder:'Write your answer here…',category:'Category'
+  }:lang==='fr'?{
+   intro:'Vous avez maintenant consigné votre consommation actuelle dans votre journal de vapotage. Si vous avez documenté vos sessions pendant au moins sept jours, vous pouvez faire un premier bilan. Les questions suivantes vous aideront.',
+   checklist:'Liste de contrôle : bilan de ma consommation par catégorie',save:'Enregistrer les réponses',saved:'Votre bilan a été enregistré.',hint:'Répondez séparément pour chaque catégorie active. Vous pouvez modifier et enregistrer vos réponses à tout moment.',
+   a:'Combien de sessions de vapotage de cette catégorie avez-vous effectuées au total la semaine dernière ?',b:'Combien de sessions avez-vous effectuées le jour où vous en avez eu le plus ?',c:'Y a-t-il eu des jours sans vapotage ?',d:'Y a-t-il eu des jours où vous avez vapoté nettement moins ?',e:'Y a-t-il eu des moments de la journée où vous vapotiez particulièrement beaucoup ou peu ?',f:'Y avait-il des déclencheurs récurrents du vapotage (p. ex. certaines personnes, symptômes de manque, mauvaise humeur) ?',g:'Quelle expérience avez-vous faite en tenant le journal ? Quand cela s’est-il bien passé ? Qu’est-ce qui a facilité les choses ?',
+   yes:'Oui',no:'Non',days:'Si oui : combien de jours ?',cwhy:'Si oui, comment avez-vous réussi à ne pas vapoter tous les jours ? Si non, pourquoi n’y a-t-il pas eu de jour sans vapotage ?',
+   dwhy:'Si oui, quelles en étaient les raisons ?',number:'Nombre de sessions',placeholder:'Saisissez votre réponse ici…',category:'Catégorie'
+  }:{
+   intro:'Nun hast du deinen derzeitigen Vapingkonsum im Vaping-Tagebuch festgehalten. Wenn du deine Sessions mindestens sieben Tage lang größtenteils dokumentiert hast, kannst du eine erste Bilanz ziehen. Dabei helfen dir die folgenden Fragen.',
+   checklist:'Checkliste: Bilanz meines Kategorie-Konsums',save:'Antworten speichern',saved:'Deine Bilanz wurde gespeichert.',hint:'Beantworte die Fragen für jede aktive Kategorie getrennt. Du kannst deine Antworten jederzeit wieder öffnen, ändern und erneut speichern.',
+   a:'Wie viele Vaping-Sessions dieser Kategorie hattest du insgesamt in der vergangenen Woche?',b:'Wie viele Sessions hattest du an dem Tag mit den meisten Sessions?',c:'Gab es Tage, an denen du vapingfrei warst?',d:'Gab es Tage, an denen du deutlich weniger gevapet hast?',e:'Gab es Tageszeiten, zu denen du besonders viel oder besonders wenig gevapet hast?',f:'Gab es wiederkehrende Auslöser fürs Vapen (z. B. bestimmte Personen, Entzugserscheinungen oder schlechte Stimmung)?',g:'Welche Erfahrungen hast du beim Führen des Vaping-Tagebuchs gemacht? Wann ging es gut? Was hat es erleichtert?',
+   yes:'Ja',no:'Nein',days:'Falls ja: An wie vielen Tagen?',cwhy:'Falls ja: Wie hast du es geschafft, nicht täglich zu vapen? Falls nein: Woran lag es, dass es keinen vapingfreien Tag gab?',
+   dwhy:'Falls ja: Was waren die Gründe?',number:'Anzahl der Sessions',placeholder:'Hier deine Antwort eintragen …',category:'Kategorie'
+  };
+  const categoryNames={vaporizer:lang==='en'?'Vaporizer':lang==='fr'?'Vaporisateur':'Vaporizer',ecig:lang==='en'?'E-cigarette':lang==='fr'?'Cigarette électronique':'E-Zigarette',heater:lang==='en'?'Tobacco heater':lang==='fr'?'Tabac chauffé':'Tabakheater',cigarette:lang==='en'?'Cigarette':'Zigarette',joint:'Joint',bong:'Bong'};
+  const activeCategories=Object.keys(categoryNames).filter(isCategoryEnabled);
+  const answers=db.controlledVaping?.step3Balance||{};
+  const textarea=(cat,key,label,value)=>'<label class="cv-balance-field"><span>'+label+'</span><textarea class="field" rows="3" maxlength="5000" data-cv3-cat="'+cat+'" data-cv3-field="'+key+'" placeholder="'+copy.placeholder+'">'+esc(value||'')+'</textarea></label>';
+  const number=(cat,key,label,value)=>'<label class="cv-balance-field"><span>'+label+'</span><input class="field" type="number" min="0" step="1" inputmode="numeric" data-cv3-cat="'+cat+'" data-cv3-field="'+key+'" value="'+esc(value??'')+'" placeholder="0"></label>';
+  const choices=(cat,key,value)=>'<div class="cv-balance-choice" role="group" aria-label="'+(key==='c'?copy.c:copy.d)+'"><label><input type="checkbox" data-cv3-choice="'+key+'" data-cv3-cat="'+cat+'" value="yes" '+(value==='yes'?'checked':'')+'> '+copy.yes+'</label><label><input type="checkbox" data-cv3-choice="'+key+'" data-cv3-cat="'+cat+'" value="no" '+(value==='no'?'checked':'')+'> '+copy.no+'</label></div>';
+  balance='<section class="card cv-step-card"><p class="cv-balance-intro">'+copy.intro+'</p><h2>'+copy.checklist+'</h2><p class="muted">'+copy.hint+'</p>'+
+   (activeCategories.length?activeCategories.map(cat=>{
+    const data=answers[cat]||{};
+    return '<section class="cv-balance-category"><h3>'+copy.category+': '+categoryNames[cat]+'</h3>'+
+     '<div class="cv-balance-question"><h4>(a) '+copy.a+'</h4>'+number(cat,'a',copy.number,data.a)+'</div>'+
+     '<div class="cv-balance-question"><h4>(b) '+copy.b+'</h4>'+number(cat,'b',copy.number,data.b)+'</div>'+
+     '<div class="cv-balance-question"><h4>(c) '+copy.c+'</h4>'+choices(cat,'c',data.cChoice)+
+      '<label class="cv-balance-field"><span>'+copy.days+'</span><input class="field" type="number" min="0" max="7" step="1" inputmode="numeric" data-cv3-cat="'+cat+'" data-cv3-field="cDays" value="'+esc(data.cDays??'')+'" placeholder="0"></label>'+textarea(cat,'cWhy',copy.cwhy,data.cWhy)+'</div>'+
+     '<div class="cv-balance-question"><h4>(d) '+copy.d+'</h4>'+choices(cat,'d',data.dChoice)+textarea(cat,'dWhy',copy.dwhy,data.dWhy)+'</div>'+
+     '<div class="cv-balance-question"><h4>(e) '+copy.e+'</h4>'+textarea(cat,'e',copy.e,data.e)+'</div>'+
+     '<div class="cv-balance-question"><h4>(f) '+copy.f+'</h4>'+textarea(cat,'f',copy.f,data.f)+'</div>'+
+     '<div class="cv-balance-question"><h4>(g) '+copy.g+'</h4>'+textarea(cat,'g',copy.g,data.g)+'</div></section>';
+   }).join(''):'<p class="muted">'+(lang==='en'?'No categories are currently active.':lang==='fr'?'Aucune catégorie n’est actuellement active.':'Aktuell ist keine Konsumkategorie aktiviert.')+'</p>')+
+   '<div class="row" style="justify-content:flex-end;margin-top:18px"><button type="button" class="btn primary" id="cv3-save">'+copy.save+'</button></div></section>';
+ }
+ v.innerHTML=header('KONTROLLIERT VAPEN','Schritt '+n+': '+t,'12-Schritte-Programm','')+table+balance+
  '<div class="row mobile-stack" style="max-width:900px;margin:24px auto;justify-content:space-between;gap:10px"><button class="btn soft" data-page="controlledVaping">'+nav.back+'</button><div class="row" style="gap:8px">'+(n>1?'<button class="btn" data-page="cvStep'+(n-1)+'">'+nav.prev+'</button>':'')+(n<12?'<button class="btn primary" data-page="cvStep'+(n+1)+'">'+nav.next+'</button>':'')+'</div></div>';
  if(n===2){
-  const saveButton=v.querySelector('#cv-four-save');
-  saveButton?.addEventListener('click',()=>{
+  v.querySelector('#cv-four-save')?.addEventListener('click',()=>{
    db.controlledVaping ||= {};
    db.controlledVaping.step2FourField={};
    v.querySelectorAll('[data-cv-four]').forEach(field=>{db.controlledVaping.step2FourField[field.dataset.cvFour]=field.value.trim()});
-   put();
-   toast(fourLang.saved);
+   put();toast(fourLang.saved);
+  });
+ }
+ if(n===3){
+  v.querySelectorAll('[data-cv3-choice]').forEach(box=>box.addEventListener('change',()=>{
+   if(box.checked)v.querySelectorAll('[data-cv3-choice="'+box.dataset.cv3Choice+'"][data-cv3-cat="'+box.dataset.cv3Cat+'"]').forEach(other=>{if(other!==box)other.checked=false});
+  }));
+  v.querySelector('#cv3-save')?.addEventListener('click',()=>{
+   db.controlledVaping ||= {};
+   const current=db.controlledVaping.step3Balance||{};
+   v.querySelectorAll('[data-cv3-cat][data-cv3-field]').forEach(field=>{
+    const cat=field.dataset.cv3Cat,key=field.dataset.cv3Field;
+    current[cat] ||= {};
+    current[cat][key]=field.value.trim();
+   });
+   v.querySelectorAll('[data-cv3-choice]').forEach(box=>{
+    const cat=box.dataset.cv3Cat,key=box.dataset.cv3Choice;
+    current[cat] ||= {};
+    if(box.checked)current[cat][key+'Choice']=box.value;
+    else if(current[cat][key+'Choice']===box.value)delete current[cat][key+'Choice'];
+   });
+   db.controlledVaping.step3Balance=current;
+   put();toast(copy.saved);
   });
  }
 }
