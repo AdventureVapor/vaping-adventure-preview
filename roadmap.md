@@ -133,6 +133,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 
 ### Intelligente Cloud-Synchronisierung – 1.4.2 (in Entwicklung)
 - [x] Fehlerdiagnose für den Nur-Lese-Datengruppenabgleich: Lese- und Entschlüsselungsfehler werden je Datengruppe benannt; Fehler beim Entschlüsseln des bisherigen Spielstands werden separat ausgewiesen. Keine Schreib- oder Migrationsaktion.
+- [x] Cache-Busting für `app.js` und `cloud-data.js` ergänzt, damit die Preview die aktualisierte Fehlerdiagnose sicher lädt.
 
 
 **Ziel:** Nur tatsächlich neue oder geänderte Daten übertragen. Unveränderte Datengruppen und identische große Dateien sollen nicht erneut hochgeladen werden. Bestehende Daten bleiben während Entwicklung und Migration unangetastet.
