@@ -142,7 +142,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Isolierten Browser-Test um Fälle „unverändert“ (kein Schreibaufruf) und „geändert“ (neue Revision) ergänzt
 - [x] Cache-Versionen für `app.js`, `cloud-data.js` und `cloud-media.js` in `index.html` aktualisiert, damit Preview nicht versehentlich alte Module lädt
 - [x] Browser-Testseite `tests/cloud-data-test.html` in GitHub Actions mit Chromium erfolgreich ausgeführt (inkl. Altbestand-Roundtrip mit Einstellungen)
-- [ ] Medienvergleich mit simulierten identischen und geänderten Dateien testen; Upload-Zähler und Byte-Prüfung kontrollieren
+- [x] Medienvergleich mit simulierten identischen und geänderten Dateien getestet; Upload-Zähler und Byte-Prüfung im Browser-Test erfolgreich
 - [x] PostgreSQL-RPC-, CAS-, RLS- und Timeout-nach-Commit-Tests im isolierten CI-Testprojekt erfolgreich ausgeführt
 - [x] Lesende Medienbestandsprüfung in „Speicher & Backup“ integriert: Inline-Dateien, Größen, SHA-256-Duplikate, vorhandene Cloud-Referenzen und ungültige Medien werden angezeigt; keine Uploads/Änderungen/Löschungen
 - [ ] Bestehenden vollständigen Cloud-Spielstand eines echten Kontos zunächst nur lesend analysieren; keine automatische Migration und kein Löschen
