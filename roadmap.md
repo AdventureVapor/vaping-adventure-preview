@@ -16,7 +16,9 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Deutsch, Englisch und Französisch sowie responsive Grundgestaltung ergänzt
 - [ ] Supabase-Datenbankschema und Row Level Security mit der SQL-Migration einrichten
 - [ ] Moderation und Sichtbarkeit nach Freigabe praktisch testen
-- [ ] Antworten, Themen-Detailansicht, Nickname-/Profilbild-Anbindung und Moderationsoberfläche ergänzen
+- [x] Themen-Detailansicht und Antwortfunktion ergänzt; Antworten werden ebenfalls zunächst moderiert
+- [ ] Freiwillige Profilbilder und öffentliche Profilangaben anbinden
+- [ ] Moderationsoberfläche für Moderatoren ergänzen; bis dahin Freigabe über Supabase-Dashboard
 - [ ] Eigene Beiträge bearbeiten/löschen, Suche, Reaktionen, Benachrichtigungen und private Nachrichten erst in späteren Ausbaustufen prüfen
 
 ## Releaseplanung Version 1.4
