@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - fix/cloud-storage-migration-phase1
+      - feature/intelligent-cloud-sync
   pull_request:
     branches:
       - main

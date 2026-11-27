@@ -59,11 +59,21 @@
         throw error;
       }
     }
+    // Vorhandene Medienreferenz wiederverwenden, wenn die Datei bytegenau
+    // identisch ist. Nur bei tatsächlicher Änderung wird ein neues Objekt geladen.
+    async function sync(blob,existingRef,options={}){
+      if(!(blob instanceof Blob))throw Error("Ungültige Mediendatei.");
+      if(existingRef){
+        const existing=await download(existingRef);
+        if(existing.size===blob.size&&await digest(existing)===await digest(blob))return existingRef;
+      }
+      return uploadVerified(blob,options);
+    }
     async function remove(ref){
       if(!ref||ref.storage!=="supabase"||ref.bucket!==bucket||typeof ref.path!=="string"||!ref.path.startsWith(userId+"/"))throw Error("Ungültige oder fremde Medienreferenz.");
       await request(bucket+"/"+ref.path,{method:"DELETE"});
     }
-    return Object.freeze({upload,uploadVerified,download,remove});
+    return Object.freeze({upload,uploadVerified,sync,download,remove});
   }
   window.MVAEncryptedMedia={create:make,bucket:DEFAULT_BUCKET};
 })();

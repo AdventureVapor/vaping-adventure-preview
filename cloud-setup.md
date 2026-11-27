@@ -116,12 +116,18 @@ Damit Tagebucheinträge, Geräte, Sorten und Spielfortschritt künftig unabhäng
 ```sql
 create table if not exists public.mva_data (
   user_id uuid not null references auth.users(id) on delete cascade,
-  data_type text not null check (data_type in ('entries','devices','strains','photos','game','controlledVaping')),
+  data_type text not null check (data_type in ('entries','devices','strains','photos','game','controlledVaping','settings')),
   payload jsonb not null,
   updated_at timestamptz not null default now(),
   revision bigint not null default 1,
   primary key (user_id, data_type)
 );
+
+-- Für bereits zuvor angelegte Tabellen die Gruppenprüfung auf den aktuellen Stand bringen.
+-- Die Constraint wird bewusst neu gesetzt, damit auch die Gruppe 'settings' erlaubt ist.
+alter table public.mva_data drop constraint if exists mva_data_data_type_check;
+alter table public.mva_data add constraint mva_data_data_type_check
+  check (data_type in ('entries','devices','strains','photos','game','controlledVaping','settings'));
 
 alter table public.mva_data enable row level security;
 
@@ -149,15 +155,16 @@ Die `payload`-Spalte enthält ausschließlich clientseitig AES-GCM-verschlüssel
 
 ## 9. Verbindliche Regeln für die spätere App-Umstellung
 
-Die aktuelle App-Datenstruktur enthält diese sechs Datengruppen:
+Die aktuelle App-Datenstruktur enthält diese sieben Datengruppen:
 - `entries` – Tagebucheinträge
 - `devices` – Geräte einschließlich ihrer Medienverweise
 - `strains` – Sorten
 - `photos` – Galerieeinträge einschließlich ihrer Medienverweise
 - `game` – XP, Coins, Quests und Lernfortschritt
 - `controlledVaping` – Startdatum und Daten der Funktion „Kontrolliertes Vapen“
+- `settings` – persönliche App-Einstellungen, insbesondere die konfigurierbaren Vaping-Kategorien
 
-Die sechs Gruppen müssen vollständig übernommen werden. Unbekannte zusätzliche Felder eines älteren oder neueren Backups dürfen bei einer Migration nicht stillschweigend verworfen werden. Deshalb bleibt das ursprüngliche vollständige JSON-Backup die maßgebliche Rückfallkopie.
+Alle sieben Gruppen müssen vollständig übernommen werden. Unbekannte zusätzliche Felder eines älteren oder neueren Backups dürfen bei einer Migration nicht stillschweigend verworfen werden. Deshalb bleibt das ursprüngliche vollständige JSON-Backup die maßgebliche Rückfallkopie.
 
 **Keine einfache Last-write-wins-Synchronisierung:** Das Feld `revision` allein verhindert noch keine Überschreibung durch ein zweites Gerät. Vor Aktivierung muss die App konkurrierende Änderungen pro Datengruppe erkennen (optimistischer Versionsvergleich/Compare-and-Swap oder gleichwertige atomare Lösung). Bei einem Konflikt darf die App nicht automatisch den neueren lokalen oder Cloud-Stand verwerfen; sie muss den Konflikt melden und eine sichere Zusammenführung bzw. bewusste Auswahl ermöglichen.
 
@@ -165,7 +172,7 @@ Die sechs Gruppen müssen vollständig übernommen werden. Unbekannte zusätzlic
 1. Vollständiges JSON-Backup erzeugen und lokal zum Download anbieten.
 2. Bestehenden Cloud-Spielstand entschlüsseln und unverändert als Legacy-Quelle behalten.
 3. Alle Fotos und PDF-Anleitungen einzeln verschlüsselt hochladen und durch Download, Entschlüsselung, Größen- und SHA-256-Prüfung verifizieren.
-4. Die sechs Datengruppen in die neue Tabelle schreiben und jede Gruppe nach dem Schreiben erneut lesen und entschlüsseln.
+4. Die sieben Datengruppen in die neue Tabelle schreiben und jede Gruppe nach dem Schreiben erneut lesen und entschlüsseln.
 5. Erst nach vollständiger Prüfung den neuen Speicher als aktiv markieren. Bis dahin ausschließlich den Legacy-Speicher verwenden.
 6. Anmeldung, Neuladen, Bearbeiten, Löschen, JSON-Export/-Import und Synchronisierung mit einem zweiten Gerät testen.
 7. Legacy-Spielstand und ursprüngliche Medien erst nach ausdrücklicher Freigabe und erfolgreicher Wiederherstellungsprobe außer Betrieb nehmen.
@@ -175,7 +182,7 @@ Ein fehlgeschlagener Schritt bricht die Migration ab. Bereits hochgeladene neue 
 
 ## 10. Atomare Versionsprüfung für getrennte Datengruppen
 
-Die Datei `cloud-data.js` ist ein isoliertes Vorbereitungsmodul. Sie ist noch nicht in `index.html` eingebunden und wird von der laufenden App nicht verwendet. Sie verschlüsselt jede Gruppe separat mit AES-GCM. Nutzerkennung, Gruppentyp und Versionsnummer sind zusätzlich als authentifizierte Zusatzdaten gebunden. Eine Änderung kann daher nicht einfach als andere Gruppe oder Version ausgegeben werden.
+Die Datei `cloud-data.js` ist inzwischen in `index.html` eingebunden. Die App stellt über `createCloudDataAccess()` einen isolierten Adapter bereit und nutzt ihn für die ausdrücklich gestartete Nur-Lese-Prüfung der sieben Gruppen. Die normale Tagebuchspeicherung und `cloudWrite()` verwenden weiterhin ausschließlich den bisherigen Legacy-Speicherweg; `sync()` und `write()` der Datengruppen sind nicht an Formulare oder automatische Speichervorgänge angeschlossen. Sie verschlüsselt jede Gruppe separat mit AES-GCM. Nutzerkennung, Gruppentyp und Versionsnummer sind zusätzlich als authentifizierte Zusatzdaten gebunden. Eine Änderung kann daher nicht einfach als andere Gruppe oder Version ausgegeben werden.
 
 Damit gleichzeitige Änderungen auf zwei Geräten nicht unbemerkt überschrieben werden, benötigt die neue Tabelle zusätzlich diese atomare Datenbankfunktion. Sie schreibt nur, wenn die vom Gerät gelesene Version noch aktuell ist. Bei Abweichung meldet sie `MVA_REVISION_CONFLICT` und ändert keinen Datensatz.
 
@@ -200,7 +207,7 @@ begin
   end if;
 
   if p_data_type is null
-     or p_data_type not in ('entries','devices','strains','photos','game','controlledVaping')
+     or p_data_type not in ('entries','devices','strains','photos','game','controlledVaping','settings')
      or p_expected_revision is null
      or p_expected_revision < 0 then
     raise exception 'Invalid data type or expected revision' using errcode = '22023';
@@ -256,9 +263,9 @@ revoke all on function public.mva_write_data(text, jsonb, bigint) from public, a
 grant execute on function public.mva_write_data(text, jsonb, bigint) to authenticated;
 ```
 
-Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`) und unterliegt damit weiterhin der RLS-Policy der Tabelle. Der Browser darf nur über die angemeldete Sitzung aufrufen. `createCloudDataAccess()` in `app.js` stellt dafür inzwischen einen isolierten Adapter bereit. Er verwendet `cloudFetch()`, einschließlich der vorhandenen einmaligen Token-Erneuerung bei HTTP 401, und übergibt Nutzerkennung sowie entschlüsselten AES-Schlüssel an `MVAEncryptedData.create()`. Der Adapter ist bewusst noch nicht an `put()` oder die bestehende `cloudWrite()`-Speicherung angeschlossen.
+Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`) und unterliegt damit weiterhin der RLS-Policy der Tabelle. Der Browser muss bei jedem Lese- und Schreibaufruf das Bearer-Token der angemeldeten Sitzung mitsenden. `createCloudDataAccess()` in `app.js` stellt dafür einen isolierten Adapter bereit und nutzt `cloudFetch()` einschließlich Token-Erneuerung. Er verwendet `cloudFetch()`, einschließlich der vorhandenen einmaligen Token-Erneuerung bei HTTP 401, und übergibt Nutzerkennung sowie entschlüsselten AES-Schlüssel an `MVAEncryptedData.create()`. Der Adapter ist bewusst noch nicht an `put()` oder die bestehende `cloudWrite()`-Speicherung angeschlossen. Der neue Button „Datengruppen abgleichen (nur lesen)“ verwendet ausschließlich `readAll()` und den Vergleich mit dem entschlüsselten Legacy-Spielstand.
 
-Das Datengruppenmodul liest und schreibt jede Gruppe mit ihrer eigenen Revision. `readAll()` liest alle sechs Gruppen parallel. Nach einem mehrdeutigen Netzwerkfehler prüft `write()` durch erneutes Lesen und Entschlüsseln, ob genau die erwartete neue Version mit identischem Inhalt bereits gespeichert wurde. Nur dann gilt der Schreibvorgang als bestätigt. Bei abweichendem Inhalt oder einer anderen Revision wird ein Versionskonflikt gemeldet; es erfolgt kein automatisches Überschreiben.
+Das Datengruppenmodul kann jede Gruppe mit ihrer eigenen Revision lesen und schreiben; die Schreibfunktionen sind weiterhin nicht mit dem normalen Speichervorgang verbunden. `readAll()` liest alle sieben Gruppen parallel. Nach einem mehrdeutigen Netzwerkfehler prüft `write()` durch erneutes Lesen und Entschlüsseln, ob genau die erwartete neue Version mit identischem Inhalt bereits gespeichert wurde. Nur dann gilt der Schreibvorgang als bestätigt. Bei abweichendem Inhalt oder einer anderen Revision wird ein Versionskonflikt gemeldet; es erfolgt kein automatisches Überschreiben.
 
 **Wichtig:** Das Modul ist noch nicht mit dem Tagebuch verbunden. Die bestehende Speicherung über `mva_saves` bleibt unverändert. Vor einer Aktivierung müssen zusätzlich Konfliktfälle, zwei gleichzeitig angemeldete Geräte, Wiederherstellung und vollständiger Medienimport getestet werden.
 

@@ -131,6 +131,29 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Vollständige Sprachprüfung DE/EN/FR nach Abschluss der neuen Funktionen wiederholen
 - [ ] Installierbare PWA für Windows-PC und iPhone umsetzen und auf beiden Plattformen testen
 
+### Intelligente Cloud-Synchronisierung – 1.4.2 (in Entwicklung)
+
+**Ziel:** Nur tatsächlich neue oder geänderte Daten übertragen. Unveränderte Datengruppen und identische große Dateien sollen nicht erneut hochgeladen werden. Bestehende Daten bleiben während Entwicklung und Migration unangetastet.
+
+- [x] Konzept festgelegt: vor dem Speichern lokalen und entschlüsselten Cloud-Stand vergleichen; nur Unterschiede übertragen
+- [x] PR #100 angelegt: vollständigen verschlüsselten Spielstand vor Upload vergleichen und identische Stände ohne erneuten Upload überspringen
+- [x] PR #100 ergänzt: Medienmodul kann eine bestehende Medienreferenz bytegenau vergleichen und bei Gleichheit wiederverwenden
+- [x] Getrenntes Datengruppen-Modul um `sync(type, value)` erweitert: zuerst entschlüsselt lesen und vergleichen, bei identischem Inhalt keine neue Revision schreiben
+- [x] Isolierten Browser-Test um Fälle „unverändert“ (kein Schreibaufruf) und „geändert“ (neue Revision) ergänzt
+- [x] Cache-Versionen für `app.js`, `cloud-data.js` und `cloud-media.js` in `index.html` aktualisiert, damit Preview nicht versehentlich alte Module lädt
+- [x] Browser-Testseite `tests/cloud-data-test.html` in GitHub Actions mit Chromium erfolgreich ausgeführt (inkl. Altbestand-Roundtrip mit Einstellungen)
+- [x] Medienvergleich mit simulierten identischen und geänderten Dateien getestet; Upload-Zähler und Byte-Prüfung im Browser-Test erfolgreich
+- [x] PostgreSQL-RPC-, CAS-, RLS- und Timeout-nach-Commit-Tests im isolierten CI-Testprojekt erfolgreich ausgeführt
+- [x] Lesende Medienbestandsprüfung in „Speicher & Backup“ integriert: bei Cloud-Anmeldung wird der zuletzt gespeicherte Cloud-Stand direkt abgerufen und mit dem angezeigten Stand verglichen; Inline-Dateien, Größen, SHA-256-Duplikate, vorhandene Cloud-Referenzen und ungültige Medien werden angezeigt; keine Uploads/Änderungen/Löschungen
+- [ ] Bestehenden vollständigen Cloud-Spielstand eines echten Kontos zunächst nur lesend analysieren; keine automatische Migration und kein Löschen
+- [ ] Medien- und Datengruppen-Synchronisierung in Galerie, Geräte, PDF-Anleitungen und Tagebuch schrittweise integrieren
+- [ ] Rückwärtskompatibilität für bestehende Data-URLs und bisherige `mva_saves`-Spielstände sicherstellen
+- [ ] JSON-Backup/Import einschließlich aller Medien bytegenau testen
+- [ ] Zwei-Konten-Isolation sowie Synchronisierung zwischen iPhone und Desktop prüfen
+- [ ] Erst nach erfolgreicher QA und ausdrücklicher Freigabe den neuen Speicherweg aktivieren
+
+**Sicherheitsregel:** Ein fehlgeschlagener Cloud-Lesevorgang darf niemals als „keine Daten vorhanden“ behandelt werden. Bei unklarem Cloud-Stand wird abgebrochen statt überschrieben. Die neue Datengruppen-API ist weiterhin nicht mit dem App-Speicherablauf verbunden; die bestehende Speicherung bleibt aktiv.
+
 ### Datenmenge und Cloud-Speicherung – 1.4.2
 - [x] Datenmodell geprüft: Eine gemeinsame Material-Sammlung mit Kategorie statt sechs getrennten Sammlungen verwenden
 - [x] Tagebucheinträge um eine kompakte Material-ID-Referenz ergänzen; der Materialname bleibt als kleine historische Momentaufnahme erhalten
@@ -923,3 +946,28 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [x] Vorhandene unbekannte Kategorieangaben beim Bearbeiten als übernommene Altangabe erhalten, bis eine neue Kategorie gewählt wird.
 - [ ] Kategorienabhängige Formularfelder und Sammlungs-/Materialtypen im nächsten Schritt ergänzen.
 - [ ] Bestehende Einträge prüfen und Kategoriezuordnung auf PC und iPhone testen.
+
+
+### Ergänzung: App-Einstellungen als eigene Datengruppe
+- Bei der Prüfung der tatsächlichen `app.js`-Nutzung wurde zusätzlich `db.settings` gefunden (u. a. benutzerdefinierte Vaping-Kategorien).
+- Die neue Gruppenstruktur wurde deshalb von sechs auf sieben Gruppen erweitert: `settings` wird separat verschlüsselt und synchronisiert.
+- Codec, Datengruppen-Modul, SQL-Einrichtungsanleitung und isolierte Tests wurden entsprechend angepasst.
+- Die Live-App bleibt weiterhin auf dem bisherigen Legacy-Speicher; Migration und Aktivierung sind nicht erfolgt.
+
+- Zusätzliche Sicherung: Der Migrations-Codec weist unbekannte Top-Level-Felder jetzt ausdrücklich zurück, statt sie beim Aufteilen stillschweigend zu verlieren. Ein entsprechender Negativtest wurde ergänzt.
+- Die SQL-Anleitung enthält nun auch die Aktualisierung der `data_type`-Constraint für bereits zuvor angelegte `mva_data`-Tabellen, damit `settings` dort zulässig ist.
+
+- Der Adapter für Datengruppen sendet jetzt bei jedem Lese- und Schreibaufruf explizit das Bearer-Token der angemeldeten Sitzung mit; Token-Erneuerung bleibt über `cloudFetch()` erhalten.
+
+- CI-Lauf #142 für den vorherigen Cloud-Audit-Pfad erfolgreich.
+- CI-Lauf #152 für den neuen Nur-Lese-Gruppenabgleich erfolgreich; die Tests decken vollständige Übereinstimmung, leeren Gruppenbestand und abweichende Inhalte ab.
+- Ein echter Supabase-Live-Test mit angemeldetem Konto sowie iPhone-/Desktop- und Zwei-Konten-Prüfung stehen weiterhin aus.
+
+
+### Ergänzung: Nur-lesender Abgleich der sieben Datengruppen
+- [x] Im Bereich „Speicher & Backup“ eine zusätzliche Prüfung ergänzt, die den bisherigen verschlüsselten Cloud-Spielstand und die sieben getrennten Datengruppen ausschließlich liest.
+- [x] Der Abgleich unterscheidet zwischen noch leerem Gruppen-Speicher, vollständiger Übereinstimmung, fehlenden Gruppen und abweichenden Inhalten.
+- [x] Keine Schreib-, Migrations-, Lösch- oder Reparaturaktion: der bisherige Cloud-Spielstand bleibt unverändert.
+- [x] Isolierte Tests für vollständige Übereinstimmung, leeren Gruppenbestand und abweichende Gruppe ergänzt.
+- [ ] Read-only-Liveprüfung mit einem echten angemeldeten Supabase-Testkonto durchführen; dafür im Preview unter „Speicher & Backup“ den Button „Datengruppen abgleichen (nur lesen)“ ausführen und das Ergebnis prüfen.
+- [ ] Erst nach dokumentierter Liveprüfung einen gesondert freizugebenden Migrationsschritt planen.

@@ -3,16 +3,16 @@
 "use strict";
 const enc=new TextEncoder();
 function parseDataUrl(value){
- const m=/^data:([^;,]+)?(;base64)?,([\\s\\S]*)$/i.exec(value);
+ const m=/^data:([^;,]+)?(;base64)?,([\s\S]*)$/i.exec(value);
  if(!m)throw Error("Ungültige Data-URL");
  const mime=(m[1]||"application/octet-stream").toLowerCase();
  let bytes;
- if(m[2]){const bin=atob(m[3].replace(/\\s/g,""));bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i)}
+ if(m[2]){const bin=atob(m[3].replace(/\s/g,""));bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i)}
  else bytes=enc.encode(decodeURIComponent(m[3]));
  return {mime,bytes};
 }
 function kind(path,mime){if(mime==="application/pdf"||/manual|anleitung/i.test(path))return "pdf";if(mime.startsWith("image/"))return "photo";return "other"}
-function b64(bytes){let s="";for(let i=0;i<bytes.length;i+=0x8000)s+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(s)}
+function b64(value){const bytes=value instanceof Uint8Array?value:new Uint8Array(value);let s="";for(let i=0;i<bytes.length;i+=0x8000)s+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(s)}
 async function audit(db){
  if(!db||typeof db!=="object")throw Error("Kein gültiger Spielstand übergeben.");
  const media=[],references=[],seen=new WeakSet();

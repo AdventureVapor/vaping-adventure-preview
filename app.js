@@ -179,7 +179,7 @@ function createCloudDataAccess(){
  if(storageMode!=="cloud"||!cloudSession||!cloudKey)throw Error("Bitte zuerst mit einem Cloud-Konto anmelden.");
  if(!window.MVAEncryptedData?.create)throw Error("Das Modul für getrennte Cloud-Datengruppen wurde nicht geladen.");
  return window.MVAEncryptedData.create({
-  request:(path,options={})=>cloudFetch(path,options),
+  request:(path,options={})=>cloudFetch(path,{...options,headers:{...(options.headers||{}),Authorization:`Bearer ${cloudSession.token}`}}),
   userId:cloudSession.userId,
   key:cloudKey
  });
@@ -245,6 +245,20 @@ async function cloudAuth(identifier,password){if(!cloudReady())throw Error('Clou
 async function cloudSignup(email,password){if(!cloudReady())throw Error('Cloud ist noch nicht eingerichtet.');let d=await cloudFetch('/auth/v1/signup?redirect_to='+encodeURIComponent(location.origin+location.pathname),{method:'POST',body:JSON.stringify({email,password})});return d}
 async function cloudResetEmail(email){let c=cloudConfig();let res=await fetch(`${c.url.replace(/\/$/,'')}/auth/v1/recover?redirect_to=${encodeURIComponent(location.origin+location.pathname)}`,{method:'POST',headers:{apikey:c.apiKey,'Content-Type':'application/json'},body:JSON.stringify({email})});let d=await res.json().catch(()=>({}));if(!res.ok)throw Error(d.msg||d.message||d.error_description||'E-Mail konnte nicht versendet werden')}
 async function cloudRead(){let rows=await cloudFetch(`/rest/v1/mva_saves?select=payload&user_id=eq.${encodeURIComponent(cloudSession.userId)}&limit=1`,{headers:{Authorization:`Bearer ${cloudSession.token}`}});return rows?.[0]?.payload||null}
+// Kanonischer Vergleich des entschlüsselten Spielstands: Schlüsselreihenfolge
+// spielt keine Rolle. Medien-Data-URLs werden bytegenau mitverglichen.
+function canonicalCloudValue(value){
+ if(Array.isArray(value))return value.map(canonicalCloudValue);
+ if(value&&typeof value==='object'){
+  const result={};
+  for(const key of Object.keys(value).sort())result[key]=canonicalCloudValue(value[key]);
+  return result;
+ }
+ return value;
+}
+function cloudSnapshotsEqual(a,b){
+ return JSON.stringify(canonicalCloudValue(a))===JSON.stringify(canonicalCloudValue(b));
+}
 async function cloudWrite(){
  if(!cloudSession||!cloudKey)return;
  cloudSaveRevision++;
@@ -256,6 +270,21 @@ async function cloudWrite(){
    let lastError=null;
    for(let attempt=0;attempt<4;attempt++){
     try{
+     // Erst den aktuellen Cloud-Stand lesen und entschlüsselt vergleichen.
+     // Bei identischen Daten wird kein neuer Upload ausgelöst. Ein Lesefehler
+     // bricht sicher ab: niemals ungeprüft einen möglicherweise neueren Stand überschreiben.
+     setCloudStatus('Cloud-Sicherung: vorhandene Daten werden abgeglichen …');
+     const cloudPayload=await cloudRead();
+     if(cloudPayload){
+      const cloudSnapshot=await decryptCloud(cloudPayload);
+      if(cloudSnapshotsEqual(snapshot,cloudSnapshot)){
+       try{await saveCloudRecoveryCopy(cloudPayload);cloudRecoveryWarningShown=false}catch(storageError){console.warn('Lokale verschlüsselte Wiederherstellungskopie konnte nicht aktualisiert werden:',storageError)}
+       cloudSavedRevision=revision;
+       lastError=null;
+       setCloudStatus('Cloud ist bereits aktuell – keine Übertragung erforderlich');
+       break;
+      }
+     }
      setCloudStatus('Cloud-Sicherung: Daten werden verschlüsselt …');
      const payload=await encryptCloud(snapshot);
      setCloudStatus('Cloud-Sicherung: lokale verschlüsselte Notfallkopie wird geschrieben …');
@@ -968,7 +997,65 @@ function controlledVaping(v){
  $('#cv-week-next').addEventListener('click',()=>shiftWeek(1));
  $('#cv-save-start').onclick=()=>{const value=$('#cv-start').value;if(!value)return toast('Bitte ein Startdatum auswählen.');db.controlledVaping={...(db.controlledVaping||{}),startDate:value};put();controlledVaping(v);toast('Startdatum gespeichert.')};
 }
-function backup(v){const t=localeText,counts={entries:db.entries.length,devices:db.devices.length,strains:db.strains.length,photos:db.photos.length};const countText=t('storage.counts',counts);const dataBytes=new Blob([JSON.stringify(db)]).size;const mediaValues=[...db.photos.map(p=>p.src||''),...db.devices.map(d=>d.photo||''),...db.devices.map(d=>d.manualData||'')];const mediaBytes=mediaValues.reduce((sum,value)=>{if(isCloudMediaReference(value))return sum+(Number(value.size)||0);const base64=String(value).split(',')[1]||'';return sum+(base64.length?Math.max(0,Math.floor(base64.length*3/4)-(base64.endsWith('==')?2:base64.endsWith('=')?1:0)):0)},0);const formatBytes=value=>value<1024?`${value} B`:value<1048576?`${(value/1024).toFixed(1)} KB`:`${(value/1048576).toFixed(2)} MB`;const payloadTemplate=cloudEnvelope?{v:2,envelope:cloudEnvelope,iv:'A'.repeat(16),ciphertext:''}:{v:1,salt:b64(cloudSalt||new Uint8Array(16)),iv:'A'.repeat(16),ciphertext:''};const encryptedEstimate=JSON.stringify(payloadTemplate).length+4*Math.ceil((dataBytes+16)/3);const mediaSummary=t('storage.mediaSummary',{total:formatBytes(dataBytes),media:formatBytes(mediaBytes),files:mediaValues.filter(Boolean).length,encrypted:formatBytes(encryptedEstimate)});const cloudCard=storageMode==='cloud'? `<div class="card"><span class="pill">${t('storage.activeEncrypted')}</span><h3 style="font:700 16px Manrope">${t('storage.cloudAccount',{account:esc(cloudSession?.username||'')})}</h3><p class="subheading">${t('storage.encryption')}</p><div class="formrow" style="margin:14px 0"><label for="cloud-change-email">${t('storage.email')}</label><input class="field" id="cloud-change-email" type="email" autocomplete="email" maxlength="254" value="${esc(cloudSession?.email||'')}" placeholder="name@example.com"></div><button class="btn soft" data-action="cloud-change-email">${t('storage.emailRequest')}</button><p class="tagline">${t('storage.accountKept')}</p><hr style="border:0;border-top:1px solid var(--line);margin:20px 0"><h3 style="font:700 16px Manrope">${t('storage.changePassword')}</h3><p class="subheading">${t('storage.passwordDescription')}</p><div class="formrow" style="margin:12px 0"><label for="cloud-current-password">${t('storage.oldPassword')}</label><input class="field" id="cloud-current-password" type="password" autocomplete="current-password"></div><div class="formrow" style="margin:12px 0"><label for="cloud-new-password">${t('storage.newPassword')}</label><input class="field" id="cloud-new-password" type="password" autocomplete="new-password" minlength="8"></div><div class="formrow" style="margin:12px 0"><label for="cloud-confirm-password">${t('storage.repeatPassword')}</label><input class="field" id="cloud-confirm-password" type="password" autocomplete="new-password" minlength="8"></div><button class="btn primary" id="cloud-password-save" data-action="cloud-change-password">${t('storage.changePassword')}</button><button class="btn" data-action="switch-local">${t('storage.switchLocal')}</button></div>`:`<div class="card"><span class="pill">${t('storage.optional')}</span><h3 style="font:700 16px Manrope">${t('storage.encryptedCloud')}</h3><p class="subheading">${t('storage.cloudLoginDescription')}</p>${cloudReady()?'':`<p class="tagline" style="color:#9b5c27">${t('storage.setup')}</p>`}<div class="formrow" style="margin:13px 0 8px"><label for="cloud-email">${t('storage.emailLegacy')}</label><input class="field" id="cloud-email" type="text" autocomplete="username" maxlength="254" placeholder="name@example.com oder username" ${cloudReady()?'':'disabled'}></div><div class="formrow" style="margin:8px 0 12px"><label for="cloud-pass">${t('storage.password')}</label><input class="field" id="cloud-pass" type="password" autocomplete="current-password" minlength="8" ${cloudReady()?'':'disabled'}></div><button class="btn primary" id="cloud-connect" data-action="cloud-login" ${cloudReady()?'':'disabled'}>${t('storage.login')}</button> <button class="btn soft" data-action="cloud-signup" ${cloudReady()?'':'disabled'}>${t('storage.register')}</button> <button class="text-btn" data-action="cloud-reset" ${cloudReady()?'':'disabled'}>${t('storage.forgot')}</button><p class="tagline">${t('storage.confirmation')}</p></div>`;v.innerHTML=`${header(t('storage.eyebrow'),t('storage.title'),t('storage.subtitle'),'')}<div class="grid cards2" style="margin-top:23px"><div class="card" style="grid-column:1/-1;border:1px solid var(--accent);background:linear-gradient(135deg,var(--card),var(--surface))"><span class="pill">${storageMode==='cloud'?t('storage.cloudActive'):t('storage.localActive')}</span><h3 style="font:700 18px Manrope;margin:12px 0 6px">${t('storage.diary')}</h3><p class="subheading">${storageMode==='cloud'?t('storage.cloudDescription',{account:esc(cloudSession?.username||'your account')}):t('storage.localDescription')}</p><div class="tagline" style="font-weight:700;margin-top:12px">${countText}</div></div><div class="card"><span class="pill">${t('storage.mediaPill')}</span><h3 style="font:700 16px Manrope">${t('storage.mediaTitle')}</h3><p class="subheading">${mediaSummary}</p><p class="tagline">${t('storage.mediaHint')}</p></div>${cloudCard}<div class="card"><span class="pill">${t('storage.recommended')}</span><h3 style="font:700 16px Manrope">${t('storage.json')}</h3><p class="subheading">${t('storage.jsonDescription')}</p><button class="btn primary" data-action="export-json">${t('storage.download')}</button></div><div class="card"><span class="pill">${t('storage.restore')}</span><h3 style="font:700 16px Manrope">${t('storage.restoreTitle')}</h3><p class="subheading">${t('storage.restoreDescription')}</p><input type="file" id="json-file" class="field" accept=".json,application/json"><button class="btn soft" data-action="import-json" style="margin-top:10px">${t('storage.selectJson')}</button></div><div class="card"><span class="pill">${t('storage.diaryPill')}</span><h3 style="font:700 16px Manrope">${t('storage.csv')}</h3><p class="subheading">${t('storage.csvDescription')}</p><button class="btn" data-action="export-csv">${t('storage.exportCsv')}</button><label class="btn soft" style="display:inline-block;margin:8px 0">${t('storage.importCsv')}<input id="csv-file" hidden type="file" accept=".csv,text/csv"></label><div id="csv-preview"></div></div><div class="card"><span class="pill">${storageMode==='cloud'?t('storage.cloud'):t('storage.local')}</span><h3 style="font:700 16px Manrope">${t('storage.activeSave')}</h3><p class="subheading">${storageMode==='cloud'?t('storage.cloudBadge'):t('storage.localBadge')}</p><div class="tagline">${countText}</div></div></div>`;bindGlobal();$('#csv-file').onchange=importCsv;$('#json-file').onchange=importJson}
+async function runCloudAudit(){
+ const result=$('#cloud-audit-result'),button=$('#cloud-audit');
+ if(!result||!button)return;
+ if(!window.MVACloudMigration?.audit){result.textContent='Prüfmodul konnte nicht geladen werden.';return}
+ button.disabled=true;result.textContent='Bestand wird lokal und ausschließlich lesend geprüft …';
+ try{
+  let auditSnapshot=db,sourceLabel='Aktueller lokaler Spielstand',cloudDiffers=false;
+  if(storageMode==='cloud'){
+   const payload=await cloudRead();
+   if(!payload)throw Error('Für dieses Konto wurde noch kein gespeicherter Cloud-Spielstand gefunden.');
+   auditSnapshot=await decryptCloud(payload);
+   if(!auditSnapshot||typeof auditSnapshot!=='object'||!Array.isArray(auditSnapshot.entries)||!Array.isArray(auditSnapshot.devices))throw Error('Der gespeicherte Cloud-Spielstand hat keine gültige Struktur.');
+   sourceLabel='Zuletzt gespeicherter Cloud-Spielstand';
+   cloudDiffers=!cloudSnapshotsEqual(auditSnapshot,db);
+  }
+  const report=await window.MVACloudMigration.audit(auditSnapshot);
+  const fmt=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB';
+  const duplicateText=report.duplicateGroups.length
+   ?report.duplicateGroups.slice(0,5).map(group=>group.count+' identische Dateien: '+group.paths.map(path=>path.replace(/^db\./,'')).join(', ')).join(' · ')
+   :'Keine byteidentischen Inline-Dateien gefunden.';
+  result.innerHTML='<strong>Prüfung abgeschlossen – keine Daten verändert.</strong><br>'+
+   esc(sourceLabel)+'<br>'+
+   (cloudDiffers?'<span style="color:var(--danger,#b44)">Achtung: Der gespeicherte Cloud-Stand unterscheidet sich vom aktuell angezeigten Spielstand.</span><br>':'')+
+   report.inlineMediaCount+' eingebettete Dateien · '+fmt(report.totalInlineBytes)+' Gesamtgröße<br>'+
+   report.existingCloudReferenceCount+' vorhandene Cloud-Referenzen · '+report.duplicateGroups.length+' Gruppen mit identischen Dateien<br>'+
+   (report.invalidMediaCount?'<span style="color:var(--danger,#b44)">'+report.invalidMediaCount+' ungültige Medienangaben – bitte prüfen.</span><br>':'')+
+   '<span>'+esc(duplicateText)+'</span><br><span>Die Prüfung lädt nichts hoch, löscht nichts und ändert keine Referenzen.</span>';
+ }catch(error){
+  console.error('Lesende Medienprüfung fehlgeschlagen:',error);
+  result.textContent='Prüfung fehlgeschlagen: '+(error?.message||'Unbekannter Fehler');
+ }finally{button.disabled=false}
+}
+async function runCloudGroupsAudit(){
+ const result=$('#cloud-groups-audit-result'),button=$('#cloud-groups-audit');
+ if(!result||!button)return;
+ if(storageMode!=='cloud'||!cloudSession||!cloudKey){result.textContent='Bitte zuerst mit deinem Cloud-Konto anmelden.';return}
+ if(!window.MVACloudMigrationCodec?.compare){result.textContent='Prüfmodul für Datengruppen wurde nicht geladen.';return}
+ button.disabled=true;result.textContent='Vergleich läuft – es werden ausschließlich Daten gelesen …';
+ try{
+  const legacyPayload=await cloudRead();
+  if(!legacyPayload)throw Error('Kein bisheriger Cloud-Spielstand gefunden.');
+  const legacySnapshot=await decryptCloud(legacyPayload);
+  const records=await createCloudDataAccess().readAll();
+  const report=window.MVACloudMigrationCodec.compare(legacySnapshot,records);
+  if(report.existingCount===0){
+   result.textContent='Noch keine getrennten Datengruppen gefunden. Der bisherige Cloud-Spielstand bleibt unverändert; es wurde nichts migriert.';
+  }else if(report.complete){
+   result.textContent='Alle sieben Datengruppen stimmen vollständig mit dem bisherigen Cloud-Spielstand überein. Nur-Lese-Prüfung erfolgreich – keine Daten wurden geschrieben.';
+  }else{
+   const missing=report.missing.length?'Fehlend: '+report.missing.join(', ')+'. ':'';
+   const mismatched=report.mismatched.length?'Abweichend: '+report.mismatched.join(', ')+'.':'';
+   result.textContent='Noch keine vollständige Übereinstimmung. '+missing+mismatched+'Der bisherige Cloud-Spielstand wurde nicht verändert.';
+  }
+ }catch(error){
+  console.error('Read-only-Abgleich der Datengruppen fehlgeschlagen:',error);
+  result.textContent='Datengruppen konnten nicht geprüft werden: '+(error?.message||'Unbekannter Fehler')+'. Es wurde nichts geschrieben.';
+ }finally{button.disabled=false}
+}
+function backup(v){const t=localeText,counts={entries:db.entries.length,devices:db.devices.length,strains:db.strains.length,photos:db.photos.length};const countText=t('storage.counts',counts);const dataBytes=new Blob([JSON.stringify(db)]).size;const mediaValues=[...db.photos.map(p=>p.src||''),...db.devices.map(d=>d.photo||''),...db.devices.map(d=>d.manualData||'')];const mediaBytes=mediaValues.reduce((sum,value)=>{if(isCloudMediaReference(value))return sum+(Number(value.size)||0);const base64=String(value).split(',')[1]||'';return sum+(base64.length?Math.max(0,Math.floor(base64.length*3/4)-(base64.endsWith('==')?2:base64.endsWith('=')?1:0)):0)},0);const formatBytes=value=>value<1024?`${value} B`:value<1048576?`${(value/1024).toFixed(1)} KB`:`${(value/1048576).toFixed(2)} MB`;const payloadTemplate=cloudEnvelope?{v:2,envelope:cloudEnvelope,iv:'A'.repeat(16),ciphertext:''}:{v:1,salt:b64(cloudSalt||new Uint8Array(16)),iv:'A'.repeat(16),ciphertext:''};const encryptedEstimate=JSON.stringify(payloadTemplate).length+4*Math.ceil((dataBytes+16)/3);const mediaSummary=t('storage.mediaSummary',{total:formatBytes(dataBytes),media:formatBytes(mediaBytes),files:mediaValues.filter(Boolean).length,encrypted:formatBytes(encryptedEstimate)});const cloudCard=storageMode==='cloud'? `<div class="card"><span class="pill">${t('storage.activeEncrypted')}</span><h3 style="font:700 16px Manrope">${t('storage.cloudAccount',{account:esc(cloudSession?.username||'')})}</h3><p class="subheading">${t('storage.encryption')}</p><div class="formrow" style="margin:14px 0"><label for="cloud-change-email">${t('storage.email')}</label><input class="field" id="cloud-change-email" type="email" autocomplete="email" maxlength="254" value="${esc(cloudSession?.email||'')}" placeholder="name@example.com"></div><button class="btn soft" data-action="cloud-change-email">${t('storage.emailRequest')}</button><p class="tagline">${t('storage.accountKept')}</p><hr style="border:0;border-top:1px solid var(--line);margin:20px 0"><h3 style="font:700 16px Manrope">${t('storage.changePassword')}</h3><p class="subheading">${t('storage.passwordDescription')}</p><div class="formrow" style="margin:12px 0"><label for="cloud-current-password">${t('storage.oldPassword')}</label><input class="field" id="cloud-current-password" type="password" autocomplete="current-password"></div><div class="formrow" style="margin:12px 0"><label for="cloud-new-password">${t('storage.newPassword')}</label><input class="field" id="cloud-new-password" type="password" autocomplete="new-password" minlength="8"></div><div class="formrow" style="margin:12px 0"><label for="cloud-confirm-password">${t('storage.repeatPassword')}</label><input class="field" id="cloud-confirm-password" type="password" autocomplete="new-password" minlength="8"></div><button class="btn primary" id="cloud-password-save" data-action="cloud-change-password">${t('storage.changePassword')}</button><button class="btn" data-action="switch-local">${t('storage.switchLocal')}</button></div>`:`<div class="card"><span class="pill">${t('storage.optional')}</span><h3 style="font:700 16px Manrope">${t('storage.encryptedCloud')}</h3><p class="subheading">${t('storage.cloudLoginDescription')}</p>${cloudReady()?'':`<p class="tagline" style="color:#9b5c27">${t('storage.setup')}</p>`}<div class="formrow" style="margin:13px 0 8px"><label for="cloud-email">${t('storage.emailLegacy')}</label><input class="field" id="cloud-email" type="text" autocomplete="username" maxlength="254" placeholder="name@example.com oder username" ${cloudReady()?'':'disabled'}></div><div class="formrow" style="margin:8px 0 12px"><label for="cloud-pass">${t('storage.password')}</label><input class="field" id="cloud-pass" type="password" autocomplete="current-password" minlength="8" ${cloudReady()?'':'disabled'}></div><button class="btn primary" id="cloud-connect" data-action="cloud-login" ${cloudReady()?'':'disabled'}>${t('storage.login')}</button> <button class="btn soft" data-action="cloud-signup" ${cloudReady()?'':'disabled'}>${t('storage.register')}</button> <button class="text-btn" data-action="cloud-reset" ${cloudReady()?'':'disabled'}>${t('storage.forgot')}</button><p class="tagline">${t('storage.confirmation')}</p></div>`;v.innerHTML=`${header(t('storage.eyebrow'),t('storage.title'),t('storage.subtitle'),'')}<div class="grid cards2" style="margin-top:23px"><div class="card" style="grid-column:1/-1;border:1px solid var(--accent);background:linear-gradient(135deg,var(--card),var(--surface))"><span class="pill">${storageMode==='cloud'?t('storage.cloudActive'):t('storage.localActive')}</span><h3 style="font:700 18px Manrope;margin:12px 0 6px">${t('storage.diary')}</h3><p class="subheading">${storageMode==='cloud'?t('storage.cloudDescription',{account:esc(cloudSession?.username||'your account')}):t('storage.localDescription')}</p><div class="tagline" style="font-weight:700;margin-top:12px">${countText}</div></div><div class="card"><span class="pill">${t('storage.mediaPill')}</span><h3 style="font:700 16px Manrope">${t('storage.mediaTitle')}</h3><p class="subheading">${mediaSummary}</p><p class="tagline">${t('storage.mediaHint')}</p></div><div class="card"><span class="pill">VORBEREITUNG 1.4.2</span><h3 style="font:700 16px Manrope">Medienbestand prüfen</h3><p class="subheading">Prüft den zuletzt gespeicherten Cloud-Spielstand direkt oder – ohne Cloud-Anmeldung – den lokalen Spielstand. Fotos, Gerätebilder und PDF-Anleitungen werden gezählt und verglichen; es wird nichts verändert.</p><button class="btn soft" id="cloud-audit" type="button">Bestand jetzt prüfen</button><div id="cloud-audit-result" class="tagline" role="status" aria-live="polite" style="margin-top:12px"></div><button class="btn soft" id="cloud-groups-audit" type="button">Datengruppen abgleichen (nur lesen)</button><div id="cloud-groups-audit-result" class="tagline" role="status" aria-live="polite" style="margin-top:10px"></div></div>${cloudCard}<div class="card"><span class="pill">${t('storage.recommended')}</span><h3 style="font:700 16px Manrope">${t('storage.json')}</h3><p class="subheading">${t('storage.jsonDescription')}</p><button class="btn primary" data-action="export-json">${t('storage.download')}</button></div><div class="card"><span class="pill">${t('storage.restore')}</span><h3 style="font:700 16px Manrope">${t('storage.restoreTitle')}</h3><p class="subheading">${t('storage.restoreDescription')}</p><input type="file" id="json-file" class="field" accept=".json,application/json"><button class="btn soft" data-action="import-json" style="margin-top:10px">${t('storage.selectJson')}</button></div><div class="card"><span class="pill">${t('storage.diaryPill')}</span><h3 style="font:700 16px Manrope">${t('storage.csv')}</h3><p class="subheading">${t('storage.csvDescription')}</p><button class="btn" data-action="export-csv">${t('storage.exportCsv')}</button><label class="btn soft" style="display:inline-block;margin:8px 0">${t('storage.importCsv')}<input id="csv-file" hidden type="file" accept=".csv,text/csv"></label><div id="csv-preview"></div></div><div class="card"><span class="pill">${storageMode==='cloud'?t('storage.cloud'):t('storage.local')}</span><h3 style="font:700 16px Manrope">${t('storage.activeSave')}</h3><p class="subheading">${storageMode==='cloud'?t('storage.cloudBadge'):t('storage.localBadge')}</p><div class="tagline">${countText}</div></div></div>`;bindGlobal();$('#csv-file').onchange=importCsv;$('#json-file').onchange=importJson;$('#cloud-audit').onclick=runCloudAudit;$('#cloud-groups-audit').onclick=runCloudGroupsAudit}
 
 function csvExport(){let cols=['date','time','category','device','duration','puffs','strain','temp','location','taste','notes'],labels=['Datum','Uhrzeit','Kategorie','Gerät','Dauer','Puffs','Sorte','Temperatur','Ort','Geschmack','Notizen'],csv=[labels,...db.entries.map(e=>cols.map(k=>e[k]||''))].map(r=>r.map(x=>'"'+String(x).replaceAll('"','""')+'"').join(';')).join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'my-vaping-diary.csv')}
 function download(blob,name){let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
