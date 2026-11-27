@@ -46,6 +46,19 @@
       const records=await Promise.all(TYPES.map(type=>read(type)));
       return Object.fromEntries(records.map(record=>[record.type,record]));
     }
+    // Prüft zuerst den entschlüsselten Ist-Stand. Unveränderte Gruppen
+    // erzeugen weder eine neue Revision noch einen unnötigen Cloud-Schreibvorgang.
+    // Geänderte Gruppen werden mit der gerade gelesenen Revision geschrieben;
+    // ein paralleler Schreibvorgang wird durch die RPC-Revisionserwartung abgefangen.
+    async function sync(type,value){
+      assertType(type);
+      const current=await read(type);
+      if(current.exists&&sameData(current.data,value)){
+        return {...current,unchanged:true};
+      }
+      const saved=await write(type,value,current.revision);
+      return {...saved,unchanged:false};
+    }
     async function write(type,value,expectedRevision){
       assertType(type);
       if(!Number.isSafeInteger(expectedRevision)||expectedRevision<0)throw Error("Für "+type+" fehlt eine gültige erwartete Version.");
@@ -71,7 +84,7 @@
         throw error;
       }
     }
-    return Object.freeze({types:TYPES,read,readAll,write});
+    return Object.freeze({types:TYPES,read,readAll,write,sync});
   }
   window.MVAEncryptedData={create:make,types:TYPES};
 })();
