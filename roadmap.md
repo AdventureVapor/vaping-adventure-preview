@@ -14,7 +14,8 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Erste Forum-Oberfläche in Preview vorbereitet: drei Startbereiche, öffentliche Themenübersicht und Formular für angemeldete Cloud-Mitglieder
 - [x] Neue Themen werden mit Status „pending“ eingereicht und erst nach Moderationsfreigabe veröffentlicht
 - [x] Deutsch, Englisch und Französisch sowie responsive Grundgestaltung ergänzt
-- [ ] Supabase-Datenbankschema und Row Level Security mit der SQL-Migration einrichten
+- [x] Supabase-Datenbankschema und Row Level Security mit der SQL-Migration eingerichtet; Ausführung im Supabase SQL Editor vom Nutzer mit „Success. No rows returned“ bestätigt
+- [x] Erste Forum-Oberfläche in Preview vom Nutzer aufgerufen und grundsätzlich als funktionierend bestätigt
 - [ ] Moderation und Sichtbarkeit nach Freigabe praktisch testen
 - [x] Themen-Detailansicht und Antwortfunktion ergänzt; Antworten werden ebenfalls zunächst moderiert
 - [ ] Freiwillige Profilbilder und öffentliche Profilangaben anbinden
@@ -47,6 +48,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [ ] Eigenständiges Education-Symbol im Stil des offiziellen App-Logos gestalten: Universität-/Campus-Motiv mit Universitätsmütze, einer vapenden Person und dem Schriftzug „My Vaping Education“; als Symbol für den Education-Bereich in Version 1.4.1 vorbereiten
 - [ ] Absendername, Absenderadresse und SMTP-Zustellung für die gestalteten Auth-Mails abschließend konfigurieren bzw. prüfen
 - [ ] Registrierung, Passwort-Reset und E-Mail-Änderung mit Testkonten vollständig durchtesten
+- [ ] **Social Login:** Anmeldung zusätzlich mit Google-Konto und Facebook-Konto über Supabase Auth ermöglichen; Provider-Zugangsdaten, OAuth-Redirect-URLs und Rückkehr in die App konfigurieren; bestehende E-Mail-/Passwort-Anmeldung beibehalten
+- [ ] Google- und Facebook-Anmeldung mit Testkonten auf Desktop und iPhone prüfen; sicherstellen, dass bestehende Benutzerkonten und die benutzergebundene Cloud-Datentrennung erhalten bleiben
 - [x] Registrierungs-/Confirm-Mail in der Vorschau geprüft: Gestaltung korrekt, offizielles Logo wird angezeigt (Nutzerbestätigung)
 - [ ] E-Mail-Darstellung/Zustellung in Gmail, Apple Mail und Outlook prüfen
 - [ ] Kontaktformular auf Windows-PC und iPhone praktisch testen
