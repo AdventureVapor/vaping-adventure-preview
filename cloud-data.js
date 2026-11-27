@@ -35,12 +35,23 @@
     }
     async function read(type){
       assertType(type);
-      const rows=await request("/rest/v1/mva_data?select=data_type,payload,revision&user_id=eq."+encodeURIComponent(userId)+"&data_type=eq."+encodeURIComponent(type)+"&limit=1");
+      let rows;
+      try{
+        rows=await request("/rest/v1/mva_data?select=data_type,payload,revision&user_id=eq."+encodeURIComponent(userId)+"&data_type=eq."+encodeURIComponent(type)+"&limit=1");
+      }catch(error){
+        throw Error("Lesefehler bei Datengruppe „"+type+"“: "+String(error?.message||error));
+      }
       const row=rows?.[0];
       if(!row)return {type,revision:0,data:null,exists:false};
       const revision=Number(row.revision);
-      if(!Number.isSafeInteger(revision)||revision<1)throw Error("Ungültige Versionsnummer für "+type+".");
-      return {type,revision,data:await open(type,row.payload,revision),exists:true};
+      if(!Number.isSafeInteger(revision)||revision<1)throw Error("Ungültige Versionsnummer für Datengruppe „"+type+"“.");
+      let data;
+      try{
+        data=await open(type,row.payload,revision);
+      }catch(error){
+        throw Error("Entschlüsselungsfehler bei Datengruppe „"+type+"“ (Version "+revision+"): "+String(error?.message||error));
+      }
+      return {type,revision,data,exists:true};
     }
     async function readAll(){
       const records=await Promise.all(TYPES.map(type=>read(type)));
