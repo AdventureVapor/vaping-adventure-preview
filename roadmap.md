@@ -20,7 +20,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Mehrsprachigen festen Willkommenstext für das Gästebuch (Deutsch, Englisch und Französisch) ergänzt und in Preview `main` gemergt (PR #108); vorhandene Gästebucheinträge bleiben unverändert
 - [x] Vaporizer-Füllungsart im Tagebuchformular „Eintrag erstellen“ und „Eintrag bearbeiten“ als zweigeteilten Umschalter „Med. Cannabis“ / „Kräuter“ umgesetzt und in Preview `main` gemergt (PR #109); bestehende Material-/Sortenlogik bleibt erhalten
 - [ ] Umschalter auf iPhone und Desktop praktisch testen: Auswahl beim Erstellen speichern, beim Bearbeiten korrekt wiederherstellen und zwischen beiden Füllungsarten wechseln
-- [ ] Kräuterliste alphabetisch sortieren und im Tagebuchformular bei der Kräutereingabe dynamische, alphabetisch sortierte Präfix-Vorschläge direkt unter dem Eingabefeld anzeigen (z. B. „M“ → alle M-Kräuter, „Mi“ → nur Mi-Kräuter, „Min“ → nur Min-Kräuter); Auswahl per Antippen
+- [x] Kräuterliste alphabetisch sortieren und im Tagebuchformular bei der Kräutereingabe dynamische, alphabetisch sortierte Präfix-Vorschläge direkt unter dem Eingabefeld anzeigen (z. B. „M“ → alle M-Kräuter, „Mi“ → nur Mi-Kräuter, „Min“ → nur Min-Kräuter); Auswahl per Antippen; in Preview `main` gemergt (PR #110)
+- [ ] Kräutervorschläge auf iPhone und Desktop praktisch testen: alphabetische Reihenfolge, Filterung bei mehreren eingegebenen Buchstaben und Übernahme per Antippen
 - [x] Lernkurse und mehrsprachige Kursinhalte in Preview ergänzt
 - [x] Originalfassung „My Vaping Education – Grundlagen“ mit sieben ausführlichen Lektionen, technischen SVG-Illustrationen, Tabellen und zehn Quizfragen in Preview integriert; bestehende Kurs-ID und gespeicherte Fortschritte bleiben erhalten
 - [x] Kontaktbereich und mehrsprachiges Kontaktformular als `mailto:`-Basisversion umgesetzt
