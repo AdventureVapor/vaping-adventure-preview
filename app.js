@@ -1086,7 +1086,7 @@ async function runCloudGroupsMigration(){
  try{
   const payload=await cloudRead();
   if(!payload)throw Error('Der bisherige Cloud-Spielstand ist nicht mehr vorhanden.');
-  const legacy=await decryptCloud(payload);
+  let legacy=await decryptCloud(payload);
   if(!cloudSnapshotsEqual(legacy,cloudMigrationBackupLegacySnapshot)){
    cloudMigrationBackupReady=false;cloudMigrationBackupLegacySnapshot=null;
    throw Error('Der bisherige Cloud-Spielstand hat sich seit dem Backup geändert. Bitte zuerst ein neues Backup erstellen.');
