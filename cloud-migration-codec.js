@@ -44,5 +44,27 @@ function join(groups){
  }
  return result;
 }
-window.MVACloudMigrationCodec=Object.freeze({types:TYPES,split,join});
+function canonical(value){
+ if(Array.isArray(value))return value.map(canonical);
+ if(value&&typeof value==="object"){
+  const result={};
+  for(const key of Object.keys(value).sort())result[key]=canonical(value[key]);
+  return result;
+ }
+ return value;
+}
+function compare(legacySnapshot,records){
+ const expected=split(legacySnapshot);
+ const status=TYPES.map(type=>{
+  const record=records&&records[type];
+  const exists=!!record&&record.exists===true;
+  return {type,exists,matches:exists&&JSON.stringify(canonical(expected[type]))===JSON.stringify(canonical(record.data))};
+ });
+ const existingCount=status.filter(item=>item.exists).length;
+ const matchingCount=status.filter(item=>item.matches).length;
+ const missing=status.filter(item=>!item.exists).map(item=>item.type);
+ const mismatched=status.filter(item=>item.exists&&!item.matches).map(item=>item.type);
+ return {readOnly:true,total:TYPES.length,existingCount,matchingCount,missing,mismatched,complete:existingCount===TYPES.length&&matchingCount===TYPES.length};
+}
+window.MVACloudMigrationCodec=Object.freeze({types:TYPES,split,join,compare});
 })();
