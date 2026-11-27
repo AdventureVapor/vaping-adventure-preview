@@ -1108,7 +1108,10 @@ async function runCloudGroupsMigration(){
   }
   result.textContent=toCreate.length+' fehlende Datengruppe(n) werden einzeln verschlüsselt übertragen und direkt überprüft …';
   for(const type of toCreate){
-   await access.sync(type,expected[type]);
+   // Die Vorprüfung hat diese Gruppe als fehlend erkannt. Schreibe atomar nur
+   // mit erwarteter Revision 0: Ein zwischenzeitlich angelegter Datensatz
+   // muss einen Versionskonflikt auslösen und darf niemals überschrieben werden.
+   await access.write(type,expected[type],0);
    const verified=await access.read(type);
    if(!verified.exists||!cloudSnapshotsEqual(verified.data,expected[type])){
     throw Error('Read-back-Prüfung für „'+type+'“ fehlgeschlagen. Die Legacy-Sicherung bleibt unverändert; bitte Status prüfen, bevor du erneut startest.');
