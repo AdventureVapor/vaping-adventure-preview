@@ -140,6 +140,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] PR #100 ergänzt: Medienmodul kann eine bestehende Medienreferenz bytegenau vergleichen und bei Gleichheit wiederverwenden
 - [x] Getrenntes Datengruppen-Modul um `sync(type, value)` erweitert: zuerst entschlüsselt lesen und vergleichen, bei identischem Inhalt keine neue Revision schreiben
 - [x] Isolierten Browser-Test um Fälle „unverändert“ (kein Schreibaufruf) und „geändert“ (neue Revision) ergänzt
+- [x] Cache-Versionen für `app.js`, `cloud-data.js` und `cloud-media.js` in `index.html` aktualisiert, damit Preview nicht versehentlich alte Module lädt
 - [ ] Browser-Testseite `tests/cloud-data-test.html` ausführen und alle Tests praktisch bestätigen
 - [ ] Medienvergleich mit simulierten identischen und geänderten Dateien testen; Upload-Zähler und Byte-Prüfung kontrollieren
 - [ ] Datengruppen-Synchronisierung gegen Backend-RPC `mva_write_data` im separaten Testprojekt prüfen; Versionskonflikte und Timeout nach Commit testen
