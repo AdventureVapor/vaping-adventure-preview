@@ -21,7 +21,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Vaporizer-Füllungsart im Tagebuchformular „Eintrag erstellen“ und „Eintrag bearbeiten“ als zweigeteilten Umschalter „Med. Cannabis“ / „Kräuter“ umgesetzt und in Preview `main` gemergt (PR #109); bestehende Material-/Sortenlogik bleibt erhalten
 - [ ] Umschalter auf iPhone und Desktop praktisch testen: Auswahl beim Erstellen speichern, beim Bearbeiten korrekt wiederherstellen und zwischen beiden Füllungsarten wechseln
 - [x] Kräutervorschläge im Tagebuchformular alphabetisch nach deutschem Pflanzennamen sortieren und dynamische Präfix-Vorschläge direkt unter dem Eingabefeld anzeigen (z. B. „M“ → alle M-Kräuter, „Mi“ → nur Mi-Kräuter, „Min“ → nur Min-Kräuter); Auswahl per Antippen; in Preview `main` gemergt (PR #110)
-- [x] Tabelle „Pflanzen & Kräuter“ ebenfalls alphabetisch nach dem deutschen Pflanzennamen in der ersten Spalte sortieren (nicht nach botanischer Bezeichnung); in Preview `main` gemergt (PR #111)
+- [x] Tabellenanzeige „Pflanzen & Kräuter“ nach deutschem Pflanzennamen sortieren (PR #111)
+- [ ] Zusätzlich die Quelldaten `plant-catalog.js` selbst alphabetisch nach der ersten Spalte sortieren, damit die Reihenfolge unabhängig von der Anzeige stimmt; Korrektur vorbereitet
 - [ ] Kräutervorschläge auf iPhone und Desktop praktisch testen: alphabetische Reihenfolge, Filterung bei mehreren eingegebenen Buchstaben und Übernahme per Antippen
 - [x] Lernkurse und mehrsprachige Kursinhalte in Preview ergänzt
 - [x] Originalfassung „My Vaping Education – Grundlagen“ mit sieben ausführlichen Lektionen, technischen SVG-Illustrationen, Tabellen und zehn Quizfragen in Preview integriert; bestehende Kurs-ID und gespeicherte Fortschritte bleiben erhalten
