@@ -95,7 +95,6 @@ async function run(){
   assert(JSON.stringify(original.devices[0].manualData)===JSON.stringify(split.devices[0].manualData),"Medienreferenz wurde verändert");
   assert(original.controlledVaping.customFlag===true,"Eingabeobjekt wurde verändert");
   assert(JSON.stringify(joined.settings)===JSON.stringify(original.settings),"App-Einstellungen wurden nicht erhalten");
-  assert(JSON.stringify(joined.settings)===JSON.stringify(original.settings),"App-Einstellungen wurden nicht erhalten");
   log("Alle sieben Gruppen lassen sich verlustfrei aufteilen und zusammensetzen (inkl. Einstellungen und Medienreferenzen)");
   const partial=window.MVACloudMigrationCodec.join({entries:{data:[{id:"only"}]},devices:{data:null}});
   assert(partial.entries.length===1&&partial.devices.length===0&&partial.game.xp===0&&Object.keys(partial.controlledVaping).length===0,"Fehlende Gruppen erhalten keine sicheren Standardwerte");
@@ -108,6 +107,9 @@ async function run(){
   assert(restored.entries[0].time==="18:45"&&restored.game.courses.intro.score===95,"Tagebuch- oder Lernfortschritt ging verloren");
   assert(restored.settings.vapingCategories.custom==="Eigene Kategorie","Individuelle App-Einstellungen gingen verloren");
   log("Realistischer Altbestand mit Tagebuchfeldern, Legacy-Gerät, PDF-/Foto-Referenzen, Lernfortschritt und App-Einstellungen bleibt erhalten");
+  let unknownRejected=false;try{window.MVACloudMigrationCodec.split({...legacySample,unknownFutureField:{keep:true}})}catch(e){unknownRejected=/Unbekannte Spielstand-Felder/.test(e.message)}
+  assert(unknownRejected,"Unbekanntes Zusatzfeld wurde stillschweigend verworfen");
+  log("Unbekannte Zusatzfelder brechen die Migration sicher ab statt Daten zu verlieren");
 
   out.textContent+="\nERGEBNIS: Alle simulierten Tests bestanden. Kein Supabase-Test.";
  }catch(e){
