@@ -20,8 +20,8 @@ function mediaKind(path,mime){
  return "photo";
 }
 function fileName(path,kind){
- const leaf=String(path).split(/[./\[\]]/).filter(Boolean).pop()||(kind==="pdf"?"Anleitung.pdf":"Foto");
- return leaf.slice(-120);
+ const leaf=String(path).slice(-120).replace(/[^a-zA-Z0-9_-]/g,"_");
+ return (leaf||(kind==="pdf"?"Anleitung":"Foto"))+(kind==="pdf"?".pdf":".jpg");
 }
 async function migrate(snapshot,uploadVerified){
  if(!snapshot||typeof snapshot!=="object"||typeof uploadVerified!=="function")throw Error("Medienmigration: Spielstand oder Upload-Funktion fehlt.");
