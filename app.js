@@ -245,6 +245,20 @@ async function cloudAuth(identifier,password){if(!cloudReady())throw Error('Clou
 async function cloudSignup(email,password){if(!cloudReady())throw Error('Cloud ist noch nicht eingerichtet.');let d=await cloudFetch('/auth/v1/signup?redirect_to='+encodeURIComponent(location.origin+location.pathname),{method:'POST',body:JSON.stringify({email,password})});return d}
 async function cloudResetEmail(email){let c=cloudConfig();let res=await fetch(`${c.url.replace(/\/$/,'')}/auth/v1/recover?redirect_to=${encodeURIComponent(location.origin+location.pathname)}`,{method:'POST',headers:{apikey:c.apiKey,'Content-Type':'application/json'},body:JSON.stringify({email})});let d=await res.json().catch(()=>({}));if(!res.ok)throw Error(d.msg||d.message||d.error_description||'E-Mail konnte nicht versendet werden')}
 async function cloudRead(){let rows=await cloudFetch(`/rest/v1/mva_saves?select=payload&user_id=eq.${encodeURIComponent(cloudSession.userId)}&limit=1`,{headers:{Authorization:`Bearer ${cloudSession.token}`}});return rows?.[0]?.payload||null}
+// Kanonischer Vergleich des entschlüsselten Spielstands: Schlüsselreihenfolge
+// spielt keine Rolle. Medien-Data-URLs werden bytegenau mitverglichen.
+function canonicalCloudValue(value){
+ if(Array.isArray(value))return value.map(canonicalCloudValue);
+ if(value&&typeof value==='object'){
+  const result={};
+  for(const key of Object.keys(value).sort())result[key]=canonicalCloudValue(value[key]);
+  return result;
+ }
+ return value;
+}
+function cloudSnapshotsEqual(a,b){
+ return JSON.stringify(canonicalCloudValue(a))===JSON.stringify(canonicalCloudValue(b));
+}
 async function cloudWrite(){
  if(!cloudSession||!cloudKey)return;
  cloudSaveRevision++;
@@ -256,6 +270,21 @@ async function cloudWrite(){
    let lastError=null;
    for(let attempt=0;attempt<4;attempt++){
     try{
+     // Erst den aktuellen Cloud-Stand lesen und entschlüsselt vergleichen.
+     // Bei identischen Daten wird kein neuer Upload ausgelöst. Ein Lesefehler
+     // bricht sicher ab: niemals ungeprüft einen möglicherweise neueren Stand überschreiben.
+     setCloudStatus('Cloud-Sicherung: vorhandene Daten werden abgeglichen …');
+     const cloudPayload=await cloudRead();
+     if(cloudPayload){
+      const cloudSnapshot=await decryptCloud(cloudPayload);
+      if(cloudSnapshotsEqual(snapshot,cloudSnapshot)){
+       try{await saveCloudRecoveryCopy(cloudPayload);cloudRecoveryWarningShown=false}catch(storageError){console.warn('Lokale verschlüsselte Wiederherstellungskopie konnte nicht aktualisiert werden:',storageError)}
+       cloudSavedRevision=revision;
+       lastError=null;
+       setCloudStatus('Cloud ist bereits aktuell – keine Übertragung erforderlich');
+       break;
+      }
+     }
      setCloudStatus('Cloud-Sicherung: Daten werden verschlüsselt …');
      const payload=await encryptCloud(snapshot);
      setCloudStatus('Cloud-Sicherung: lokale verschlüsselte Notfallkopie wird geschrieben …');
