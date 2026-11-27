@@ -1,4 +1,4 @@
-/* Reine Umwandlung zwischen dem bisherigen Gesamt-Spielstand und sechs Cloud-Datengruppen.
+/* Reine Umwandlung zwischen dem bisherigen Gesamt-Spielstand und sieben Cloud-Datengruppen.
  * Keine Netzwerkzugriffe, keine Speicherung und keine Änderung am übergebenen Objekt.
  */
 (function(){
@@ -7,6 +7,8 @@ const TYPES=Object.freeze(["entries","devices","strains","photos","game","contro
 const clone=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
 function split(db){
  if(!db||typeof db!=="object"||Array.isArray(db))throw Error("Ungültiger Spielstand für die Cloud-Aufteilung.");
+ const unknown=Object.keys(db).filter(key=>!TYPES.includes(key));
+ if(unknown.length)throw Error("Unbekannte Spielstand-Felder werden noch nicht migriert: "+unknown.join(", ")+". Die Migration wurde sicherheitshalber abgebrochen.");
  const result={};
  for(const type of TYPES){
   const value=db[type];
