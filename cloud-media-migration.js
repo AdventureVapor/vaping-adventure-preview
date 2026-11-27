@@ -16,7 +16,7 @@ function parseDataUrl(value){
  return {mime,bytes};
 }
 function mediaKind(path,mime){
- if(mime==="application/pdf"||/manual|anleitung/i.test(path))return "pdf";
+ if(mime==="application/pdf")return "pdf";
  return "photo";
 }
 function fileName(path,kind){
@@ -32,7 +32,7 @@ async function migrate(snapshot,uploadVerified){
   if(typeof value==="string"&&value.startsWith("data:")){
    const parsed=parseDataUrl(value);
    const digest=new Uint8Array(await crypto.subtle.digest("SHA-256",parsed.bytes));
-   const hash=Array.from(digest,x=>x.toString(16).padStart(2,"0")).join("");
+   const hash=parsed.mime+":"+Array.from(digest,x=>x.toString(16).padStart(2,"0")).join("");
    stats.inlineCount++;stats.totalBytes+=parsed.bytes.byteLength;
    if(byHash.has(hash)){stats.reusedCount++;parent[key]=byHash.get(hash);return;}
    const kind=mediaKind(path,parsed.mime);
