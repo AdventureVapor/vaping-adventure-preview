@@ -148,7 +148,30 @@ async function deriveCloudKey(password,salt){let material=await crypto.subtle.im
 async function aesWrap(key,bytes){let iv=crypto.getRandomValues(new Uint8Array(12)),cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,bytes);return {iv:b64(iv),ciphertext:b64(cipher)}}
 async function aesUnwrap(key,box){return new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},key,unb64(box.ciphertext)))}
 async function encryptCloud(data){if(!cloudKey)throw Error('Verschlüsselungsschlüssel fehlt');let iv=crypto.getRandomValues(new Uint8Array(12)),bytes=new TextEncoder().encode(JSON.stringify(data)),cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},cloudKey,bytes);return cloudEnvelope?{v:2,envelope:cloudEnvelope,iv:b64(iv),ciphertext:b64(cipher)}:{v:1,salt:b64(cloudSalt),iv:b64(iv),ciphertext:b64(cipher)}}
-async function decryptCloud(box){if(box?.v===2&&box.envelope?.v===1){let env=box.envelope,salt=unb64(env.password.salt),kek=await deriveCloudKey(cloudPassword,salt),raw=await aesUnwrap(kek,env.password),rawKey=await crypto.subtle.importKey('raw',raw,{name:'AES-GCM'},false,['encrypt','decrypt']);cloudKey=rawKey;cloudEnvelope=env;let plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},cloudKey,unb64(box.ciphertext));return JSON.parse(new TextDecoder().decode(plain))}if(box?.v!==1)throw Error('Unbekanntes Cloud-Backup-Format');cloudSalt=unb64(box.salt);cloudKey=await deriveCloudKey(cloudPassword,cloudSalt);cloudEnvelope=null;let plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},cloudKey,unb64(box.ciphertext));return JSON.parse(new TextDecoder().decode(plain))}
+async function decryptCloud(box){
+ if(box?.v===2&&box.envelope?.v===1){
+  const env=box.envelope;
+  const cachedEnvelopeMatches=!!cloudKey&&!!cloudEnvelope&&JSON.stringify(cloudEnvelope)===JSON.stringify(env);
+  if(!cachedEnvelopeMatches){
+   const salt=unb64(env.password.salt);
+   const kek=await deriveCloudKey(cloudPassword,salt);
+   const raw=await aesUnwrap(kek,env.password);
+   cloudKey=await crypto.subtle.importKey('raw',raw,{name:'AES-GCM'},false,['encrypt','decrypt']);
+   cloudEnvelope=env;
+  }
+  const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},cloudKey,unb64(box.ciphertext));
+  return JSON.parse(new TextDecoder().decode(plain));
+ }
+ if(box?.v!==1)throw Error('Unbekanntes Cloud-Backup-Format');
+ const cachedLegacyKeyMatches=!!cloudKey&&!!cloudSalt&&b64(cloudSalt)===box.salt;
+ if(!cachedLegacyKeyMatches){
+  cloudSalt=unb64(box.salt);
+  cloudKey=await deriveCloudKey(cloudPassword,cloudSalt);
+ }
+ cloudEnvelope=null;
+ const plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},cloudKey,unb64(box.ciphertext));
+ return JSON.parse(new TextDecoder().decode(plain));
+}
 async function createCloudEnvelope(password){let raw=crypto.getRandomValues(new Uint8Array(32)),dek=await crypto.subtle.importKey('raw',raw,{name:'AES-GCM'},false,['encrypt','decrypt']);let ps=crypto.getRandomValues(new Uint8Array(16)),pk=await deriveCloudKey(password,ps),pw=await aesWrap(pk,raw);let recovery=Array.from(crypto.getRandomValues(new Uint8Array(24)),x=>x.toString(16).padStart(2,'0')).join('');let rs=crypto.getRandomValues(new Uint8Array(16)),rk=await deriveCloudKey(recovery,rs),rw=await aesWrap(rk,raw);cloudKey=dek;cloudEnvelope={v:1,password:{salt:b64(ps),...pw},recovery:{salt:b64(rs),...rw}};return recovery}
 let cloudPassword='';
 async function timedCloudFetch(url,options={},timeoutMs=20000){

@@ -974,3 +974,9 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [x] Isolierte Tests für vollständige Übereinstimmung, leeren Gruppenbestand und abweichende Gruppe ergänzt.
 - [ ] Read-only-Liveprüfung mit einem echten angemeldeten Supabase-Testkonto durchführen; dafür im Preview unter „Speicher & Backup“ den Button „Datengruppen abgleichen (nur lesen)“ ausführen und das Ergebnis prüfen.
 - [ ] Erst nach dokumentierter Liveprüfung einen gesondert freizugebenden Migrationsschritt planen.
+
+
+### Cloud-Abgleich: aktiven Entschlüsselungsschlüssel wiederverwenden
+- [x] Ursache des fehlgeschlagenen Nur-Lese-Abgleichs gefunden: Das Login löscht das Kennwort nach erfolgreicher Anmeldung, während der spätere Audit erneut eine Schlüsselableitung aus diesem leeren Kennwort versuchte.
+- [x] Entschlüsselung für Legacy-Spielstände und verschlüsselte Umschläge so angepasst, dass ein bereits für denselben Salt/Umschlag abgeleiteter Sitzungsschlüssel wiederverwendet wird; das Kennwort muss nicht im Speicher verbleiben.
+- [ ] Regressionstest im Preview: Datengruppenabgleich nach regulärer Anmeldung für Legacy- und Umschlag-Format.
