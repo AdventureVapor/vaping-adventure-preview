@@ -3,11 +3,11 @@
 "use strict";
 const enc=new TextEncoder();
 function parseDataUrl(value){
- const m=/^data:([^;,]+)?(;base64)?,([\\s\\S]*)$/i.exec(value);
+ const m=/^data:([^;,]+)?(;base64)?,([\s\S]*)$/i.exec(value);
  if(!m)throw Error("Ungültige Data-URL");
  const mime=(m[1]||"application/octet-stream").toLowerCase();
  let bytes;
- if(m[2]){const bin=atob(m[3].replace(/\\s/g,""));bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i)}
+ if(m[2]){const bin=atob(m[3].replace(/\s/g,""));bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i)}
  else bytes=enc.encode(decodeURIComponent(m[3]));
  return {mime,bytes};
 }
