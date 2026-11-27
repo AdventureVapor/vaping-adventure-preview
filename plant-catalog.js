@@ -85,5 +85,5 @@ window.MVA_PLANT_CATALOG = [
 ["Mulungu","Erythrina mulungu","200-230°C","Sedierend, beruhigend, angstlösend, fiebersenkend, blutdrucksenkend"],
 ["Dendrobium Nobile","Dendrobium nobile","170-190°C","Euphorisierend, beruhigend, Cannabis-ähnlich, leicht psychedelisch"],
 ["Schafgarbe","Achillea millefolium","100-150°C","Krampflösend, verdauungsfördernd / Vielfältige Heilpflanze, volksmedizinisch für fast alle Krankheiten"]
-];
+].sort((a,b)=>String(a[0]||'').localeCompare(String(b[0]||''),'de',{sensitivity:'base'}));
 window.MVA_PLANT_CATALOG_NOTICE = "Die angegebenen Temperaturen sind nicht verbindlich und können je nach Gerät und Pflanzenmaterial variieren. Generell gilt die Regel, dass man, wenn man zu wenig schmeckt, die Temperatur etwas höher stellen und wenn der Dampf zu kratzig ist, die Temperatur besser runterregeln sollte. Die angegebenen Wirkungen sind teils volksmedizinisch bekannt, teils wissenschaftlich belegt. Das Vaporisieren hilft gegen Übelkeit generell weniger als wenn man die Pflanzen als Tee trinken würde, bei Atemwegserkrankungen hingegen hilft es mehr.";
