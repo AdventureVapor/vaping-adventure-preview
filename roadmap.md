@@ -18,6 +18,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Zehn Designs (Original, Forest & Nature, Ocean Blue, Sunset, Midnight, Sakura, Graphite, Lavender, Desert und Aurora), responsive Oberflächenverbesserungen und französische App-Sprache in Preview umgesetzt
 - [x] Gästebuch mit Einreichung und Moderationsablauf in Preview umgesetzt
 - [x] Mehrsprachigen festen Willkommenstext für das Gästebuch (Deutsch, Englisch und Französisch) ergänzt und in Preview `main` gemergt (PR #108); vorhandene Gästebucheinträge bleiben unverändert
+- [x] Vaporizer-Füllungsart im Tagebuchformular „Eintrag erstellen“ und „Eintrag bearbeiten“ als zweigeteilten Umschalter „Med. Cannabis“ / „Kräuter“ umgesetzt und in Preview `main` gemergt (PR #109); bestehende Material-/Sortenlogik bleibt erhalten
+- [ ] Umschalter auf iPhone und Desktop praktisch testen: Auswahl beim Erstellen speichern, beim Bearbeiten korrekt wiederherstellen und zwischen beiden Füllungsarten wechseln
 - [x] Lernkurse und mehrsprachige Kursinhalte in Preview ergänzt
 - [x] Originalfassung „My Vaping Education – Grundlagen“ mit sieben ausführlichen Lektionen, technischen SVG-Illustrationen, Tabellen und zehn Quizfragen in Preview integriert; bestehende Kurs-ID und gespeicherte Fortschritte bleiben erhalten
 - [x] Kontaktbereich und mehrsprachiges Kontaktformular als `mailto:`-Basisversion umgesetzt
