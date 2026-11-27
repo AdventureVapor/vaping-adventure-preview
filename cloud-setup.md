@@ -116,7 +116,7 @@ Damit Tagebucheinträge, Geräte, Sorten und Spielfortschritt künftig unabhäng
 ```sql
 create table if not exists public.mva_data (
   user_id uuid not null references auth.users(id) on delete cascade,
-  data_type text not null check (data_type in ('entries','devices','strains','photos','game','controlledVaping')),
+  data_type text not null check (data_type in ('entries','devices','strains','photos','game','controlledVaping','settings')),
   payload jsonb not null,
   updated_at timestamptz not null default now(),
   revision bigint not null default 1,
@@ -149,13 +149,14 @@ Die `payload`-Spalte enthält ausschließlich clientseitig AES-GCM-verschlüssel
 
 ## 9. Verbindliche Regeln für die spätere App-Umstellung
 
-Die aktuelle App-Datenstruktur enthält diese sechs Datengruppen:
+Die aktuelle App-Datenstruktur enthält diese sieben Datengruppen:
 - `entries` – Tagebucheinträge
 - `devices` – Geräte einschließlich ihrer Medienverweise
 - `strains` – Sorten
 - `photos` – Galerieeinträge einschließlich ihrer Medienverweise
 - `game` – XP, Coins, Quests und Lernfortschritt
 - `controlledVaping` – Startdatum und Daten der Funktion „Kontrolliertes Vapen“
+- `settings` – persönliche App-Einstellungen, insbesondere die konfigurierbaren Vaping-Kategorien
 
 Die sechs Gruppen müssen vollständig übernommen werden. Unbekannte zusätzliche Felder eines älteren oder neueren Backups dürfen bei einer Migration nicht stillschweigend verworfen werden. Deshalb bleibt das ursprüngliche vollständige JSON-Backup die maßgebliche Rückfallkopie.
 
@@ -200,7 +201,7 @@ begin
   end if;
 
   if p_data_type is null
-     or p_data_type not in ('entries','devices','strains','photos','game','controlledVaping')
+     or p_data_type not in ('entries','devices','strains','photos','game','controlledVaping','settings')
      or p_expected_revision is null
      or p_expected_revision < 0 then
     raise exception 'Invalid data type or expected revision' using errcode = '22023';
