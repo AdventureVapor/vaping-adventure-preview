@@ -1228,6 +1228,38 @@ async function runCloudGroupsMigration(){
   result.textContent='Migration gestoppt: '+(error?.message||'Unbekannter Fehler')+'. Der bisherige Cloud-Spielstand wurde nicht gelöscht oder überschrieben.';
  }finally{button.disabled=false}
 }
+function cloudGroupDifferencePaths(a,b,limit=10){
+ const paths=[];
+ const walk=(left,right,path)=>{
+  if(paths.length>=limit)return;
+  if(Array.isArray(left)||Array.isArray(right)){
+   if(!Array.isArray(left)||!Array.isArray(right)){paths.push(path+" (unterschiedlicher Datentyp)");return}
+   if(left.length!==right.length)paths.push(path+".length ("+left.length+" / "+right.length+")");
+   const n=Math.min(left.length,right.length);
+   for(let i=0;i<n&&paths.length<limit;i++)walk(left[i],right[i],path+"["+i+"]");
+   return;
+  }
+  const lo=left&&typeof left==="object",ro=right&&typeof right==="object";
+  if(lo||ro){
+   if(!lo||!ro){paths.push(path+" (unterschiedlicher Datentyp)");return}
+   const keys=[...new Set([...Object.keys(left),...Object.keys(right)])].sort();
+   for(const key of keys){
+    if(paths.length>=limit)break;
+    if(!Object.prototype.hasOwnProperty.call(left,key)||!Object.prototype.hasOwnProperty.call(right,key)){paths.push(path+"."+key+" (fehlt auf einer Seite)");continue}
+    walk(left[key],right[key],path+"."+key);
+   }
+   return;
+  }
+  if(left!==right)paths.push(path+" (Wert weicht ab)");
+ };
+ walk(a,b,"$");
+ return paths;
+}
+function cloudGroupSize(value){
+ if(Array.isArray(value))return value.length+" Einträge";
+ if(value&&typeof value==="object")return Object.keys(value).length+" Felder";
+ return typeof value;
+}
 async function runCloudGroupsAudit(){
  const result=$('#cloud-groups-audit-result'),button=$('#cloud-groups-audit');
  if(!result||!button)return;
@@ -1238,11 +1270,8 @@ async function runCloudGroupsAudit(){
   const legacyPayload=await cloudRead();
   if(!legacyPayload)throw Error('Kein bisheriger Cloud-Spielstand gefunden.');
   let legacySnapshot;
-  try{
-   legacySnapshot=await decryptCloud(legacyPayload);
-  }catch(error){
-   throw Error('Entschlüsselung des bisherigen Cloud-Spielstands fehlgeschlagen: '+(error?.message||'Unbekannter Fehler'));
-  }
+  try{legacySnapshot=await decryptCloud(legacyPayload)}
+  catch(error){throw Error('Entschlüsselung des bisherigen Cloud-Spielstands fehlgeschlagen: '+(error?.message||'Unbekannter Fehler'))}
   const records=await createCloudDataAccess().readAll();
   const report=window.MVACloudMigrationCodec.compare(legacySnapshot,records);
   if(report.existingCount===0){
@@ -1250,12 +1279,18 @@ async function runCloudGroupsAudit(){
   }else if(report.complete){
    result.textContent='Alle sieben Datengruppen stimmen vollständig mit dem bisherigen Cloud-Spielstand überein. Nur-Lese-Prüfung erfolgreich – keine Daten wurden geschrieben.';
   }else{
-   const missing=report.missing.length?'Fehlend: '+report.missing.join(', ')+'. ':'';
-   const mismatched=report.mismatched.length?'Abweichend: '+report.mismatched.join(', ')+'.':'';
-   result.textContent='Noch keine vollständige Übereinstimmung. '+missing+mismatched+'Der bisherige Cloud-Spielstand wurde nicht verändert.';
+   const lines=[];
+   for(const type of report.mismatched){
+    const legacy=window.MVACloudMigrationCodec.split(legacySnapshot)[type];
+    const current=records[type]?.data;
+    const paths=cloudGroupDifferencePaths(legacy,current);
+    lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'. Unterschiede: '+(paths.join('; ')||'Inhalt weicht ab, Details nicht verfügbar')+'.');
+   }
+   const missing=report.missing.length?'Fehlende Gruppen: '+report.missing.join(', ')+'. ':'';
+   result.textContent='Noch keine vollständige Übereinstimmung. '+missing+lines.join(' ')+' Der bisherige Cloud-Spielstand wurde nicht verändert. Diese Detailprüfung hat ausschließlich gelesen.';
   }
  }catch(error){
-  console.error('Read-only-Abgleich der Datengruppen fehlgeschlagen:',error);
+  console.error('Read-only-Abgleich der Cloud-Datengruppen fehlgeschlagen:',error);
   result.textContent='Datengruppen konnten nicht geprüft werden: '+(error?.message||'Unbekannter Fehler')+'. Es wurde nichts geschrieben.';
  }finally{button.disabled=false}
 }
