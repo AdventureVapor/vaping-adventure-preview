@@ -144,7 +144,8 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Browser-Testseite `tests/cloud-data-test.html` in GitHub Actions mit Chromium erfolgreich ausgeführt (inkl. Altbestand-Roundtrip mit Einstellungen)
 - [ ] Medienvergleich mit simulierten identischen und geänderten Dateien testen; Upload-Zähler und Byte-Prüfung kontrollieren
 - [x] PostgreSQL-RPC-, CAS-, RLS- und Timeout-nach-Commit-Tests im isolierten CI-Testprojekt erfolgreich ausgeführt
-- [ ] Bestehenden vollständigen Cloud-Spielstand zunächst nur lesend analysieren; keine automatische Migration und kein Löschen
+- [x] Lesende Medienbestandsprüfung in „Speicher & Backup“ integriert: Inline-Dateien, Größen, SHA-256-Duplikate, vorhandene Cloud-Referenzen und ungültige Medien werden angezeigt; keine Uploads/Änderungen/Löschungen
+- [ ] Bestehenden vollständigen Cloud-Spielstand eines echten Kontos zunächst nur lesend analysieren; keine automatische Migration und kein Löschen
 - [ ] Medien- und Datengruppen-Synchronisierung in Galerie, Geräte, PDF-Anleitungen und Tagebuch schrittweise integrieren
 - [ ] Rückwärtskompatibilität für bestehende Data-URLs und bisherige `mva_saves`-Spielstände sicherstellen
 - [ ] JSON-Backup/Import einschließlich aller Medien bytegenau testen
