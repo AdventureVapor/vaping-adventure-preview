@@ -55,9 +55,9 @@ async function run(){
   const first=window.MVAEncryptedData.create({request:server.request,userId,key});
   const second=window.MVAEncryptedData.create({request:server.request,userId,key});
   const empty=await first.readAll();
-  assert(Object.keys(empty).length===6,"readAll liefert nicht sechs Gruppen");
+  assert(Object.keys(empty).length===7,"readAll liefert nicht sieben Gruppen");
   assert(Object.values(empty).every(x=>x.revision===0&&!x.exists),"Leere Gruppen haben falschen Anfangsstand");
-  log("Alle sechs Gruppen werden mit Version 0 erkannt");
+  log("Alle sieben Gruppen werden mit Version 0 erkannt");
   const initial={id:"entry-1",notes:"Nur Testdaten",nested:{b:2,a:1}};
   const saved=await first.write("entries",initial,0);
   assert(saved.revision===1,"Neue Version wurde nicht bestätigt");
@@ -88,13 +88,15 @@ async function run(){
   assert(rejected,"Daten ließen sich mit anderer Nutzerkennung entschlüsseln");
   log("Nutzerbindung der Verschlüsselung wird geprüft");
   assert(!!window.MVACloudMigrationCodec,"Migrations-Codec fehlt");
-  const original={entries:[{id:"e1",notes:"Eintrag"}],devices:[{name:"Test",photo:"data:image/png;base64,AA==",manualData:{v:1,storage:"supabase",path:"u/manual.pdf"}}],strains:[{name:"Sorte"}],photos:[{id:"p1",src:"data:image/jpeg;base64,AA=="}],game:{xp:42,coins:7,quests:["q1"],courses:{kurs:{passed:true}}},controlledVaping:{startDate:"2026-01-02",customFlag:true}};
+  const original={entries:[{id:"e1",notes:"Eintrag"}],devices:[{name:"Test",photo:"data:image/png;base64,AA==",manualData:{v:1,storage:"supabase",path:"u/manual.pdf"}}],strains:[{name:"Sorte"}],photos:[{id:"p1",src:"data:image/jpeg;base64,AA=="}],game:{xp:42,coins:7,quests:["q1"],courses:{kurs:{passed:true}}},controlledVaping:{startDate:"2026-01-02",customFlag:true},settings:{vapingCategories:{vaporizer:"Vaporizer",custom:"Eigene Kategorie"},theme:"dark"}};
   const split=window.MVACloudMigrationCodec.split(original);
   const joined=window.MVACloudMigrationCodec.join(Object.fromEntries(Object.entries(split).map(([type,data])=>[type,{type,revision:1,data,exists:true}])));
   assert(JSON.stringify(joined)===JSON.stringify(original),"Aufteilung und Wiederherstellung haben Daten verändert");
   assert(JSON.stringify(original.devices[0].manualData)===JSON.stringify(split.devices[0].manualData),"Medienreferenz wurde verändert");
   assert(original.controlledVaping.customFlag===true,"Eingabeobjekt wurde verändert");
-  log("Alle sechs Gruppen lassen sich verlustfrei aufteilen und zusammensetzen (inkl. Medienreferenzen)");
+  assert(JSON.stringify(joined.settings)===JSON.stringify(original.settings),"App-Einstellungen wurden nicht erhalten");
+  assert(JSON.stringify(joined.settings)===JSON.stringify(original.settings),"App-Einstellungen wurden nicht erhalten");
+  log("Alle sieben Gruppen lassen sich verlustfrei aufteilen und zusammensetzen (inkl. Einstellungen und Medienreferenzen)");
   const partial=window.MVACloudMigrationCodec.join({entries:{data:[{id:"only"}]},devices:{data:null}});
   assert(partial.entries.length===1&&partial.devices.length===0&&partial.game.xp===0&&Object.keys(partial.controlledVaping).length===0,"Fehlende Gruppen erhalten keine sicheren Standardwerte");
   log("Fehlende oder noch leere Gruppen erhalten sichere Standardwerte");
@@ -104,7 +106,8 @@ async function run(){
   assert(JSON.stringify(restored)===JSON.stringify(legacySample),"Realistischer Altbestand wurde nicht exakt wiederhergestellt");
   assert(restored.devices[0]==="Altes Gerät"&&restored.devices[1].manualData.path==="user/manual.pdf","Legacy-Geräte oder PDF-Referenz gingen verloren");
   assert(restored.entries[0].time==="18:45"&&restored.game.courses.intro.score===95,"Tagebuch- oder Lernfortschritt ging verloren");
-  log("Realistischer Altbestand mit Tagebuchfeldern, Legacy-Gerät, PDF-/Foto-Referenzen und Lernfortschritt bleibt erhalten");
+  assert(restored.settings.vapingCategories.custom==="Eigene Kategorie","Individuelle App-Einstellungen gingen verloren");
+  log("Realistischer Altbestand mit Tagebuchfeldern, Legacy-Gerät, PDF-/Foto-Referenzen, Lernfortschritt und App-Einstellungen bleibt erhalten");
 
   out.textContent+="\nERGEBNIS: Alle simulierten Tests bestanden. Kein Supabase-Test.";
  }catch(e){
