@@ -79,6 +79,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
   - [x] Für alle zwölf Schritte eigene, verlinkte Seiten angelegt; zunächst jeweils nur Überschrift und Navigation zur Übersicht sowie zum vorherigen/nächsten Schritt
   - [x] Deutsche, englische und französische Texte für Grundlagen, Übersicht und Schritt-Navigation ergänzt
   - [x] Nutzerprüfung der neuen Schrittseiten und Navigation erfolgreich bestätigt
+  - [x] Schritt 2 „Pro / Kontra Veränderung“ um eine bearbeitbare Vierfeldertafel ergänzt: Vorteil/Nachteil × Weiterkonsumieren/Konsum ändern; vier Textfelder werden im Spielstand gespeichert und können später geändert und erneut gespeichert werden (DE/EN/FR)
   - [ ] **Phase 2 – individuelle Wochenziele und Selbstbewertung (Konzept des Nutzers)**
     - [ ] In „Einstellungen → Kontrolliert vapen“ die Konsumkategorien per Checkbox einzeln aktivieren/einblenden oder ausblenden: Vaporizer, E-Zigarette, Tabakheater, Zigarette, Joint und Bong
     - [ ] Für jede aktivierte Kategorie eigene Wochenziele konfigurierbar machen:
