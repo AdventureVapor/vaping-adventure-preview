@@ -3,12 +3,12 @@
 "use strict";
 const enc=new TextEncoder();
 function parseDataUrl(value){
- const match=/^data:([^;,]+)?(;base64)?,([\\s\\S]*)$/i.exec(value);
+ const match=/^data:([^;,]+)?(;base64)?,([\s\S]*)$/i.exec(value);
  if(!match)throw Error("Ungültige eingebettete Mediendatei.");
  const mime=(match[1]||"application/octet-stream").toLowerCase();
  let bytes;
  if(match[2]){
-  const raw=atob(match[3].replace(/\\s/g,""));
+  const raw=atob(match[3].replace(/\s/g,""));
   bytes=new Uint8Array(raw.length);
   for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);
  }else bytes=enc.encode(decodeURIComponent(match[3]));
@@ -20,7 +20,7 @@ function mediaKind(path,mime){
  return "photo";
 }
 function fileName(path,kind){
- const leaf=String(path).split(/[.\\[\\]]/).filter(Boolean).pop()|| (kind==="pdf"?"Anleitung.pdf":"Foto");
+ const leaf=String(path).split(/[./\[\]]/).filter(Boolean).pop()||(kind==="pdf"?"Anleitung.pdf":"Foto");
  return leaf.slice(-120);
 }
 async function migrate(snapshot,uploadVerified){
