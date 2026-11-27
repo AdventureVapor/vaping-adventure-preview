@@ -123,6 +123,12 @@ create table if not exists public.mva_data (
   primary key (user_id, data_type)
 );
 
+-- Für bereits zuvor angelegte Tabellen die Gruppenprüfung auf den aktuellen Stand bringen.
+-- Die Constraint wird bewusst neu gesetzt, damit auch die Gruppe 'settings' erlaubt ist.
+alter table public.mva_data drop constraint if exists mva_data_data_type_check;
+alter table public.mva_data add constraint mva_data_data_type_check
+  check (data_type in ('entries','devices','strains','photos','game','controlledVaping','settings'));
+
 alter table public.mva_data enable row level security;
 
 create policy "MVA data select own rows"
