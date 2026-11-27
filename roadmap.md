@@ -959,7 +959,9 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 
 - Der Adapter für Datengruppen sendet jetzt bei jedem Lese- und Schreibaufruf explizit das Bearer-Token der angemeldeten Sitzung mit; Token-Erneuerung bleibt über `cloudFetch()` erhalten.
 
-- CI-Erstlauf: PostgreSQL-RPC-, Compare-and-Swap- und RLS-Tests erfolgreich. Browserlauf stoppte an einer fehlerhaften Test-Erwartung (der Konflikttest verglich mit dem ursprünglichen statt dem zuletzt gespeicherten Inhalt); diese Erwartung wurde korrigiert. Ein erneuter Lauf auf dem korrigierten Commit steht noch aus.
+- CI-Lauf #142 für den vorherigen Cloud-Audit-Pfad erfolgreich.
+- CI-Lauf #152 für den neuen Nur-Lese-Gruppenabgleich erfolgreich; die Tests decken vollständige Übereinstimmung, leeren Gruppenbestand und abweichende Inhalte ab.
+- Ein echter Supabase-Live-Test mit angemeldetem Konto sowie iPhone-/Desktop- und Zwei-Konten-Prüfung stehen weiterhin aus.
 
 
 ### Ergänzung: Nur-lesender Abgleich der sieben Datengruppen
@@ -967,4 +969,5 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [x] Der Abgleich unterscheidet zwischen noch leerem Gruppen-Speicher, vollständiger Übereinstimmung, fehlenden Gruppen und abweichenden Inhalten.
 - [x] Keine Schreib-, Migrations-, Lösch- oder Reparaturaktion: der bisherige Cloud-Spielstand bleibt unverändert.
 - [x] Isolierte Tests für vollständige Übereinstimmung, leeren Gruppenbestand und abweichende Gruppe ergänzt.
-- [ ] Nach Einrichtung der SQL-Tabelle/RPC mit einem echten Testkonto read-only prüfen; erst danach einen gesondert freizugebenden Migrationsschritt planen.
+- [ ] Read-only-Liveprüfung mit einem echten angemeldeten Supabase-Testkonto durchführen; dafür im Preview unter „Speicher & Backup“ den Button „Datengruppen abgleichen (nur lesen)“ ausführen und das Ergebnis prüfen.
+- [ ] Erst nach dokumentierter Liveprüfung einen gesondert freizugebenden Migrationsschritt planen.
