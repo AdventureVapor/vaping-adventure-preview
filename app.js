@@ -1062,7 +1062,7 @@ async function prepareCloudGroupsMigrationBackup(){
  try{
   const payload=await cloudRead();
   if(!payload)throw Error('Kein bisheriger Cloud-Spielstand gefunden.');
-  const legacy=await decryptCloud(payload);
+  let legacy=await decryptCloud(payload);
   const portable=await materializeBackupMedia(legacy);
   const stamp=new Date().toISOString().replace(/[:.]/g,'-');
   download(new Blob([JSON.stringify(portable,null,2)],{type:'application/json'}),'my-vaping-adventure-vor-cloud-migration-'+stamp+'.json');
