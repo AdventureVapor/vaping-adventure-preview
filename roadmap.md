@@ -960,3 +960,11 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - Der Adapter für Datengruppen sendet jetzt bei jedem Lese- und Schreibaufruf explizit das Bearer-Token der angemeldeten Sitzung mit; Token-Erneuerung bleibt über `cloudFetch()` erhalten.
 
 - CI-Erstlauf: PostgreSQL-RPC-, Compare-and-Swap- und RLS-Tests erfolgreich. Browserlauf stoppte an einer fehlerhaften Test-Erwartung (der Konflikttest verglich mit dem ursprünglichen statt dem zuletzt gespeicherten Inhalt); diese Erwartung wurde korrigiert. Ein erneuter Lauf auf dem korrigierten Commit steht noch aus.
+
+
+### Ergänzung: Nur-lesender Abgleich der sieben Datengruppen
+- [x] Im Bereich „Speicher & Backup“ eine zusätzliche Prüfung ergänzt, die den bisherigen verschlüsselten Cloud-Spielstand und die sieben getrennten Datengruppen ausschließlich liest.
+- [x] Der Abgleich unterscheidet zwischen noch leerem Gruppen-Speicher, vollständiger Übereinstimmung, fehlenden Gruppen und abweichenden Inhalten.
+- [x] Keine Schreib-, Migrations-, Lösch- oder Reparaturaktion: der bisherige Cloud-Spielstand bleibt unverändert.
+- [x] Isolierte Tests für vollständige Übereinstimmung, leeren Gruppenbestand und abweichende Gruppe ergänzt.
+- [ ] Nach Einrichtung der SQL-Tabelle/RPC mit einem echten Testkonto read-only prüfen; erst danach einen gesondert freizugebenden Migrationsschritt planen.
