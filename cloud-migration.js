@@ -12,7 +12,7 @@ function parseDataUrl(value){
  return {mime,bytes};
 }
 function kind(path,mime){if(mime==="application/pdf"||/manual|anleitung/i.test(path))return "pdf";if(mime.startsWith("image/"))return "photo";return "other"}
-function b64(bytes){let s="";for(let i=0;i<bytes.length;i+=0x8000)s+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(s)}
+function b64(value){const bytes=value instanceof Uint8Array?value:new Uint8Array(value);let s="";for(let i=0;i<bytes.length;i+=0x8000)s+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(s)}
 async function audit(db){
  if(!db||typeof db!=="object")throw Error("Kein gültiger Spielstand übergeben.");
  const media=[],references=[],seen=new WeakSet();
