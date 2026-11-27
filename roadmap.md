@@ -996,3 +996,20 @@ Hinweis: Die IndexedDB-Kopie ist eine lokale zusätzliche Sicherung auf diesem B
 - [ ] Medienmigration separat implementieren und testen, bevor die sieben Gruppen mit eingebetteten Medien migriert werden
 - [ ] Konfliktfall, Abbruch während einer Gruppe, Read-back und erneuter Start testen
 - [ ] Erst nach vollständiger QA und ausdrücklicher Nutzerfreigabe die neue Datengruppen-Speicherung aktivieren; Legacy bleibt bis dahin Rückfallquelle
+
+
+## 12. Verifizierte Medienmigration vor der Datengruppen-Übernahme – Preview
+
+- [x] Separates Modul ergänzt, das eingebettete Data-URL-Fotos und PDFs im entschlüsselten Legacy-Spielstand erkennt.
+- [x] Jede Datei vor dem Upload clientseitig mit AES-GCM verschlüsseln; keine Klartextdatei wird an Supabase Storage gesendet.
+- [x] Uploads durch erneutes Herunterladen und Entschlüsseln sowie Größen- und SHA-256-Vergleich verifizieren (uploadVerified).
+- [x] Byteidentische Dateien innerhalb desselben Migrationslaufs anhand SHA-256 nur einmal hochladen und dieselbe Referenz wiederverwenden.
+- [x] Nur die für die neue Datengruppen-Migration vorbereitete In-Memory-Kopie erhält Cloud-Referenzen; der bisherige Legacy-Spielstand und das heruntergeladene JSON-Backup werden nicht umgeschrieben.
+- [x] Vor dem Schreiben der sieben Datengruppen erneut prüfen, dass keine eingebetteten oder ungültigen Medienangaben übrig sind.
+- [x] Bei Upload-, Entschlüsselungs- oder Verifikationsfehlern wird die Datengruppen-Migration gestoppt; die Legacy-Sicherung wird nicht verändert.
+- [ ] Tests für Data-URL-Parsing, PDF-/Foto-Zuordnung, Duplikaterkennung, Uploadfehler und Verifikationsfehler ergänzen.
+- [ ] Preview-Live-Test mit dem vorhandenen Konto: alle sieben Medienobjekte müssen erfolgreich hochgeladen und verifiziert werden; anschließend Datengruppen einzeln schreiben und vollständig zurücklesen.
+- [ ] Abbruch-/Wiederholungsfall prüfen: bereits hochgeladene, aber noch nicht referenzierte Storage-Objekte können bei einem Abbruch als nicht referenzierte Dateien zurückbleiben; sie dürfen nicht automatisch gelöscht werden.
+- [ ] Erst nach erfolgreichem Preview-Test und ausdrücklicher Freigabe den PR mergen. Production bleibt unberührt.
+
+Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielstand noch die sieben Datengruppen. Die Gruppen werden erst danach und weiterhin mit Revision-0-Schutz angelegt. Ein Abbruch nach einzelnen erfolgreichen Uploads kann nicht referenzierte, verschlüsselte Objekte im privaten Bucket hinterlassen; diese werden aus Sicherheitsgründen nicht automatisch gelöscht.
