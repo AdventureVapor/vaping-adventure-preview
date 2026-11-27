@@ -76,7 +76,7 @@ async function run(){
   let conflict=false;
   try{await second.write("entries",{notes:"veralteter Stand"},0)}catch(e){conflict=e.code==="MVA_REVISION_CONFLICT"}
   assert(conflict,"Veraltete Version wurde nicht als Konflikt erkannt");
-  assert((await first.read("entries")).data.notes===initial.notes,"Konflikt hat vorhandene Daten verändert");
+  assert((await first.read("entries")).data.notes==="Geändert","Konflikt hat den zuletzt bestätigten Cloud-Stand verändert");
   log("Zwei Geräte: veralteter Schreibversuch wird sicher abgewiesen");
   server.timeoutAfterNextCommit();
   const afterTimeout=await first.write("devices",[{name:"Testgerät"}],0);
