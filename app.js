@@ -179,7 +179,7 @@ function createCloudDataAccess(){
  if(storageMode!=="cloud"||!cloudSession||!cloudKey)throw Error("Bitte zuerst mit einem Cloud-Konto anmelden.");
  if(!window.MVAEncryptedData?.create)throw Error("Das Modul für getrennte Cloud-Datengruppen wurde nicht geladen.");
  return window.MVAEncryptedData.create({
-  request:(path,options={})=>cloudFetch(path,options),
+  request:(path,options={})=>cloudFetch(path,{...options,headers:{...(options.headers||{}),Authorization:`Bearer ${cloudSession.token}`}}),
   userId:cloudSession.userId,
   key:cloudKey
  });
