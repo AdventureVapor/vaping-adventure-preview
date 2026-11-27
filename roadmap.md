@@ -22,7 +22,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 - [x] Kontaktbereich und mehrsprachiges Kontaktformular als `mailto:`-Basisversion umgesetzt
 - [x] Dunkelgrünes zentrales E-Mail-Design und drei deutsche Supabase-Auth-Vorlagen erstellt
 - [x] Alle drei Vorlagen im Supabase-Dashboard eingefügt, Vorschau kontrolliert und gespeichert (Nutzerbestätigung)
-- [x] Sidebar-Platzhalter „Kontrolliertes Vapen“ ergänzt; noch ohne Funktion
+- [x] Bereich „Kontrolliert Vapen“ mit Zielsetzung, Erklärung, 12-Schritte-Übersicht und Navigation zu zwölf zunächst bewusst leeren Einzelseiten in Preview umgesetzt; Nutzer hat die Navigation erfolgreich bestätigt
 - [ ] Eigenständiges Education-Symbol im Stil des offiziellen App-Logos gestalten: Universität-/Campus-Motiv mit Universitätsmütze, einer vapenden Person und dem Schriftzug „My Vaping Education“; als Symbol für den Education-Bereich in Version 1.4.1 vorbereiten
 - [ ] Absendername, Absenderadresse und SMTP-Zustellung für die gestalteten Auth-Mails abschließend konfigurieren bzw. prüfen
 - [ ] Registrierung, Passwort-Reset und E-Mail-Änderung mit Testkonten vollständig durchtesten
@@ -74,6 +74,11 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 **Ziel:** Die größeren noch offenen Funktionspakete nach dem 1.4.1-Release fertigstellen.
 
 - [ ] Bereich „Kontrolliertes Vapen“ funktional entwickeln (Wochenziele, Fortschritt, Auswertung, datensparsame Speicherung und Übersetzungen)
+  - [x] **Phase 1 – Grundlagen und Programmstruktur:** Zielsetzungskasten und Erklärung „Was ist Kontrolliertes Vapen?“ mit Erläuterungen zu Tages-/Wochenhöchstmenge, vapefreien Tagen und persönlichen Regeln umgesetzt
+  - [x] 12-Schritte-Programm mit Grundlagenkarte, zwölf nummerierten Schritten sowie den Bereichen „Nach Ende“ und „Nach Bedarf“ in der Übersicht umgesetzt
+  - [x] Für alle zwölf Schritte eigene, verlinkte Seiten angelegt; zunächst jeweils nur Überschrift und Navigation zur Übersicht sowie zum vorherigen/nächsten Schritt
+  - [x] Deutsche, englische und französische Texte für Grundlagen, Übersicht und Schritt-Navigation ergänzt
+  - [x] Nutzerprüfung der neuen Schrittseiten und Navigation erfolgreich bestätigt
   - [ ] **Phase 2 – individuelle Wochenziele und Selbstbewertung (Konzept des Nutzers)**
     - [ ] In „Einstellungen → Kontrolliert vapen“ die Konsumkategorien per Checkbox einzeln aktivieren/einblenden oder ausblenden: Vaporizer, E-Zigarette, Tabakheater, Zigarette, Joint und Bong
     - [ ] Für jede aktivierte Kategorie eigene Wochenziele konfigurierbar machen:
