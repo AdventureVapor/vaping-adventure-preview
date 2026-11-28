@@ -19,6 +19,19 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 **Wichtig:** „Umgesetzt“ bedeutet nicht automatisch „produktionsreif“. Alle Änderungen bleiben in Preview, bis die jeweilige QA abgeschlossen und die Produktionsübernahme ausdrücklich freigegeben wurde.
 
+## Cloud-Speicherung – atomare Migrationsvorbereitung (28.11.2026)
+
+- [x] Nachweis erbracht: sieben vorhandene Medienreferenzen wurden vom Nutzer bytegenau bestätigt (2 PDF-Anleitungen, 1 Gerätebild, 4 Galerie-Fotos); keine Referenz fehlt oder weicht ab.
+- [x] Legacy-Feldalias `Fotos` wird bei der Aufteilung sicher auf `photos` abgebildet; falls beide Felder vorhanden und unterschiedlich sind, stoppt die Migration.
+- [x] Bereits vorhandene, bytegenau bestätigte Medienreferenzen können ohne erneuten Upload in eine unveränderte Migrationskopie übernommen werden.
+- [x] Migrationsprüfung stoppt bei abweichenden/nicht abrufbaren Medien oder einer gemischten, noch nicht gezielt unterstützten Referenzlage.
+- [x] Fehlende Datengruppen werden über einen neuen atomaren Batch-RPC als eine Datenbanktransaktion geschrieben; ein Teilpaket kann nicht unbemerkt stehen bleiben.
+- [ ] Neue SQL-Funktion `mva_write_data_batch` im Supabase-Projekt einrichten; bis dahin bleibt die Migrationsfunktion beim fehlenden RPC sicher stehen.
+- [ ] Isolierte Batch-, Konflikt-, Timeout- und Medien-Wiederverwendungstests ausführen.
+- [ ] Erst danach Live-Migrationsprobe mit aktuellem JSON-Backup; Legacy-Speicher bleibt unverändert und aktiv.
+
+**Grenze:** Diese Änderung verbindet die regulären App-Speichervorgänge noch nicht mit den getrennten Gruppen. Sie verbessert zunächst ausschließlich die Sicherheit der ausdrücklichen Migration. Kein Live-Datenbankzugriff und keine Änderung an Nutzerdaten durch diese Codeänderung.
+
 ## Neue Education-Erweiterung – Cannabis-Teillegalisierung
 
 **Ziel:** Die Ausstellung „Das Kleingedruckte der Cannabis-Teillegalisierung“ als eigenständigen 18-teiligen Kurs in My Vaping Education integrieren.

@@ -270,6 +270,97 @@ Das Datengruppenmodul kann jede Gruppe mit ihrer eigenen Revision lesen und schr
 **Wichtig:** Das Modul ist noch nicht mit dem Tagebuch verbunden. Die bestehende Speicherung über `mva_saves` bleibt unverändert. Vor einer Aktivierung müssen zusätzlich Konfliktfälle, zwei gleichzeitig angemeldete Geräte, Wiederherstellung und vollständiger Medienimport getestet werden.
 
 
+## 10A. Atomarer Batch-Schreibvorgang für mehrere Datengruppen
+
+Die Migration kann mehrere bislang fehlende Gruppen betreffen. Einzelne RPC-Aufrufe wären nicht gemeinsam atomar: Bei einem Netzwerkausfall könnten bereits einige Gruppen geschrieben sein, während andere fehlen. Deshalb verwendet die aktualisierte Preview-Migration den folgenden Batch-RPC. **Erst nach Prüfung der vorhandenen Funktion und Policies im SQL Editor ausführen.** Die Funktion schreibt alle übergebenen Gruppen in einer einzigen PostgreSQL-Transaktion. Wenn eine erwartete Revision nicht stimmt, wird die gesamte Transaktion zurückgerollt.
+
+```sql
+create or replace function public.mva_write_data_batch(p_groups jsonb)
+returns jsonb
+language plpgsql
+security invoker
+set search_path = public
+as $mva_batch$
+declare
+  v_item jsonb;
+  v_type text;
+  v_expected bigint;
+  v_payload jsonb;
+  v_revision bigint;
+  v_results jsonb := '[]'::jsonb;
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication required' using errcode = '42501';
+  end if;
+  if jsonb_typeof(p_groups) is distinct from 'array' then
+    raise exception 'Invalid batch payload' using errcode = '22023';
+  end if;
+  if jsonb_array_length(p_groups) < 1 or jsonb_array_length(p_groups) > 7 then
+    raise exception 'Invalid batch size' using errcode = '22023';
+  end if;
+  if (select count(*) from jsonb_array_elements(p_groups)) <>
+     (select count(distinct value->>'p_data_type') from jsonb_array_elements(p_groups)) then
+    raise exception 'Duplicate data type in batch' using errcode = '22023';
+  end if;
+
+  -- Vollständige Eingabeprüfung vor dem ersten Schreibzugriff.
+  for v_item in select value from jsonb_array_elements(p_groups)
+  loop
+    v_type := v_item->>'p_data_type';
+    if v_type is null or v_type not in ('entries','devices','strains','photos','game','controlledVaping','settings')
+       or coalesce(v_item->>'p_expected_revision','') !~ '^[0-9]+$' then
+      raise exception 'Invalid data type or expected revision' using errcode = '22023';
+    end if;
+    v_expected := (v_item->>'p_expected_revision')::bigint;
+    v_payload := v_item->'p_payload';
+    if jsonb_typeof(v_payload) is distinct from 'object'
+       or v_payload->>'v' <> '1'
+       or v_payload->>'algorithm' <> 'A256GCM'
+       or coalesce(v_payload->>'revision','') !~ '^[0-9]+$'
+       or coalesce(v_payload->>'iv','') = ''
+       or coalesce(v_payload->>'ciphertext','') = ''
+       or (v_payload->>'revision')::numeric <> v_expected::numeric + 1 then
+      raise exception 'Invalid encrypted payload or revision' using errcode = '22023';
+    end if;
+  end loop;
+
+  -- Compare-and-swap pro Gruppe. Jeder Konflikt wirft einen Fehler und
+  -- PostgreSQL rollt dadurch sämtliche Änderungen dieses RPC-Aufrufs zurück.
+  for v_item in select value from jsonb_array_elements(p_groups)
+  loop
+    v_type := v_item->>'p_data_type';
+    v_expected := (v_item->>'p_expected_revision')::bigint;
+    v_payload := v_item->'p_payload';
+    if v_expected = 0 then
+      insert into public.mva_data (user_id,data_type,payload,revision,updated_at)
+      values (auth.uid(),v_type,v_payload,1,now())
+      on conflict (user_id,data_type) do nothing
+      returning revision into v_revision;
+      if not found then
+        raise exception 'MVA_REVISION_CONFLICT' using errcode = 'P0001';
+      end if;
+    else
+      update public.mva_data
+         set payload=v_payload, revision=revision+1, updated_at=now()
+       where user_id=auth.uid() and data_type=v_type and revision=v_expected
+       returning revision into v_revision;
+      if not found then
+        raise exception 'MVA_REVISION_CONFLICT' using errcode = 'P0001';
+      end if;
+    end if;
+    v_results := v_results || jsonb_build_array(jsonb_build_object('data_type',v_type,'revision',v_revision));
+  end loop;
+  return v_results;
+end;
+$mva_batch$;
+
+revoke all on function public.mva_write_data_batch(jsonb) from public, anon;
+grant execute on function public.mva_write_data_batch(jsonb) to authenticated;
+```
+
+Der RPC verwendet weiterhin `security invoker` und unterliegt der RLS-Policy von `mva_data`. Es werden ausschließlich die übergebenen Datengruppen des angemeldeten Nutzers geschrieben. Die bestehende Einzelgruppenfunktion bleibt für gezielte Reparaturen erhalten. Die reguläre App-Speicherung wird durch diese Vorbereitung ausdrücklich noch nicht umgestellt.
+
+
 ## 11. Read-only inventory audit (new preparation module)
 
 `cloud-migration.js` provides `window.MVACloudMigration.audit(db)`. It scans a supplied in-memory game state for inline data URLs and existing encrypted Storage references. For inline media it records the object path, MIME type, inferred media kind, byte size and SHA-256 hash; identical files are grouped by hash. Invalid data URLs are counted and reported.
