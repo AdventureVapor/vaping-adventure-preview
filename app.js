@@ -915,6 +915,7 @@ function courseLessons(c){return c.lessonsKey?c.lessonsKey.map(k=>localeText(k))
 function courseQuestions(c){return c.questionsKey?c.questionsKey.map(q=>[localeText(q[0]),q[1].map(k=>localeText(k)),q[2]]):c.questions}
 function learn(v){let done=Object.values(db.game.courses).filter(c=>c.passed).length;v.innerHTML=`${header(localeText('page.learn.eyebrow'),localeText('page.learn.title'),localeText('page.learn.description'),'')}<div class="card" style="margin:20px 0"><div class="row"><div><span class="eyebrow">${localeText('learn.progress')}</span><h3 style="font:700 16px Manrope;margin:8px 0">${localeText('learn.passed',{done,total:courses.length})}</h3></div><span class="pill">${db.game.coins||0} COINS</span></div><div class="progress"><i style="width:${done/courses.length*100}%"></i></div></div><div class="grid cards2">${courses.map(c=>{let r=db.game.courses[c.id],lessons=courseLessons(c);return `<article class="card course"><span class="pill">${courseLevel(c).toUpperCase()} · ${lessons.length} ${localeText('learn.lessons')}</span><h3 style="font:700 17px Manrope;margin:13px 0 6px">${esc(courseTitle(c))}</h3><p class="subheading">${c.descriptionKey?localeText(c.descriptionKey):localeText('learn.learnBasics')}</p><div class="tagline" style="margin:12px 0">${r?.passed?localeText('learn.passedLabel',{score:r.score}):localeText('learn.reward',{xp:c.xp,coins:c.coins})}</div><button class="btn soft" data-course="${c.id}">${r?.passed?localeText('learn.viewResult'):localeText('learn.openCourse')} →</button></article>`}).join('')}</div><p class="tagline" style="margin-top:20px">${localeText('learn.disclaimer')}</p>`;bindGlobal()}
 function courseView(c){
+ if(c.id==='cannabis-teillegalisierung'){renderCannabisCourse(c,0);return}
  const old=db.game.courses[c.id],lessons=courseLessons(c),questions=courseQuestions(c);
  const lessonMarkup=c.richLessons
   ? c.richLessons.map((lesson,i)=>`<section class="edu-lesson"><div class="edu-lesson-head"><span class="edu-lesson-number">0${i+1}</span><h3>${esc(lesson.title)}</h3></div><div class="edu-lesson-content">${lesson.html}</div></section>`).join('')
@@ -935,6 +936,53 @@ function courseView(c){
   db.game.courses[c.id]={passed:passed||was,score:bestScore,date:now(),...(old?.passed?{coins:old.coins}:passed?{coins:c.coins}:{})};
   put();$('#modal-root').innerHTML='';render();toast(`${passed?localeText('course.passed'):localeText('course.notPassed')} · ${pct}%`)
  });
+}
+
+
+const cannabisPanelCache={};
+async function renderCannabisCourse(c,step){
+ const v=$('#view');if(!v)return;
+ const total=18,questions=courseQuestions(c),old=db.game.courses[c.id],title=courseTitle(c),isQuiz=step===total;
+ const nav='<div class="cang-course-toolbar"><button type="button" class="btn soft" id="cang-overview">← Zur Kursübersicht</button><span class="pill">CANNABISRECHT · '+(isQuiz?'WISSENSTEST':('TAFEL '+(step+1)+' / '+total))+'</span></div>';
+ if(isQuiz){
+  const quizMarkup=questions.map((q,i)=>'<fieldset class="formrow course-question cang-question"><legend>'+(i+1)+'. '+esc(q[0])+'</legend>'+q[1].map((a,j)=>'<label><input type="radio" name="cq'+i+'" value="'+j+'"> '+esc(a)+'</label>').join('')+'</fieldset>').join('');
+  v.innerHTML=header('MY VAPING EDUCATION',title,'Abschlusstest · 18 Fragen · mindestens 80 % zum Bestehen','')+nav+'<section class="card cang-lesson-card"><div class="cang-progress"><span style="width:100%"></span></div><h2>Wissenstest</h2><p class="subheading">'+esc(c.quizIntro)+'</p><form id="cang-quiz-form">'+quizMarkup+'<div class="cang-course-actions"><button type="button" class="btn" id="cang-quiz-back">← Zurück zu Tafel 18</button><button type="submit" class="btn primary">Test auswerten</button></div></form></section><p class="tagline">'+esc(c.disclaimer)+'</p>';
+  $('#cang-overview').onclick=()=>learn(v);
+  $('#cang-quiz-back').onclick=()=>renderCannabisCourse(c,total-1);
+  $('#cang-quiz-form').onsubmit=e=>{
+   e.preventDefault();let score=0;
+   for(let i=0;i<questions.length;i++){const a=$('[name="cq'+i+'"]:checked');if(!a)return toast(localeText('course.answerAll'));if(+a.value===questions[i][2])score++}
+   const pct=Math.round(score/questions.length*100),passed=pct>=80,was=old?.passed;
+   if(passed&&!was){db.game.xp=(Number(db.game.xp)||0)+c.xp;db.game.coins=(Number(db.game.coins)||0)+c.coins}
+   const bestScore=Math.max(Number(old?.score)||0,pct);
+   db.game.courses[c.id]={passed:passed||was,score:bestScore,date:now(),...(old?.passed?{coins:old.coins}:passed?{coins:c.coins}:{})};
+   put();render();toast((passed?localeText('course.passed'):localeText('course.notPassed'))+' · '+pct+'%');
+  };
+  return;
+ }
+ const number=step+1;
+ v.innerHTML=header('MY VAPING EDUCATION',title,'Originalausstellung · Tafel '+number+' von '+total,'')+nav+'<section class="card cang-lesson-card"><div class="cang-progress"><span style="width:'+((number/total)*100)+'%"></span></div><div class="cang-panel-loading">Tafel '+number+' wird geladen …</div></section><div class="cang-course-actions"><button type="button" class="btn" id="cang-prev" '+(step===0?'disabled':'')+'>← Vorherige Tafel</button><span class="tagline">Tafel '+number+' / '+total+'</span><button type="button" class="btn primary" id="cang-next">'+(step===total-1?'Zum Wissenstest →':'Nächste Tafel →')+'</button></div>';
+ $('#cang-overview').onclick=()=>learn(v);
+ const previous=$('#cang-prev'),next=$('#cang-next');
+ if(previous)previous.onclick=()=>renderCannabisCourse(c,step-1);
+ next.onclick=()=>renderCannabisCourse(c,step===total-1?total:step+1);
+ try{
+  if(!cannabisPanelCache[number]){
+   const response=await fetch('websitecang/Tafel'+number+'.html');
+   if(!response.ok)throw new Error('HTTP '+response.status);
+   const source=await response.text(),doc=new DOMParser().parseFromString(source,'text/html'),article=doc.querySelector('article.tafel');
+   if(!article)throw new Error('Tafelinhalt nicht gefunden');
+   article.querySelectorAll('[style]').forEach(node=>node.removeAttribute('style'));
+   article.querySelectorAll('script,style,iframe,form').forEach(node=>node.remove());
+   cannabisPanelCache[number]=article.innerHTML;
+  }
+  if(page!=='learn'||!v.isConnected)return;
+  const loading=v.querySelector('.cang-panel-loading');if(loading)loading.outerHTML='<article class="cang-original-content">'+cannabisPanelCache[number]+'</article>';
+ }catch(error){
+  const loading=v.querySelector('.cang-panel-loading');
+  if(loading)loading.innerHTML='Die Originaltafel konnte nicht geladen werden. Bitte prüfe deine Internetverbindung. <button type="button" class="btn soft" id="cang-retry">Erneut versuchen</button>';
+  $('#cang-retry')?.addEventListener('click',()=>{delete cannabisPanelCache[number];renderCannabisCourse(c,step)});
+ }
 }
 
 function controlledVapingStep(v,n){
