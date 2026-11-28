@@ -53,11 +53,11 @@ async function migrate(snapshot,uploadVerified){
 
 async function verifyExistingReferences(snapshot,groups,download){
  if(!snapshot||typeof snapshot!=="object"||!groups||typeof groups!=="object"||typeof download!=="function")throw Error("Medienprüfung: Spielstand, Datengruppen oder Downloadfunktion fehlen.");
- const enc=new TextEncoder(),items=[];
+ const items=[];
  const bytesOf=async value=>parseDataUrl(value).bytes;
  const digest=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",bytes)),x=>x.toString(16).padStart(2,"0")).join("");
  function atPath(root,path){
-  const parts=path.replace(/\\[(\\d+)\\]/g,".$1").split(".").filter(Boolean);
+  const parts=path.replaceAll("[",".").replaceAll("]","").split(".").filter(Boolean);
   let value=root;for(const part of parts)value=value==null?undefined:value[part];return value;
  }
  async function walk(value,path){
