@@ -1193,3 +1193,12 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Uhrzeit-Erkennung erweitert: gespeicherte Uhrzeiten, Zeitstempel und alternative Zeitfelder werden berücksichtigt (PR #121).
 - [x] Alle einzelnen Uhrzeitfelder zeigen numerische Werte einschließlich `0` statt eines Gedankenstrichs; Wochenwerte je Zeitfenster ebenfalls numerisch (PR #121).
 - [ ] Preview-Praxistest mit echten Tagebucheinträgen, fehlenden Uhrzeiten, Datumswechsel und Pfeilnavigation auf Desktop/iPhone.
+
+
+### 1.4.2 – Bytegenauer Nur-Lese-Abgleich vorhandener Medienreferenzen
+- [x] Ergänzt eine separate Prüfung, die eingebettete Legacy-Bilder/PDFs den passenden Referenzen in den sieben getrennten Datengruppen über ihre Feldpfade zuordnet.
+- [x] Lädt vorhandene Referenzen herunter, entschlüsselt sie und vergleicht Dateigröße sowie SHA-256 mit dem eingebetteten Original.
+- [x] Meldet fehlende, abweichende und nicht abrufbare Dateien getrennt.
+- [x] Ausschließlich lesend: keine Uploads, Schreibvorgänge, Löschungen oder Änderungen an Referenzen.
+- [ ] Preview-Liveprüfung mit dem bestehenden Konto durchführen und alle sieben Mediendateien bytegenau bestätigen.
+- [ ] Erst nach erfolgreichem Abgleich eine separate, wiederholbare Medienmigration für tatsächlich fehlende Referenzen freigeben.

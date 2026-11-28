@@ -50,5 +50,37 @@ async function migrate(snapshot,uploadVerified){
  stats.cloudReferenceCount=byHash.size;
  return {snapshot:result,stats};
 }
-window.MVACloudMediaMigration=Object.freeze({migrate});
+
+async function verifyExistingReferences(snapshot,groups,download){
+ if(!snapshot||typeof snapshot!=="object"||!groups||typeof groups!=="object"||typeof download!=="function")throw Error("Medienprüfung: Spielstand, Datengruppen oder Downloadfunktion fehlen.");
+ const items=[];
+ const bytesOf=async value=>parseDataUrl(value).bytes;
+ const digest=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",bytes)),x=>x.toString(16).padStart(2,"0")).join("");
+ function atPath(root,path){
+  const parts=path.replaceAll("[",".").replaceAll("]","").split(".").filter(Boolean);
+  let value=root;for(const part of parts)value=value==null?undefined:value[part];return value;
+ }
+ async function walk(value,path){
+  if(typeof value==="string"&&value.startsWith("data:")){
+   const group=path.split(".")[1],relative=path.slice(3+group.length),record=groups[group];
+   const groupData=record&&Object.prototype.hasOwnProperty.call(record,"data")?record.data:record;
+   const ref=atPath(groupData,relative);
+   if(!ref||ref.storage!=="supabase"||ref.v!==1){items.push({path,status:"missing"});return}
+   try{
+    const source=await bytesOf(value),blob=await download(ref);
+    if(!(blob instanceof Blob))throw Error("Kein gültiger Dateiinhalt zurückgegeben.");
+    const actual=new Uint8Array(await blob.arrayBuffer());
+    if(source.byteLength!==actual.byteLength||await digest(source)!==await digest(actual)){items.push({path,status:"different"});return}
+    items.push({path,status:"verified",size:source.byteLength});
+   }catch(error){items.push({path,status:"unavailable",error:String(error?.message||error).slice(0,180)})}
+   return;
+  }
+  if(!value||typeof value!=="object")return;
+  if(Array.isArray(value)){for(let i=0;i<value.length;i++)await walk(value[i],path+"["+i+"]")}
+  else for(const key of Object.keys(value))await walk(value[key],path+"."+key);
+ }
+ for(const key of Object.keys(snapshot))await walk(snapshot[key],"db."+key);
+ return Object.freeze({readOnly:true,total:items.length,verified:items.filter(x=>x.status==="verified").length,missing:items.filter(x=>x.status==="missing").length,different:items.filter(x=>x.status==="different").length,unavailable:items.filter(x=>x.status==="unavailable").length,items});
+}
+window.MVACloudMediaMigration=Object.freeze({migrate,verifyExistingReferences});
 })();
