@@ -1279,6 +1279,20 @@ function cloudEntryAudit(oldEntries,newEntries){
   oldWithoutId:oldEntries.length-oldIds.length,newWithoutId:newEntries.length-newIds.length,
   oldDuplicates:duplicateCount(oldIds),newDuplicates:duplicateCount(newIds),
   onlyOld:onlyOld.length,onlyNew:onlyNew.length,changed:changed.length,
+  onlyOldDates:onlyOld.map(id=>oldMap.get(id)).map(entry=>{
+   const dates=[];
+   const scan=value=>{
+    if(!value||typeof value!=="object")return;
+    for(const [key,item] of Object.entries(value)){
+     if(/date|created|timestamp|time|datum/i.test(key)&&typeof item==="string"){
+      const match=item.match(/\\d{4}-\\d{2}-\\d{2}/)||item.match(/\\d{2}\\.\\d{2}\\.\\d{4}/);
+      if(match)dates.push(match[0]);
+      else if(/^\\d{10,13}$/.test(item)){const d=new Date(Number(item.length===10?item+"000":item));if(!Number.isNaN(d.getTime()))dates.push(d.toISOString().slice(0,10))}
+     }else if(item&&typeof item==="object")scan(item);
+    }
+   };
+   scan(entry);return dates[0]||"kein lesbares Datum";
+  }),
   samplePaths:changed[0]?.paths||[]
  };
 }
@@ -1343,15 +1357,17 @@ async function runCloudGroupsAudit(){
    result.textContent='Alle sieben Datengruppen stimmen vollständig mit dem bisherigen Cloud-Spielstand überein. Nur-Lese-Prüfung erfolgreich – keine Daten wurden geschrieben.';
   }else{
    const expected=window.MVACloudMigrationCodec.split(legacySnapshot),lines=[];
+   const separateSnapshot=window.MVACloudMigrationCodec.join(records);
+   const legacyMedia=cloudMediaAudit(legacySnapshot),separateMedia=cloudMediaAudit(separateSnapshot);
+   const mediaSummary=obj=>Object.entries(obj.counts).filter(([,n])=>n).map(([k,n])=>n+" "+k).join(", ")||"keine eingebetteten Medienwerte";
+   lines.push("Medien gesamt – Altbestand: "+mediaSummary(legacyMedia)+"; getrennte Gruppen: "+mediaSummary(separateMedia)+". "+(legacyMedia.fields.length?"Pfade Altbestand: "+legacyMedia.fields.join("; ")+". ":"")+(separateMedia.fields.length?"Pfade getrennte Gruppen: "+separateMedia.fields.join("; ")+".":""));
    for(const type of report.mismatched){
     const legacy=expected[type],current=records[type]?.data;
     if(type==='entries'){
      const d=cloudEntryAudit(legacy,current);
-     lines.push('Einträge: Altbestand '+d.oldCount+', getrennte Gruppe '+d.newCount+'. ID-Abgleich: '+d.oldWithId+'/'+d.oldCount+' und '+d.newWithId+'/'+d.newCount+' mit ID; nur im Altbestand '+d.onlyOld+', nur in der getrennten Gruppe '+d.onlyNew+', gleiche ID aber andere Felder '+d.changed+'. Ohne ID: '+d.oldWithoutId+'/'+d.newWithoutId+'; doppelte IDs: '+d.oldDuplicates+'/'+d.newDuplicates+'.'+(d.samplePaths.length?' Beispiel abweichender Felder bei einer gleichen ID: '+d.samplePaths.join('; ')+'.':''));
+     lines.push('Einträge: Altbestand '+d.oldCount+', getrennte Gruppe '+d.newCount+'. ID-Abgleich: '+d.oldWithId+'/'+d.oldCount+' und '+d.newWithId+'/'+d.newCount+' mit ID; nur im Altbestand '+d.onlyOld+', nur in der getrennten Gruppe '+d.onlyNew+', gleiche ID aber andere Felder '+d.changed+'. Ohne ID: '+d.oldWithoutId+'/'+d.newWithoutId+'; doppelte IDs: '+d.oldDuplicates+'/'+d.newDuplicates+'.'+(d.onlyOldDates.length?' Datumswerte der '+d.onlyOldDates.length+' fehlenden Alt-Einträge: '+d.onlyOldDates.join(', ')+'.':'')+(d.samplePaths.length?' Beispiel abweichender Felder bei einer gleichen ID: '+d.samplePaths.join('; ')+'.':''));
     }else if(type==='devices'||type==='photos'){
-     const media=cloudMediaAudit(legacy),other=cloudMediaAudit(current);
-     const summary=obj=>Object.entries(obj.counts).filter(([,n])=>n).map(([k,n])=>n+' '+k).join(', ')||'keine Medienwerte';
-     lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'. Medienfelder im Altbestand: '+summary(media)+'; getrennte Gruppe: '+summary(other)+'.'+(media.fields.length?' Beispiele Altbestand: '+media.fields.join('; ')+'.':'')+(other.fields.length?' Beispiele getrennte Gruppe: '+other.fields.join('; ')+'.':''));
+     lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'.');
     }else if(type==='game'){
      const oldXp=legacy?.xp,newXp=current?.xp;
      lines.push('game: XP Altbestand '+String(oldXp??'nicht vorhanden')+', getrennte Gruppe '+String(newXp??'nicht vorhanden')+'.');
