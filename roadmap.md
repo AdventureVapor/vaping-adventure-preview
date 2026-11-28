@@ -1112,3 +1112,15 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Andere Datengruppen, Medien und XP bleiben unangetastet
 - [x] JavaScript-Syntax geprüft; Cache-Version auf 1.6.9 angehoben
 - [ ] Nach Deployment Backup erneut erstellen, die acht Einträge ausdrücklich ergänzen und Ergebnis vom Nutzer bestätigen
+
+
+### 1.4.9 – Gezielte XP-Korrektur in der getrennten Spielgruppe
+
+- [x] Separaten XP-Korrekturweg ergänzt; die allgemeine Gruppenmigration wird nicht verwendet
+- [x] Vollständiges Backup und unveränderten Legacy-Spielstand als Voraussetzung
+- [x] Nur-Lese-Sicherheitsprüfung: alle Felder außer XP müssen zwischen Altbestand und getrennter Gruppe identisch sein
+- [x] Erwartete Ausgangswerte 123 (Altbestand) und 96 (getrennt) werden vor dem Schreiben erneut geprüft
+- [x] Ausschließlich XP wird geändert; Coins, Quests, Kurse und übrige Felder bleiben unverändert
+- [x] Optimistisches Schreiben mit erwarteter Revision und entschlüsselter Read-back-Prüfung
+- [x] JavaScript-Syntax geprüft; Cachekennung aktualisiert
+- [ ] In Preview frisches Backup über den Backup-Button im Migrationsbereich erstellen und XP-Korrektur ausdrücklich bestätigen
