@@ -1301,6 +1301,40 @@ function cloudGroupDifferencePaths(a,b,limit=10){
  walk(a,b,"$");
  return paths;
 }
+function cloudGameDifferenceDetails(a,b,limit=16){
+ const details=[];
+ const format=value=>{
+  let text=JSON.stringify(value);
+  if(text===undefined)text=String(value);
+  return text.length>120?text.slice(0,117)+"…":text;
+ };
+ const walk=(left,right,path)=>{
+  if(details.length>=limit)return;
+  const lo=left&&typeof left==="object",ro=right&&typeof right==="object";
+  if(lo||ro){
+   if(!lo||!ro||Array.isArray(left)!==Array.isArray(right)){
+    details.push(path+": Altbestand "+format(left)+" / getrennt "+format(right));return;
+   }
+   if(Array.isArray(left)){
+    if(left.length!==right.length)details.push(path+".length: Altbestand "+left.length+" / getrennt "+right.length);
+    const n=Math.min(left.length,right.length);
+    for(let i=0;i<n&&details.length<limit;i++)walk(left[i],right[i],path+"["+i+"]");
+    return;
+   }
+   const keys=[...new Set([...Object.keys(left),...Object.keys(right)])].sort();
+   for(const key of keys){
+    if(details.length>=limit)break;
+    if(!Object.prototype.hasOwnProperty.call(left,key)||!Object.prototype.hasOwnProperty.call(right,key)){
+     details.push(path+"."+key+": fehlt "+(!Object.prototype.hasOwnProperty.call(left,key)?"im Altbestand":"in der getrennten Gruppe"));
+    }else walk(left[key],right[key],path+"."+key);
+   }
+   return;
+  }
+  if(left!==right)details.push(path+": Altbestand "+format(left)+" / getrennt "+format(right));
+ };
+ walk(a,b,"game");
+ return details;
+}
 function cloudGroupSize(value){
  if(Array.isArray(value))return value.length+" Einträge";
  if(value&&typeof value==="object")return Object.keys(value).length+" Felder";
@@ -1444,7 +1478,8 @@ async function runCloudGroupsAudit(){
      lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'.');
     }else if(type==='game'){
      const oldXp=legacy?.xp,newXp=current?.xp;
-     lines.push('game: XP Altbestand '+String(oldXp??'nicht vorhanden')+', getrennte Gruppe '+String(newXp??'nicht vorhanden')+'.');
+     const gameDetails=cloudGameDifferenceDetails(legacy,current);
+     lines.push('game: XP Altbestand '+String(oldXp??'nicht vorhanden')+', getrennte Gruppe '+String(newXp??'nicht vorhanden')+'. Vollständige Feldabweichungen: '+(gameDetails.join('; ')||'keine weiteren Feldabweichungen')+'.');
     }else{
      const paths=cloudGroupDifferencePaths(legacy,current);
      lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'. Unterschiede: '+(paths.join('; ')||'Inhalt weicht ab')+'.');
