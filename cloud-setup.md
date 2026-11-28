@@ -293,9 +293,10 @@ begin
   if auth.uid() is null then
     raise exception 'Authentication required' using errcode = '42501';
   end if;
-  if jsonb_typeof(p_groups) <> 'array'
-     or jsonb_array_length(p_groups) < 1
-     or jsonb_array_length(p_groups) > 7 then
+  if jsonb_typeof(p_groups) is distinct from 'array' then
+    raise exception 'Invalid batch payload' using errcode = '22023';
+  end if;
+  if jsonb_array_length(p_groups) < 1 or jsonb_array_length(p_groups) > 7 then
     raise exception 'Invalid batch size' using errcode = '22023';
   end if;
   if (select count(*) from jsonb_array_elements(p_groups)) <>
