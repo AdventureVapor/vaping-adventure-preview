@@ -271,7 +271,7 @@ Das Datengruppenmodul kann jede Gruppe mit ihrer eigenen Revision lesen und schr
 
 
 
-## 10. Atomarer Schreibvorgang für mehrere Datengruppen
+## 11. Atomarer Batch-Schreibvorgang für mehrere Datengruppen
 
 Die Migration kann mehrere bislang fehlende Gruppen betreffen. Einzelne RPC-Aufrufe wären nicht gemeinsam atomar: Bei einem Netzwerkausfall könnten bereits einige Gruppen geschrieben sein, während andere fehlen. Deshalb verwendet die aktualisierte Preview-Migration den folgenden Batch-RPC. **Erst nach Prüfung der vorhandenen Funktion und Policies im SQL Editor ausführen.** Die Funktion schreibt alle übergebenen Gruppen in einer einzigen PostgreSQL-Transaktion. Wenn eine erwartete Revision nicht stimmt, wird die gesamte Transaktion zurückgerollt.
 
@@ -315,14 +315,14 @@ begin
 This audit is deliberately read-only: it performs no network requests, uploads, database writes, reference replacements or deletions. It does not make a migration safe or activate the new storage. It is a preparation and diagnostic building block only. The module is loaded but is not called by the running app.
 
 
-## 12. Einheitliche Medienauflösung und Cache-Lebenszyklus
+## 13. Einheitliche Medienauflösung und Cache-Lebenszyklus
 
 `cloud-media-resolver.js` ergänzt die Mediengrundlage um einen Resolver. Inline-Data-URLs werden unverändert zurückgegeben; verschlüsselte Storage-Referenzen werden über einen ausdrücklich übergebenen Downloadadapter geladen, als Blob-URL bereitgestellt und begrenzt zwischengespeichert. `dispose()` widerruft alle erzeugten Blob-URLs und beendet die Cache-Generation. Ein noch laufender Download darf nach `dispose()` keine neue Blob-URL mehr im Cache hinterlassen; eine gegebenenfalls verspätet erzeugte URL wird sofort widerrufen.
 
 Der Resolver ist inzwischen über `createCloudMediaResolver()` in `app.js` an die token-aktualisierende Cloud-Sitzung angebunden und wird von Galerie, Geräteansicht und PDF-Viewer verwendet. Beim Abmelden, beim Wechsel in den lokalen Modus und vor einer neuen Kontoanmeldung wird der Resolver freigegeben. Ein echter Supabase-Live-Test steht weiterhin aus.
 
 
-## 13. Token-aktualisierender Storage-Requestadapter
+## 14. Token-aktualisierender Storage-Requestadapter
 
 `app.js` enthält jetzt `cloudStorageFetch()` als separaten Binär-Requestpfad. Anders als `cloudFetch()` verarbeitet er den Response-Body nicht als JSON, sondern gibt die rohe HTTP-Response zurück. Dadurch können verschlüsselte Storage-Objekte als `ArrayBuffer` gelesen werden.
 
@@ -333,7 +333,7 @@ Bei HTTP 401 versucht der Adapter einmal, das Sitzungstoken über das gespeicher
 **Status und Grenze:** Der Adapter wird von der Medienauflösung der App verwendet. Es wurden keine Medien hochgeladen und keine bestehenden Daten oder Speicherverweise verändert. Ein echter Test gegen Supabase steht aus.
 
 
-## 14. Medienanzeige und portable JSON-Backups (UI-Vorbereitung)
+## 15. Medienanzeige und portable JSON-Backups (UI-Vorbereitung)
 
 `app.js` kann jetzt vorhandene Inline-Medien und bereits vorhandene verschlüsselte Storage-Referenzen in den folgenden Bereichen verarbeiten:
 - Geräteübersicht und Geräteformular-Vorschau für Gerätefotos
@@ -391,7 +391,7 @@ Die Funktion läuft mit den Rechten des angemeldeten Nutzers (`security invoker`
 **Wichtig:** Das Modul ist noch nicht mit dem Tagebuch verbunden. Die bestehende Speicherung über `mva_saves` bleibt unverändert. Vor einer Aktivierung müssen zusätzlich Konfliktfälle, zwei gleichzeitig angemeldete Geräte, Wiederherstellung und vollständiger Medienimport getestet werden.
 
 
-## 11. Read-only inventory audit (new preparation module)
+## 12. Read-only inventory audit (new preparation module)
 
 `cloud-migration.js` provides `window.MVACloudMigration.audit(db)`. It scans a supplied in-memory game state for inline data URLs and existing encrypted Storage references. For inline media it records the object path, MIME type, inferred media kind, byte size and SHA-256 hash; identical files are grouped by hash. Invalid data URLs are counted and reported.
 
