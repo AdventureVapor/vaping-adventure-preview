@@ -62,7 +62,7 @@ async function verifyExistingReferences(snapshot,groups,download){
  }
  async function walk(value,path){
   if(typeof value==="string"&&value.startsWith("data:")){
-   const group=path.split(".")[1],relative=path.slice(3),record=groups[group];
+   const group=path.split(".")[1],relative=path.slice(3+group.length),record=groups[group];
    const groupData=record&&Object.prototype.hasOwnProperty.call(record,"data")?record.data:record;
    const ref=atPath(groupData,relative);
    if(!ref||ref.storage!=="supabase"||ref.v!==1){items.push({path,status:"missing"});return}
