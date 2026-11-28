@@ -922,3 +922,8 @@ body>#modal-root:has(.manual-backdrop) .manual-backdrop{position:absolute;inset:
 .home-vaping-grand-total{font-weight:800;background:var(--surface-2,var(--lime))}
 .home-vaping-note{margin:13px 0 0;line-height:1.55}
 @media(max-width:700px){.home-vaping-stats{padding:15px 12px}.home-vaping-heading{align-items:stretch;flex-direction:column}.home-vaping-date-nav{width:100%}.home-vaping-date-nav label{flex:1;min-width:0}.home-vaping-date-nav input{min-width:0;width:100%}}
+
+/* Heutiger Tag in der 7-Tage-Übersicht hervorheben */
+.home-vaping-table .home-vaping-today{background:var(--accent-bg,var(--blue));box-shadow:inset 1px 0 0 var(--accent,var(--green)),inset -1px 0 0 var(--accent,var(--green));font-weight:800}
+.home-vaping-table thead .home-vaping-today{background:var(--accent,var(--green));color:var(--on-accent,#fff)}
+.home-vaping-today-label{display:block;margin-top:3px;font-size:10px;font-weight:800;letter-spacing:.03em}
