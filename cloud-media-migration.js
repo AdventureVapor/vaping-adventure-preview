@@ -62,7 +62,7 @@ async function verifyExistingReferences(snapshot,groups,download){
  }
  async function walk(value,path){
   if(typeof value==="string"&&value.startsWith("data:")){
-   const rootPath=path.slice(3),group=rootPath.split(/[.\\[\\]]/)[0],relative=rootPath.slice(group.length),groupKey=group==="Fotos"?"photos":group,record=groups[groupKey];
+   const rootPath=path.slice(3),group=rootPath.split(/[.\\[]/)[0],relative=rootPath.slice(group.length),groupKey=group==="Fotos"?"photos":group,record=groups[groupKey];
    const groupData=record&&Object.prototype.hasOwnProperty.call(record,"data")?record.data:record;
    const ref=atPath(groupData,relative);
    if(!ref||ref.storage!=="supabase"||ref.v!==1){items.push({path,status:"missing"});return}
