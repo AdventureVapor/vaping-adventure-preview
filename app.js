@@ -1493,13 +1493,18 @@ async function runCloudGroupsAudit(){
   auditStage='Datengruppen vergleichen';
   const report=window.MVACloudMigrationCodec.compare(legacySnapshot,records);
   if(!report||!Array.isArray(report.mismatched)||!Array.isArray(report.missing))throw Error('Das Prüfmodul hat keine vollständige Vergleichsliste geliefert.');
+  const legacyEntries=legacySnapshot.entries;
+  const separateEntries=records.entries?.data;
+  if(!Array.isArray(legacyEntries)||(!Array.isArray(separateEntries)&&records.entries?.exists))throw Error('Der Tagebuchbestand liegt in mindestens einem Speicher nicht als gültige Liste vor.');
+  const entryAudit=cloudEntryAudit(legacyEntries,Array.isArray(separateEntries)?separateEntries:[]);
+  const entrySummary='Tagebuch: Altbestand '+entryAudit.oldCount+', getrennte Gruppe '+entryAudit.newCount+'. ID-Abgleich: '+entryAudit.oldWithId+'/'+entryAudit.oldCount+' und '+entryAudit.newWithId+'/'+entryAudit.newCount+' mit ID; nur im Altbestand '+entryAudit.onlyOld+', nur in der getrennten Gruppe '+entryAudit.onlyNew+', gleiche ID aber andere Felder '+entryAudit.changed+'. Ohne ID: '+entryAudit.oldWithoutId+'/'+entryAudit.newWithoutId+'; doppelte IDs: '+entryAudit.oldDuplicates+'/'+entryAudit.newDuplicates+'.';
   if(report.existingCount===0){
-   result.textContent='Noch keine getrennten Datengruppen gefunden. Der bisherige Cloud-Spielstand bleibt unverändert; es wurde nichts migriert.';
+   result.textContent='Noch keine getrennten Datengruppen gefunden. '+entrySummary+' Der bisherige Cloud-Spielstand bleibt unverändert; es wurde nichts migriert.';
   }else if(report.complete){
-   result.textContent='Alle sieben Datengruppen stimmen vollständig mit dem bisherigen Cloud-Spielstand überein. Nur-Lese-Prüfung erfolgreich – keine Daten wurden geschrieben.';
+   result.textContent='Alle sieben Datengruppen stimmen vollständig überein. '+entrySummary+' Nur-Lese-Prüfung erfolgreich – keine Daten wurden geschrieben.';
   }else{
    auditStage='Medienbestand und Datengruppen auswerten';
-   const expected=window.MVACloudMigrationCodec.split(legacySnapshot),lines=[];
+   const expected=window.MVACloudMigrationCodec.split(legacySnapshot),lines=[entrySummary];
    const separateSnapshot=window.MVACloudMigrationCodec.join(records);
    const legacyMedia=cloudMediaAudit(legacySnapshot),separateMedia=cloudMediaAudit(separateSnapshot);
    const mediaSummary=obj=>Object.entries(obj.counts).filter(([,n])=>n).map(([k,n])=>n+" "+k).join(", ")||"keine eingebetteten Medienwerte";
@@ -1510,7 +1515,7 @@ async function runCloudGroupsAudit(){
      if(!Array.isArray(legacy)||!Array.isArray(current))throw Error('Die Eintragsgruppe liegt nicht als gültige Liste vor (Altbestand: '+(Array.isArray(legacy)?'Liste':'kein Listenwert')+', getrennte Gruppe: '+(Array.isArray(current)?'Liste':'kein Listenwert')+').');
      const d=cloudEntryAudit(legacy,current);
       const details=(d.onlyOldDetails||[]).map((item,index)=>'Nr. '+(index+1)+' ['+item.date+', '+item.time+', '+item.category+']: '+item.filledDetailFields+' ausgefüllte Detailfelder ('+item.presentFields.join(', ')+'); Gerät '+(item.hasDevice?'ja':'nein')+', Material '+(item.hasMaterial?'ja':'nein')+', Dauer/Züge '+(item.hasUsageMeasure?'ja':'nein')+', Notizen '+(item.hasNotes?'ja ('+item.notesLength+' Zeichen)':'nein')).join(' | ');
-      lines.push('Einträge: Altbestand '+d.oldCount+', getrennte Gruppe '+d.newCount+'. ID-Abgleich: '+d.oldWithId+'/'+d.oldCount+' und '+d.newWithId+'/'+d.newCount+' mit ID; nur im Altbestand '+d.onlyOld+', nur in der getrennten Gruppe '+d.onlyNew+', gleiche ID aber andere Felder '+d.changed+'. Ohne ID: '+d.oldWithoutId+'/'+d.newWithoutId+'; doppelte IDs: '+d.oldDuplicates+'/'+d.newDuplicates+'.'+(details?' Details der fehlenden Alt-Einträge: '+details+'.':'')+(d.samplePaths?.length?' Beispiel abweichender Felder bei einer gleichen ID: '+d.samplePaths.join('; ')+'.':''));
+      lines.push((details?'Details der fehlenden Alt-Einträge: '+details+'.':'')+(d.samplePaths?.length?' Beispiel abweichender Felder bei einer gleichen ID: '+d.samplePaths.join('; ')+'.':''));
     }else if(type==='devices'||type==='photos'){
      lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'.');
     }else if(type==='game'){
