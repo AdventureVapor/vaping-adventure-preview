@@ -82,5 +82,32 @@ async function verifyExistingReferences(snapshot,groups,download){
  for(const key of Object.keys(snapshot))await walk(snapshot[key],"db."+key);
  return Object.freeze({readOnly:true,total:items.length,verified:items.filter(x=>x.status==="verified").length,missing:items.filter(x=>x.status==="missing").length,different:items.filter(x=>x.status==="different").length,unavailable:items.filter(x=>x.status==="unavailable").length,items});
 }
-window.MVACloudMediaMigration=Object.freeze({migrate,verifyExistingReferences});
+async function reuseVerifiedReferences(snapshot,groups,download){
+ if(!snapshot||typeof snapshot!=="object"||!groups||typeof groups!=="object"||typeof download!=="function")throw Error("Medienübernahme: Spielstand, Datengruppen oder Downloadfunktion fehlen.");
+ const result=JSON.parse(JSON.stringify(snapshot));
+ const items=[];
+ const digest=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",bytes)),x=>x.toString(16).padStart(2,"0")).join("");
+ function parts(path){const root=path.slice(3),group=root.split(/[.\\[]/)[0],relative=root.slice(group.length);return {group:group==="Fotos"?"photos":group,relative};}
+ function atPath(root,path){const keys=path.replaceAll("[",".").replaceAll("]","").split(".").filter(Boolean);let value=root;for(const key of keys)value=value==null?undefined:value[key];return value;}
+ function setPath(root,path,value){const keys=path.replaceAll("[",".").replaceAll("]","").split(".").filter(Boolean);let parent=root;for(let i=0;i<keys.length-1;i++)parent=parent[keys[i]];parent[keys[keys.length-1]]=value;}
+ async function walk(value,path){
+  if(typeof value==="string"&&value.startsWith("data:")){
+   const {group,relative}=parts(path),record=groups[group],data=record&&Object.prototype.hasOwnProperty.call(record,"data")?record.data:record,ref=atPath(data,relative);
+   if(!ref||ref.storage!=="supabase"||ref.v!==1)throw Error("Für "+path+" fehlt eine passende Cloud-Medienreferenz. Es wurde keine Datengruppe geschrieben.");
+   const source=parseDataUrl(value).bytes,blob=await download(ref);
+   if(!(blob instanceof Blob))throw Error("Cloud-Medium für "+path+" konnte nicht als Datei gelesen werden.");
+   const actual=new Uint8Array(await blob.arrayBuffer());
+   if(source.byteLength!==actual.byteLength||await digest(source)!==await digest(actual))throw Error("Cloud-Medium für "+path+" stimmt nicht bytegenau mit dem Original überein.");
+   setPath(result,path.slice(3),ref);
+   items.push({path,size:source.byteLength});
+   return;
+  }
+  if(!value||typeof value!=="object")return;
+  if(Array.isArray(value)){for(let i=0;i<value.length;i++)await walk(value[i],path+"["+i+"]");}
+  else for(const key of Object.keys(value))await walk(value[key],path+"."+key);
+ }
+ for(const key of Object.keys(snapshot))await walk(snapshot[key],"db."+key);
+ return Object.freeze({snapshot:result,stats:{reusedCount:items.length,totalBytes:items.reduce((sum,item)=>sum+item.size,0)},items});
+}
+window.MVACloudMediaMigration=Object.freeze({migrate,verifyExistingReferences,reuseVerifiedReferences});
 })();
