@@ -857,11 +857,27 @@ body>#modal-root:has(.manual-backdrop) .manual-backdrop{position:absolute;inset:
 .forum-wrap{display:grid;gap:18px;margin-top:24px}.forum-intro{border-left:4px solid var(--green)}.forum-intro p{margin:8px 0 0;line-height:1.6}.forum-toolbar{margin:8px 0}.forum-toolbar h2{font:700 19px Manrope;margin:0 0 4px}.forum-category-section{margin:18px 0 24px}.forum-category-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 10px}.forum-category-head h3{font:700 17px Manrope;margin:0}.forum-category-head>span{font-size:11px;color:var(--muted);background:#edf0e9;border-radius:20px;padding:4px 9px}.forum-topic-row{display:block;width:100%;text-align:left;margin:8px 0;padding:16px 18px;cursor:pointer}.forum-topic-row:hover{border-color:var(--green)}.forum-topic-row b{display:block;font:700 15px Manrope}.forum-meta{display:block;color:var(--muted);font-size:11px;margin:6px 0}.forum-topic-detail h2{font:700 22px Manrope;margin:10px 0}.forum-category{font-size:10px;color:var(--green);font-weight:800;text-transform:uppercase;letter-spacing:.08em}.forum-body,.forum-reply p{font-size:14px;line-height:1.7;overflow-wrap:anywhere}.forum-reply{margin:10px 0}.forum-reply-heading{font:700 17px Manrope;margin:22px 0 10px}.forum-form{display:grid;gap:12px;margin-top:18px}.forum-form label{font-size:12px;font-weight:700}.forum-form button{justify-self:start}.forum-topic-row p{font-size:13px;line-height:1.5;margin:8px 0 0}.forum-empty{padding:14px 17px;color:var(--muted);font-size:12px;background:#fafbf8;border:1px dashed var(--line);border-radius:12px}@media(max-width:650px){.forum-toolbar{align-items:flex-start}.forum-topic-row{padding:14px}}
 
 
-/* Cannabis law course: collapsible original exhibition panels */
-.cang-original-panel{margin:14px 0;border:1px solid var(--line);border-radius:14px;background:var(--card,rgba(255,255,255,.55));overflow:hidden}
-.cang-original-panel summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.cang-original-panel summary::-webkit-details-marker{display:none}
-.cang-original-panel summary::after{content:'＋';font-size:1.15rem;color:var(--muted)}
-.cang-original-panel[open] summary::after{content:'−'}
-.cang-original-panel iframe{display:block;width:100%;height:min(78vh,900px);min-height:540px;border:0;border-top:1px solid var(--line);background:#f4f0e7}
-@media(max-width:600px){.cang-original-panel summary{padding:13px 14px}.cang-original-panel iframe{height:72vh;min-height:500px}}
+/* Cannabis course: native one-panel-per-page layout using the selected app theme */
+.cang-course-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0}
+.cang-lesson-card{padding:clamp(18px,3vw,34px);margin:14px 0 18px}
+.cang-progress{height:6px;border-radius:20px;background:var(--lime);overflow:hidden;margin:0 0 24px}
+.cang-progress span{display:block;height:100%;background:var(--green);border-radius:20px}
+.cang-panel-loading{padding:45px 12px;text-align:center;color:var(--muted)}
+.cang-original-content{color:var(--ink);font-size:15px;line-height:1.75}
+.cang-original-content .nummer{display:inline-grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;margin-bottom:18px}
+.cang-original-content h1{font:800 clamp(25px,4vw,38px)/1.15 Manrope,sans-serif;color:var(--ink);margin:0 0 16px;letter-spacing:-.7px}
+.cang-original-content h2{font:700 19px/1.3 Manrope,sans-serif;color:var(--ink);margin:0 0 10px}
+.cang-original-content p{margin:0 0 16px;color:var(--ink)}
+.cang-original-content .linie{width:76px;height:4px;background:var(--orange);border-radius:8px;margin:22px 0}
+.cang-original-content .gesetz,.cang-original-content .beispiel-titel,.cang-original-content .frage-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--green);margin:0 0 12px}
+.cang-original-content .hinweis,.cang-original-content .beispiel,.cang-original-content .gegenfrage,.cang-original-content .frage,.cang-original-content .box{padding:18px 20px;border-radius:12px;background:var(--lime);border:1px solid var(--line);margin:22px 0;color:var(--ink)}
+.cang-original-content .hinweis{border-left:4px solid var(--green)}
+.cang-original-content .hinweis strong{display:block;color:var(--green);margin-bottom:6px}
+.cang-original-content .gegensatz{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+.cang-original-content .box{margin:0;background:var(--blue)}
+.cang-original-content .frage p,.cang-original-content .gegenfrage p{font-size:18px;font-weight:750;margin:0}
+.cang-course-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 26px}
+.cang-question legend{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.cang-question label{display:flex;align-items:flex-start;gap:9px;padding:7px 0;color:var(--ink)}
+.cang-question input{margin-top:3px;flex:0 0 auto}
+@media(max-width:650px){.cang-course-toolbar,.cang-course-actions{align-items:stretch;flex-direction:column}.cang-course-toolbar .pill{text-align:center}.cang-original-content .gegensatz{grid-template-columns:1fr}.cang-lesson-card{padding:16px}.cang-original-content{font-size:14px}.cang-original-content h1{font-size:26px}.cang-course-actions .btn{width:100%}}
