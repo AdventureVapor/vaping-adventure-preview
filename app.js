@@ -1163,6 +1163,8 @@ async function prepareCloudGroupsMigrationBackup(){
   cloudMigrationBackupReady=true;
   const proceed=$('#cloud-groups-migration-start');
   if(proceed){proceed.hidden=false;proceed.style.display='inline-flex';}
+  const entryMerge=$('#cloud-groups-entries-merge');
+  if(entryMerge){entryMerge.hidden=false;entryMerge.style.display='inline-flex';}
   result.textContent='JSON-Backup wurde zum Download angeboten. Bitte sichere die Datei auf deinem Gerät. Erst danach kannst du ausdrücklich die Migrationsprüfung starten.';
  }catch(error){
   cloudMigrationBackupReady=false;cloudMigrationBackupLegacySnapshot=null;
