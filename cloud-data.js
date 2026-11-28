@@ -95,7 +95,41 @@
         throw error;
       }
     }
-    return Object.freeze({types:TYPES,read,readAll,write,sync});
+    async function writeBatch(changes){
+      if(!Array.isArray(changes)||changes.length<1||changes.length>TYPES.length)throw Error("Für den atomaren Gruppenschreibvorgang wird eine gültige Änderungsliste benötigt.");
+      const seen=new Set();
+      const prepared=await Promise.all(changes.map(async change=>{
+        const type=change?.type,expectedRevision=change?.expectedRevision;
+        assertType(type);
+        if(seen.has(type))throw Error("Datengruppe doppelt im Schreibpaket: "+type);
+        seen.add(type);
+        if(!Number.isSafeInteger(expectedRevision)||expectedRevision<0)throw Error("Für "+type+" fehlt eine gültige erwartete Version.");
+        return {p_data_type:type,p_expected_revision:expectedRevision,p_payload:await seal(type,change.value,expectedRevision+1),value:change.value};
+      }));
+      const body={p_groups:prepared.map(({p_data_type,p_expected_revision,p_payload})=>({p_data_type,p_expected_revision,p_payload}))};
+      try{
+        const result=await request("/rest/v1/rpc/mva_write_data_batch",{method:"POST",body:JSON.stringify(body)});
+        const rows=Array.isArray(result)?result:[];
+        const byType=new Map(rows.map(row=>[row.data_type,Number(row.revision)]));
+        for(const item of prepared)if(byType.get(item.p_data_type)!==item.p_expected_revision+1)throw Error("Die atomare Cloud-Bestätigung für „"+item.p_data_type+"“ fehlt.");
+        return prepared.map(item=>({type:item.p_data_type,revision:item.p_expected_revision+1,data:item.value,exists:true}));
+      }catch(error){
+        const latest=await readAll().catch(()=>null);
+        const confirmed=latest&&prepared.every(item=>{
+          const row=latest[item.p_data_type];
+          return row?.exists===true&&row.revision===item.p_expected_revision+1&&sameData(row.data,item.value);
+        });
+        if(confirmed)return prepared.map(item=>latest[item.p_data_type]);
+        const message=String(error?.message||error);
+        if(/MVA_REVISION_CONFLICT|revision conflict|versionskonflikt/i.test(message)){
+          const conflict=Error("Versionskonflikt im atomaren Datengruppenpaket. Es wurde kein Teilpaket übernommen.");
+          conflict.code="MVA_REVISION_CONFLICT";
+          throw conflict;
+        }
+        throw error;
+      }
+    }
+    return Object.freeze({types:TYPES,read,readAll,write,sync,writeBatch});
   }
   window.MVAEncryptedData={create:make,types:TYPES};
 })();
