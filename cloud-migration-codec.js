@@ -53,6 +53,22 @@ function canonical(value){
  }
  return value;
 }
+function mergeEntriesById(legacyEntries,separateEntries){
+ if(!Array.isArray(legacyEntries)||!Array.isArray(separateEntries))throw Error("Beide Tagebuchbestände müssen gültige Listen sein.");
+ const idOf=entry=>entry&&entry.id!==undefined&&entry.id!==null&&String(entry.id)!==""?String(entry.id):null;
+ const legacyIds=legacyEntries.map(idOf),separateIds=separateEntries.map(idOf);
+ if(legacyIds.some(id=>id===null)||separateIds.some(id=>id===null))throw Error("Mindestens ein Tagebucheintrag besitzt keine eindeutige ID. Sicherheitsstopp.");
+ if(new Set(legacyIds).size!==legacyIds.length||new Set(separateIds).size!==separateIds.length)throw Error("Doppelte Tagebuch-IDs gefunden. Sicherheitsstopp.");
+ const legacyMap=new Map(legacyEntries.map(entry=>[idOf(entry),entry]));
+ const separateMap=new Map(separateEntries.map(entry=>[idOf(entry),entry]));
+ for(const [id,entry] of separateMap){
+  if(!legacyMap.has(id))throw Error("Die getrennte Tagebuchgruppe enthält einen zusätzlichen Eintrag. Es wird nichts überschrieben.");
+  if(JSON.stringify(canonical(legacyMap.get(id)))!==JSON.stringify(canonical(entry)))throw Error("Ein vorhandener Tagebucheintrag weicht inhaltlich ab. Es wird nichts überschrieben.");
+ }
+ const missingCount=legacyEntries.length-separateEntries.length;
+ const merged=legacyEntries.map(entry=>separateMap.get(idOf(entry))||clone(entry));
+ return Object.freeze({merged,missingCount,existingCount:separateEntries.length,totalCount:legacyEntries.length});
+}
 function compare(legacySnapshot,records){
  const expected=split(legacySnapshot);
  const status=TYPES.map(type=>{
@@ -66,5 +82,5 @@ function compare(legacySnapshot,records){
  const mismatched=status.filter(item=>item.exists&&!item.matches).map(item=>item.type);
  return {readOnly:true,total:TYPES.length,existingCount,matchingCount,missing,mismatched,complete:existingCount===TYPES.length&&matchingCount===TYPES.length};
 }
-window.MVACloudMigrationCodec=Object.freeze({types:TYPES,split,join,compare});
+window.MVACloudMigrationCodec=Object.freeze({types:TYPES,split,join,compare,mergeEntriesById});
 })();
