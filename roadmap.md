@@ -63,6 +63,7 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
 
 Die zuverlässige Speicherung in den getrennten Cloud-Datengruppen wird von 1.4.2 auf 1.4.1 vorgezogen. Version 1.4.1 darf erst veröffentlicht werden, wenn die neue Speicherung vollständig funktioniert und die vorhandenen Nutzerdaten nachweislich vollständig erhalten bleiben.
 
+- [x] Statische Altannahme „8 fehlende Einträge“ entfernt: sicherer ID-basierter Ergänzungsplan berechnet die tatsächliche Differenz dynamisch, bewahrt die Altbestand-Reihenfolge und stoppt zusätzliche, doppelte oder inhaltlich abweichende Einträge (Preview-Code + isolierte Tests).
 - [ ] Datenmodell und Schreib-/Leseablauf aller sieben getrennten Datengruppen vollständig prüfen; normale App-Speichervorgänge müssen zuverlässig an die neue Speicherung angebunden sein.
 - [ ] Sichere Parallelphase umsetzen: Legacy-Cloud-Speicher zunächst als unveränderte Rückfallquelle erhalten; neue Schreibvorgänge kontrolliert in die getrennten Gruppen übernehmen.
 - [ ] Vorhandene Abweichungen zwischen Legacy-Spielstand und getrennten Gruppen sicher auflösen; aktuell dokumentierter Prüfstand: 87 Legacy-Tagebucheinträge gegenüber 78 Einträgen in den getrennten Gruppen, neun Einträge fehlen dort. Keine pauschale Überschreibung.
