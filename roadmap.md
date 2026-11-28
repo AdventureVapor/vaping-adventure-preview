@@ -1139,3 +1139,15 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Optimistisches Schreiben mit erwarteter Revision und entschlüsselter Read-back-Prüfung
 - [x] JavaScript-Syntax geprüft; Cachekennung aktualisiert
 - [ ] In Preview frisches Backup über den Backup-Button im Migrationsbereich erstellen und XP-Korrektur ausdrücklich bestätigen
+
+
+
+## Startseite: rollierende Vaping-Session-Übersicht (Preview)
+
+- [x] Statistik-Tabelle unter den bisherigen Startseiten-Inhalten und oberhalb des „Wir unterstützen“-Fußbereichs ergänzt.
+- [x] Sieben-Tage-Zeitraum standardmäßig mit dem heutigen Datum als rechtem/letztem Tag; die sechs vorherigen Tage stehen links davon.
+- [x] Datumsfeld und Pfeilnavigation ergänzt; jeder Pfeilklick verschiebt den Zeitraum um genau einen Kalendertag.
+- [x] Vaporizer, E-Zigarette und Tabakheater nach vier Zeitfenstern sowie Tages- und Zeitraumssummen ausgewertet.
+- [x] Sessions werden aus Tagebucheinträgen berechnet; Einträge ohne Uhrzeit zählen zu Tages-/Zeitraumssummen, nicht zu Zeitfenstern.
+- [x] Tabelle passt sich der gewählten App-Sprache an und ist auf schmalen Displays horizontal scrollbar.
+- [ ] Preview-Praxistest mit echten Tagebucheinträgen, fehlenden Uhrzeiten, Datumswechsel und Pfeilnavigation auf Desktop/iPhone.
