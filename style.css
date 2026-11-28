@@ -891,3 +891,12 @@ body>#modal-root:has(.manual-backdrop) .manual-backdrop{position:absolute;inset:
 .cv-leisure-note{margin:18px 0 0;padding:16px 18px;border-radius:12px;background:var(--blue);color:var(--ink);font-weight:650;line-height:1.55}
 @media(max-width:760px){.cv-leisure-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:430px){.cv-leisure-grid{grid-template-columns:1fr}}
+
+/* Eigene Freizeitaktivitäten in Schritt 8 */
+.cv-own-leisure{margin:22px 0;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface, var(--lime))}
+.cv-own-leisure h3{margin:0 0 6px;color:var(--ink)}
+.cv-own-leisure-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cv-own-leisure-field{display:flex;align-items:center;gap:10px;min-width:0;color:var(--ink);font-weight:700}
+.cv-own-leisure-field span{flex:0 0 24px}
+.cv-own-leisure-field input{min-width:0;width:100%}
+@media(max-width:560px){.cv-own-leisure-grid{grid-template-columns:1fr}}
