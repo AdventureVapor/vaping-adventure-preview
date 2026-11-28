@@ -162,8 +162,8 @@ async function run(){
 
   assert(!!window.MVACloudMediaMigration?.reuseVerifiedReferences,"Modul zur Wiederverwendung bestätigter Medienreferenzen fehlt");
   const legacyMedia={devices:[{photo:"data:image/png;base64,AA=="}],Fotos:[{src:"data:image/png;base64,AA=="}]};
-  const mediaRef={v:1,storage:"supabase",bucket:"mva-private-media",path:"test/object",kind:"photo",size:1};
-  const mediaGroups={devices:{data:[{photo:mediaRef}]},photos:{data:[{src:mediaRef}]}};
+  const reuseRef={v:1,storage:"supabase",bucket:"mva-private-media",path:"test/object",kind:"photo",size:1};
+  const mediaGroups={devices:{data:[{photo:reuseRef}]},photos:{data:[{src:reuseRef}]}};
   const reusedMedia=await window.MVACloudMediaMigration.reuseVerifiedReferences(legacyMedia,mediaGroups,async()=>new Blob([new Uint8Array([0])],{type:"image/png"}));
   assert(reusedMedia.stats.reusedCount===2&&reusedMedia.snapshot.devices[0].photo.storage==="supabase"&&reusedMedia.snapshot.Fotos[0].src.storage==="supabase","Bytegenaue vorhandene Medienreferenzen wurden nicht in die Kopie übernommen");
   assert(legacyMedia.devices[0].photo.startsWith("data:")&&legacyMedia.Fotos[0].src.startsWith("data:"),"Medien-Wiederverwendung hat den Original-Spielstand verändert");
