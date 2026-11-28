@@ -157,6 +157,29 @@ async function run(){
   assert(await checkedPdf.text()==="Geänderte PDF-Anleitung","Geänderte PDF konnte nach Upload nicht bytegenau zurückgelesen werden");
   log("Geänderte PDF erhält neue Medienreferenz und wird nach Upload bytegenau verifiziert");
 
+
+  assert(!!window.MVACloudMediaMigration?.verifyExistingReferences,"Nur-Lese-Prüfung bestehender Medienreferenzen fehlt");
+  const sourceBytes=new TextEncoder().encode("identische Testdatei"),sourceData="data:image/png;base64,"+btoa(String.fromCharCode(...sourceBytes));
+  const mediaRef={v:1,storage:"supabase",bucket:"mva-private-media",path:userId+"/test.bin",iv:"AA==",kind:"photo",mime:"image/png",size:sourceBytes.length};
+  const verifiedMedia=await window.MVACloudMediaMigration.verifyExistingReferences(
+   {devices:[{photo:sourceData}],photos:[]},
+   {devices:{data:[{photo:mediaRef}]},photos:{data:[]}},
+   async ref=>new Blob([sourceBytes],{type:ref.mime})
+  );
+  assert(verifiedMedia.readOnly&&verifiedMedia.total===1&&verifiedMedia.verified===1,"Byteidentische Medienreferenz wurde nicht bestätigt");
+  const missingMedia=await window.MVACloudMediaMigration.verifyExistingReferences(
+   {devices:[{photo:sourceData}]},{devices:{data:[{}]}},async()=>{throw Error("soll nicht aufgerufen werden")}
+  );
+  assert(missingMedia.missing===1&&missingMedia.verified===0,"Fehlende Medienreferenz wurde nicht erkannt");
+  const differentMedia=await window.MVACloudMediaMigration.verifyExistingReferences(
+   {devices:[{photo:sourceData}]},{devices:{data:[{photo:mediaRef}]}},async()=>new Blob(["anderer Inhalt"],{type:"image/png"})
+  );
+  assert(differentMedia.different===1,"Abweichender Medieninhalt wurde nicht erkannt");
+  const unavailableMedia=await window.MVACloudMediaMigration.verifyExistingReferences(
+   {devices:[{photo:sourceData}]},{devices:{data:[{photo:mediaRef}]}},async()=>{throw Error("404")}
+  );
+  assert(unavailableMedia.unavailable===1,"Nicht abrufbare Medienreferenz wurde nicht erkannt");
+  log("Nur-Lese-Medienabgleich bestätigt byteidentische Dateien und erkennt fehlende, abweichende sowie nicht abrufbare Referenzen");
   assert(!!window.MVACloudMigration?.audit,"Read-only-Migrationsprüfung fehlt");
   const auditSample={photos:[{src:"data:image/png;base64,AQID"},{src:"data:image/png;base64,AQID"}],devices:[{photo:"data:image/png;base64,AQID",manualData:{v:1,storage:"supabase",path:"audit-user/manual.pdf",kind:"pdf",size:12}}]};
   const audit=await window.MVACloudMigration.audit(auditSample);
