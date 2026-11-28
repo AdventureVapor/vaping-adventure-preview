@@ -12,7 +12,9 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 
 - [x] Originalordner `websitecang` mit Startseite und 18 Originaltafeln in Preview bereitgestellt; Produktion bleibt unverändert
 - [x] Eigenständigen Education-Kurs mit 18 Lektionen ergänzt; jede Lektion öffnet die zugehörige Originaltafel vollständig und im unveränderten Wortlaut
-- [x] Darstellung über den vorhandenen Education-Kursdialog und die App-Optik; Originaltafeln bleiben innerhalb der Lektionen eingebettet und mobil nutzbar
+- [x] Kurs öffnet direkt im Hauptbereich rechts neben der Navigation – kein separates Fenster oder Modal
+- [x] Pro Seite wird genau eine Originaltafel angezeigt; Vor-/Zurück-Navigation und Fortschrittsanzeige integriert
+- [x] Originaltexte und Inhalte bleiben erhalten, die Gestaltung nutzt die jeweils in Einstellungen gewählte App-Farbpalette
 - [x] Abschlusstest mit 18 Fragen erstellt; Bestehensgrenze 80 % (mindestens 15 richtige Antworten), Ergebnis und Kursfortschritt werden über das bestehende Education-System gespeichert
 - [x] Hinweis auf den in der Ausstellung genannten Rechtsstand 03.10.2026 und auf die Notwendigkeit der Prüfung aktueller amtlicher Vorschriften ergänzt
 - [ ] Kurs auf Desktop und iPhone praktisch prüfen: alle 18 Tafeln öffnen, Inhalte/Navigation kontrollieren, Quiz vollständig absolvieren und Ergebnis/Fortschritt prüfen
