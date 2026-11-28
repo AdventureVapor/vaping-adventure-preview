@@ -1100,3 +1100,15 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Diagnose bleibt rein lesend; keine Übernahme, Löschung oder Änderung.
 - [x] JavaScript-Syntax geprüft und Cache-Schlüssel auf 1.6.6 aktualisiert.
 - [ ] Ergebnis im Preview prüfen und die acht Einträge fachlich einordnen.
+
+
+### 1.4.8 – Gezielte Ergänzung der acht fehlenden Tagebucheinträge
+
+- [x] Separaten, ausdrücklich ausgelösten Übernahmeweg ergänzt; die allgemeine Gruppenmigration wird dafür nicht verwendet
+- [x] Vor dem Schreiben vollständiges Backup und unveränderten Legacy-Spielstand verlangen
+- [x] Nur fehlende Einträge per ID ergänzen; vorhandene Einträge müssen vollständig mit dem Legacy-Bestand übereinstimmen
+- [x] Sicherheitsstopps bei fehlenden/duplizierten IDs, fremden oder abweichenden Einträgen und verändertem Bestandsumfang
+- [x] Optimistisches Schreiben mit erwarteter Revision und anschließendem entschlüsselten Read-back aller Einträge
+- [x] Andere Datengruppen, Medien und XP bleiben unangetastet
+- [x] JavaScript-Syntax geprüft; Cache-Version auf 1.6.9 angehoben
+- [ ] Nach Deployment Backup erneut erstellen, die acht Einträge ausdrücklich ergänzen und Ergebnis vom Nutzer bestätigen
