@@ -1352,19 +1352,28 @@ async function runCloudGroupsMigration(){
   }
   let media=await window.MVACloudMigration.audit(legacy);
   if(media.invalidMediaCount>0)throw Error('Das Backup enthält '+media.invalidMediaCount+' ungültige Medienangabe(n). Bitte zuerst den Medienbestand prüfen.');
-  if(media.inlineMediaCount>0){
-   if(!window.MVACloudMediaMigration?.migrate)throw Error('Das Medienmigrationsmodul wurde nicht geladen. Es wurde noch nichts übertragen.');
-   result.textContent=media.inlineMediaCount+' eingebettete Foto-/PDF-Datei(en) werden jetzt einzeln clientseitig verschlüsselt hochgeladen und durch entschlüsseltes Zurücklesen geprüft …';
-   const mediaAccess=createCloudMediaResolver();
-   const migrated=await window.MVACloudMediaMigration.migrate(legacy,(blob,options)=>mediaAccess.media.uploadVerified(blob,options));
-   legacy=migrated.snapshot;
-   media=await window.MVACloudMigration.audit(legacy);
-   if(media.invalidMediaCount>0||media.inlineMediaCount>0)throw Error('Nach dem Medienupload sind noch '+media.inlineMediaCount+' eingebettete und '+media.invalidMediaCount+' ungültige Medienangabe(n) vorhanden. Datengruppen werden nicht geschrieben.');
-   result.textContent=migrated.stats.uploadedCount+' Mediendatei(en) verschlüsselt hochgeladen und verifiziert; '+migrated.stats.reusedCount+' byteidentische Datei(en) wiederverwendet. Die Datengruppen werden jetzt geprüft …';
-  }
-  const expected=window.MVACloudMigrationCodec.split(legacy);
   const access=createCloudDataAccess();
   const before=await access.readAll();
+  if(media.inlineMediaCount>0){
+   if(!window.MVACloudMediaMigration?.migrate||!window.MVACloudMediaMigration?.reuseVerifiedReferences)throw Error('Die Medienmigrationsmodule wurden nicht vollständig geladen. Es wurde noch nichts übertragen.');
+   const mediaAccess=createCloudMediaResolver();
+   const referenceCheck=await window.MVACloudMediaMigration.verifyExistingReferences(legacy,before,ref=>mediaAccess.media.download(ref));
+   if(referenceCheck.different||referenceCheck.unavailable)throw Error('Sicherheitsstopp: Mindestens eine vorhandene Medienreferenz weicht ab oder kann nicht abgerufen werden. Es werden keine Datengruppen geschrieben.');
+   if(referenceCheck.verified===referenceCheck.total&&referenceCheck.total>0){
+    result.textContent=referenceCheck.verified+' bereits vorhandene Medienreferenzen werden nach erneuter Byteprüfung übernommen …';
+    const reused=await window.MVACloudMediaMigration.reuseVerifiedReferences(legacy,before,ref=>mediaAccess.media.download(ref));
+    legacy=reused.snapshot;
+    result.textContent=reused.stats.reusedCount+' vorhandene Mediendateien wurden ohne erneuten Upload bytegenau bestätigt. Datengruppen werden geprüft …';
+   }else if(referenceCheck.verified===0&&referenceCheck.missing===referenceCheck.total){
+    result.textContent=media.inlineMediaCount+' eingebettete Foto-/PDF-Datei(en) werden verschlüsselt hochgeladen und durch entschlüsseltes Zurücklesen geprüft …';
+    const migrated=await window.MVACloudMediaMigration.migrate(legacy,(blob,options)=>mediaAccess.media.uploadVerified(blob,options));
+    legacy=migrated.snapshot;
+    result.textContent=migrated.stats.uploadedCount+' Mediendatei(en) verschlüsselt hochgeladen und verifiziert; '+migrated.stats.reusedCount+' byteidentische Datei(en) innerhalb dieses Uploads wiederverwendet. Datengruppen werden geprüft …';
+   }else throw Error('Sicherheitsstopp: Es gibt eine Mischung aus vorhandenen und fehlenden Medienreferenzen. Diese Kombination wird erst nach einer gezielten Einzelprüfung migriert.');
+   media=await window.MVACloudMigration.audit(legacy);
+   if(media.invalidMediaCount>0||media.inlineMediaCount>0)throw Error('Nach der Medienprüfung sind noch '+media.inlineMediaCount+' eingebettete und '+media.invalidMediaCount+' ungültige Medienangabe(n) vorhanden. Datengruppen werden nicht geschrieben.');
+  }
+  const expected=window.MVACloudMigrationCodec.split(legacy);
   const comparison=window.MVACloudMigrationCodec.compare(legacy,before);
   if(comparison.mismatched.length){
    throw Error('Sicherheitsstopp: Bereits vorhandene getrennte Datengruppen weichen vom bisherigen Spielstand ab ('+comparison.mismatched.join(', ')+'). Diese möglichen neueren Daten werden nicht überschrieben. Bitte erst einzeln prüfen.');
@@ -1374,18 +1383,15 @@ async function runCloudGroupsMigration(){
    result.textContent='Alle sieben Datengruppen sind bereits vorhanden und stimmen überein. Es wurde nichts geschrieben.';
    return;
   }
-  result.textContent=toCreate.length+' fehlende Datengruppe(n) werden einzeln verschlüsselt übertragen und direkt überprüft …';
+  result.textContent=toCreate.length+' fehlende Datengruppe(n) werden als ein atomarer Schreibvorgang übertragen und anschließend vollständig geprüft …';
+  await access.writeBatch(toCreate.map(type=>({type,value:expected[type],expectedRevision:0})));
+  const after=await access.readAll();
   for(const type of toCreate){
-   // Die Vorprüfung hat diese Gruppe als fehlend erkannt. Schreibe atomar nur
-   // mit erwarteter Revision 0: Ein zwischenzeitlich angelegter Datensatz
-   // muss einen Versionskonflikt auslösen und darf niemals überschrieben werden.
-   await access.write(type,expected[type],0);
-   const verified=await access.read(type);
-   if(!verified.exists||!cloudSnapshotsEqual(verified.data,expected[type])){
-    throw Error('Read-back-Prüfung für „'+type+'“ fehlgeschlagen. Die Legacy-Sicherung bleibt unverändert; bitte Status prüfen, bevor du erneut startest.');
+   const verified=after[type];
+   if(!verified?.exists||!cloudSnapshotsEqual(verified.data,expected[type])){
+    throw Error('Read-back-Prüfung für „'+type+'“ fehlgeschlagen. Der atomare Schreibvorgang wurde nicht als vollständig bestätigt; bitte Status prüfen.');
    }
   }
-  const after=await access.readAll();
   const finalReport=window.MVACloudMigrationCodec.compare(legacy,after);
   if(!finalReport.complete)throw Error('Nachprüfung unvollständig. Fehlend: '+finalReport.missing.join(', ')+'; abweichend: '+finalReport.mismatched.join(', ')+'. Der bisherige Cloud-Spielstand bleibt erhalten.');
   result.textContent='Erfolgreich: Alle sieben Datengruppen stimmen nach erneutem Lesen und Entschlüsseln mit dem bisherigen Cloud-Spielstand überein. Die Legacy-Sicherung wurde nicht verändert.';
