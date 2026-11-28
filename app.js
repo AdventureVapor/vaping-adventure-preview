@@ -1260,6 +1260,52 @@ function cloudGroupSize(value){
  if(value&&typeof value==="object")return Object.keys(value).length+" Felder";
  return typeof value;
 }
+function cloudEntryAudit(oldEntries,newEntries){
+ const identity=e=>e&&e.id!==undefined&&e.id!==null&&String(e.id)!=="";
+ const oldIds=oldEntries.filter(identity),newIds=newEntries.filter(identity);
+ const oldMap=new Map(oldIds.map(e=>[String(e.id),e])),newMap=new Map(newIds.map(e=>[String(e.id),e]));
+ const onlyOld=[...oldMap.keys()].filter(id=>!newMap.has(id));
+ const onlyNew=[...newMap.keys()].filter(id=>!oldMap.has(id));
+ const changed=[];
+ for(const [id,oldEntry] of oldMap){
+  if(!newMap.has(id))continue;
+  const paths=cloudGroupDifferencePaths(oldEntry,newMap.get(id),6);
+  if(paths.length)changed.push({paths});
+ }
+ const duplicateCount=arr=>arr.length-new Set(arr.map(e=>String(e.id))).size;
+ return {
+  oldCount:oldEntries.length,newCount:newEntries.length,
+  oldWithId:oldIds.length,newWithId:newIds.length,
+  oldWithoutId:oldEntries.length-oldIds.length,newWithoutId:newEntries.length-newIds.length,
+  oldDuplicates:duplicateCount(oldIds),newDuplicates:duplicateCount(newIds),
+  onlyOld:onlyOld.length,onlyNew:onlyNew.length,changed:changed.length,
+  samplePaths:changed[0]?.paths||[]
+ };
+}
+function cloudMediaKind(value){
+ if(value===null||value===undefined||value==="")return "leer";
+ if(isCloudMediaReference(value))return "Cloud-Referenz";
+ if(typeof value==="string"&&value.startsWith("data:")){
+  const mime=value.slice(5,value.indexOf(";")>0?value.indexOf(";"):value.indexOf(",")).toLowerCase();
+  if(mime.startsWith("image/"))return "eingebettetes Bild";
+  if(mime==="application/pdf")return "eingebettetes PDF";
+  return "eingebettete Datei";
+ }
+ if(typeof value==="string")return "sonstige Zeichenkette";
+ if(typeof value==="object")return "sonstiges Objekt";
+ return "anderer Datentyp";
+}
+function cloudMediaAudit(snapshot){
+ const counts={"eingebettetes Bild":0,"eingebettetes PDF":0,"eingebettete Datei":0,"Cloud-Referenz":0,"leer":0,"sonstige Zeichenkette":0,"sonstiges Objekt":0,"anderer Datentyp":0};
+ const fields=[];
+ const add=(area,index,field,value)=>{
+  const kind=cloudMediaKind(value);counts[kind]++;
+  if(kind!=="leer")fields.push(area+"["+index+"]."+field+" = "+kind);
+ };
+ (snapshot.devices||[]).forEach((device,index)=>{add("devices",index,"photo",device?.photo);add("devices",index,"manualData",device?.manualData)});
+ (snapshot.photos||[]).forEach((photo,index)=>add("photos",index,"src",photo?.src));
+ return {counts,fields:fields.slice(0,12),total:fields.length};
+}
 async function runCloudGroupsAudit(){
  const result=$('#cloud-groups-audit-result'),button=$('#cloud-groups-audit');
  if(!result||!button)return;
@@ -1279,12 +1325,23 @@ async function runCloudGroupsAudit(){
   }else if(report.complete){
    result.textContent='Alle sieben Datengruppen stimmen vollständig mit dem bisherigen Cloud-Spielstand überein. Nur-Lese-Prüfung erfolgreich – keine Daten wurden geschrieben.';
   }else{
-   const lines=[];
+   const expected=window.MVACloudMigrationCodec.split(legacySnapshot),lines=[];
    for(const type of report.mismatched){
-    const legacy=window.MVACloudMigrationCodec.split(legacySnapshot)[type];
-    const current=records[type]?.data;
-    const paths=cloudGroupDifferencePaths(legacy,current);
-    lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'. Unterschiede: '+(paths.join('; ')||'Inhalt weicht ab, Details nicht verfügbar')+'.');
+    const legacy=expected[type],current=records[type]?.data;
+    if(type==='entries'){
+     const d=cloudEntryAudit(legacy,current);
+     lines.push('Einträge: Altbestand '+d.oldCount+', getrennte Gruppe '+d.newCount+'. ID-Abgleich: '+d.oldWithId+'/'+d.oldCount+' und '+d.newWithId+'/'+d.newCount+' mit ID; nur im Altbestand '+d.onlyOld+', nur in der getrennten Gruppe '+d.onlyNew+', gleiche ID aber andere Felder '+d.changed+'. Ohne ID: '+d.oldWithoutId+'/'+d.newWithoutId+'; doppelte IDs: '+d.oldDuplicates+'/'+d.newDuplicates+'.'+(d.samplePaths.length?' Beispiel abweichender Felder bei einer gleichen ID: '+d.samplePaths.join('; ')+'.':''));
+    }else if(type==='devices'||type==='photos'){
+     const media=cloudMediaAudit(legacy),other=cloudMediaAudit(current);
+     const summary=obj=>Object.entries(obj.counts).filter(([,n])=>n).map(([k,n])=>n+' '+k).join(', ')||'keine Medienwerte';
+     lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'. Medienfelder im Altbestand: '+summary(media)+'; getrennte Gruppe: '+summary(other)+'.'+(media.fields.length?' Beispiele Altbestand: '+media.fields.join('; ')+'.':'')+(other.fields.length?' Beispiele getrennte Gruppe: '+other.fields.join('; ')+'.':''));
+    }else if(type==='game'){
+     const oldXp=legacy?.xp,newXp=current?.xp;
+     lines.push('game: XP Altbestand '+String(oldXp??'nicht vorhanden')+', getrennte Gruppe '+String(newXp??'nicht vorhanden')+'.');
+    }else{
+     const paths=cloudGroupDifferencePaths(legacy,current);
+     lines.push(type+': Altbestand '+cloudGroupSize(legacy)+', getrennte Gruppe '+cloudGroupSize(current)+'. Unterschiede: '+(paths.join('; ')||'Inhalt weicht ab')+'.');
+    }
    }
    const missing=report.missing.length?'Fehlende Gruppen: '+report.missing.join(', ')+'. ':'';
    result.textContent='Noch keine vollständige Übereinstimmung. '+missing+lines.join(' ')+' Der bisherige Cloud-Spielstand wurde nicht verändert. Diese Detailprüfung hat ausschließlich gelesen.';
