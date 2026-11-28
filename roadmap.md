@@ -11,7 +11,7 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 | Version | Status | Kurzüberblick |
 |---|---|---|
 | **Alpha 1.3** | Entwicklung und wesentliche Praxistests erledigt; finale Release-/Sicherheitsfreigabe offen | Registrierung, Login, verschlüsselte Cloud, geräteübergreifende Synchronisierung, CSV/JSON-Backup, Geräte und Galerie umgesetzt und weitgehend praktisch bestätigt. Produktion bleibt gesperrt, bis letzte Sicherheitsprüfung und ausdrückliche Freigabe abgeschlossen sind. |
-| **1.4.1** | In Preview umgesetzt, QA offen | Design-/Sprach-/Education-Erweiterungen, Gästebuch, Kontaktbereich, E-Mail-Vorlagen, Startanimation und PDF-Geräteanleitungen. Mehrere Praxistests und E-Mail-/Social-Login-Konfiguration stehen noch aus. |
+| **1.4.1** | In Preview umgesetzt, QA offen; Cloud-Speicherung ist Release-Blocker mit höchster Priorität | Design-/Sprach-/Education-Erweiterungen, Gästebuch, Kontaktbereich, E-Mail-Vorlagen, Startanimation, PDF-Geräteanleitungen und sichere Aktivierung der getrennten Cloud-Datengruppen. Release erst nach vollständiger Speicher- und Synchronisationsprüfung. |
 | **1.4.2** | In Entwicklung | Kontrolliert Vapen, Vape-Akademie, PWA, weitere Einstellungen sowie sichere Cloud-Datengruppen-/Medienmigration. Umfangreiche Live- und Regressionstests sind offen. |
 | **1.5** | Geplant | Google-Anmeldung, erweiterte Benutzerprofile und Kontoverknüpfung. |
 | **1.6** | Teilweise in Preview umgesetzt | Forum-Grundlage mit Themen, moderierten Antworten und mehrsprachiger Oberfläche ist vorhanden; Moderation, Sichtbarkeitstests und weitere Community-Funktionen sind offen. |
@@ -58,6 +58,25 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases werden ausschließlich in Preview vorbereitet, getestet und erst nach ausdrücklicher Freigabe in Produktion übernommen.
 
 ### Version 1.4.1 – Oberfläche, Inhalte, E-Mail-Grundlage und Startanimation
+
+**Release-Blocker – Cloud-Speicherung und Datensicherheit (höchste Priorität)**
+
+Die zuverlässige Speicherung in den getrennten Cloud-Datengruppen wird von 1.4.2 auf 1.4.1 vorgezogen. Version 1.4.1 darf erst veröffentlicht werden, wenn die neue Speicherung vollständig funktioniert und die vorhandenen Nutzerdaten nachweislich vollständig erhalten bleiben.
+
+- [ ] Datenmodell und Schreib-/Leseablauf aller sieben getrennten Datengruppen vollständig prüfen; normale App-Speichervorgänge müssen zuverlässig an die neue Speicherung angebunden sein.
+- [ ] Sichere Parallelphase umsetzen: Legacy-Cloud-Speicher zunächst als unveränderte Rückfallquelle erhalten; neue Schreibvorgänge kontrolliert in die getrennten Gruppen übernehmen.
+- [ ] Vorhandene Abweichungen zwischen Legacy-Spielstand und getrennten Gruppen sicher auflösen; aktuell dokumentierter Prüfstand: 87 Legacy-Tagebucheinträge gegenüber 78 Einträgen in den getrennten Gruppen, neun Einträge fehlen dort. Keine pauschale Überschreibung.
+- [ ] Alle 21 Geräte, vier Fotos sowie fünf eingebettete Bilder und zwei eingebettete PDFs vollständig migrieren und jede Medienreferenz durch erneutes Lesen/Entschlüsseln verifizieren.
+- [ ] Vollständigkeitsabgleich für Tagebuch, Geräte, Fotos, Spielstand/XP, Einstellungen und Medien durchführen; keine fehlenden, doppelten oder inhaltlich abweichenden Datensätze.
+- [ ] Schreibfehler, Netzwerkunterbrechungen, Versionskonflikte, erneute Anmeldung und Wiederholungsversuche testen; Fehler dürfen weder stillschweigend Daten verlieren noch einen falschen Erfolg melden.
+- [ ] Synchronisierung mit mindestens zwei Geräten und getrennten Testkonten prüfen; sicherstellen, dass jeder Benutzer ausschließlich seine eigenen Daten lesen und ändern kann.
+- [ ] Vollständiges JSON-Backup erstellen und Wiederherstellung praktisch testen.
+- [ ] Erst nach erfolgreicher Live-Prüfung und ausdrücklicher Freigabe die getrennte Cloud-Speicherung als regulären Speicher aktivieren.
+- [ ] Legacy-Speicher während der gesamten Einführungs- und Beobachtungsphase erhalten; keine automatische Löschung oder Abschaltung im 1.4.1-Release.
+- [ ] Abschließende Speicher-Regression auf Desktop und iPhone durchführen und Ergebnisse dokumentieren.
+
+**Wichtig:** Die derzeitige App schreibt reguläre Änderungen weiterhin in den bisherigen monolithischen Cloud-Spielstand. Die getrennten Datengruppen sind vorbereitet, aber noch nicht an den normalen Speichervorgang angeschlossen. Die Aktivierung ist daher ausdrücklich Release-blockierend. Die Roadmap-Eintragung selbst ändert keine Cloud-Daten.
+
 
 **Ziel:** Die bereits weitgehend umgesetzten Funktionen bündeln, die wichtigsten offenen Praxistests abschließen und einen überschaubaren ersten 1.4-Release veröffentlichungsfähig machen.
 
