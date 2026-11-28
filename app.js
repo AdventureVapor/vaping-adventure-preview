@@ -970,7 +970,7 @@ async function renderCannabisCourse(c,step){
   if(!cannabisPanelCache[number]){
    const response=await fetch('websitecang/Tafel'+number+'.html');
    if(!response.ok)throw new Error('HTTP '+response.status);
-   const source=await response.text(),doc=new DOMParser().parseFromString(source,'text/html'),article=doc.querySelector('article.tafel');
+   const source=await response.text(),doc=new DOMParser().parseFromString(source,'text/html'),article=doc.querySelector('article.tafel, section.tafel');
    if(!article)throw new Error('Tafelinhalt nicht gefunden');
    article.querySelectorAll('[style]').forEach(node=>node.removeAttribute('style'));
    article.querySelectorAll('script,style,iframe,form').forEach(node=>node.remove());
@@ -1003,7 +1003,11 @@ function controlledVapingStep(v,n){
   const leisureTitle=lang==='en'?'Possible leisure activities':lang==='fr'?'Activités de loisirs possibles':'Mögliche Freizeitaktivitäten';
   const leisureIntro=lang==='en'?'Choose activities that bring you joy. Invite other people to join you – it often makes things easier!':lang==='fr'?'Faites des activités qui vous font plaisir. Proposez à d’autres personnes de vous accompagner – cela facilite souvent les choses !':'Unternehmen Sie Dinge, die Ihnen Freude bereiten. Sprechen Sie dazu andere Leute an – das macht es oft einfacher!';
   const activities=["Ausflüge","Flohmarkt","Kraftsport","Musik machen","Bad nehmen","Fremdsprachen","Kreuzworträtsel","Puzzeln","Billard","Fussball","Laufen","Zeichnen","Boccia","Gartenarbeit","Lesen","Schach","Brettspiele","Grillen","Meditieren","Schwimmen","Entspannen","Tagebuch","Malen","Spiritualität","PC, Internet","Karten spielen","Minigolf","Tanzen","Darts","Kegeln","Sonnenbaden","Tischtennis","Fahrrad fahren","Kinobesuch","Museumbesuch","Wandern","Fotografieren","Kochen","Zukunftspläne schmieden","Sich schick anziehen"];
-  balance='<section class="card cv-step-card cv-leisure-card"><h2>'+leisureTitle+'</h2><div class="cv-leisure-grid">'+activities.map((activity,index)=>'<div class="cv-leisure-item"><span class="cv-leisure-number">'+(index+1)+'</span><span>'+activity+'</span></div>').join('')+'</div><p class="cv-leisure-note">'+leisureIntro+'</p></section>';
+  const custom=db.controlledVaping?.step8CustomActivities||['','','',''];
+  const customTitle=lang==='en'?'My own activities':lang==='fr'?'Mes propres activités':'Meine eigenen Aktivitäten';
+  const customHint=lang==='en'?'Add up to four activities of your own and save them. They will remain here when you return to this step.':lang==='fr'?'Ajoutez jusqu’à quatre activités personnelles et enregistrez-les. Elles resteront disponibles lorsque vous reviendrez à cette étape.':'Tragen Sie bis zu vier eigene Aktivitäten ein und speichern Sie diese. Sie bleiben erhalten, wenn Sie zu diesem Schritt zurückkehren.';
+  const customSave=lang==='en'?'Save my activities':lang==='fr'?'Enregistrer mes activités':'Eigene Aktivitäten speichern';
+  balance='<section class="card cv-step-card cv-leisure-card"><h2>'+leisureTitle+'</h2><div class="cv-leisure-grid">'+activities.map((activity,index)=>'<div class="cv-leisure-item"><span class="cv-leisure-number">'+(index+1)+'</span><span>'+activity+'</span></div>').join('')+'</div><section class="cv-own-leisure"><h3>'+customTitle+'</h3><p class="muted">'+customHint+'</p><div class="cv-own-leisure-grid">'+[0,1,2,3].map(index=>'<label class="cv-own-leisure-field"><span>'+(index+1)+'.</span><input class="field" type="text" maxlength="100" data-cv8-custom="'+index+'" value="'+esc(custom[index]||'')+'" placeholder="'+(lang==='en'?'Enter an activity…':lang==='fr'?'Saisissez une activité…':'Eigene Aktivität eintragen …')+'"></label>').join('')+'</div><div class="row" style="justify-content:flex-end;margin-top:14px"><button type="button" class="btn primary" id="cv8-custom-save">'+customSave+'</button></div></section><p class="cv-leisure-note">'+leisureIntro+'</p></section>';
  }
  if(n===3){
   const copy=lang==='en'?{
@@ -1076,6 +1080,14 @@ function controlledVapingStep(v,n){
    });
    db.controlledVaping.step3Balance=current;
    put();toast(copy.saved);
+  });
+ }
+ if(n===8){
+  v.querySelector('#cv8-custom-save')?.addEventListener('click',()=>{
+   db.controlledVaping ||= {};
+   db.controlledVaping.step8CustomActivities=[0,1,2,3].map(index=>v.querySelector('[data-cv8-custom="'+index+'"]')?.value.trim()||'');
+   put();
+   toast(lang==='en'?'Your own activities have been saved.':lang==='fr'?'Vos activités ont été enregistrées.':'Deine eigenen Aktivitäten wurden gespeichert.');
   });
  }
 }
