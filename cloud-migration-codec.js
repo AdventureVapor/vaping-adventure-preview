@@ -7,11 +7,13 @@ const TYPES=Object.freeze(["entries","devices","strains","photos","game","contro
 const clone=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
 function split(db){
  if(!db||typeof db!=="object"||Array.isArray(db))throw Error("Ungültiger Spielstand für die Cloud-Aufteilung.");
- const unknown=Object.keys(db).filter(key=>!TYPES.includes(key));
+ const unknown=Object.keys(db).filter(key=>!TYPES.includes(key)&&key!=="Fotos");
  if(unknown.length)throw Error("Unbekannte Spielstand-Felder werden noch nicht migriert: "+unknown.join(", ")+". Die Migration wurde sicherheitshalber abgebrochen.");
+ if(Object.prototype.hasOwnProperty.call(db,"Fotos")&&Object.prototype.hasOwnProperty.call(db,"photos")&&JSON.stringify(canonical(db.Fotos))!==JSON.stringify(canonical(db.photos)))throw Error("Das ältere Feld „Fotos“ und das aktuelle Feld „photos“ enthalten unterschiedliche Daten. Sicherheitsstopp.");
+
  const result={};
  for(const type of TYPES){
-  const value=db[type];
+  const value=type==="photos"?(db.photos??db.Fotos):db[type];
   if(type==="entries"||type==="devices"||type==="strains"||type==="photos"){
    if(value!==undefined&&!Array.isArray(value))throw Error("Ungültige Datengruppe: "+type);
    result[type]=clone(value===undefined?[]:value);
