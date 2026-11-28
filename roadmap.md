@@ -1202,3 +1202,9 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Ausschließlich lesend: keine Uploads, Schreibvorgänge, Löschungen oder Änderungen an Referenzen.
 - [ ] Preview-Liveprüfung mit dem bestehenden Konto durchführen und alle sieben Mediendateien bytegenau bestätigen.
 - [ ] Erst nach erfolgreichem Abgleich eine separate, wiederholbare Medienmigration für tatsächlich fehlende Referenzen freigeben.
+
+
+### Medienreferenzprüfung – Korrektur der Array-Pfadzuordnung
+- [x] Fehler behoben: Array-Indizes wie `devices[0]` wurden fälschlich als Datengruppenname interpretiert; Gruppennamen werden jetzt vor dem Array-Index erkannt.
+- [x] Legacy-Feldname `Fotos` wird korrekt der getrennten Gruppe `photos` zugeordnet.
+- [ ] Erneuter Nur-Lese-Liveabgleich im Preview-Konto; Ergebnis muss alle sieben Medien einzeln bewerten.
