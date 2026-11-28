@@ -900,3 +900,25 @@ body>#modal-root:has(.manual-backdrop) .manual-backdrop{position:absolute;inset:
 .cv-own-leisure-field span{flex:0 0 24px}
 .cv-own-leisure-field input{min-width:0;width:100%}
 @media(max-width:560px){.cv-own-leisure-grid{grid-template-columns:1fr}}
+
+/* Startseite: rollierende 7-Tage-Vaping-Statistik */
+.home-vaping-stats{margin:28px 0 30px;padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--surface,var(--card))}
+.home-vaping-heading{align-items:flex-end;gap:16px;margin-bottom:16px}
+.home-vaping-heading h2{margin:0 0 5px;font:750 20px Manrope,sans-serif;color:var(--ink)}
+.home-vaping-date-nav{display:flex;align-items:flex-end;gap:8px}
+.home-vaping-date-nav label{display:grid;gap:5px;min-width:190px;font-size:12px;color:var(--muted)}
+.home-vaping-date-nav .btn{min-width:42px;min-height:42px;font-size:22px;line-height:1}
+.home-vaping-table-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.home-vaping-table{width:100%;min-width:850px;border-collapse:collapse;font-size:12px;color:var(--ink)}
+.home-vaping-table th,.home-vaping-table td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.home-vaping-table thead th{background:var(--surface-2,var(--lime));font-weight:800}
+.home-vaping-table tbody th{font-weight:500;text-align:left}
+.home-vaping-table tbody tr>th:first-child{min-width:150px}
+.home-vaping-table .home-vaping-num,.home-vaping-table .home-vaping-total{font-variant-numeric:tabular-nums}
+.home-vaping-table .home-vaping-total{font-weight:800;background:var(--surface-2,rgba(127,127,127,.07))}
+.home-vaping-category-total{background:var(--surface-2,rgba(127,127,127,.06))}
+.home-vaping-spacer td{height:9px;padding:0;border:0}
+.home-vaping-summary-heading th{padding-top:15px;text-align:left;background:var(--surface-2,var(--lime));font-weight:800}
+.home-vaping-grand-total{font-weight:800;background:var(--surface-2,var(--lime))}
+.home-vaping-note{margin:13px 0 0;line-height:1.55}
+@media(max-width:700px){.home-vaping-stats{padding:15px 12px}.home-vaping-heading{align-items:stretch;flex-direction:column}.home-vaping-date-nav{width:100%}.home-vaping-date-nav label{flex:1;min-width:0}.home-vaping-date-nav input{min-width:0;width:100%}}
