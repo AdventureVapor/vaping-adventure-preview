@@ -60,7 +60,7 @@
     questions,
     disclaimer: "Die 18 Tafeln werden inhaltlich unverändert aus der Originalausstellung übernommen. Ergänzt wurden nur die Einbindung in Education und der Wissenstest. Die Ausstellung nennt den Rechtsstand 03.10.2026. Gesetze und Verwaltungspraxis können sich ändern; für aktuelle Einzelfragen bitte die geltenden amtlichen Vorschriften prüfen. Allgemeine Information, keine Rechtsberatung."
   };
-  const previous = original();
+  const previous = original;
   window.MVA_ACADEMY_COURSES.getCourses = function () {
     const courses = previous();
     if (!courses.some(item => item.id === course.id)) courses.push({ ...course });
