@@ -1084,3 +1084,10 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Medienprüfung auf den vollständigen Altbestand und den rekonstruierten Satz aller sieben getrennten Gruppen erweitert.
 - [x] Keine Schreib-, Upload- oder Löschoperationen; JavaScript-Syntax geprüft.
 - [ ] Preview-Prüfung durch Nutzer und zeitliche Einordnung der acht Einträge.
+
+
+### 1.4.6 – Datumswerte der fehlenden Einträge zuverlässig auslesen
+- [x] Datumsdiagnose korrigiert: ISO-Datum, deutsches Datum und Zeitstempel (Sekunden/Millisekunden) werden erkannt.
+- [x] Ausgabe beschränkt sich auf Datumswerte; keine IDs oder Notiztexte.
+- [x] Nur-Lese-Verhalten beibehalten und JavaScript-Syntax geprüft.
+- [ ] Preview-Ergebnis mit den acht fehlenden Einträgen auswerten.
