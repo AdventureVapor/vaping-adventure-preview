@@ -1077,3 +1077,10 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Nur-Lese-Verhalten beibehalten; keine Cloud-Daten werden verändert.
 - [x] Cachekennung aktualisiert und JavaScript-Syntax geprüft.
 - [ ] Neue Medien-Diagnose in der Preview ausführen und die gefundenen Pfade auswerten.
+
+
+### 1.4.5 – Fehlende Tagebucheinträge zeitlich zuordnen
+- [x] Nur-Lese-Prüfung ergänzt: Datumswerte der acht ausschließlich im Altbestand vorhandenen Einträge ausgeben, ohne IDs oder Notiztexte offenzulegen.
+- [x] Medienprüfung auf den vollständigen Altbestand und den rekonstruierten Satz aller sieben getrennten Gruppen erweitert.
+- [x] Keine Schreib-, Upload- oder Löschoperationen; JavaScript-Syntax geprüft.
+- [ ] Preview-Prüfung durch Nutzer und zeitliche Einordnung der acht Einträge.
