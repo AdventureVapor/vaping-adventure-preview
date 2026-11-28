@@ -1221,3 +1221,11 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Fehler behoben: Array-Indizes wie `devices[0]` wurden fälschlich als Datengruppenname interpretiert; Gruppennamen werden jetzt vor dem Array-Index erkannt.
 - [x] Legacy-Feldname `Fotos` wird korrekt der getrennten Gruppe `photos` zugeordnet.
 - [ ] Erneuter Nur-Lese-Liveabgleich im Preview-Konto; Ergebnis muss alle sieben Medien einzeln bewerten.
+
+### Atomare Cloud-Migration – SQL-Vorlage vor Live-Einrichtung geprüft (28.11.2026)
+- [x] Vorhandene Tabelle, sieben erlaubte Datengruppen, Primärschlüssel und RLS-Policies im Supabase-Projekt ausschließlich lesend geprüft.
+- [x] Bestehende Funktion `mva_write_data(text,jsonb,bigint)` eingesehen; sie bleibt unverändert.
+- [x] Batch-SQL-Vorlage gehärtet: fehlende JSON-Pflichtfelder `v` und `algorithm` werden ausdrücklich zurückgewiesen.
+- [ ] Korrigierte Batch-Funktion im Supabase-Projekt einrichten.
+- [ ] RPC mit kontrollierten Testdaten live prüfen; erst danach eine echte Migration erwägen.
+- [ ] Normale App-Schreibvorgänge bleiben bis zur gesonderten Freigabe auf dem bisherigen Speicher.
