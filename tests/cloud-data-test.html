@@ -18,7 +18,7 @@ pre{white-space:pre-wrap;background:#080d0a;padding:16px;border-radius:10px;min-
 <p>Getestet werden Verschlüsselung, Lesen/Schreiben, parallele Änderungen, mehrdeutige Netzwerkfehler und die Bindung an Nutzerkennung.</p>
 <button id="run">Tests starten</button>
 <pre id="out">Bereit. Bitte „Tests starten“ wählen.</pre>
-<script src="../cloud-data.js"></script><script src="../cloud-migration-codec.js"></script><script src="../cloud-media.js"></script><script src="../cloud-migration.js"></script>
+<script src="../cloud-data.js"></script><script src="../cloud-migration-codec.js"></script><script src="../cloud-media.js"></script><script src="../cloud-migration.js"></script><script src="../cloud-media-migration.js"></script>
 <script>
 "use strict";
 const out=document.getElementById("out"),button=document.getElementById("run");
@@ -41,9 +41,19 @@ function makeServer(){
    if(failAfterCommit){failAfterCommit=false;throw Error("Simulierter Timeout nach Commit");}
    return next;
   }
+  if(path==="/rest/v1/rpc/mva_write_data_batch"){
+   const body=JSON.parse(options.body),groups=body.p_groups||[];
+   if(!groups.length)throw Error("Leeres Batch");
+   for(const item of groups){const old=rows.get(item.p_data_type),revision=old?.revision||0;if(revision!==item.p_expected_revision)throw Error("MVA_REVISION_CONFLICT");}
+   for(const item of groups){const revision=item.p_expected_revision+1;rows.set(item.p_data_type,{data_type:item.p_data_type,payload:item.p_payload,revision});}
+   writeCount++;
+   const result=groups.map(item=>({data_type:item.p_data_type,revision:item.p_expected_revision+1}));
+   if(failAfterCommit){failAfterCommit=false;throw Error("Simulierter Batch-Timeout nach Commit");}
+   return result;
+  }
   throw Error("Unerwarteter Mock-Aufruf: "+path);
  }
- return {request,rows,timeoutAfterNextCommit(){failAfterCommit=true}};
+ return {request,rows,get writeCount(){return writeCount},timeoutAfterNextCommit(){failAfterCommit=true}};
 }
 async function run(){
  button.disabled=true;out.textContent="Tests laufen …\n";
@@ -78,6 +88,15 @@ async function run(){
   assert(conflict,"Veraltete Version wurde nicht als Konflikt erkannt");
   assert((await first.read("entries")).data.notes==="Geändert","Konflikt hat den zuletzt bestätigten Cloud-Stand verändert");
   log("Zwei Geräte: veralteter Schreibversuch wird sicher abgewiesen");
+  let batchConflict=false;
+  try{await second.writeBatch([{type:"entries",value:{id:"stale"},expectedRevision:0},{type:"strains",value:[{name:"Darf nicht entstehen"}],expectedRevision:0}])}catch(e){batchConflict=e.code==="MVA_REVISION_CONFLICT"}
+  assert(batchConflict,"Atomarer Batch hat einen veralteten Gruppenstand nicht abgewiesen");
+  assert(!(await first.read("strains")).exists,"Bei einem Batch-Konflikt wurde eine andere Gruppe teilweise geschrieben");
+  const batchValues=[{type:"strains",value:[{name:"Test-Sorte"}],expectedRevision:0},{type:"photos",value:[{id:"p-batch",caption:"Test"}],expectedRevision:0}];
+  server.timeoutAfterNextCommit();
+  const batchSaved=await first.writeBatch(batchValues);
+  assert(batchSaved.length===2&&(await first.read("strains")).data[0].name==="Test-Sorte"&&(await first.read("photos")).data[0].id==="p-batch","Atomarer Batch wurde nach Timeout nicht vollständig per Read-back bestätigt");
+  log("Atomarer Batch: Konflikt verhindert Teilübernahme; Timeout nach Commit wird für alle Gruppen gemeinsam per Read-back bestätigt");
   server.timeoutAfterNextCommit();
   const afterTimeout=await first.write("devices",[{name:"Testgerät"}],0);
   assert(afterTimeout.revision===1&&afterTimeout.data[0].name==="Testgerät","Read-back nach Timeout hat nicht bestätigt");
@@ -134,7 +153,21 @@ async function run(){
   let unknownRejected=false;try{window.MVACloudMigrationCodec.split({...legacySample,unknownFutureField:{keep:true}})}catch(e){unknownRejected=/Unbekannte Spielstand-Felder/.test(e.message)}
   assert(unknownRejected,"Unbekanntes Zusatzfeld wurde stillschweigend verworfen");
   log("Unbekannte Zusatzfelder brechen die Migration sicher ab statt Daten zu verlieren");
+  const oldPhotos={entries:[],devices:[],strains:[],Fotos:[{id:"legacy-photo",src:"data:image/png;base64,AA=="}]};
+  const aliasSplit=window.MVACloudMigrationCodec.split(oldPhotos);
+  assert(aliasSplit.photos[0].id==="legacy-photo","Legacy-Feld Fotos wurde nicht sicher auf photos abgebildet");
+  let aliasConflict=false;try{window.MVACloudMigrationCodec.split({entries:[],devices:[],strains:[],Fotos:[{id:"a"}],photos:[{id:"b"}]})}catch(e){aliasConflict=true}
+  assert(aliasConflict,"Abweichende Fotos-/photos-Felder wurden nicht gestoppt");
+  log("Legacy-Alias Fotos wird verlustfrei übernommen; widersprüchliche Doppelbelegung stoppt sicher");
 
+  assert(!!window.MVACloudMediaMigration?.reuseVerifiedReferences,"Modul zur Wiederverwendung bestätigter Medienreferenzen fehlt");
+  const legacyMedia={devices:[{photo:"data:image/png;base64,AA=="}],Fotos:[{src:"data:image/png;base64,AA=="}]};
+  const mediaRef={v:1,storage:"supabase",bucket:"mva-private-media",path:"test/object",kind:"photo",size:1};
+  const mediaGroups={devices:{data:[{photo:mediaRef}]},photos:{data:[{src:mediaRef}]}};
+  const reusedMedia=await window.MVACloudMediaMigration.reuseVerifiedReferences(legacyMedia,mediaGroups,async()=>new Blob([new Uint8Array([0])],{type:"image/png"}));
+  assert(reusedMedia.stats.reusedCount===2&&reusedMedia.snapshot.devices[0].photo.storage==="supabase"&&reusedMedia.snapshot.Fotos[0].src.storage==="supabase","Bytegenaue vorhandene Medienreferenzen wurden nicht in die Kopie übernommen");
+  assert(legacyMedia.devices[0].photo.startsWith("data:")&&legacyMedia.Fotos[0].src.startsWith("data:"),"Medien-Wiederverwendung hat den Original-Spielstand verändert");
+  log("Bytegenau bestätigte Geräte-/Galerie-Medien werden ohne erneuten Upload nur in einer Migrationskopie wiederverwendet");
   assert(!!window.MVAEncryptedMedia,"Modul MVAEncryptedMedia fehlt");
   const mediaObjects=new Map();let mediaUploads=0;
   async function mediaRequest(path,options={}){
