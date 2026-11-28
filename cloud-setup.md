@@ -281,7 +281,7 @@ returns jsonb
 language plpgsql
 security invoker
 set search_path = public
-as $
+as $mva_batch$
 declare
   v_item jsonb;
   v_type text;
@@ -850,7 +850,7 @@ Beim Wechsel vom Cloud- in den lokalen Modus werden Cloud-Medien ebenfalls zunä
 
   raise exception 'MVA_REVISION_CONFLICT' using errcode = 'P0001';
 end;
-$$;
+$mva_batch$;
 
 revoke all on function public.mva_write_data(text, jsonb, bigint) from public, anon;
 grant execute on function public.mva_write_data(text, jsonb, bigint) to authenticated;
