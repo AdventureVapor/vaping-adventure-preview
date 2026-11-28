@@ -314,8 +314,8 @@ begin
     v_expected := (v_item->>'p_expected_revision')::bigint;
     v_payload := v_item->'p_payload';
     if jsonb_typeof(v_payload) is distinct from 'object'
-       or v_payload->>'v' <> '1'
-       or v_payload->>'algorithm' <> 'A256GCM'
+       or v_payload->>'v' is distinct from '1'
+       or v_payload->>'algorithm' is distinct from 'A256GCM'
        or coalesce(v_payload->>'revision','') !~ '^[0-9]+$'
        or coalesce(v_payload->>'iv','') = ''
        or coalesce(v_payload->>'ciphertext','') = ''
@@ -357,6 +357,8 @@ $mva_batch$;
 revoke all on function public.mva_write_data_batch(jsonb) from public, anon;
 grant execute on function public.mva_write_data_batch(jsonb) to authenticated;
 ```
+
+Die Prüfung der Pflichtfelder `v` und `algorithm` verwendet ausdrücklich `IS DISTINCT FROM`. Damit werden auch fehlende JSON-Schlüssel abgewiesen; ein SQL-`NULL` kann die Validierung nicht versehentlich passieren. Diese Änderung betrifft die neue Batch-Funktion und verändert die bestehende Einzelgruppenfunktion nicht.
 
 Der RPC verwendet weiterhin `security invoker` und unterliegt der RLS-Policy von `mva_data`. Es werden ausschließlich die übergebenen Datengruppen des angemeldeten Nutzers geschrieben. Die bestehende Einzelgruppenfunktion bleibt für gezielte Reparaturen erhalten. Die reguläre App-Speicherung wird durch diese Vorbereitung ausdrücklich noch nicht umgestellt.
 
