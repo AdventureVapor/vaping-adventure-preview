@@ -1059,3 +1059,13 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] App-Cachekennung aktualisiert; JavaScript-Syntax lokal geprüft.
 - [ ] Detailergebnis mit dem bestehenden Benutzerkonto in der Preview ausführen und die Abweichungspfade auswerten.
 - [ ] Erst danach konkrete Ursache beheben und den Nur-Lese-Abgleich erneut ausführen.
+
+
+
+### 1.4.3 – Datengruppen-Abgleich nach IDs und Medientypen
+- [x] Tagebucheinträge im Nur-Lese-Audit anhand eindeutiger IDs statt Array-Positionen vergleichen; fehlende, zusätzliche, doppelte und geänderte IDs zählen.
+- [x] Medienwerte nach eingebetteten Bildern/PDFs, Cloud-Referenzen, leeren Werten und anderen Datentypen unterscheiden.
+- [x] XP-Werte beider Spielstände im Audit direkt gegenüberstellen.
+- [x] Keine Dateninhalte von Tagebucheinträgen ausgeben; keine Schreib-, Upload-, Lösch- oder Reparaturaktion.
+- [x] Cachekennung aktualisiert und JavaScript-Syntax geprüft.
+- [ ] Neue Nur-Lese-Prüfung mit dem bestehenden Konto in der Preview ausführen und Ergebnis auswerten.
