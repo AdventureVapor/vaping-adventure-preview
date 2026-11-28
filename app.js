@@ -1284,14 +1284,19 @@ function cloudEntryAudit(oldEntries,newEntries){
    const scan=value=>{
     if(!value||typeof value!=="object")return;
     for(const [key,item] of Object.entries(value)){
-     if(/date|created|timestamp|time|datum/i.test(key)&&typeof item==="string"){
-      const match=item.match(/\\d{4}-\\d{2}-\\d{2}/)||item.match(/\\d{2}\\.\\d{2}\\.\\d{4}/);
-      if(match)dates.push(match[0]);
-      else if(/^\\d{10,13}$/.test(item)){const d=new Date(Number(item.length===10?item+"000":item));if(!Number.isNaN(d.getTime()))dates.push(d.toISOString().slice(0,10))}
+     if(/date|created|timestamp|time|datum/i.test(key)){
+      if(typeof item==="string"){
+       const match=item.match(/\d{4}-\d{2}-\d{2}/)||item.match(/\d{2}\.\d{2}\.\d{4}/);
+       if(match)dates.push(match[0]);
+       else {const parsed=Date.parse(item);if(!Number.isNaN(parsed))dates.push(new Date(parsed).toISOString().slice(0,10))}
+      }else if(typeof item==="number"&&item>1000000000){
+       const parsed=new Date(item>99999999999?item:item*1000);
+       if(!Number.isNaN(parsed.getTime()))dates.push(parsed.toISOString().slice(0,10));
+      }else if(item&&typeof item==="object")scan(item);
      }else if(item&&typeof item==="object")scan(item);
     }
    };
-   scan(entry);return dates[0]||"kein lesbares Datum";
+   scan(entry);return [...new Set(dates)].join("/")||"kein lesbares Datum";
   }),
   samplePaths:changed[0]?.paths||[]
  };
