@@ -1091,3 +1091,12 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Ausgabe beschränkt sich auf Datumswerte; keine IDs oder Notiztexte.
 - [x] Nur-Lese-Verhalten beibehalten und JavaScript-Syntax geprüft.
 - [ ] Preview-Ergebnis mit den acht fehlenden Einträgen auswerten.
+
+
+### 1.4.7 – Vollständigkeit der acht fehlenden Tagebucheinträge (nur lesend)
+- [x] Für die acht nur im Altbestand vorhandenen Einträge Datum, Uhrzeit und Kategorie ermitteln.
+- [x] Anzahl ausgefüllter Detailfelder sowie Vorhandensein von Gerät, Material, Nutzungsmaß und Notizen ausgeben.
+- [x] Notiztexte und IDs bleiben verborgen; es werden nur Feldnamen und Textlängen angezeigt.
+- [x] Diagnose bleibt rein lesend; keine Übernahme, Löschung oder Änderung.
+- [x] JavaScript-Syntax geprüft und Cache-Schlüssel auf 1.6.6 aktualisiert.
+- [ ] Ergebnis im Preview prüfen und die acht Einträge fachlich einordnen.
