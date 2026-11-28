@@ -6,6 +6,19 @@
 
 Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowie noch offene Prüfungen. Ein Häkchen bedeutet, dass die Funktion umgesetzt und – soweit sinnvoll – erfolgreich geprüft wurde.
 
+## Neue Education-Erweiterung – Cannabis-Teillegalisierung
+
+**Ziel:** Die Ausstellung „Das Kleingedruckte der Cannabis-Teillegalisierung“ als eigenständigen 18-teiligen Kurs in My Vaping Education integrieren.
+
+- [x] Originalordner `websitecang` mit Startseite und 18 Originaltafeln in Preview bereitgestellt; Produktion bleibt unverändert
+- [x] Eigenständigen Education-Kurs mit 18 Lektionen ergänzt; jede Lektion öffnet die zugehörige Originaltafel vollständig und im unveränderten Wortlaut
+- [x] Darstellung über den vorhandenen Education-Kursdialog und die App-Optik; Originaltafeln bleiben innerhalb der Lektionen eingebettet und mobil nutzbar
+- [x] Abschlusstest mit 18 Fragen erstellt; Bestehensgrenze 80 % (mindestens 15 richtige Antworten), Ergebnis und Kursfortschritt werden über das bestehende Education-System gespeichert
+- [x] Hinweis auf den in der Ausstellung genannten Rechtsstand 03.10.2026 und auf die Notwendigkeit der Prüfung aktueller amtlicher Vorschriften ergänzt
+- [ ] Kurs auf Desktop und iPhone praktisch prüfen: alle 18 Tafeln öffnen, Inhalte/Navigation kontrollieren, Quiz vollständig absolvieren und Ergebnis/Fortschritt prüfen
+- [ ] Rechtsstand und alle gesetzlichen Aussagen vor einer späteren Veröffentlichung nochmals anhand amtlicher Quellen überprüfen
+
+
 
 ## Version 1.6 – My Vaping Adventure Forum
 
