@@ -1296,15 +1296,32 @@ function cloudMediaKind(value){
  return "anderer Datentyp";
 }
 function cloudMediaAudit(snapshot){
- const counts={"eingebettetes Bild":0,"eingebettetes PDF":0,"eingebettete Datei":0,"Cloud-Referenz":0,"leer":0,"sonstige Zeichenkette":0,"sonstiges Objekt":0,"anderer Datentyp":0};
- const fields=[];
- const add=(area,index,field,value)=>{
-  const kind=cloudMediaKind(value);counts[kind]++;
-  if(kind!=="leer")fields.push(area+"["+index+"]."+field+" = "+kind);
+ const counts={"eingebettetes Bild":0,"eingebettetes PDF":0,"eingebettete Datei":0,"Cloud-Referenz":0,"sonstige Zeichenkette":0,"sonstiges Objekt":0,"anderer Datentyp":0};
+ const fields=[],seen=new WeakSet();
+ const walk=(value,path)=>{
+  if(value===null||value===undefined||value==="")return;
+  if(isCloudMediaReference(value)){
+   counts["Cloud-Referenz"]++;fields.push(path+" = Cloud-Referenz");return;
+  }
+  if(typeof value==="string"){
+   if(value.startsWith("data:")){
+    const semicolon=value.indexOf(";"),comma=value.indexOf(",");
+    const stop=semicolon>0?semicolon:comma;
+    const mime=(stop>0?value.slice(5,stop):"").toLowerCase();
+    const kind=mime.startsWith("image/")?"eingebettetes Bild":mime==="application/pdf"?"eingebettetes PDF":"eingebettete Datei";
+    counts[kind]++;fields.push(path+" = "+kind);
+   }else if(value.length>0&&/(photo|image|manual|pdf|src|media)/i.test(path)){
+    counts["sonstige Zeichenkette"]++;fields.push(path+" = sonstige Zeichenkette");
+   }
+   return;
+  }
+  if(!value||typeof value!=="object"||seen.has(value))return;
+  seen.add(value);
+  if(Array.isArray(value)){value.forEach((item,index)=>walk(item,path+"["+index+"]"));return}
+  for(const [key,item] of Object.entries(value))walk(item,path+"."+key);
  };
- (snapshot.devices||[]).forEach((device,index)=>{add("devices",index,"photo",device?.photo);add("devices",index,"manualData",device?.manualData)});
- (snapshot.photos||[]).forEach((photo,index)=>add("photos",index,"src",photo?.src));
- return {counts,fields:fields.slice(0,12),total:fields.length};
+ walk(snapshot,"$");
+ return {counts,fields:fields.slice(0,12),total:Object.values(counts).reduce((sum,n)=>sum+n,0)};
 }
 async function runCloudGroupsAudit(){
  const result=$('#cloud-groups-audit-result'),button=$('#cloud-groups-audit');
