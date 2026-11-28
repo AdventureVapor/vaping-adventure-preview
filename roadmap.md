@@ -6,6 +6,19 @@
 
 Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowie noch offene Prüfungen. Ein Häkchen bedeutet, dass die Funktion umgesetzt und – soweit sinnvoll – erfolgreich geprüft wurde.
 
+## Versionsübersicht – Stand 28.11.2026
+
+| Version | Status | Kurzüberblick |
+|---|---|---|
+| **Alpha 1.3** | Entwicklung und wesentliche Praxistests erledigt; finale Release-/Sicherheitsfreigabe offen | Registrierung, Login, verschlüsselte Cloud, geräteübergreifende Synchronisierung, CSV/JSON-Backup, Geräte und Galerie umgesetzt und weitgehend praktisch bestätigt. Produktion bleibt gesperrt, bis letzte Sicherheitsprüfung und ausdrückliche Freigabe abgeschlossen sind. |
+| **1.4.1** | In Preview umgesetzt, QA offen | Design-/Sprach-/Education-Erweiterungen, Gästebuch, Kontaktbereich, E-Mail-Vorlagen, Startanimation und PDF-Geräteanleitungen. Mehrere Praxistests und E-Mail-/Social-Login-Konfiguration stehen noch aus. |
+| **1.4.2** | In Entwicklung | Kontrolliert Vapen, Vape-Akademie, PWA, weitere Einstellungen sowie sichere Cloud-Datengruppen-/Medienmigration. Umfangreiche Live- und Regressionstests sind offen. |
+| **1.5** | Geplant | Google-Anmeldung, erweiterte Benutzerprofile und Kontoverknüpfung. |
+| **1.6** | Teilweise in Preview umgesetzt | Forum-Grundlage mit Themen, moderierten Antworten und mehrsprachiger Oberfläche ist vorhanden; Moderation, Sichtbarkeitstests und weitere Community-Funktionen sind offen. |
+| **1.7** | Geplant | SEO, öffentliche Projektseiten, mehrsprachige Auffindbarkeit und technische Indexierungssteuerung. |
+
+**Wichtig:** „Umgesetzt“ bedeutet nicht automatisch „produktionsreif“. Alle Änderungen bleiben in Preview, bis die jeweilige QA abgeschlossen und die Produktionsübernahme ausdrücklich freigegeben wurde.
+
 ## Neue Education-Erweiterung – Cannabis-Teillegalisierung
 
 **Ziel:** Die Ausstellung „Das Kleingedruckte der Cannabis-Teillegalisierung“ als eigenständigen 18-teiligen Kurs in My Vaping Education integrieren.
@@ -17,6 +30,9 @@ Diese Roadmap dokumentiert umgesetzte und vom Nutzer bestätigte Funktionen sowi
 - [x] Originaltexte und Inhalte bleiben erhalten, die Gestaltung nutzt die jeweils in Einstellungen gewählte App-Farbpalette
 - [x] Abschlusstest mit 18 Fragen erstellt; Bestehensgrenze 80 % (mindestens 15 richtige Antworten), Ergebnis und Kursfortschritt werden über das bestehende Education-System gespeichert
 - [x] Hinweis auf den in der Ausstellung genannten Rechtsstand 03.10.2026 und auf die Notwendigkeit der Prüfung aktueller amtlicher Vorschriften ergänzt
+- [x] Fehlerhafte Education-Navigation behoben: Link im linken Menü öffnet den Kurs wieder (PR #114)
+- [x] Kursansicht im Hauptbereich integriert; jeweils eine Originaltafel mit Vor-/Zurück-Navigation, Fortschritt und Quiz (PR #115)
+- [x] Unterschiedliche HTML-Strukturen der Tafeln 1–4 und 5–18 berücksichtigt; alle Tafeln werden über `article.tafel` oder `section.tafel` erkannt (PR #117)
 - [ ] Kurs auf Desktop und iPhone praktisch prüfen: alle 18 Tafeln öffnen, Inhalte/Navigation kontrollieren, Quiz vollständig absolvieren und Ergebnis/Fortschritt prüfen
 - [ ] Rechtsstand und alle gesetzlichen Aussagen vor einer späteren Veröffentlichung nochmals anhand amtlicher Quellen überprüfen
 
@@ -119,7 +135,9 @@ Version 1.4 wird in zwei kleinere Produktionsschritte aufgeteilt. Beide Releases
   - [x] Deutsche, englische und französische Texte für Grundlagen, Übersicht und Schritt-Navigation ergänzt
   - [x] Nutzerprüfung der neuen Schrittseiten und Navigation erfolgreich bestätigt
   - [x] Schritt 2 „Pro / Kontra Veränderung“ um eine bearbeitbare Vierfeldertafel ergänzt: Vorteil/Nachteil × Weiterkonsumieren/Konsum ändern; vier Textfelder werden im Spielstand gespeichert und können später geändert und erneut gespeichert werden (DE/EN/FR)
-  - [ ] **Phase 2 – individuelle Wochenziele und Selbstbewertung (Konzept des Nutzers)**
+  - [x] Schritt 8 „Freizeit genießen“ um vier frei bearbeitbare eigene Freizeitaktivitäten ergänzt; Eingaben werden gespeichert und beim erneuten Öffnen wieder angezeigt (PR #117)
+  - [x] Deutsch, Englisch und Französisch sowie responsive Darstellung ergänzt
+- [ ] **Phase 2 – individuelle Wochenziele und Selbstbewertung (Konzept des Nutzers)**
     - [ ] In „Einstellungen → Kontrolliert vapen“ die Konsumkategorien per Checkbox einzeln aktivieren/einblenden oder ausblenden: Vaporizer, E-Zigarette, Tabakheater, Zigarette, Joint und Bong
     - [ ] Für jede aktivierte Kategorie eigene Wochenziele konfigurierbar machen:
       - [ ] Maximale Anzahl Sessions pro Tag (Eingabefeld)
@@ -1150,4 +1168,8 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Vaporizer, E-Zigarette und Tabakheater nach vier Zeitfenstern sowie Tages- und Zeitraumssummen ausgewertet.
 - [x] Sessions werden aus Tagebucheinträgen berechnet; Einträge ohne Uhrzeit zählen zu Tages-/Zeitraumssummen, nicht zu Zeitfenstern.
 - [x] Tabelle passt sich der gewählten App-Sprache an und ist auf schmalen Displays horizontal scrollbar.
+- [x] Aktueller Kalendertag in der Tabelle farblich über die gesamte Spalte hervorgehoben und mit „Heute“ gekennzeichnet (PR #119).
+- [x] Cache-Versionen nach der Hervorhebung aktualisiert (PR #120).
+- [x] Uhrzeit-Erkennung erweitert: gespeicherte Uhrzeiten, Zeitstempel und alternative Zeitfelder werden berücksichtigt (PR #121).
+- [x] Alle einzelnen Uhrzeitfelder zeigen numerische Werte einschließlich `0` statt eines Gedankenstrichs; Wochenwerte je Zeitfenster ebenfalls numerisch (PR #121).
 - [ ] Preview-Praxistest mit echten Tagebucheinträgen, fehlenden Uhrzeiten, Datumswechsel und Pfeilnavigation auf Desktop/iPhone.
