@@ -1111,7 +1111,7 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Optimistisches Schreiben mit erwarteter Revision und anschließendem entschlüsselten Read-back aller Einträge
 - [x] Andere Datengruppen, Medien und XP bleiben unangetastet
 - [x] JavaScript-Syntax geprüft; Cache-Version auf 1.6.9 angehoben
-- [ ] Nach Deployment Backup erneut erstellen, die acht Einträge ausdrücklich ergänzen und Ergebnis vom Nutzer bestätigen
+- [x] Nach Deployment vollständiges Backup erstellt, die acht fehlenden Einträge ausdrücklich ergänzt und erfolgreichen Read-back aller 78 Einträge vom Nutzer bestätigt
 
 
 ### 1.4.9 – Gezielte XP-Korrektur in der getrennten Spielgruppe
@@ -1123,4 +1123,19 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Ausschließlich XP wird geändert; Coins, Quests, Kurse und übrige Felder bleiben unverändert
 - [x] Optimistisches Schreiben mit erwarteter Revision und entschlüsselter Read-back-Prüfung
 - [x] JavaScript-Syntax geprüft; Cachekennung aktualisiert
-- [ ] In Preview frisches Backup über den Backup-Button im Migrationsbereich erstellen und XP-Korrektur ausdrücklich bestätigen
+- [x] In Preview frisches Backup erstellt, gezielte XP-Korrektur von 96 auf 123 ausgeführt und unveränderte übrige Spielfelder durch den Nutzer bestätigt
+
+
+
+### 1.4.10 – Aktuellen Tagebuchbestand vor der Cloud-Umstellung neu abgleichen
+
+- [x] Nutzer hat nach der letzten erfolgreichen Ergänzung von 78 Einträgen vier weitere Tagebucheinträge dokumentiert und meldet aktuell insgesamt 82 Einträge.
+- [x] Nur-Lese-Audit so erweitert, dass die aktuellen Eintragszahlen aus Legacy-Speicher und getrennter Gruppe bei jedem Prüflauf angezeigt werden – auch dann, wenn die Eintragsgruppe bereits übereinstimmt und eine andere Gruppe noch abweicht.
+- [x] ID-Abgleich zeigt weiterhin fehlende, zusätzliche, geänderte, ID-lose und doppelte Einträge; keine Tagebuchtexte oder IDs werden offengelegt.
+- [x] Änderung auf dem Entwicklungszweig `feature/group-storage-cutover` umgesetzt; JavaScript-Syntax geprüft und Cachekennung auf 1.6.12 angehoben.
+- [ ] Preview mit dem bestehenden Konto neu laden und „Datengruppen abgleichen (nur lesen)“ ausführen; tatsächliche Zahlen und ID-Abgleich für den aktuellen Stand prüfen.
+- [ ] Erwartung: die vom Nutzer gemeldeten 82 Einträge müssen im Altbestand und – nach Abgleich – in der getrennten Gruppe vollständig vorhanden sein; Abweichungen werden anhand des Live-Ergebnisses behandelt, nicht anhand fest codierter Zählwerte.
+- [ ] Erst nach erneuter Live-Prüfung mit aktuellem Backup und bestätigtem Medienbestand die eigentliche Lese-/Schreibumstellung planen.
+- [ ] Legacy-Speicher bis zum erfolgreichen Laden, Speichern, Medienabruf, Konflikt- und Wiederherstellungstest als unveränderte Rückfallquelle beibehalten.
+
+**Wichtiger Status:** Die reguläre App liest und schreibt weiterhin den bisherigen Gesamt-Spielstand `mva_saves`. Die sieben getrennten Datengruppen sind vorbereitet, aber noch nicht der aktive normale Speicherweg. Die vier neu dokumentierten Einträge sind vom Nutzer gemeldet; ihre Verteilung auf beide Cloud-Speicher wird erst durch den nächsten Nur-Lese-Live-Abgleich bestätigt.
