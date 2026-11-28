@@ -1279,24 +1279,39 @@ function cloudEntryAudit(oldEntries,newEntries){
   oldWithoutId:oldEntries.length-oldIds.length,newWithoutId:newEntries.length-newIds.length,
   oldDuplicates:duplicateCount(oldIds),newDuplicates:duplicateCount(newIds),
   onlyOld:onlyOld.length,onlyNew:onlyNew.length,changed:changed.length,
-  onlyOldDates:onlyOld.map(id=>oldMap.get(id)).map(entry=>{
-   const dates=[];
+  onlyOldDetails:onlyOld.map(id=>oldMap.get(id)).map(entry=>{
+   const fields=["device","strain","puffs","duration","temp","wattage","nicotine","vg","pg","liquid","brand","pure","location","taste","notes","vaporizerFill","materialId","stickType"];
+   const populated=fields.filter(key=>entry[key]!==undefined&&entry[key]!==null&&String(entry[key]).trim()!=="");
+   const dateValues=[];
    const scan=value=>{
     if(!value||typeof value!=="object")return;
     for(const [key,item] of Object.entries(value)){
      if(/date|created|timestamp|time|datum/i.test(key)){
       if(typeof item==="string"){
        const match=item.match(/\d{4}-\d{2}-\d{2}/)||item.match(/\d{2}\.\d{2}\.\d{4}/);
-       if(match)dates.push(match[0]);
-       else {const parsed=Date.parse(item);if(!Number.isNaN(parsed))dates.push(new Date(parsed).toISOString().slice(0,10))}
+       if(match)dateValues.push(match[0]);
+       else {const parsed=Date.parse(item);if(!Number.isNaN(parsed))dateValues.push(new Date(parsed).toISOString().slice(0,10))}
       }else if(typeof item==="number"&&item>1000000000){
        const parsed=new Date(item>99999999999?item:item*1000);
-       if(!Number.isNaN(parsed.getTime()))dates.push(parsed.toISOString().slice(0,10));
+       if(!Number.isNaN(parsed.getTime()))dateValues.push(parsed.toISOString().slice(0,10));
       }else if(item&&typeof item==="object")scan(item);
      }else if(item&&typeof item==="object")scan(item);
     }
    };
-   scan(entry);return [...new Set(dates)].join("/")||"kein lesbares Datum";
+   scan(entry);
+   const textLength=typeof entry.notes==="string"?entry.notes.trim().length:0;
+   return {
+    date:[...new Set(dateValues)].join("/")||"kein lesbares Datum",
+    time:typeof entry.time==="string"&&entry.time.trim()?entry.time:"keine Uhrzeit",
+    category:typeof entry.category==="string"&&entry.category.trim()?entry.category:"keine Kategorie",
+    filledDetailFields:populated.length,
+    presentFields:populated,
+    notesLength:textLength,
+    hasDevice:!!String(entry.device||"").trim(),
+    hasMaterial:!!String(entry.strain||entry.liquid||entry.brand||entry.stickType||"").trim(),
+    hasUsageMeasure:!!String(entry.duration||entry.puffs||"").trim(),
+    hasNotes:textLength>0
+   };
   }),
   samplePaths:changed[0]?.paths||[]
  };
