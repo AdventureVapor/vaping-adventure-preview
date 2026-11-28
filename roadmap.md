@@ -1069,3 +1069,11 @@ Hinweis: Ein erfolgreicher Medienupload allein ändert weder den Legacy-Spielsta
 - [x] Keine Dateninhalte von Tagebucheinträgen ausgeben; keine Schreib-, Upload-, Lösch- oder Reparaturaktion.
 - [x] Cachekennung aktualisiert und JavaScript-Syntax geprüft.
 - [ ] Neue Nur-Lese-Prüfung mit dem bestehenden Konto in der Preview ausführen und Ergebnis auswerten.
+
+
+### 1.4.4 – Medien-Diagnose rekursiv korrigieren
+- [x] Medien-Diagnose auf rekursive Suche im vollständigen jeweiligen Datengruppenobjekt umgestellt; Medien können dadurch auch in verschachtelten Feldern erkannt werden.
+- [x] Ausgabe zeigt nur Pfade und Medientypen, keine Datei- oder Tagebuchinhalte.
+- [x] Nur-Lese-Verhalten beibehalten; keine Cloud-Daten werden verändert.
+- [x] Cachekennung aktualisiert und JavaScript-Syntax geprüft.
+- [ ] Neue Medien-Diagnose in der Preview ausführen und die gefundenen Pfade auswerten.
