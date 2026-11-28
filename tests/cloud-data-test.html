@@ -106,6 +106,19 @@ async function run(){
   changedRecords.entries.data[0].notes="Abweichung";
   const changedAudit=window.MVACloudMigrationCodec.compare(original,changedRecords);
   assert(changedAudit.existingCount===7&&changedAudit.mismatched.includes("entries")&&!changedAudit.complete,"Abweichende Gruppe wurde nicht erkannt");
+
+  const oldDiary=Array.from({length:87},(_,i)=>({id:"old-"+i,date:"2026-11-28",notes:"Eintrag "+i}));
+  const separatedDiary=oldDiary.filter((entry,i)=>i%10!==0);
+  const mergePlan=window.MVACloudMigrationCodec.mergeEntriesById(oldDiary,separatedDiary);
+  assert(mergePlan.totalCount===87&&mergePlan.existingCount===78&&mergePlan.missingCount===9&&mergePlan.merged.length===87,"Dynamischer ID-Abgleich hat 87/78/9 nicht korrekt zusammengeführt");
+  assert(mergePlan.merged.every((entry,i)=>entry.id===oldDiary[i].id),"Zusammengeführte Einträge behalten nicht die Reihenfolge des Altbestands");
+  let extraRejected=false;try{window.MVACloudMigrationCodec.mergeEntriesById(oldDiary,[...separatedDiary,{id:"foreign-entry"}])}catch(e){extraRejected=true}
+  assert(extraRejected,"Zusätzlicher Eintrag in der getrennten Gruppe wurde nicht gestoppt");
+  let changedRejected=false;try{window.MVACloudMigrationCodec.mergeEntriesById(oldDiary,separatedDiary.map((entry,i)=>i===0?{...entry,notes:"abweichend"}:entry))}catch(e){changedRejected=true}
+  assert(changedRejected,"Inhaltlich abweichender vorhandener Eintrag wurde nicht gestoppt");
+  let duplicateRejected=false;try{window.MVACloudMigrationCodec.mergeEntriesById(oldDiary,[...separatedDiary,separatedDiary[0]])}catch(e){duplicateRejected=true}
+  assert(duplicateRejected,"Doppelte Eintrags-ID wurde nicht gestoppt");
+  log("Sicherer dynamischer Tagebuchabgleich ergänzt 9 fehlende IDs bei 87/78, erhält die Altbestand-Reihenfolge und stoppt Zusatz-, Doppel- und Inhaltskonflikte");
   log("Read-only-Vorabgleich erkennt vollständige Übereinstimmung, leeren Speicher und abweichende Gruppen");
   const partial=window.MVACloudMigrationCodec.join({entries:{data:[{id:"only"}]},devices:{data:null}});
   assert(partial.entries.length===1&&partial.devices.length===0&&partial.game.xp===0&&Object.keys(partial.controlledVaping).length===0,"Fehlende Gruppen erhalten keine sicheren Standardwerte");
